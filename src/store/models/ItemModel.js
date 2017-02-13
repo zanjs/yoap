@@ -423,6 +423,7 @@ export default class ItemModel {
    * Filter exceptions of parameters.
    *
    * @param {Array} params Array of object parameters.
+   * @return {boolean}
    */
   _filterParams = params => params.filter(param => {
     const test = testing => testing.indexOf(param) !== -1;

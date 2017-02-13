@@ -220,11 +220,11 @@ export const validateFloors = data => {
 /**
  * Amenities validation.
  *
- * @param {Array} data
+ * @param {Array} types
  * @return {Object}
  */
-export const validateAmenities = data => {
-  if (isEmpty(data)) {
+export const validateAmenities = ({types}) => {
+  if (isEmpty(types)) {
     return {isError: true, message: messages.amenities.empty};
   }
 
@@ -232,9 +232,9 @@ export const validateAmenities = data => {
   const stringifiedTypes = JSON.stringify(amenitiesTypes);
   const checkExist = string => stringifiedTypes.indexOf(string) !== -1;
 
-  data.forEach(prop => {
-    if (!checkExist(prop)) {
-      errors.push(prop);
+  types.forEach(prop => {
+    if (!checkExist(prop.id)) {
+      errors.push(prop.name);
     }
   });
 
@@ -253,11 +253,11 @@ export const validateAmenities = data => {
 /**
  * Rules validation.
  *
- * @param {Array} data
+ * @param {Array} types
  * @return {Object}
  */
-export const validateRules = data => {
-  if (isEmpty(data)) {
+export const validateRules = ({types}) => {
+  if (isEmpty(types)) {
     return {isError: true, message: messages.rules.empty};
   }
 
@@ -265,9 +265,9 @@ export const validateRules = data => {
   const stringifiedTypes = JSON.stringify(rulesTypes);
   const checkExist = string => stringifiedTypes.indexOf(string) !== -1;
 
-  data.forEach(prop => {
-    if (!checkExist(prop)) {
-      errors.push(prop);
+  types.forEach(prop => {
+    if (!checkExist(prop.id)) {
+      errors.push(prop.name);
     }
   });
 
@@ -286,29 +286,21 @@ export const validateRules = data => {
 /**
  * Term validation.
  *
- * @param {Array} data
+ * @param {string|number} id
+ * @param {string} name
  * @return {Object}
  */
-export const validateTerm = data => {
-  if (isEmpty(data)) {
+export const validateTerm = ({id, name}) => {
+  if (isEmpty(id)) {
     return {isError: true, message: messages.term.empty};
   }
 
-  const errors = [];
   const stringifiedTypes = JSON.stringify(termTypes);
-  const checkExist = string => stringifiedTypes.indexOf(string) !== -1;
-
-  data.forEach(prop => {
-    if (!checkExist(prop)) {
-      errors.push(prop);
-    }
-  });
-
-  if (errors.length) {
+  if (stringifiedTypes.indexOf(id) === -1) {
     return {
       isError: true,
       message: messages.term.wrong.replace('%',
-        errors.toString()
+        name
       )
     };
   }
