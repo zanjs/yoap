@@ -1,6 +1,5 @@
 # yoap
 ### :sunglasses: React@next, React-Router@next, Mobx and Webpack 2, Sass and Postcss.
-This template we're usually using on front-end side :)
 
 #### Quick start
 
