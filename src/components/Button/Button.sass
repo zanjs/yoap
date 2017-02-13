@@ -1,0 +1,146 @@
+@import ../../theme/index
+
+.reset
+  display: inline-block
+  border: none
+  font-family: $font
+  cursor: pointer
+  outline: none
+  font-size: 18px
+  box-sizing: border-box
+  position: relative
+  background-color: transparent
+
+.btn
+  @extend .reset
+  border: 2px solid $black
+  padding: 8px 20px
+  margin-top: 10px
+  border-radius: 50px
+  cursor: pointer
+  transition: background $animParams, color $animParams
+  color: $black
+  &[disabled]
+    opacity: .7 !important
+
+  &:hover
+    color: #fff
+    background-color: $black
+
+.min
+  font-size: 14px !important
+  padding: 7px 10px !important
+
+.white
+  @extend .btn
+  color: #ffffff
+  border-color: #FFFFFF
+  &:hover
+    color: $title
+    background-color: #FFFFFF
+
+.transparent
+  @extend .btn
+  color: $main
+  border-color: $main
+  &:hover
+    color: #ffffff
+    background-color: $main
+
+.color
+  @extend .btn
+  background-color: $main
+  color: #ffffff
+  border-color: $main
+  transition: border $animParams, background $animParams
+  &:hover
+    border-color: #fff
+    background-color: lighten($main, 20%)
+
+.green
+  @extend .btn
+  color: $green
+  border-color: $green
+  &:hover
+    color: #fff
+    background-color: $green
+
+.pink
+  @extend .btn
+  color: $pink
+  border-color: $pink
+  &:hover
+    color: #fff
+    background-color: $pink
+
+.purple
+  @extend .btn
+  color: $purple
+  border-color: $purple
+  &:hover
+    color: #fff
+    background-color: $purple
+.blue
+  @extend .btn
+  color: $blue
+  border-color: $blue
+  &:hover
+    color: #fff
+    background-color: $blue
+
+
+.gray
+  @extend .btn
+  color: $gray9b
+  border-color: $gray9b
+  &:hover
+    color: #fff
+    background-color: $gray9b
+  &[disabled]
+    cursor: not-allowed !important
+    color: $gray9b !important
+    background-color: transparent !important
+
+
+.filter
+  display: inline-block
+  border-radius: 100px
+  background-color: #eeeeee
+  color: #000
+  font-size: 19px
+  text-align: center
+  padding: 8px 20px
+  transition: .15s
+  margin-bottom: 20px
+  margin-left: 30px
+  @include respond(768px)
+    margin-left: 0
+    margin-right: 15px
+  &:first-child
+    margin-left: 0
+  &:hover
+    background-color: #4990e2
+    color: $white
+
+//.orange
+//  @extend .btn
+//  color: $orange
+//  border-color: $orange
+//  &:hover
+//    color: #fff
+//    background-color: $orange
+
+
+.loading
+  .loader
+    $size: auto
+    width: $size !important
+    height: $size !important
+    padding: 10px
+    border-radius: 50%
+
+
+.link
+  @extend .reset
+  margin: 0
+  padding: 0

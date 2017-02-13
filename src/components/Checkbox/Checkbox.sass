@@ -1,0 +1,39 @@
+@import ../../theme/index
+
+
+.wrapper
+  @include flexbox(row, flex-start, center, no)
+
+.checkbox
+  margin: 10px 0
+  user-select: none
+  &_active
+    .checkbox__icon
+      background-color: $main
+      border-color: $main
+      border-radius: 50%
+      box-shadow: 0 0 0 1px #737373
+
+  &__icon
+    @include opacityAnim(.7)
+    @include size(20px)
+    cursor: pointer
+    border: 1px solid $textColor
+    transition: background $animParams, border $animParams, border-radius $animParams, box-shadow $animParams
+    margin-right: 8px
+  &__value
+    color: $text
+    font-size: $fz
+
+  &__sub
+    display: block
+    font-size: $fzSmall - 2
+    margin-top: 20px
+    color: $lightTextColor
+
+  &__title
+    font-weight: 400
+    font-size: $fzBig
+    color: $textColor
+
+

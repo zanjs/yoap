@@ -1,0 +1,61 @@
+@import ../../theme/index
+
+.wrapper:hover
+  .clear
+    opacity: 1
+
+.active
+  *
+    text-decoration: line-through !important
+  //position: relative !important
+  //&:after
+  //  content: ''
+  //  display: block
+  //  position: absolute
+  //  z-index: 100
+  //  width: 120%
+  //  height: 2px
+  //  left: -10%
+  //  top: 50%
+  //  transform: translateY(-50%)
+  //  background-color: $text
+
+.clear
+  $size: 22px
+  margin: 0 3px
+  display: block
+  height: $size
+  width: $size
+  user-select: none
+  position: relative
+  opacity: 0
+  cursor: pointer
+  transition: opacity $animParams
+  &:hover
+    opacity: .3 !important
+  &:before, &:after
+    content: ''
+    display: block
+    transform-origin: 50% 50%
+    position: absolute
+    left: 50%
+    top: 50%
+    height: 2px
+    width: 60%
+    transform: translate(-50%, -50%) rotate(45deg)
+    background-color: $pink
+
+
+  &:after
+    transform: translate(-50%, -50%) rotate(-45deg)
+
+
+.complete
+  @extend .clear
+  &:before, &:after
+    width: 40%
+    transform: translate(-100%, -50%) rotate(45deg)
+    background-color: $green
+    @include opacityAnim(.1)
+  &:after
+    transform: translate(-20%, -50%) rotate(-45deg)

@@ -1,0 +1,247 @@
+@mixin respond($media)
+  @if $media == mobile
+    @media only screen and (max-width: $mobile)
+      @content
+  @else if $media == tablet
+    @media only screen and (max-width: $tablet)
+      @content
+  @else if $media == laptop
+    @media only screen and (max-width: $laptop)
+      @content
+  @else if $media == desktop
+    @media only screen and (min-width: $desktop)
+      @content
+  @else
+    @media only screen and (max-width: $media)
+      @content
+
+@mixin flexbox($direction, $flexloc, $align, $wrap)
+  display: flex
+  justify-content: $flexloc
+  flex-direction: $direction
+  align-items: $align
+  @if $wrap == wrap
+    flex-wrap: wrap
+
+
+@mixin absolute_init($width, $index)
+  position: absolute
+  top: 0
+  left: 0
+  z-index: $index
+  @if $width == full
+    width: 100%
+    height: 100%
+  @else if $width == auto
+    width: auto
+    height: auto
+
+@mixin absolute_center($width, $index)
+  position: absolute
+  top: 50%
+  left: 50%
+  z-index: $index
+  transform: translate(-50%, -50%)
+  @if $width == full
+    width: 100%
+    height: 100%
+
+  @else if $width == bg
+    display: block
+    min-height: 100%
+    min-width: 100%
+
+
+@mixin background_cover($bgi)
+  background-size: cover
+  background: $bgi no-repeat center center
+
+@mixin shadow()
+  box-shadow: 0 0 5px 1px rgba(0,0,0,.1)
+  transition: box-shadow .2s ease
+  &:hover
+    box-shadow: 0 0 10px 5px rgba(0,0,0,.1)
+
+@mixin container($type)
+  margin: 0 auto
+  width: $containerPC
+  @if $type == root
+    max-width: $containerPX
+    @include respond(mobile)
+      width: 90%
+  @if $type == content
+    max-width: 1160px
+  @if $type == article
+    max-width: 750px
+
+
+@mixin btn($type)
+  display: inline-block
+  padding: 7px 10px
+  text-transform: uppercase
+  font-weight: bold
+  color: $main
+  font-family: $font
+  background-color: transparent
+  outline: none
+  border: none
+  cursor: pointer
+  @if $type == light
+    transition: opacity $dur $ease
+    outline: none
+    border: none
+    padding: 7px 0
+    font-size: 18px
+    line-height: 23px
+    font-weight: normal
+  @if $type == border
+    border: 1px solid $main
+    transition: background $dur $ease, color $dur $ease
+  @if $type == main
+    border: 1px solid $main
+    transition: background $dur $ease, color $dur $ease
+    position: relative
+    &:after
+      $offset: 2px
+      content: ''
+      position: absolute
+      @include absolute_init(full, 0)
+      left: $offset
+      top: $offset
+      border: 1px solid $main
+  @if $type == mainWhite
+    border: 1px solid #fff
+    transition: background $dur $ease, color $dur $ease
+    position: relative
+    color: #fff
+    &:after
+      $offset: 2px
+      content: ''
+      position: absolute
+      @include absolute_init(full, 0)
+      left: $offset
+      top: $offset
+      border: 1px solid #fff
+
+  &:hover
+    @if $type == main
+      background-color: $main
+      color: #ffffff
+      opacity: 1
+    @if $type == mainWhite
+      background-color: #fff
+      color: $text
+      opacity: 1
+    @if $type == border
+      background-color: $main
+      color: #ffffff
+      opacity: 1
+    @if $type == light
+      opacity: .7
+
+@mixin pageTitle()
+  font-size: 56px
+  line-height: 72px
+  font-weight: 100
+  text-align: center
+  max-width: 400px
+  margin: 0 auto
+  padding: 50px 0 70px
+  @include respond(mobile)
+    font-size: 42px
+    line-height: 46px
+
+@mixin pageSubTitle()
+  font-size: 18px
+  line-height: 24px
+  text-align: center
+  display: block
+  margin-top: 0
+  margin-bottom: 70px
+  font-weight: 100
+
+@mixin title()
+  margin-top: 100px
+  margin-bottom: 25px
+  font-size: 36px
+  font-weight: 100
+  color: $text
+
+@mixin titleMiddle
+  @include title
+  font-size: 48px
+  line-height: 60px
+  margin-bottom: 100px
+  @include respond(mobile)
+    font-size: 32px
+    line-height: 36px
+
+@mixin text()
+  font-size: 21px
+  line-height: 30px
+  font-weight: 100
+  color: $text
+
+@mixin textMin()
+  color: $text
+  font-size: 14px
+  font-weight: 100
+  line-height: 24px
+
+@mixin link()
+  font-size: 18px
+  text-decoration: none
+  color: $text
+  font-family: $font
+  transition: opacity $dur $ease
+  &:hover
+    opacity: .7
+
+@mixin size($size)
+  width: $size
+  height: $size
+
+@mixin opacityAnim($val)
+  transition: opacity $dur $ease
+  &:hover
+    opacity: $val
+
+@mixin titleBig
+  display: block
+  font-weight: 100
+  font-size: 72px
+  margin-bottom: 22px
+  margin-top: 30px
+  @include respond(mobile)
+    font-size: 56px
+
+@mixin titleStand
+  margin-top: 100px
+  margin-bottom: 25px
+  font-size: 36px
+  font-weight: 100
+  color: $text
+  @include respond(mobile)
+    font-size: 28px
+    margin-top: 50px
+    margin-bottom: 15px
+
+
+@mixin hoverColor($color)
+  // background-color: $color
+  // border-color: $color
+  // color: #fff
+  &:hover
+    color: #fff
+    background-color: $color
+    border-color: $color
+
+@mixin placeholder
+  &::-webkit-input-placeholder
+    @content
+  &:-moz-placeholder
+    @content
+  &::-moz-placeholder
+    @content
+  &:-ms-input-placeholder
+    @content

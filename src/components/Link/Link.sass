@@ -1,0 +1,17 @@
+@import ../../theme/index
+
+
+.link
+  transition: $opacityAnim
+  &:hover
+    opacity: $opacity
+
+.link_type
+  font-size: inherit
+.pink
+  @extend .link_type
+  color: $pink
+
+.underline
+  @extend .link_type
+  text-decoration: underline

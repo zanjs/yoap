@@ -1,0 +1,32 @@
+@import ../../theme/index
+
+.radio
+  width: 100%
+  user-select: none
+  cursor: pointer
+.input
+  display: none
+
+.icon
+  @include size(24px)
+  display: inline-block
+  cursor: pointer
+  border-radius: 50%
+  background-color: transparent
+  border: 2px solid $gray9b
+  box-sizing: border-box
+  transition: background $animParams, border $animParams, box-shadow $animParams
+  &_active
+    border: 4px solid $white
+    background-color: $blue
+    box-shadow: 0 0 0 1px #9b9b9b
+
+.label
+  display: inline-block
+  font-size: 16px
+  color: #4a4a4a
+  margin-left: 10px
+  cursor: pointer
+
+.disabled
+  opacity: .5 !important
