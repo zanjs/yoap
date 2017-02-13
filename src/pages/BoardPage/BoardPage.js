@@ -9,11 +9,8 @@ import {
 } from 'config'
 
 import {
-  Header, Title, Container, Link, Text,
-  FormGroup, FlexGrid, Button
+  Header, Title, Container,
 } from 'components'
-
-import { TodosContainer } from 'containers'
 
 import s from './BoardPage.sass'
 

@@ -1,23 +1,36 @@
+/**
+ * User validation.
+ *
+ * @module userValidation
+ */
 import { userValidation as messages } from 'config'
 import { isEmpty } from 'helpers'
 
 
-//=============================================================================== ### EMAIL VALIDATION ###
+/**
+* Email validation.
+*
+* @param {string} string
+* @return {Object}
+*/
 export const validateEmail = (string = '') => {
-  const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
   if (isEmpty(string)) {
     return {isError: true, message: messages.email.empty};
   }
 
-  if (reg.test(string)) {
+  if (string.indexOf('@') !== -1 && string.indexOf('.') !== -1) {
     return {isError: false, message: messages.email.success};
   }
 
   return {isError: true, message: messages.email.wrong};
 };
 
-//=============================================================================== ### PASSWORD VALIDATION ###
+/**
+ * Password validation.
+ *
+ * @param {string} string
+ * @return {Object}
+ */
 export const validatePassword = (string = '') => {
   if (isEmpty(string)) {
     return {isError: true, message: messages.password.empty};
@@ -34,7 +47,12 @@ export const validatePassword = (string = '') => {
   return {isError: true, message: messages.password.wrong};
 };
 
-//=============================================================================== ### NAME VALIDATION ###
+/**
+ * Name validation.
+ *
+ * @param {string} string
+ * @return {Object}
+ */
 export const validateName = (string = '') => {
   if (isEmpty(string)) {
     return {isError: true, message: messages.name.empty};
@@ -54,7 +72,12 @@ export const validateName = (string = '') => {
   return {isError: true, message: messages.name.wrong};
 };
 
-//=============================================================================== ### PHONE VALIDATION ###
+/**
+ * Test phone number validation.
+ *
+ * @param {string|number} phone
+ * @return {boolean}
+ */
 const testPhone = (phone) => {
   const reg = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
   const exec = reg.exec(phone);
@@ -70,6 +93,12 @@ const testPhone = (phone) => {
   return test && !isNull
 };
 
+/**
+ * Phone validation.
+ *
+ * @param {string} string
+ * @return {Object}
+ */
 export const validatePhone = (string = '') => {
   const isMatched = testPhone(string);
 
@@ -92,7 +121,12 @@ export const validatePhone = (string = '') => {
   return {isError: true, message: messages.phone.wrong};
 };
 
-//=============================================================================== ### MESSAGE VALIDATION ###
+/**
+ * Message validation.
+ *
+ * @param {string} string
+ * @return {Object}
+ */
 export const validateMessage = (string = '') => {
   if (isEmpty(string)) {
     return {isError: false, isNormal: true, message: messages.message.empty};
@@ -102,7 +136,13 @@ export const validateMessage = (string = '') => {
 };
 
 
-//=============================================================================== ### ENTRY POINT OF VALIDATION ###
+/**
+ * Entry point of validation.
+ *
+ * @param {string} name
+ * @param {string|number} value
+ * @return {Object}
+ */
 export const isValid = (name, value) => {
   switch(name) {
     case 'email':

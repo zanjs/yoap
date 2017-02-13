@@ -1,6 +1,6 @@
 import { observable } from 'mobx'
 import { extend, localStore } from 'helpers'
-import { store as config } from 'config'
+import { store as config } from 'constants'
 
 class DeviceStore {
   // device support

@@ -1,7 +1,7 @@
 import { observable, computed, reaction } from 'mobx'
 import { localStore } from 'helpers'
-import { store as config } from 'config'
-import TodoModel from 'models/TodoModel'
+import { store as config } from 'constants'
+import { TodoModel } from 'models'
 
 
 class TodoStore {

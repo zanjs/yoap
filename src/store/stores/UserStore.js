@@ -1,8 +1,19 @@
+/**
+ * UserStore module.
+ * @module stores/UserStore
+ * @see store
+ */
 import { observable, reaction } from 'mobx'
 import { login as serverLogin, auth as serverAuth } from 'api'
 import { extend, localStore } from 'helpers'
-import { store as config } from 'config'
+import { store as config } from 'constants'
 
+/**
+ * UserStore class.
+ * It contains user auth, stores his data (including his items).
+ *
+ * @class
+ */
 class UserStore {
   storeName = config.user;
   // user data
@@ -21,10 +32,14 @@ class UserStore {
     this.subscribeToLocalStore();
   }
 
-  responseHandler = (isError) => {
+  /**
+   * Handler response for server subscription.
+   *
+   * @param {string|boolean} isError
+   * @return {Function}
+   */
+  responseHandler = isError => {
     return () => {
-      console.log('isError', isError);
-
       this.isAuthorized = !isError;
       this.isError = isError;
       this.isFetching = false;
@@ -59,6 +74,11 @@ class UserStore {
     }
   );
 
+  /**
+  * Save values to the store.
+  *
+  * @param {Object} values
+  */
   saveValues = values => {
     extend(this, values);
   };
@@ -78,6 +98,11 @@ class UserStore {
     return isAuth || (this.isAuthorized = false);
   };
 
+  /**
+  * Generate a JSON from the data.
+  *
+  * @return {Object}
+  */
   toJSON = () => ({
     name: this.name,
     email: this.email,

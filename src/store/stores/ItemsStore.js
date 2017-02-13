@@ -1,8 +1,8 @@
 import { observable, computed, reaction } from 'mobx'
 import { localStore } from 'helpers'
-import { store as config } from 'config'
+import { store as config } from 'constants'
 import { getItems } from 'api'
-import ItemModel from 'models/ItemModel'
+import { ItemModel } from 'models'
 
 
 class ItemsStore {
@@ -54,7 +54,7 @@ class ItemsStore {
   );
 
   add = data => {
-    let isExist;
+    let isExist = null;
 
     this.data.forEach((item, index) => {
       if (item.id === data.id) {
@@ -82,7 +82,7 @@ class ItemsStore {
     () => this.toJSON(),
 
     // save to the local store
-    todos => localStore.set(this.storeName, todos)
+    data => localStore.set(this.storeName, data)
   );
 }
 

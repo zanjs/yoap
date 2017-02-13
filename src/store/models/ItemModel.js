@@ -15,7 +15,7 @@ import {
   rulesType, rulesTypes,
   termType, termTypes,
   categoryType, categoryTypes
-} from 'constants/itemConstants'
+} from 'constants'
 
 
 export default class ItemModel {
@@ -375,29 +375,11 @@ export default class ItemModel {
    */
   static fromJS(store, object) {
     const {
-      id,
-
-      price, size,
-      floors,
       params,
-
-      location, images,
-      description, user,
-      views
+      ...rest
     } = object;
     let data = {
-      id,
-      price,
-      floors,
-      size,
-      location,
-
-      images,
-      description,
-
-      user,
-      views,
-
+      ...rest,
 
       _type: '',
       _term: '',

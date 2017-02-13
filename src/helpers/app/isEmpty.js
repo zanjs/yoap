@@ -1,15 +1,9 @@
-const emptyString = (string) => string.replace(/\s/g, '') === '';
-const emptyObject = (obj) => {
+const emptyString = string => string.replace(/\s/g, '') === '';
+const emptyObject = obj => {
   if (obj.length > 0)    return false;
   if (obj.length === 0)  return true;
 
-  let i = 0;
-
-  for (let key in obj) {
-    i++
-  }
-
-  return i === 0;
+  return !Object.keys(obj).length;
 };
 
 const isEmpty = (value) => {
