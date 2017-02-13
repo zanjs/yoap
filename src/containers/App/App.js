@@ -12,6 +12,7 @@ import {
   Defender, PathNotify
 } from 'components'
 import { NavContainer } from 'containers'
+import { isValid } from 'validation/itemValidation'
 
 import s from './App.sass'
 

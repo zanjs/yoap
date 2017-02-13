@@ -1,8 +1,16 @@
+/**
+* Object keys map.
+*
+* @param {Object} object
+* @param {Function} cb
+*
+* @return {*}
+*/
 export default (object, cb) => {
-  let out;
+  let result;
   for (let prop in object) {
-    out = cb(object[prop], prop, out, object)
+    result = cb(object[prop], prop, result, object)
   }
 
-  return out;
+  return result;
 }

@@ -3,7 +3,8 @@ import Helmet from 'react-helmet'
 import { Redirect } from 'react-router-dom'
 import { observer, inject } from "mobx-react";
 import { Button, FormGroup } from 'components'
-import { classNames, isEmpty, createHandleChange, createHandleBlur  } from 'helpers'
+import { createHandleChange, createHandleBlur  } from 'validation/userValidation'
+import { classNames, isEmpty } from 'helpers'
 
 import {
   MobileHeaderRatio, DesktopHeaderRatio,

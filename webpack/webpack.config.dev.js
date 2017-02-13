@@ -101,6 +101,7 @@ module.exports = {
       stores: getAbsolutePath('store/stores'),
       models: getAbsolutePath('store/models'),
       constants: getAbsolutePath('store/constants'),
+      validation: getAbsolutePath('store/validation'),
 
       data: getAbsolutePath('data'),
       images: getAbsolutePath('data/images'),

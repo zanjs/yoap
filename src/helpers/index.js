@@ -20,6 +20,3 @@ export getOrderId from './app/getOrderId'
 export mouseParallax from './animation/mouseParallax'
 export scrollParallax from './animation/scrollParallax'
 export starsAnimation from './animation/starsAnimation'
-
-// validation
-export * from './validation/userValidation'
