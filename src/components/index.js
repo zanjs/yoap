@@ -1,6 +1,6 @@
 /*----------- system components */
 export Header from './Header/Header'
-export Text from './Text/Text'
+export Content from './Content/Content'
 export Link from './Link/Link'
 export Button from './Button/Button'
 export Title from './Title/Title'
@@ -19,5 +19,10 @@ export Overlay from './Overlay/Overlay'
 export Defender from './Defender/Defender'
 
 /*----------- components */
+export Logo from './Logo/Logo'
 export TodoItem from './TodoItem/TodoItem'
 export Nav from './Nav/Nav'
+export Intro from './Intro/Intro'
+export BaseFilter from './BaseFilter/BaseFilter'
+export ProFilter from './ProFilter/ProFilter'
+export ProFilterItem from './ProFilterItem/ProFilterItem'

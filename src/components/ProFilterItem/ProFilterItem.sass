@@ -1,0 +1,49 @@
+@import ../../theme/index
+
+.wrapper
+  padding-bottom: 45px
+
+.title
+  padding: 0 0 45px
+  &_clear
+    @include opacityAnim(.6)
+    cursor: pointer
+
+.grid
+  padding-bottom: 10px
+
+.item
+  display: block
+  width: 25%
+  user-select: none
+  cursor: pointer
+  @include opacityAnim(.6)
+  padding: 0 0 20px
+  &_active
+    color: $light-blue
+    opacity: 1 !important
+
+.arrow
+  transition: transform $animParams
+  &_top
+    transform: rotateZ(180deg)
+
+.link
+  display: block
+  padding: 0 0 28px
+  @include flexbox(row, flex-start, center, no)
+  svg
+    float: inherit
+    height: 17px
+    width: 20px
+    position: relative
+    margin: 0 5px
+    top: 1px
+    display: inline-block
+
+.line
+  height: 1px
+  background-color: #979797
+  width: 40%
+  max-width: 450px
+

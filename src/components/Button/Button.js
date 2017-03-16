@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'components'
+import { Link } from 'react-router-dom'
 import { classNames } from 'helpers'
 import { bigDur, ease as easeConfig } from 'config'
 import s from './Button.sass'
@@ -36,77 +36,6 @@ export default class Button extends Component {
       this.props.getRef(this.el);
     }
   };
-
-  renderLoader = (cb) => (
-    <div ref={b => cb(b)} className={s.loader}/>
-  );
-
-  loadingAnimation = (isRequired) => {
-    if (!this.el || !this.props.isLoading && !isRequired) return;
-    const { dur, ease } = this;
-    let block;
-
-    const color = window.getComputedStyle(this.el).color;
-
-    const firstStep = (block, cb) => {
-      TweenMax.to(block, dur, {
-        boxShadow: color + ' 0 0 0 1px', ease,
-        onComplete: cb
-      });
-    };
-    const secondStep = (block, cb) => {
-      TweenMax.to(block, dur, {
-        boxShadow: color + ' 0 0 0 10px', ease,
-        onComplete: cb
-      });
-    };
-
-    // animation loop
-    const animation = (block = block) => {
-      if (!this.props.isLoading) return;
-      return firstStep(block, () => {
-        return secondStep(block, animation)
-      });
-    };
-
-    return this.setState({
-      children: this.renderLoader((b) => {
-        block = b;
-        animation(b);
-      }),
-      className: s.loading
-    });
-  };
-  // fadeInLoadingAnimation = () => {
-  //   if (!this.el) return;
-  //
-  //   // TODO: Loading Fade In Animation on button
-  // };
-  // fadeOutLoadingAnimation = () => {
-  //   if (!this.el) return;
-  //   // TODO: Loading Fade Out Animation on button
-  // };
-
-  startLoadingAnimation = () => {
-    this.loadingAnimation(true);
-  };
-  endLoadingAnimation = () => {
-    //this.loadingAnimation();
-  };
-
-  componentDidMount() {
-    if (this.props.isLoading) {
-      this.startLoadingAnimation();
-    }
-  }
-
-  componentWillUpdate() {
-    if (this.props.isLoading) {
-      this.startLoadingAnimation();
-    } else {
-      this.endLoadingAnimation();
-    }
-  }
 
   componentWillReceiveProps(nextProps) {
     const { props } = this;

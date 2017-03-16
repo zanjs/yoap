@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { classNames } from 'helpers'
 import { Input } from 'components'
-import { BLUE_COLOR, PINK_COLOR, GREEN_COLOR } from 'config'
+import { BLUE_COLOR, PINK_COLOR, GREEN_COLOR } from 'constants'
 import s from './FormGroup.sass'
 
 

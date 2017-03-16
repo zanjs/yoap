@@ -1,18 +1,16 @@
 import React, { Component, } from 'react'
 import Helmet from 'react-helmet'
 import DevTools from 'mobx-react-devtools'
-import pages from 'pages'
+import { HomePage } from 'pages'
 import {
   BrowserRouter as Router,
-  Route,
-  Redirect
+  Route, Redirect
 } from 'react-router-dom'
 import {
   PagesTransitions, Overlay,
   Defender, PathNotify
 } from 'components'
 import { NavContainer } from 'containers'
-import { isValid } from 'validation/itemValidation'
 
 import s from './App.sass'
 
@@ -40,8 +38,8 @@ export default class App extends Component {
           {/* React Helmet component for page info management */}
           <Helmet
             htmlAttributes={{lang: "en", amp: undefined}} // amp takes no value
-            titleTemplate="%s — EXP Template"
-            defaultTitle="EXP"
+            titleTemplate="%s — yoap"
+            defaultTitle="yoap"
           />
 
           {/* Defend your project. Works only in production mode. */}
@@ -56,9 +54,7 @@ export default class App extends Component {
 
           {/* Routes */}
           <PagesTransitions className={s.content}>
-            {pages.map((data, key) => (
-              <PathNotify index={key} key={key} {...data}/>
-            ))}
+            <PathNotify index={0} path="/" exact component={HomePage}/>
           </PagesTransitions>
 
           {/* Whole App overlay. */}

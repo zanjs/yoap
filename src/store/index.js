@@ -3,6 +3,7 @@ import DeviceStore from 'stores/DeviceStore'
 import DomStore from 'stores/DomStore'
 import UserStore from 'stores/UserStore'
 import ItemsStore from 'stores/ItemsStore'
+import FilterStore from 'stores/FilterStore'
 
 
 export const store = window.store = {
@@ -10,5 +11,6 @@ export const store = window.store = {
   device: DeviceStore,
   dom: DomStore,
   user: UserStore,
-  items: ItemsStore
+  items: ItemsStore,
+  filter: FilterStore
 };

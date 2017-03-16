@@ -1,48 +1,8 @@
 /* Pages entry point */
-import InfoPage from './InfoPage/InfoPage'
-import TodosPage from './TodosPage/TodosPage'
-import LoginPage from './LoginPage/LoginPage'
-import SignupPage from './SignupPage/SignupPage'
-import UserPage from './UserPage/UserPage'
-import BoardPage from './BoardPage/BoardPage'
-
-
-export default [{
-  component: TodosPage,
-  path: '/',
-  exact: true,
-
-  value: 'todo list'
-}, {
-  component: InfoPage,
-  path: '/info',
-  exact: true,
-
-  value: 'info'
-}, {
-  component: BoardPage,
-  path: '/board',
-  exact: true,
-
-  value: 'board'
-}, {
-  component: LoginPage,
-  path: '/login',
-  exact: true,
-
-  value: 'login'
-}, {
-  component: SignupPage,
-  path: '/signup',
-  exact: true,
-
-  value: 'sign up'
-}, {
-  component: UserPage,
-  path: '/you',
-  exact: true,
-
-  value: 'you'
-}]
-
-// UserPage
+export HomePage from './HomePage/HomePage'
+// export InfoPage from './InfoPage/InfoPage'
+// export TodosPage from './TodosPage/TodosPage'
+// export LoginPage from './LoginPage/LoginPage'
+// export SignupPage from './SignupPage/SignupPage'
+// export UserPage from './UserPage/UserPage'
+// export BoardPage from './BoardPage/BoardPage'

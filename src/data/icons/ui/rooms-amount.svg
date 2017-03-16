@@ -1,0 +1,8 @@
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="#DCDCDC" stroke-width="2" fill="none" fill-rule="evenodd">
+      <path d="M0,16.6666667 L13.3333333,16.6666667 L13.3333333,0 L0,0 L0,16.6666667 Z M0,30 L13.3333333,30 L13.3333333,20 L0,20 L0,30 Z M16.6666667,30 L30,30 L30,13.3333333 L16.6666667,13.3333333 L16.6666667,30 Z M16.6666667,0 L16.6666667,10 L30,10 L30,0 L16.6666667,0 Z" id="path-1"></path>
+      <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="30" height="30" fill="white">
+        <use xlink:href="#path-1"></use>
+      </mask>
+    </g>
+</svg>

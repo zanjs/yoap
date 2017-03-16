@@ -11,7 +11,7 @@ import data from './data'
 
 export const getItems = () => fetch(getItemsUrl, {
   ...headers,
-  method: 'post'
+  method: 'get'
 }, data);
 
 export const saveItem = body => fetch(saveItemUrl, {

@@ -1,13 +1,53 @@
 @import ../../theme/index
 
 .title
-  font-size: 22px
-  line-height: 26px
-  font-weight: 100
-  margin: 25px auto 15px
+  color: $text
+  margin: 0
   padding: 0
   &--1
     @extend .title
+    font-size: 54px
+    line-height: 64px
+    font-weight: 300
+    padding-bottom: 70px
+  &--2
+    @extend .title
+    font-size: 48px
+    line-height: 58px
+    font-weight: 500
+    padding-bottom: 20px
+    padding-top: 40px
+    @media only screen and (max-height: $mHeight)
+      font-size: 32px
+      line-height: 44px
+  &--3
+    @extend .title
+    font-size: 36px
+    padding-top: 30px
+    padding-bottom: 20px
+  &--4
+    @extend .title--3
     font-size: 28px
-    line-height: 32px
+    line-height: 37px
+  &--5
+    @extend .title
+    font-size: 21px
+    font-weight: 300
+    line-height: 1.4
+    padding-top: 20px
+    padding-bottom: 10px
+  &--6
+    @extend .title
+    font-size: 21px
+    font-weight: 300
+    line-height: 1.4
+    padding-top: 20px
+    padding-bottom: 10px
 
+
+.bold
+  font-weight: bold
+.regular
+  font-weight: normal
+.light
+  color: #4a4a4a
