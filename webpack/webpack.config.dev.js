@@ -116,7 +116,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      title: 'EXP Template',
+      title: 'yoap',
       template: '../webpack/template.html',
       favicon: '../src/data/images/favicon/favicon.ico'
     }),

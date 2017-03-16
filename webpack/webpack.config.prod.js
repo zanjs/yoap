@@ -3,35 +3,19 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const __APP = resolve(__dirname, '../src');
+const __DIST = resolve(__dirname, '../dist');
+const getAbsolutePath = (path) => __APP + '/' + path;
+
 module.exports = {
   entry: {
-    main: resolve(__dirname, '../src'),
-    // vendor: [
-    //   'react',
-    //   'react-dom',
-    //   'redux',
-    //   'react-redux',
-    //   'redux-thunk',
-    //   'react-router',
-    //   'react-helmet',
-    //   'stackblur-canvas',
-    //   'store',
-    // ]
-    // vendor: [
-    //   'react-event-debounce',
-    //   'react-redux',
-    //   'react-router',
-    //   'redux',
-    //   'redux-thunk',
-    //   'styled-components'
-    // ]
+    main: [
+      'gsap',
+      `${__APP}/index.js`
+    ],
   },
-  // externals: {
-  //   react: 'React',
-  //   'react-dom': 'ReactDOM'
-  // },
   output: {
-    path: resolve(__dirname, '../dist'),
+    path: __DIST,
     filename: '[name].[chunkhash].js',
     publicPath: '/',
   },
@@ -48,9 +32,24 @@ module.exports = {
       },
       {
         test: /\.(sass|scss)$/,
-        loader:  ExtractTextPlugin.extract({
-          fallbackLoader: "style-loader",
-          loader: 'css-loader?modules&minimize&importLoaders=3&localIdentName=[hash:base64:5]!postcss-loader!sass-loader'
+        use:  ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 3,
+                modules: true,
+                localIdentName: '[hash:base64:5]'
+              }
+            },
+            'postcss-loader',
+            'sass-loader'
+          ]
+
+          // [
+          //   'css-loader?modules&minimize&importLoaders=3&localIdentName=[hash:base64:5]!postcss-loader!sass-loader'
+          // ]
           // NODE_ENV === 'development' ? '[name]__[local]___[hash:base64:5]' : '[hash:base64:5]'
         })
       },
@@ -67,6 +66,37 @@ module.exports = {
       }
     ]
   },
+
+  resolve: {
+    extensions: [
+      '.js',
+      '.json'
+    ],
+    modules: [
+      __APP,
+      'node_modules'
+    ],
+    alias: {
+      components: getAbsolutePath('components'),
+      containers: getAbsolutePath('containers'),
+      pages: getAbsolutePath('pages'),
+      api: getAbsolutePath('api'),
+
+      store: getAbsolutePath('store'),
+      stores: getAbsolutePath('store/stores'),
+      models: getAbsolutePath('store/models'),
+      constants: getAbsolutePath('store/constants'),
+      validation: getAbsolutePath('store/validation'),
+
+      data: getAbsolutePath('data'),
+      images: getAbsolutePath('data/images'),
+      icons: getAbsolutePath('data/icons'),
+
+      helpers: getAbsolutePath('helpers'),
+      config: getAbsolutePath('config.js'),
+    }
+  },
+
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -80,7 +110,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
-      title: 'Ultrastore',
+      title: 'yoap',
       template: 'webpack/template.html'
     }),
     new ExtractTextPlugin({

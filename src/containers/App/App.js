@@ -43,11 +43,11 @@ export default class App extends Component {
           />
 
           {/* Defend your project. Works only in production mode. */}
-          {!userHasAuthorized && <Redirect to="/defender"/>}
+          {/*{!userHasAuthorized && <Redirect to="/defender"/>}*/}
 
-          <Route path="/defender" render={() => (
-            <Defender userHasAuthorized={userHasAuthorized} submitHandler={this.submitHandler}/>
-          )}/>
+          {/*<Route path="/defender" render={() => (*/}
+            {/*<Defender userHasAuthorized={userHasAuthorized} submitHandler={this.submitHandler}/>*/}
+          {/*)}/>*/}
 
           {/* Place for Navigation, Sidebar, Modal, etc.  */}
           <NavContainer />

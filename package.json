@@ -19,7 +19,7 @@
     "dev": "webpack-dev-server --config webpack/webpack.config.dev.js",
     "build": "rm -rf dist && webpack --config webpack/webpack.config.prod.js",
     "prod": "cd dist && python -m SimpleHTTPServer 8080",
-    "start": "better-npm-run build && nodemon ./bin/index.js",
+    "start": "better-npm-run build && node ./bin/index.js",
     "dev:webpack": "babel-node ./server/devServer.js"
   },
   "repository": {
