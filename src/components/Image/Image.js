@@ -4,8 +4,8 @@ import { canvasRGBA } from 'stackblur-canvas'
 import { classNames, sizes as size } from 'helpers'
 import s from './Image.sass'
 
-const mapStateToProps = ({size}) => ({
-  width: size.width
+const mapStateToProps = ({device: {width}}) => ({
+  width
 });
 
 const BLUR_RADIUS = 30;

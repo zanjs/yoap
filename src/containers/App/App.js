@@ -1,7 +1,7 @@
 import React, { Component, } from 'react'
 import Helmet from 'react-helmet'
 import DevTools from 'mobx-react-devtools'
-import { HomePage } from 'pages'
+import { HomePage, LoginPage, SignupPage } from 'pages'
 import {
   BrowserRouter as Router,
   Route, Redirect
@@ -53,9 +53,14 @@ export default class App extends Component {
           <NavContainer />
 
           {/* Routes */}
-          <PagesTransitions className={s.content}>
-            <PathNotify index={0} path="/" exact component={HomePage}/>
-          </PagesTransitions>
+          <Route path="/" exact component={HomePage}/>
+          <Route path="/login" component={LoginPage}/>
+          <Route path="/signup" component={SignupPage} />
+          {/*<PagesTransitions className={s.content}>*/}
+            {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}
+            {/*<PathNotify index={1} path="/login" component={LoginPage}/>*/}
+            {/*<PathNotify index={2} path="/signup" component={SignupPage}/>*/}
+          {/*</PagesTransitions>*/}
 
           {/* Whole App overlay. */}
           {/* You can use this component everywhere */}

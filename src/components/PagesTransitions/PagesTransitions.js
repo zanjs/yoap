@@ -8,7 +8,7 @@ import s from './PagesTransitions.sass'
 const mapStateToProps = ({device: {width, height}, dom: {update}}) => ({
   width, height,
 
-  updateDom: (block) => update({
+  updateDom: block => update({
     name: 'content',
     block
   })
@@ -67,14 +67,11 @@ export default class PagesTransitions extends Component {
   };
 
   render() {
-    const { props } = this;
-    const { className } = props;
+    const { className, children } = this.props;
 
     return (
       <div className={classNames(s.wrapper, className)} ref={this.getRef}>
-        <Switch>
-          {this.props.children}
-        </Switch>
+        {children}
       </div>
     )
   }

@@ -2,12 +2,34 @@
 
 $border: 1px solid #efefef
 
+.wrapper
+  background-color: #F8F9FB
+
 .container
   margin: 20px auto
+  position: relative
+  z-index: 10
+
+.form
+  width: 100%
   max-width: 450px
-  text-align: center
-  input
-    text-align: center
 
 .button
   margin: 30px 5px
+
+.image
+  position: absolute
+  right: 0
+  max-height: 90%
+  top: 50%
+  transform: translateY(-50%)
+  z-index: 5
+  display: block
+  &_container
+    @include container(root)
+    position: absolute
+    z-index: 5
+    top: 5%
+    height: 90%
+    left: 50%
+    transform: translateX(-50%)

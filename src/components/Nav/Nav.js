@@ -68,7 +68,7 @@ export default class Nav extends Component {
       <nav ref={this.getNavRef} className={s.nav}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>
-          <Logo />
+          <Link to="/"><Logo /></Link>
           <div className={s.links}>
             <div ref={this.getLinksRef} className={s.links__wrapper}>
               {links.map(({to, content}, key) => (
@@ -77,7 +77,10 @@ export default class Nav extends Component {
                 </Link>
               ))}
             </div>
-            <Button className={s.button} type="light">Войти</Button>
+            <Button to="/login" type="light"
+                    className={s.button} rounded smallPadding>
+              Войти
+            </Button>
           </div>
         </FlexGrid>
       </nav>

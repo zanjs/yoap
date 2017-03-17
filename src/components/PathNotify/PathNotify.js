@@ -2,30 +2,31 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
 
-export default class PathNotify extends Component {
-  static defaultProps = {
-    notify: () => {}
-  };
 
-  renderMatch = (props) => {
-    const RouterComponent = this.props.component;
+export default class RouteNotify extends Component {
+  renderMatch = props => {
+    const RouterComponent = this.props.component || this.props.render;
 
     return <RouterComponent {...props} ref={b => this.update(b)}/>
   };
 
   update = (wrapper) => {
     const { index, currentPage, notify } = this.props;
-    if (wrapper && index !== currentPage) {
+    if (wrapper && notify && index !== currentPage) {
       notify(index)
     }
   };
 
-  render() {
-    const {component, index, ...restProps} = this.props;
 
+  render() {
     return (
-      <Route {...restProps} render={this.renderMatch}/>
+      <Route {...this.props}/>
     )
+
+    // const {component, index, ...restProps} = this.props;
+    //
+    // return (
+    //   <Route {...restProps} render={this.renderMatch}/>
+    // )
   }
 }
-

@@ -14,9 +14,9 @@
 .btn
   @extend .reset
   border: 2px solid $black
-  padding: 8px 20px
+  padding: 17px 25px
   margin-top: 10px
-  border-radius: 50px
+  border-radius: 6px
   cursor: pointer
   transition: background $animParams, color $animParams
   color: $black
@@ -75,11 +75,12 @@
 
 .pink
   @extend .btn
-  color: $pink
+  color: #fff
+  background-color: $pink
   border-color: $pink
   &:hover
-    color: #fff
-    background-color: $pink
+    color: $pink
+    background-color: transparent
 
 .purple
   @extend .btn
@@ -152,3 +153,8 @@
   @extend .reset
   margin: 0
   padding: 0
+
+.rounded
+  border-radius: 50px !important
+.smallPadding
+  padding: 8px 20px

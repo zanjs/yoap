@@ -21,7 +21,7 @@ export default class NavContainer extends Component {
       content: 'Помощь'
     },
     {
-      to: '/',
+      to: '/signup',
       content: 'Регистрация'
     }
   ]

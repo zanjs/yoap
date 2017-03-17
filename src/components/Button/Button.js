@@ -11,7 +11,9 @@ export default class Button extends Component {
   state = {isLoading: false, children: this.props.children, className: null};
 
   getType = (value) => {
-    const type = value && value.replace(new RegExp(' ', 'gi'), '').replace(new RegExp('min', 'gi'), '');
+    const type = value && value
+        .replace(new RegExp(' ', 'gi'), '')
+        .replace(new RegExp('min', 'gi'), '');
 
     let className = s[type] ? s[type] : s.btn;
 
@@ -37,31 +39,29 @@ export default class Button extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { props } = this;
-
-    if (props.children !== nextProps.children) {
-      this.setState({children: nextProps.children});
-    }
-  }
-
 
   render() {
     const { tag, type, className, children,
       isLoading, getRef, isDisabled, buttonType,
+      rounded, smallPadding,
 
       ...rest
     } = this.props;
     let Element = tag ? tag : rest.to ? Link : 'button';
-    const stateChildren = this.state.children;
-    const stateClassName = this.state.className;
-
     let _type = typeof type !== 'string' ? '' : type;
+    const _className = classNames(
+      s.button, this.getType(_type),
+      rounded && s.rounded,
+      smallPadding && s.smallPadding,
+
+      className
+    );
+
 
     return (
       <Element ref={this.getElement} disabled={isDisabled} type={buttonType}
-               className={classNames(s.button, this.getType(_type), className, stateClassName)} {...rest}>
-        {stateChildren}
+               className={_className} {...rest}>
+        {children}
       </Element>
     )
   }

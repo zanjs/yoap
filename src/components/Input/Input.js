@@ -6,7 +6,8 @@ import s from './Input.sass'
 const Input = ({tag, className, getRef, ...rest}) => {
     const Element = tag ? tag : 'input';
     return (
-        <Element ref={getRef} className={classNames(s.input, className, rest.disabled && s.disabled)} {...rest}/>
+        <Element className={classNames(s.input, className, rest.disabled && s.disabled)}
+                 ref={getRef}  {...rest}/>
     )
 };
 
