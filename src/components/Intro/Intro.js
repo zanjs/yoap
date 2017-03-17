@@ -6,11 +6,12 @@ import s from './Intro.sass'
 
 const mapStateToProps = ({
   device: {
-    height, width, isMobile
+    height, width, navHeight, isMobile
   }
 }) => ({
   height: `${height}px`,
   width: `${width}px`,
+  offset: `${navHeight}px`,
   isMobile
 });
 
@@ -23,12 +24,13 @@ export default class Intro extends Component {
 
   render() {
     const { isFilterFull } = this.state;
-    const { height } = this.props;
+    const { height, offset } = this.props;
 
     return (
       <div>
-        <FlexGrid style={{minHeight: height}} direction="column" justify="end" className={s.intro}>
-          <Container>
+        <FlexGrid style={{minHeight: height}} direction="column"
+                  justify="end" className={s.intro}>
+          <Container style={{paddingTop: offset}}>
             <Title size="1">
               Чувствуйте себя как дома. <br/>
               Поиск квартир. Проверенные <br/>
@@ -39,7 +41,8 @@ export default class Intro extends Component {
               Начните поиск по ключевым параметрам:
             </Content>
 
-            <BaseFilterContainer isFull={isFilterFull} onMoreButtonClick={this.toggleFull} />
+            <BaseFilterContainer isFull={isFilterFull}
+                                 onMoreButtonClick={this.toggleFull} />
           </Container>
         </FlexGrid>
         {isFilterFull && <Container><ProFilterContainer /></Container>}

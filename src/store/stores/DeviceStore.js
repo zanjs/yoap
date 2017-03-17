@@ -1,4 +1,4 @@
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { extend, localStore } from 'helpers'
 import { store as config } from 'constants'
 
@@ -10,6 +10,11 @@ class DeviceStore {
   @observable windowWidth;
   @observable width;
   @observable height;
+  @observable navHeight = 104;
+
+  // scroll
+  @observable scrollX;
+  @observable scrollY;
 
   // device types
   @observable isMobile;
@@ -21,6 +26,8 @@ class DeviceStore {
   // browser types
   @observable isIE;
 
+  doc = document.documentElement;
+
   constructor() {
     this.restoreValues(
       // if values not saved
@@ -30,6 +37,7 @@ class DeviceStore {
 
 
     this.subscribeToResizeEvent();
+    this.subscribeToScrollEvent();
   }
 
   init = () => {
@@ -207,6 +215,16 @@ class DeviceStore {
   subscribeToResizeEvent = () => {
     this.resize();
     window.addEventListener('resize', this.resize)
+  };
+
+  getScrollPosition = () => {
+    var doc = this.doc;
+    this.scrollX = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+    this.scrollY = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+  }
+  subscribeToScrollEvent = () => {
+    this.getScrollPosition();
+    window.addEventListener('scroll', this.getScrollPosition)
   };
 
   restoreValues = (cb) => {
