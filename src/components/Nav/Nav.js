@@ -68,7 +68,7 @@ export default class Nav extends Component {
       <nav ref={this.getNavRef} className={s.nav}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>
-          <Link to="/"><Logo /></Link>
+          <Link className={s.nopadding} to="/"><Logo className={s.logo} /></Link>
           <div className={s.links}>
             <div ref={this.getLinksRef} className={s.links__wrapper}>
               {links.map(({to, content}, key) => (

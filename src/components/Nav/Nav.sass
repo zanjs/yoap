@@ -2,6 +2,9 @@
 
 $linksOffset: 35px
 
+.nopadding
+  padding: 0
+
 .nav
   display: block
   position: fixed
@@ -10,6 +13,12 @@ $linksOffset: 35px
   width: 100%
   padding: 25px 0
   z-index: 100
+  @include respond(mobile)
+    padding: 10px 0
+
+.logo
+  @include respond(mobile)
+    width: 100px
 
 .item
   display: inline-block
@@ -17,8 +26,11 @@ $linksOffset: 35px
 
 .button
   font-weight: normal
+  margin: 0
 
 .links
   display: block
   &__wrapper
     display: inline-block
+    @include respond(mobile)
+      display: none
