@@ -21,10 +21,22 @@
 
 .column
   width: 23.3%
+  @include respond(mobile)
+    width: 100%
+    text-align: center
   &:first-child
     width: 30%
+    @include respond(mobile)
+      width: 100%
   &_des
     text-align: center
+    &_first
+      @include respond(mobile)
+        width: 100%
+        margin: 20px 0
+        text-align: center
+    @include respond(mobile)
+      width: 33.3% !important
 
 .header
   padding-bottom: 30px
@@ -36,6 +48,8 @@
 
 .item
   text-align: center
+  @include respond(mobile)
+    margin: 45px 0
 
 .price
   color: $white

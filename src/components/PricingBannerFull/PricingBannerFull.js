@@ -7,7 +7,7 @@ const Row = ({children, className}) => (
   <FlexGrid justify="space-between" wrap="true" align="start"
             className={classNames(s.row, className)}>
     {children}
-    </FlexGrid>
+  </FlexGrid>
 )
 
 const Column = ({children, className}) => (
@@ -34,7 +34,7 @@ const Circle = ({active}) => {
 
 const Description = ({title, data}) => (
   <Row className={s.row_des}>
-    <Column>
+    <Column className={s.column_des_first}>
       <Content white className={s.des__title}>{title}</Content>
     </Column>
     {data.map((item, key) => {
