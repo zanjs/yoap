@@ -6,6 +6,8 @@ import s from './Button.sass'
 
 
 export default class Button extends Component {
+  static resetClassName = s.reset;
+
   dur = bigDur; ease = easeConfig.inOut();
 
   state = {isLoading: false, children: this.props.children, className: null};

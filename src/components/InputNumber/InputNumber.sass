@@ -1,0 +1,38 @@
+@import ../../theme/index
+
+$fill: #979797
+$size: 2px
+$radius: 17px
+
+.buttons
+  margin-left: 50px
+
+.btn
+  border-radius: 50%
+  border: $size solid $fill
+  padding: $radius
+  margin: 0 2.5px
+  @include opacityAnim(.5)
+
+.icon
+  position: absolute
+  left: 50%
+  top: 50%
+  width: 70%
+  height: $size
+  background-color: $fill
+  transform-origin: center center
+  content: ''
+
+
+.plus
+  &:before
+    @extend .icon
+    transform: translate(-50%, -50%) rotateZ(90deg)
+  &:after
+    @extend .icon
+    transform: translate(-50%, -50%) rotateZ(0deg)
+
+.minus
+  &:before
+    @extend .plus:after

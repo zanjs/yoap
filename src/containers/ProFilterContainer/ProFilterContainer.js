@@ -5,7 +5,8 @@ import { ProFilter } from 'components'
 
 const mapStateToProps = ({
   filter: {
-    data
+    data,
+    size
   }
 }) => ({
   data

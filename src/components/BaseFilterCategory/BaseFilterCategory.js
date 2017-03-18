@@ -5,9 +5,9 @@ import s from './BaseFilterCategory.sass'
 
 import houseIcon from 'icons/ui/house.svg'
 
-const Item = ({children, onClick, index, isActive}) => (
+const Item = ({children, className, onClick, index, isActive}) => (
   <span onClick={() => onClick(index)}
-        className={classNames(s.item, isActive && s.item_active)}>
+        className={classNames(s.item, className, isActive && s.item_active)}>
     {children}
   </span>
 )
@@ -33,8 +33,9 @@ export default class BaseFilterCategory extends Component {
       <BaseFilterItem title="Категория объекта" icon={houseIcon}>
         <BaseFilterSlider className={wrapperClassName}>
           {data.map((item, key) => {
+            const className = !hasActive && key === 0 && s.item_active || null;
             return (
-              <Item onClick={this.clickHandler}
+              <Item onClick={this.clickHandler} className={className}
                     isActive={hasActive && category.id === item.id}
                     key={key} index={key}>{item.name}</Item>
             )

@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Title, Content, FlexGrid, Link, Svg } from 'components'
 import { classNames } from 'helpers'
-import s from './ProFilterItem.sass'
+import s from './ItemParamsRow.sass'
 
 import arrowIcon from 'icons/ui/arrow-small.svg'
 
-export default class ProFilterItem extends Component {
+export default class ItemParamsRow extends Component {
+  static itemClassName = s.item;
+  static activeItemClassName = s.item_active;
+
   limit = 3; state = {isFull: false};
 
   toggleFullState = () => this.setState(({isFull}) => ({
@@ -23,9 +26,9 @@ export default class ProFilterItem extends Component {
           return null;
 
         return (
-          <Content onClick={() => onItemClick(item)} title={tip}
+          <Content onClick={onItemClick && (() => onItemClick(item))} title={tip}
                    className={classNames(s.item, isActive && s.item_active)}
-                   size="2" light  key={id || key}>
+                   size="2" light key={id || key}>
             {content}
           </Content>
         )
@@ -40,21 +43,23 @@ export default class ProFilterItem extends Component {
       limit, state: { isFull } ,
       props: { title, children, data, onItemClick, onTitleClick }
     } = this;
-    const isLimited = data.length > limit + 1;
-    const isActive = this.isActive(data);
+    const isLimited = data && data.length > limit + 1;
+    const isActive = data && this.isActive(data);
 
     return (
       <div className={s.wrapper}>
-        <Title onClick={() => onTitleClick(data)} size="5" regular light
+        <Title onClick={onTitleClick && (() => onTitleClick(data))} size="5" regular light
                className={classNames(s.title, isActive && s.title_clear)}>
           {isActive ? `${title} — Очистить` : title}
         </Title>
         {data && this.renderRows(data, onItemClick, isFull, limit)}
+        {children && <FlexGrid className={s.grid} justify="start" align="start" wrap="true">
+          {children}
+        </FlexGrid>}
         {isLimited && <Link onClick={this.toggleFullState} className={s.link} gray tag="span">
           {isFull ? 'Меньше параметров' : 'Больше параметров'}
           <Svg className={classNames(s.arrow, isFull && s.arrow_top)} src={arrowIcon}/>
         </Link>}
-        {children}
         <div className={s.line}/>
       </div>
     )

@@ -17,6 +17,7 @@ export PagesTransitions from './PagesTransitions/PagesTransitions'
 export Image from './Image/Image'
 export Overlay from './Overlay/Overlay'
 export Defender from './Defender/Defender'
+export InputNumber from './InputNumber/InputNumber'
 
 /*----------- components */
 export SocialLinks from './SocialLinks/SocialLinks'
@@ -24,6 +25,11 @@ export Logo from './Logo/Logo'
 export TodoItem from './TodoItem/TodoItem'
 export Nav from './Nav/Nav'
 export Intro from './Intro/Intro'
+
+/*----------- Item */
+export ItemParams from './ItemParams/ItemParams'
+export ItemParamsRow from './ItemParamsRow/ItemParamsRow'
+export ItemParamsRowSize from './ItemParamsRowSize/ItemParamsRowSize'
 
 /*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
@@ -36,7 +42,6 @@ export BaseFilterPrice from './BaseFilterPrice/BaseFilterPrice'
 
 /*----------- ProFilter */
 export ProFilter from './ProFilter/ProFilter'
-export ProFilterItem from './ProFilterItem/ProFilterItem'
 
 export LoginForm from './LoginForm/LoginForm'
 export SignupForm from './SignupForm/SignupForm'
