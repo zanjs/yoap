@@ -1,12 +1,12 @@
 @import ../../theme/index
 
-$offset: 10%
+$offset: 5%
 
 .wrapper
   position: relative
   display: block
-  width: 100% + $offset
-  left: -$offset
+  width: 100% + ($offset * 2)
+  transform: translateX(-$offset)
   min-height: 40px
   overflow-x: hidden
   overflow-y: visible

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {
   FlexGrid, Link, BaseFilterItem,
-  BaseFilterRooms
+  BaseFilterRooms, BaseFilterCategory
 } from 'components'
+import { BaseFilterCategoryContainer } from 'containers'
 import s from './BaseFilter.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
@@ -19,9 +20,7 @@ export default class BaseFilter extends Component {
           <BaseFilterItem title="Ближайшее метро" icon={subwayIcon}>
             Звенигородская
           </BaseFilterItem>
-          <BaseFilterItem title="Категория объекта" icon={houseIcon}>
-            Комфорт
-          </BaseFilterItem>
+          <BaseFilterCategoryContainer />
           <BaseFilterItem title="Стоимость в месяц">
             <br/>
             от 45.000 <br />
