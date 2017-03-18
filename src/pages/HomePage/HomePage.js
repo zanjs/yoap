@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Intro, BannerThreeCols, BannerTwoCols } from 'components'
+import {
+  Intro, BannerThreeCols, BannerTwoCols,
+  PricingBanner, PricingBannerFull
+} from 'components'
 import s from './HomePage.sass'
 
 const bannerThreeColsContent = [
@@ -22,6 +25,8 @@ export default class HomePage extends Component {
     return (
       <div className={s.homepage}>
         <Intro />
+        <PricingBanner />
+        <PricingBannerFull />
         <BannerThreeCols content={bannerThreeColsContent}
                          title="Услуги"/>
         <BannerTwoCols />

@@ -3,7 +3,14 @@ import { classNames } from 'helpers'
 import s from './Title.sass'
 
 
-const Title = ({size = '2', tag, bold, regular, light, center, children, getRef, lightColor, className, ...rest}) => {
+const Title = ({
+  size = '2', tag, bold, regular,
+  light, center, white,
+  lightColor, className,
+  children, getRef,
+
+  ...rest
+}) => {
   const Element = tag ? tag : `h${size}`;
   const _className = classNames(
     s[`title--${size}`],
@@ -12,6 +19,7 @@ const Title = ({size = '2', tag, bold, regular, light, center, children, getRef,
     light && s.light,
     lightColor && s.lightColor,
     center && s.center,
+    white && s.white,
 
     className
   )

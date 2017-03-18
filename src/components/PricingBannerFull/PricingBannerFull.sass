@@ -1,0 +1,59 @@
+@import ../../theme/index
+
+.nopadding
+  padding: 0
+
+.row
+  &_des
+    align-items: center
+    padding: 12px 0
+    transition: box-shadow $animParams
+    &:hover
+      box-shadow: 0 1px 0px 0px rgba(255, 255, 255, 0.3)
+
+.des
+  &__title
+    padding: 0
+
+.wrapper
+  padding: 138px 0 110px
+  background-color: $dark-blue
+
+.column
+  width: 23.3%
+  &:first-child
+    width: 30%
+  &_des
+    text-align: center
+
+.header
+  padding-bottom: 30px
+  margin-bottom: 60px
+  border-bottom: 1px solid rgba(#fff, .1)
+
+.title
+  padding: 0 0 5px
+
+.item
+  text-align: center
+
+.price
+  color: $white
+  display: block
+  font-size: 40px
+  line-height: 52px
+  font-weight: 300
+  padding: 25px 0 40px
+
+.button
+  width: 60%
+  min-width: 150px
+  display: block
+  margin: 0 auto
+
+.circle
+  @include size(12px)
+  background-color: #fff
+  border-radius: 50%
+  display: block
+  margin: 0 auto

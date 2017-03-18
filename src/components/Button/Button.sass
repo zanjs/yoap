@@ -19,6 +19,7 @@
   border-radius: 6px
   cursor: pointer
   transition: background $animParams, color $animParams, fill $animParams, box-shadow $animParams
+  box-shadow: none
   color: $black
   &[disabled]
     opacity: .7 !important
@@ -67,11 +68,33 @@
 
 .green
   @extend .btn
-  color: $green
+  color: #ffffff
   border-color: $green
+  background-color: $green
   &:hover
-    color: #fff
+    color: #ffffff
     background-color: $green
+    box-shadow: $shadow
+
+.gold
+  @extend .btn
+  color: #ffffff
+  border-color: $gold
+  background-color: $gold
+  &:hover
+    color: #ffffff
+    background-color: $gold
+    box-shadow: $shadow
+
+.gold-empty
+  @extend .btn
+  color: $gold
+  border-color: $gold
+  background-color: transparent
+  &:hover
+    color: #ffffff
+    border-color: $gold
+    background-color: $gold
 
 .pink
   @extend .btn
@@ -91,12 +114,32 @@
     background-color: $purple
 .blue
   @extend .btn
-  color: $blue
+  color: #fff
+  background-color: $blue
   border-color: $blue
   &:hover
-    color: #fff
+    background-color: $blue
+    box-shadow: $shadow
+
+.blue-empty
+  @extend .btn
+  color: $blue
+  border-color: $blue
+  background-color: transparent
+  &:hover
+    color: #ffffff
+    border-color: $blue
     background-color: $blue
 
+.bright-blue-empty
+  @extend .btn
+  color: $green
+  border-color: $green
+  background-color: transparent
+  &:hover
+    color: #ffffff
+    border-color: $green
+    background-color: $green
 
 .gray
   @extend .btn

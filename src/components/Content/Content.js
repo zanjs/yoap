@@ -5,7 +5,8 @@ import s from './Content.sass'
 
 export default function Content({
   className, bold, regular,
-  light, size = 4, gray, lightColor,
+  light, size = 4, gray, lightGray,
+  lightColor, white, transparent, center,
 
   tag, children,
 
@@ -19,7 +20,12 @@ export default function Content({
     regular && s.regular,
     light && s.light,
     lightColor && s.lightColor,
+    lightGray && s.lightGray,
     gray && s.gray,
+    center && s.center,
+    white && s.white,
+    transparent && s.transparent,
+
 
     className
   )
