@@ -17,7 +17,7 @@ export default class Nav extends Component {
     }
 
     TweenMax.to(this.wrapper, dur, {
-      y: '-100%',
+      opacity: 0,
       ease
     })
   }
@@ -31,7 +31,7 @@ export default class Nav extends Component {
     }
 
     TweenMax.to(this.wrapper, dur, {
-      y: '0%',
+      opacity: 1,
       ease
     })
   }

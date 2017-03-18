@@ -10,6 +10,7 @@ const mapStateToProps = ({device: {width}}) => ({
 
 @inject(mapStateToProps) @observer
 export default class Image extends Component {
+  isFaded = false;
   dur = config.dur; ease = config.ease();
 
   state = {isLoaded: false, mainImageLoaded: false}
@@ -49,12 +50,13 @@ export default class Image extends Component {
   };
 
   componentDidUpdate() {
-    if (!this.props.isLoaded && this.state.mainImageLoaded) {
+    if (!this.isFaded && this.state.mainImageLoaded) {
       this.showImage();
     }
   }
 
   showImage = () => {
+    this.isFaded = true;
     this.fadeInImage(() => this.setState({
       isLoaded: true
     }))

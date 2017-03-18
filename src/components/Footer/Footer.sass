@@ -1,0 +1,49 @@
+@import ../../theme/index
+
+.wrapper
+  background-color: $dark-blue
+  padding: 90px 0
+
+.title
+  color: #ffffff
+  padding-top: 0
+  padding-bottom: 30px
+.text
+  color: #fff
+  opacity: .5
+  padding-top: 0
+.col
+  width: 25%
+  padding-right: 5%
+  @include respond(mobile)
+    width: 100%
+    margin-bottom: 50px
+    padding: 0
+  &_half
+    width: 50%
+    padding-right: 5%
+  &_big
+    padding-right: 5%
+    width: 50%
+    @include respond(mobile)
+      width: 100%
+      padding: 0
+      margin-bottom: 100px
+
+
+.link
+  color: #ffffff
+  display: block
+  padding: 0 0 14px
+  &_gray
+    @extend .link
+    padding: 0 0 3px
+
+.address
+  margin-bottom: 50px
+
+.social
+  fill: #fff
+
+.bottom
+  padding-top: 90px

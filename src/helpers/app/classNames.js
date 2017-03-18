@@ -1,24 +1,29 @@
-import { loop, isEmpty } from 'helpers'
-//const newClassName = (className + (classNames ? space + classNames.join(' ') : ''));
+import loop from './loop'
+import isEmpty from './isEmpty'
 
 const removeSpaces = (string) => {
+  const space = ' ';
   let newString = string + '';
 
-  if (newString[0] === ' ') {
-    newString = newString.replace(' ', '');
+  if (newString[0] === space) {
+    newString = newString.replace(space, '');
   }
 
-  if (newString[newString.length - 1] === ' ') {
+  if (newString[newString.length - 1] === space) {
     newString = newString.slice(0, -1);
   }
 
   return newString;
 };
 
-export default function classNames(...classNames) {
+export default (...classNames) => {
+  if (!classNames || !classNames.length) {
+    return null
+  }
+
   const convertedClassNames = removeSpaces(
-    loop(classNames || [], (_className = '', index, result = '') => {
-      if (isEmpty(_className)) {
+    loop(classNames, (_className, index, result = '') => {
+      if (isEmpty(_className) || typeof _className !== 'string') {
         return result;
       }
 

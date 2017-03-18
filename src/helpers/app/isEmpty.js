@@ -1,21 +1,34 @@
-const emptyString = string => string.replace(/\s/g, '') === '';
-const emptyObject = obj => {
-  if (obj.length > 0)    return false;
+const isStringEmpty = string => string.replace(/\s/g, '') === '';
+const isObjectEmpty = obj => {
   if (obj.length === 0)  return true;
+  if (obj.length > 0) {
+    let isEmpty = true;
 
-  return !Object.keys(obj).length;
+    obj.forEach(item => {
+      if (isEmpty === true && item != null) {
+        isEmpty = false;
+      }
+    })
+
+    return isEmpty;
+  }
+
+
+  return Object.keys(obj).length === 0;
 };
 
-const isEmpty = (value) => {
-  if (value == null) {
+const isEmpty = value => {
+  if (value == null || value == false) {
     return true;
   }
 
   switch(typeof value) {
     case 'string':
-      return emptyString(value);
+      return isStringEmpty(value);
     case 'object':
-      return emptyObject(value);
+      return isObjectEmpty(value);
+    case 'number':
+      return value <= 0;
     default:
       return value;
   }

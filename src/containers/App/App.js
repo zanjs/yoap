@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import {
   PagesTransitions, Overlay,
-  Defender, PathNotify
+  Defender, PathNotify, Footer
 } from 'components'
 import { NavContainer } from 'containers'
 
@@ -63,6 +63,9 @@ export default class App extends Component {
             {/*<PathNotify index={1} path="/login" component={LoginPage}/>*/}
             {/*<PathNotify index={2} path="/signup" component={SignupPage}/>*/}
           {/*</PagesTransitions>*/}
+
+          {/* App Footer */}
+          <Footer />
 
           {/* Whole App overlay. */}
           {/* You can use this component everywhere */}

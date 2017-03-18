@@ -18,7 +18,7 @@
   margin-top: 10px
   border-radius: 6px
   cursor: pointer
-  transition: background $animParams, color $animParams
+  transition: background $animParams, color $animParams, fill $animParams, box-shadow $animParams
   color: $black
   &[disabled]
     opacity: .7 !important
@@ -79,8 +79,8 @@
   background-color: $pink
   border-color: $pink
   &:hover
-    color: $pink
-    background-color: transparent
+    background-color: $pink
+    box-shadow: $shadow
 
 .purple
   @extend .btn

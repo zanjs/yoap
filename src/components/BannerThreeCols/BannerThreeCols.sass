@@ -1,0 +1,26 @@
+@import ../../theme/index
+
+.nopadding
+  padding: 0
+
+.wrapper
+  padding: 125px 0 100px
+  background-color: #fff
+
+.header
+  padding-bottom: 40px
+  border-bottom: 1px solid #ededed
+  margin-bottom: 20px
+
+.item
+  width: 33%
+  padding-right: 5%
+  &__title
+    padding-bottom: 0
+  @include respond(mobile)
+    width: 100%
+
+.arrow
+  display: inline-block
+  transform: rotateZ(-90deg)
+  @include size(25px)
