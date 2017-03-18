@@ -6,13 +6,13 @@ import s from './Intro.sass'
 
 const mapStateToProps = ({
   device: {
-    height, width, navHeight, isMobile
+    height, width, navHeight
   }
 }) => ({
   height: `${height}px`,
   width: `${width}px`,
   offset: `${navHeight}px`,
-  isMobile
+  isMobile: width <= 992
 });
 
 @inject(mapStateToProps) @observer
@@ -24,7 +24,7 @@ export default class Intro extends Component {
 
   render() {
     const { isFilterFull } = this.state;
-    const { height, offset } = this.props;
+    const { height, offset, isMobile } = this.props;
 
     return (
       <div>
@@ -32,9 +32,11 @@ export default class Intro extends Component {
                   justify="end" className={s.intro}>
           <Container style={{paddingTop: offset}}>
             <Title size="1">
-              Чувствуйте себя как дома. <br/>
-              Поиск квартир. Проверенные <br/>
-              объявления от собственников. <br/>
+              {isMobile ? 'Поиск квартир. Проверено.' : <span>
+                  Чувствуйте себя как дома. <br/>
+                  Поиск квартир. Проверенные <br/>
+                  объявления от собственников. <br/>
+                </span>}
             </Title>
             <div className={s.line} />
             <Content className={s.subtitle} regular light>

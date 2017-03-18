@@ -11,6 +11,11 @@
     font-weight: 300
     padding-top: 30px
     padding-bottom: 70px
+    @include respond(mobile)
+      font-size: 48px
+      line-height: 58px
+      padding-bottom: 40px
+      padding-top: 30px
   &--2
     @extend .title
     font-size: 48px
