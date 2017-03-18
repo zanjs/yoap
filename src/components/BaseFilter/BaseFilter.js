@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {
-  FlexGrid, Link, BaseFilterItem,
-  BaseFilterRooms, BaseFilterCategory
+  FlexGrid, Link, BaseFilterItem
 } from 'components'
-import { BaseFilterCategoryContainer } from 'containers'
+import {
+  BaseFilterCategoryContainer, BaseFilterRoomsContainer
+} from 'containers'
 import s from './BaseFilter.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
-import houseIcon from 'icons/ui/house.svg'
 
 
 export default class BaseFilter extends Component {
@@ -16,7 +16,7 @@ export default class BaseFilter extends Component {
     return (
       <div className={s.container}>
         <FlexGrid justify="space-between" className={s.wrapper}>
-          <BaseFilterRooms />
+          <BaseFilterRoomsContainer />
           <BaseFilterItem title="Ближайшее метро" icon={subwayIcon}>
             Звенигородская
           </BaseFilterItem>

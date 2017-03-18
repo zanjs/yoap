@@ -4,45 +4,46 @@ import { classNames } from 'helpers'
 import s from './BaseFilterRooms.sass'
 import roomsIcon from 'icons/ui/rooms-amount.svg'
 
-const Item = ({getRef, activeIndex, onClick, keyIndex, children}) => {
-  const isActive = keyIndex === activeIndex;
-
+const Item = ({onClick, isActive, children}) => {
   return (
     <span className={classNames(s.item, isActive && s.item_active)}
-          onClick={() => onClick(keyIndex)}
-          ref={b => getRef(b, keyIndex)}>
+          onClick={() => onClick(children)}>
       {children}
     </span>
   )
 }
 
 export default class BaseFilterRooms extends Component {
-  state = {activeIndex: false};
+  clickHandler = room => {
+    if (!this.props.toggleRooms) return;
 
-  rooms = [1,2,3,4,5,6,7,8,9,'10>'];
-  blocks = [];
+    this.props.toggleRooms(room);
 
-  getItemRef = (b, index) =>
-    this.blocks[index] = b;
-
-  clickHandler = activeIndex => this.setState({
-    activeIndex
-  })
+    return this.forceUpdate();
+  };
 
   render() {
-    const { rooms, getItemRef, clickHandler, state: {activeIndex} } = this;
-    const hasActiveElement = activeIndex !== false;
+    const {
+      clickHandler,
+      props: { rooms, activeRooms }
+    } = this;
+    const hasActiveElement = activeRooms && !!activeRooms.length;
     const _wrapperClassName = classNames(s.wrapper, hasActiveElement && s.wrapper_active);
 
     return (
       <BaseFilterItem title="Количество комнат" icon={roomsIcon}>
         <BaseFilterSlider className={_wrapperClassName}>
-          {rooms.map((item, key) => (
-            <Item activeIndex={activeIndex} keyIndex={key}
-                  onClick={clickHandler} getRef={getItemRef} key={key}>
-              {item}
-            </Item>
-          ))}
+          {rooms && rooms.map((item, key) => {
+            const room = hasActiveElement && activeRooms.find(room => room === item)
+            const isActive = typeof room === 'number';
+
+            return (
+              <Item isActive={isActive} key={key}
+                    onClick={clickHandler}>
+                {item}
+              </Item>
+            )
+          }) || 'Произошла ошибка!'}
         </BaseFilterSlider>
       </BaseFilterItem>
     )

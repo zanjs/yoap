@@ -1,38 +1,44 @@
 import React, { Component } from 'react'
 import { BaseFilterItem, BaseFilterSlider } from 'components'
-import { categoryTypes } from 'constants'
-import { classNames } from 'helpers'
+import { classNames, isEmpty } from 'helpers'
 import s from './BaseFilterCategory.sass'
 
 import houseIcon from 'icons/ui/house.svg'
 
-const Item = ({children, isActive}) => (
-  <span className={classNames(s.item, isActive && s.item_active)}>
+const Item = ({children, onClick, index, isActive}) => (
+  <span onClick={() => onClick(index)}
+        className={classNames(s.item, isActive && s.item_active)}>
     {children}
   </span>
 )
 
 export default class BaseFilterCategory extends Component {
-  static defaultProps = {data: categoryTypes};
-
-  hasActive = data => data.find(item => !!item.isActive);
-
   clickHandler = index => {
+    if (!this.props.setCategory) return;
 
+    this.props.setCategory(
+      this.props.data[index]
+    );
   }
 
   render() {
-    const { props: { data } } = this;
-    const hasActive = this.hasActive(data);
+    const { props: { data, category } } = this;
+
+    if (!data) return null;
+
+    const hasActive = !isEmpty(category);
     const wrapperClassName = classNames(s.wrapper, hasActive && s.wrapper_active);
 
     return (
       <BaseFilterItem title="Категория объекта" icon={houseIcon}>
         <BaseFilterSlider className={wrapperClassName}>
-          {data.map((item, key) => (
-            <Item onClick={this.clickHandler} isActive={item.isActive}
-                  key={key}>{item.name}</Item>
-          ))}
+          {data.map((item, key) => {
+            return (
+              <Item onClick={this.clickHandler}
+                    isActive={hasActive && category.id === item.id}
+                    key={key} index={key}>{item.name}</Item>
+            )
+          })}
         </BaseFilterSlider>
       </BaseFilterItem>
     )

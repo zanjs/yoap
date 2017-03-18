@@ -1,13 +1,10 @@
-import { observable, computed, reaction, extendObservable } from 'mobx'
+import { observable, computed, action, extendObservable } from 'mobx'
 import { localStore, isEmpty, extend } from 'helpers'
 import {
   store as config,
-  objectType, objectTypes,
-  facilityType, facilitiesTypes,
-  amenityType, amenitiesTypes,
-  rulesType, rulesTypes,
-  termType, termTypes,
-  categoryType, categoryTypes
+  objectTypes, facilitiesTypes,
+  amenitiesTypes, rulesTypes,
+  termTypes, categoryTypes
 } from 'constants'
 
 console.log({
@@ -26,6 +23,32 @@ const log = data => {
 
 class FilterStore {
   storeName = config.filter;
+  @observable category;
+  @observable rooms = [1,2,3,4,5,6,7,8,9,10];
+  @observable size =  {
+    @observable rooms: [],
+    @observable bathrooms: [],
+    @observable bedrooms: [],
+
+    @observable squares: {
+      @observable total: [],
+      @observable living: []
+    },
+  };
+  @observable floor = [];
+  @observable price = [];
+
+  @action toggleRooms = room => {
+    const savedRoom = this.size.rooms.find(
+      item => item === room
+    );
+
+    if (typeof savedRoom === 'number') {
+      return this.size.rooms.remove(room)
+    }
+
+    return this.size.rooms.push(room);
+  };
 
   configureTypes = data => {
     const configure = ({isActive, ...rest}) => ({
@@ -57,6 +80,7 @@ class FilterStore {
 
   constructor() {
     extendObservable(this, {
+      types: categoryTypes,
       data: [
         this.configureData(objectTypes),
         this.configureFacilities(facilitiesTypes),
@@ -65,6 +89,10 @@ class FilterStore {
         this.configureData(termTypes)
       ]
     })
+  }
+
+  @action setCategory = data => {
+    this.category = data;
   }
 
   fetchItems = cb => getItems().then(resp => cb(resp.json()));
