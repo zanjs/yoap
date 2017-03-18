@@ -10,6 +10,7 @@ const mapStateToProps = ({
 });
 @inject(mapStateToProps) @observer
 export default class NavContainer extends Component {
+  limit = 100;
   state = {navHidden: false};
   links = [
     {
@@ -34,7 +35,14 @@ export default class NavContainer extends Component {
   };
 
   getNavState = (prev, next, newState) => {
+    const { limit } = this;
     const { navHidden } = newState || this.state;
+
+    if (next < limit && navHidden) {
+      return this.setState({navHidden: false})
+    } else if (next < limit) {
+      return;
+    }
 
     if (prev < next && !navHidden) {
       return this.setState({navHidden: true})

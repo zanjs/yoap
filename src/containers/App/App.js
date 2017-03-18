@@ -4,7 +4,7 @@ import DevTools from 'mobx-react-devtools'
 import { HomePage, LoginPage, SignupPage } from 'pages'
 import {
   BrowserRouter as Router,
-  Route, Redirect
+  Route, Switch
 } from 'react-router-dom'
 import {
   PagesTransitions, Overlay,
@@ -53,9 +53,11 @@ export default class App extends Component {
           <NavContainer />
 
           {/* Routes */}
-          <Route path="/" exact component={HomePage}/>
-          <Route path="/login" component={LoginPage}/>
-          <Route path="/signup" component={SignupPage} />
+          <Switch>
+            <Route path="/" exact component={HomePage}/>
+            <Route path="/login" component={LoginPage}/>
+            <Route path="/signup" component={SignupPage} />
+          </Switch>
           {/*<PagesTransitions className={s.content}>*/}
             {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}
             {/*<PathNotify index={1} path="/login" component={LoginPage}/>*/}

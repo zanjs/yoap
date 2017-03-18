@@ -101,7 +101,7 @@ export const preloader = {
 
 // ========================================================### IMAGE COMPONENT CONFIG ###
 export const image = {
-  duration: bigDur,
+  dur: bigDur,
   ease: ease.out,
   delay: 0.1,
   blur_radius: 20

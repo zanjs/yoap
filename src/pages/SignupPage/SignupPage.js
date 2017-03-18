@@ -32,7 +32,7 @@ export default class SignupPage extends Component {
 
     return (
       <FlexGrid justify="center" align="center" direction="column"
-                style={{height}} className={s.wrapper}>
+                style={{minHeight: height}} className={s.wrapper}>
         <Helmet title={title}/>
         <Container type="article" className={s.container}>
           <SignupFormContainer />

@@ -18,13 +18,17 @@ $border: 1px solid #efefef
   margin: 30px 5px
 
 .image
+  display: block
   position: absolute
   right: 0
-  max-height: 90%
   top: 50%
   transform: translateY(-50%)
   z-index: 5
-  display: block
+  width: auto
+  height: auto
+  max-height: 109%
+  //object-fit: cover
+  //object-position: right top
   &_container
     @include container(root)
     position: absolute

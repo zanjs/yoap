@@ -1,28 +1,20 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react";
-import { canvasRGBA } from 'stackblur-canvas'
-import { classNames, sizes as size } from 'helpers'
+import { classNames, getDeviceBreakpoint, getPrevDeviceBreakpoint } from 'helpers'
+import { image as config } from 'config'
 import s from './Image.sass'
 
 const mapStateToProps = ({device: {width}}) => ({
   width
 });
 
-const BLUR_RADIUS = 30;
-
-import { image as image_config } from '../../config'
-
-
 @inject(mapStateToProps) @observer
 export default class Image extends Component {
-  dur = image_config.duration; ease = image_config.ease();
-  delay = image_config.delay;
+  dur = config.dur; ease = config.ease();
 
-  isLoaded = false;
-  state = {isLoading: true, isPreviewShowed: false};
-
+  state = {isLoaded: false, mainImageLoaded: false}
   getPrevDeviceSize = (sizes, currentDevice) => {
-    let prevDevice = size.getPrevDeviceBreakpoint(currentDevice);
+    let prevDevice = getPrevDeviceBreakpoint(currentDevice);
 
     if (sizes[prevDevice.name]) {
       return sizes[prevDevice.name];
@@ -33,7 +25,7 @@ export default class Image extends Component {
     sizes.forEach(item => {
       if (src) return;
 
-      prevDevice = size.getPrevDeviceBreakpoint(prevDevice);
+      prevDevice = getPrevDeviceBreakpoint(prevDevice);
 
       if (sizes[prevDevice.name]) {
         src = sizes[prevDevice.name];
@@ -45,7 +37,7 @@ export default class Image extends Component {
   };
   getSrc = (sizes) => {
     // get current device params
-    let currentDevice = size.getDeviceBreakpoint(this.props.width);
+    let currentDevice = getDeviceBreakpoint(this.props.width);
 
 
     if (sizes[currentDevice.name]) {
@@ -56,152 +48,70 @@ export default class Image extends Component {
     return this.getPrevDeviceSize(sizes, currentDevice);
   };
 
-  onLoad = () => {
-    this.isLoaded = true;
-    this.setState({isLoading: false}, this.hidePreview)
-  };
-
-  onLoadWithPreview = () => {
-    this.setState({isLoading: false});
-  };
-
-  hidePreview = () => {
-    if (!this.state.isPreviewShowed) return;
-
-    const { dur, ease } = this;
-    TweenMax.fromTo(this.previewCanvas, dur, {
-      opacity: 1
-    }, {
-      opacity: 0,
-      ease,
-      onComplete: () => {
-        this.setState({isPreviewShowed: false})
-      }
-    })
-  };
-
-  drawPreview = () => {
-    //if (!this.state.isPreviewShowed) return;
-    const image = this.previewImage;//new Image();
-    const canvas = this.previewCanvas;
-    const canvasContext = this.previewCanvas.getContext('2d');
-
-    const w = canvas.width;
-    const h = canvas.height;
-    canvasContext.drawImage(image, 0, 0, w, h);
-    canvasRGBA(canvas, 0, 0, w, h, BLUR_RADIUS);
-  };
-
-  isPreviewNeeded = () => {
-    if (this.props.withPreview) return null;
-
-    setTimeout(() => {
-      if (!this.isLoaded) {
-        this.setState({isPreviewShowed: true})
-      }
-    }, this.delay * 1000);
-  };
-
-  componentWillReceiveProps(nextProps) {
-    const { props } = this;
-
-    if (props.src !== nextProps.src) {
-      this.needUpdate = true;
-    }
-  }
-
-  componentDidMount() {
-    this.isPreviewNeeded();
-  }
-
   componentDidUpdate() {
-    if (this.needUpdate) {
-      this.needUpdate = false;
-      this.isLoaded = false;
-      this.setState({
-        isPreviewShowed: false,
-        isLoading: true
-      }, () => {
-        this.isPreviewNeeded();
-      });
+    if (!this.props.isLoaded && this.state.mainImageLoaded) {
+      this.showImage();
     }
   }
 
+  showImage = () => {
+    this.fadeInImage(() => this.setState({
+      isLoaded: true
+    }))
+  }
+  fadeInImage = onComplete => {
+    const { dur, ease } = this;
+    TweenMax.set(this.preview, {
+      display: 'none'
+    })
+    TweenMax.fromTo(this.image, dur, {
+      opacity: 0,
+      display: 'block',
+    }, {
+      opacity: 1,
+      ease,
+      onComplete
+    })
+  }
+
+  renderImage = props => (
+    <img {...props}/>
+  )
+
+  getPreviewRef = b => this.preview = b;
+  getImageRef = b => this.image = b;
 
   render() {
-    let { src } = this.props;
     const {
-      withLoading, withPreview, className, alt,
-      fill, getRef, previewClassName, style = {}
+      className, withLoading,
+      src, getRef, alt
     } = this.props;
-    const { isLoading, isPreviewShowed } = this.state;
+    const { isLoaded } = this.state;
+    const previewSrc = src.preview || withLoading;
 
-    // get preview src
-    let previewSrc = this.props.preview || this.props.src.preview;
-
-    // calculating responsive image from set
-    if (typeof src !== 'string') {
-      src = this.getSrc(src);
+    if (!previewSrc) {
+      return this.renderImage({
+        src, className, ref: getRef, alt
+      })
     }
 
-    if (!src) {
-      return null;
+    const _src = this.getSrc(this.props.src);
+
+    if (isLoaded) {
+      return this.renderImage({
+        src: _src, className, ref: getRef, alt
+      })
     }
-
-    if (!withLoading) {
-      return (
-        <img src={src} className={classNames(s.image, className)} alt={alt} ref={getRef} style={style}/>
-      )
-    }
-
-    if (withPreview) {
-      const originalImageStyles = {
-        display: isLoading ? 'none' : 'block',
-        ...style
-      };
-      const previewImageStyles = {
-        display: isLoading ? 'block' : 'none'
-      };
-
-      return (
-        <figure className={classNames(s.load, className, s.wrapper)}>
-          {isLoading &&
-          <img src={previewSrc}
-               ref={b => this.previewImage = b}
-               className={classNames(s.load__image, className)} />}
-
-          {/* original image */}
-          <img src={src} alt={alt}
-               className={classNames(s.load__image, className)}
-               style={originalImageStyles} onLoad={this.onLoadWithPreview}
-               ref={getRef}
-          />
-        </figure>
-      )
-    }
-
-    const originalImageStyles = {
-      opacity: isLoading ? 0 : 1,
-      ...style
-    };
 
     return (
-      <figure className={classNames(s.load, className, s.wrapper)}>
-        {/* everything for preload */}
-        {isPreviewShowed && <canvas className={classNames(s.preview, previewClassName)} ref={b => this.previewCanvas = b}/>}
-        {isLoading && <img src={previewSrc} ref={b => this.previewImage = b} className={s.load__preview} />}
-        {isPreviewShowed && <img src={previewSrc} className={s.load__preview}
-                                 ref={b => this.previewImage = b} onLoad={this.drawPreview}/>}
-
-        {/* original image */}
-        <img src={src} alt={alt}
-             className={classNames(s.load__image, className)}
-             style={originalImageStyles} onLoad={this.onLoad}
-             ref={getRef}
-        />
-        {/*<Preloader isLoading={isLoading} style={{fill}}/>*/}
+      <figure className={s.wrapper}>
+        {!isLoaded && <img className={classNames(s.preview, className)}
+                           ref={this.getPreviewRef}
+                           src={previewSrc} alt=""/>}
+        <img className={classNames(s.img, className)}
+             src={_src} style={{display: 'none'}} ref={this.getImageRef}
+             onLoad={() => this.setState({mainImageLoaded: true})}/>
       </figure>
     )
   }
 }
-

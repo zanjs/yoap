@@ -26,14 +26,15 @@ export default class LoginPage extends Component {
     const title = pagesTitles.LoginPage;
 
     return (
-      <FlexGrid direction="column" justify="center" className={s.wrapper} style={{height}}>
+      <FlexGrid direction="column" justify="center"
+                className={s.wrapper} style={{minHeight: height}}>
         <Helmet title={title}/>
 
         <Container type="article" className={s.container}>
           <LoginFormContainer className={s.form} />
         </Container>
         <div className={s.image_container}>
-          <Image src={image} className={s.image}/>
+          <Image withLoading src={image} className={s.image}/>
         </div>
       </FlexGrid>
     )
