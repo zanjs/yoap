@@ -9,9 +9,15 @@ $offset: 2.5%
 .image
   width: 50%
   padding-right: $offset
+  @include respond(mobile)
+    width: 100%
+    padding: 0 0 30px
 .content
   width: 50%
   padding-left: $offset
+  @include respond(mobile)
+    width: 100%
+    padding: 0 0 30px
 .img
   max-width: 100%
   margin: 0 auto
@@ -37,3 +43,5 @@ $offset: 2.5%
 
 .social
   fill: #c6c7c8
+.link
+  padding: 0

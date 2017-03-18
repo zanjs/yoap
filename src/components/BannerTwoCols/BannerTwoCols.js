@@ -31,7 +31,7 @@ const BannerTwoCols = () => {
           <FlexGrid className={s.bottom} align="center"
                     justify="space-between">
             <SocialLinks className={s.social} />
-            <Link to="/" gray>
+            <Link to="/" gray className={s.link}>
               <FlexGrid align="center" justify="start">
                 Подробнее
                 <Svg className={s.arrow} src={arrowIcon}/>
