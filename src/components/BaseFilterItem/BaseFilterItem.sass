@@ -4,6 +4,9 @@
   width: 25%
   padding: 10px 15px
   border-right: 1px solid #979797
+  @include respond(mobile)
+    width: 100%
+    border-right: none
   &:last-child
     border-right: none
   &__icon

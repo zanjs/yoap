@@ -15,7 +15,7 @@ export default class BaseFilter extends Component {
     const { children, onMoreButtonClick, isFull } = this.props;
     return (
       <div className={s.container}>
-        <FlexGrid justify="space-between" className={s.wrapper}>
+        <FlexGrid justify="space-between" wrap="true" className={s.wrapper}>
           <BaseFilterRoomsContainer />
           <BaseFilterItem title="Ближайшее метро" icon={subwayIcon}>
             Звенигородская
