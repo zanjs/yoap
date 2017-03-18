@@ -24,9 +24,20 @@ export Logo from './Logo/Logo'
 export TodoItem from './TodoItem/TodoItem'
 export Nav from './Nav/Nav'
 export Intro from './Intro/Intro'
+
+/*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
+export BaseFilterItem from './BaseFilterItem/BaseFilterItem'
+export BaseFilterSlider from './BaseFilterSlider/BaseFilterSlider'
+export BaseFilterRooms from './BaseFilterRooms/BaseFilterRooms'
+export BaseFilterSubway from './BaseFilterSubway/BaseFilterSubway'
+export BaseFilterCategory from './BaseFilterCategory/BaseFilterCategory'
+export BaseFilterPrice from './BaseFilterPrice/BaseFilterPrice'
+
+/*----------- ProFilter */
 export ProFilter from './ProFilter/ProFilter'
 export ProFilterItem from './ProFilterItem/ProFilterItem'
+
 export LoginForm from './LoginForm/LoginForm'
 export SignupForm from './SignupForm/SignupForm'
 export BannerThreeCols from './BannerThreeCols/BannerThreeCols'

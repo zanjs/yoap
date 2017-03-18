@@ -1,0 +1,25 @@
+@import ../../theme/index
+
+$itemInactiveOpacity: .3
+
+.wrapper
+  &_active
+    .item
+      opacity: $itemInactiveOpacity
+  &:hover
+    .item
+      opacity: $itemInactiveOpacity
+
+.item
+  display: inline-block
+  padding: 0 5px
+  user-select: none
+  cursor: pointer
+  transition: opacity $animParams
+  &_active
+    opacity: 1 !important
+  &:hover
+    opacity: 1 !important
+  &:first-child
+    padding-left: 0
+

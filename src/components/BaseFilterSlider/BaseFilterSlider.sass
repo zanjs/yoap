@@ -1,0 +1,21 @@
+@import ../../theme/index
+
+$offset: 10%
+
+.wrapper
+  position: relative
+  display: block
+  width: 100% + $offset
+  left: -$offset
+  min-height: 40px
+  overflow-x: hidden
+  overflow-y: visible
+
+.scroller
+  position: absolute
+  left: $offset
+  top: 0
+  min-width: 100%
+  height: 100%
+  white-space: pre
+
