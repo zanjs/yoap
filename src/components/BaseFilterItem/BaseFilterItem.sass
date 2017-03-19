@@ -1,14 +1,21 @@
 @import ../../theme/index
 
+$offset: 13px
+
 .item
-  width: 25%
+  width: 20%
+  min-height: 100px
   padding: 10px 15px
+  margin: $offset 0
   border-right: 1px solid #979797
   @include respond(mobile)
     width: 100%
     border-right: none
+  &:first-child
+    //margin-left: $offset
   &:last-child
     border-right: none
+    //margin-right: $offset
   &__icon
     @include size(30px)
     margin: 22px 0

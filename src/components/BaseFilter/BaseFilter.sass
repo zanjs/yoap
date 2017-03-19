@@ -1,12 +1,20 @@
 @import ../../theme/index
 
 .wrapper
-  padding: 13px
   border: 1px solid #979797
   border-radius: 6px
 
-
-
+.icon
+  @include size(40px)
+  @include absolute_center(normal, 0)
+  &__container
+    margin: 0
+    padding: 0
+  &__wrapper
+    position: relative
+    background-color: $pink
+    padding: 0 !important
+    margin: 0 !important
 
 .more
   padding: 35px 0
