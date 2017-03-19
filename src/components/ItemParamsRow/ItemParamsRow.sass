@@ -19,6 +19,8 @@
   cursor: pointer
   @include opacityAnim(.6)
   padding: 0 0 20px
+  @include respond(mobile)
+    width: 50%
   &_active
     color: $light-blue
     opacity: 1 !important

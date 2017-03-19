@@ -1,14 +1,34 @@
 @import ../../theme/index
 
 .item
+  @include respond(mobile)
+    width: 100% !important
   &:hover
     opacity: 1 !important
   &_big
     @extend .item
     display: flex !important
     width: 50%
+    flex-wrap: nowrap
+    &__content
+      @include flexbox(row, flex-start, center, no)
+    @include respond(mobile)
+      margin: 20px 0
+      flex-wrap: wrap
+      justify-content: center
+      width: 100% !important
+      text-align: center
+      &__content
+        margin-top: 15px
+        width: 100%
 
 .number
   margin: 0 0 0 20px
+  @include respond(mobile)
+    margin-left: 3px
 .buttons
   margin: 0 0 0 5px
+.input
+  @include respond(mobile)
+    width: 100%
+    @include flexbox(row, space-between, center, nowrap)
