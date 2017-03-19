@@ -27,15 +27,16 @@ class FilterStore {
   @observable rooms = [1,2,3,4,5,6,7,8,9,10];
   @observable size =  {
     @observable rooms: [],
-    @observable bathrooms: [],
-    @observable bedrooms: [],
+    @observable bathrooms: 0,
+    @observable bedrooms: 0,
+    @observable beds: 0,
 
     @observable squares: {
-      @observable total: [],
+      @observable total: [0, 100],
       @observable living: []
     },
   };
-  @observable floor = [];
+  @observable floor = 0;
   @observable price = [];
 
   @action toggleRooms = room => {
@@ -48,6 +49,16 @@ class FilterStore {
     }
 
     return this.size.rooms.push(room);
+  };
+
+  @action sizeChange = (prop, value) => {
+    this.size[prop] = value;
+  };
+  @action squaresChange = (prop, value) => {
+    this.size.squares[prop].replace(value);
+  };
+  @action floorChange = value => {
+    this.floor = value;
   };
 
   configureTypes = data => {

@@ -1,0 +1,93 @@
+@import ../../theme/index
+
+$sliderSize: 5px
+
+.wrapper
+  min-width: 260px
+  width: 100%
+  @include respond(tablet)
+    margin-top: 40px
+    width: 100%
+    text-align: center
+
+.slider
+  width: 100%
+  height: $sliderSize
+  position: relative
+
+.handle
+  $size: 14px
+  $offsetX: 2px
+  width: $size
+  height: $size
+  background-color: $pink
+  border-radius: 50%
+  display: block
+  position: absolute
+  top: -$size * .35
+  &:nth-child(4)
+    transform: translateX(-$offsetX)
+  &:nth-child(5)
+    transform: translateX($offsetX)
+
+$barGray: #979797
+.bar
+  $size: 3px
+  display: block
+  height: $size * 2
+  background-color: transparent
+  $offsetY: 50%
+  $offsetX: 1px
+  // main bar
+  &-1
+    @extend .bar
+    z-index: 10
+    height: $size * 2
+    background-color: $pink
+    // left bar
+  &-0
+    @extend .bar
+    height: $size
+    background-color: $barGray
+    top: $size / 2
+    border-radius: 4px
+    &:after
+      @extend .handle
+      content: ''
+      height: $size * 2
+      width: $size * 2
+      position: absolute
+      top: $offsetY
+      transform: translateY(-$offsetY) !important
+      background-color: $barGray
+  // right bar
+  &-2
+    @extend .bar
+    height: $size
+    background-color: $barGray
+    top: $size / 2
+    &:after
+      @extend .handle
+      content: ''
+      height: $size * 2
+      width: $size * 2
+      position: absolute
+      top: $offsetY
+      transform: translateY(-$offsetY) !important
+      background-color: $barGray
+
+.title
+  font-size: inherit
+  color: inherit
+  margin-bottom: 15px
+  &__from, &__before
+    width: 70px
+    background-color: transparent
+    border: 0
+    outline: 0
+    margin-left: 5px
+    margin-right: 5px
+    font-size: inherit
+    color: inherit
+  //&__before
+  //  width: 70px

@@ -1,15 +1,32 @@
 @import ../../theme/index
 
 $offset: 5%
+$gradientOffset: 5px
+$gradientSize: 10px + $gradientOffset
+$gradient: rgba(255,255,255,0), rgba(255,255,255,1)
+
+.offset
+  content: ''
+  display: block
+  z-index: 10
+  position: absolute
+  top: 0
+  height: 100%
+  width: $gradientSize
 
 .wrapper
   position: relative
+  z-index: 10
   display: block
   width: 100% + ($offset * 2)
   transform: translateX(-$offset)
   min-height: 40px
   overflow-x: hidden
   overflow-y: visible
+  &:after
+    @extend .offset
+    right: -$gradientOffset
+    background: linear-gradient(to right, $gradient)
 
 .scroller
   position: absolute

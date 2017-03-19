@@ -26,6 +26,8 @@ export TodoItem from './TodoItem/TodoItem'
 export Nav from './Nav/Nav'
 export Intro from './Intro/Intro'
 
+export FilterSlider from './FilterSlider/FilterSlider'
+
 /*----------- Item */
 export ItemParams from './ItemParams/ItemParams'
 export ItemParamsRow from './ItemParamsRow/ItemParamsRow'
