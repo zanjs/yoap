@@ -7,13 +7,16 @@
 .wrapper
   width: 33%
   padding-right: 2.5%
-  min-width: 360px
+  min-width: 330px
   cursor: pointer
   margin-bottom: 40px
-  @include respond(400px)
+  @include respond(1040px)
+    width: 50%
+    min-width: 50%
+  @include respond(mobile)
     width: 100%
     padding: 0
-    min-width: 300px
+    min-width: 100%
   &:hover
     .image
       box-shadow: $shadow
