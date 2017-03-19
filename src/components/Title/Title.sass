@@ -23,18 +23,29 @@
     font-weight: 500
     padding-bottom: 40px
     padding-top: 30px
-    @media only screen and (max-height: $mHeight)
-      font-size: 32px
-      line-height: 44px
+    @include respond(mobile)
+      font-size: 36px
+      line-height: 48px
+      padding-top: 30px
+      padding-bottom: 20px
   &--3
     @extend .title
     font-size: 36px
+    line-height: 48px
     padding-top: 30px
     padding-bottom: 20px
+    @include respond(mobile)
+      font-size: 28px
+      line-height: 37px
+      letter-spacing: -.02em
   &--4
     @extend .title--3
     font-size: 28px
     line-height: 37px
+    @include respond(mobile)
+      font-size: 24px
+      line-height: 1.1
+      letter-spacing: -.02em
   &--5
     @extend .title
     font-size: 24px
@@ -42,6 +53,10 @@
     line-height: 30px
     padding-top: 20px
     padding-bottom: 10px
+    @include respond(mobile)
+      font-size: 21px
+      line-height: 1.1
+      letter-spacing: -.02em
   &--6
     @extend .title
     font-size: 21px
@@ -49,6 +64,11 @@
     line-height: 1.4
     padding-top: 20px
     padding-bottom: 10px
+    @include respond(mobile)
+      font-size: 18px
+      line-height: 1.58
+      letter-spacing: -.004em
+      padding-top: 10px
 
 
 .bold
