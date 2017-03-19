@@ -1,0 +1,19 @@
+@import ../../theme/index
+
+
+.wrapper
+  padding: 20px 0 40px
+  border-bottom: 1px solid #ddd
+
+.item
+  opacity: .5
+  padding-top: 20px
+  &_active
+    opacity: 1 !important
+    color: $light-blue
+  &_edit
+    @include opacityAnim(.6)
+    cursor: pointer
+    user-select: none
+
+

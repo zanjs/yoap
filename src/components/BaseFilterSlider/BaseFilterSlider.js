@@ -12,7 +12,7 @@ export default class BaseFilterSlider extends Component {
     setTimeout(this.resize, 300);
     window.addEventListener('resize', this.resizeHandler);
   }
-  componentWillMount() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.resizeHandler);
   }
 

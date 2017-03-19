@@ -6,6 +6,7 @@ export LinkIcon from './LinkIcon/LinkIcon'
 export Button from './Button/Button'
 export Title from './Title/Title'
 export Input from './Input/Input'
+export Select from './Select/Select'
 export Svg from './Svg/Svg'
 export Container from './Container/Container'
 export FlexGrid from './FlexGrid/FlexGrid'
@@ -19,6 +20,7 @@ export Image from './Image/Image'
 export Overlay from './Overlay/Overlay'
 export Defender from './Defender/Defender'
 export InputNumber from './InputNumber/InputNumber'
+export InputClean from './InputClean/InputClean'
 
 /*----------- components */
 export SocialLinks from './SocialLinks/SocialLinks'
@@ -26,7 +28,7 @@ export Logo from './Logo/Logo'
 export TodoItem from './TodoItem/TodoItem'
 export Nav from './Nav/Nav'
 export Intro from './Intro/Intro'
-
+export StarsRating from './StarsRating/StarsRating'
 export FilterSlider from './FilterSlider/FilterSlider'
 
 /*----------- Item */
@@ -38,6 +40,17 @@ export ItemTile from './ItemTile/ItemTile'
 export ItemTilesGrid from './ItemTilesGrid/ItemTilesGrid'
 export ItemTilesBanner from './ItemTilesBanner/ItemTilesBanner'
 
+export ItemPageInfoTitle from './ItemPageInfoTitle/ItemPageInfoTitle'
+export ItemPageTitle from './ItemPageTitle/ItemPageTitle'
+export ItemPageContent from './ItemPageContent/ItemPageContent'
+export ItemPageUser from './ItemPageUser/ItemPageUser'
+export ItemPageType from './ItemPageType/ItemPageType'
+export ItemPagePrice from './ItemPagePrice/ItemPagePrice'
+export ItemPageRating from './ItemPageRating/ItemPageRating'
+export ItemPageInfoEditIcon from './ItemPageInfoEditIcon/ItemPageInfoEditIcon'
+
+export ItemPageInfo from './ItemPageInfo/ItemPageInfo'
+export ItemPageInfoEdit from './ItemPageInfoEdit/ItemPageInfoEdit'
 /*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
 export BaseFilterItem from './BaseFilterItem/BaseFilterItem'

@@ -7,6 +7,7 @@ export default function Content({
   className, bold, regular,
   light, size = 4, gray, lightGray,
   lightColor, white, transparent, center,
+  nooffsets,
 
   tag, children,
 
@@ -25,6 +26,7 @@ export default function Content({
     center && s.center,
     white && s.white,
     transparent && s.transparent,
+    nooffsets && s.nooffsets,
 
 
     className

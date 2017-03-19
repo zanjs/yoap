@@ -4,4 +4,5 @@ export * from './amenitiesTypes'
 export * from './rulesTypes'
 export * from './termTypes'
 export * from './categoriesTypes'
+export * from './statusTypes'
 

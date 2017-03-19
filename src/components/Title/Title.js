@@ -7,7 +7,7 @@ const Title = ({
   size = '2', tag, bold, regular,
   light, center, white,
   lightColor, className,
-  children, getRef,
+  children, getRef, nooffsets,
 
   ...rest
 }) => {
@@ -20,6 +20,7 @@ const Title = ({
     lightColor && s.lightColor,
     center && s.center,
     white && s.white,
+    nooffsets && s.nooffsets,
 
     className
   )
