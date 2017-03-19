@@ -12,8 +12,8 @@ import arrowIcon from 'icons/ui/arrow-small.svg'
 const BannerThreeCols = ({title, more = 'Подробнее', link = '/', content, className}) => (
   <Container className={classNames(s.wrapper, className)}>
     <FlexGrid tag="header" align="center" className={s.header}>
-      <Title className={s.nopadding} size="1">{title}</Title>
-      <Link className={s.nopadding} gray to={link}>
+      <Title nooffsets size="1">{title}</Title>
+      <Link nooffsets gray to={link}>
         <FlexGrid align="center">
           {more} <Svg src={arrowIcon} className={s.arrow}/>
         </FlexGrid>
@@ -24,7 +24,7 @@ const BannerThreeCols = ({title, more = 'Подробнее', link = '/', conten
       {content.map(({title, content}, key) => (
         <div className={s.item} key={key}>
           <Title className={s.item__title} light size="4">{title}</Title>
-          <Content lightColor>{content}</Content>
+          <Content gray>{content}</Content>
         </div>
       ))}
     </FlexGrid>}
