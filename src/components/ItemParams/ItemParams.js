@@ -10,7 +10,6 @@ export default class ItemParams extends Component {
   };
   toggleActive = item => {
     item.isActive = !item.isActive;
-    return this.forceUpdate();
   };
 
 

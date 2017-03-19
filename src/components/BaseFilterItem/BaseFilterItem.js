@@ -4,7 +4,7 @@ import { classNames } from 'helpers'
 import s from './BaseFilterItem.sass'
 
 
-const BaseFilterItem = ({className, tag, title, icon, render, children, ...rest}) => {
+const BaseFilterItem = ({className, tag, title, icon, noborder, render, children, ...rest}) => {
   const Element = tag || 'div';
 
   if (render) {
@@ -12,7 +12,7 @@ const BaseFilterItem = ({className, tag, title, icon, render, children, ...rest}
   }
 
   return (
-    <Element className={classNames(s.item, className)}>
+    <Element className={classNames(s.item, noborder && s.noborder, className)}>
       <Content className={s.item__title} gray>{title}</Content>
       {icon && <Svg className={s.item__icon} src={icon}/>}
       <Title size="4" regular light className={s.item__content}>

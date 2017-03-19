@@ -21,7 +21,7 @@ export default class BaseFilter extends Component {
             Звенигородская
           </BaseFilterItem>
           <BaseFilterCategoryContainer />
-          <BaseFilterItem title="Стоимость в месяц">
+          <BaseFilterItem noborder title="Стоимость в месяц">
             <br/>
             от 45.000 <br />
             до 65.000

@@ -15,6 +15,8 @@ export default class ItemParamsRow extends Component {
     isFull: !isFull
   }))
 
+
+
   renderRows = (data, onItemClick, isFull, limit) => (
     <FlexGrid className={s.grid} justify="start" align="start" wrap="true">
       {data.map((item, key) => {
@@ -22,11 +24,15 @@ export default class ItemParamsRow extends Component {
         const _name = name.split('(');
         const content = _name[0]
         const tip = _name[1] ? `(${_name[1]}` : null;
+        const onClick = () => {
+          onItemClick(item);
+          return this.forceUpdate();
+        };
         if (!isFull && key > limit)
           return null;
 
         return (
-          <Content onClick={onItemClick && (() => onItemClick(item))} title={tip}
+          <Content onClick={onItemClick && onClick} title={tip}
                    className={classNames(s.item, isActive && s.item_active)}
                    size="2" light key={id || key}>
             {content}
