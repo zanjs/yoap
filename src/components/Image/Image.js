@@ -37,6 +37,9 @@ export default class Image extends Component {
     return src;
   };
   getSrc = (sizes) => {
+    if (typeof sizes === 'string')
+      return sizes;
+
     // get current device params
     let currentDevice = getDeviceBreakpoint(this.props.width);
 
@@ -86,10 +89,14 @@ export default class Image extends Component {
   render() {
     const {
       className, withLoading,
+      preview,
       src, getRef, alt
     } = this.props;
     const { isLoaded } = this.state;
-    const previewSrc = src.preview || withLoading;
+    const previewSrc = preview || src && src.preview || withLoading;
+
+    if (!src)
+      return null;
 
     if (!previewSrc) {
       return this.renderImage({

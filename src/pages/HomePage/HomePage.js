@@ -3,6 +3,7 @@ import {
   Intro, BannerThreeCols, BannerTwoCols,
   PricingBanner, PricingBannerFull
 } from 'components'
+import { ItemTilesBannerContainer } from 'containers'
 import s from './HomePage.sass'
 
 const bannerThreeColsContent = [
@@ -25,6 +26,7 @@ export default class HomePage extends Component {
     return (
       <div className={s.homepage}>
         <Intro />
+        <ItemTilesBannerContainer />
         <PricingBanner />
         <PricingBannerFull />
         <BannerThreeCols content={bannerThreeColsContent}

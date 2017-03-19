@@ -33,6 +33,10 @@ export ItemParams from './ItemParams/ItemParams'
 export ItemParamsRow from './ItemParamsRow/ItemParamsRow'
 export ItemParamsRowSize from './ItemParamsRowSize/ItemParamsRowSize'
 
+export ItemTile from './ItemTile/ItemTile'
+export ItemTilesGrid from './ItemTilesGrid/ItemTilesGrid'
+export ItemTilesBanner from './ItemTilesBanner/ItemTilesBanner'
+
 /*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
 export BaseFilterItem from './BaseFilterItem/BaseFilterItem'

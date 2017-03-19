@@ -1,0 +1,91 @@
+@import ../../theme/index
+
+.nooffsets
+  margin: 0
+  padding: 0
+
+.wrapper
+  width: 33%
+  padding-right: 2.5%
+  min-width: 360px
+  cursor: pointer
+  margin-bottom: 40px
+  @include respond(365px)
+    min-width: 300px
+  &:hover
+    .image
+      box-shadow: $shadow
+
+.image
+  width: 100%
+  border-radius: 4px
+  position: relative
+  min-height: 280px
+  overflow: hidden
+  transition: box-shadow $animParams
+  z-index: 0
+
+.img
+  @include absolute_center(normal, 0)
+  min-height: 100%
+  min-width: 100%
+
+.favorite
+  @include size(30px)
+  position: absolute
+  z-index: 10
+  right: 5%
+  top: 5%
+  fill: #fff
+  transition: fill $animParams
+  &_active
+    fill: $pink !important
+  &:hover
+    fill: $pink
+
+.content
+  padding: 10px 0
+
+.subway
+  &__icon
+    @include size(16px)
+    margin-right: 5px
+
+.title
+  padding: 3px 0
+  position: relative
+  z-index: 0
+  &__wrapper
+    width: 90%
+    margin-right: auto
+    margin-left: 0
+    position: relative
+    z-index: 0
+  &__content
+    padding: 0
+    margin: 0
+  &__arrow
+    $color: #DCDCDC
+
+    @include size(30px)
+    display: block
+    position: absolute
+    z-index: 0
+    right: 0
+    top: 50%
+    transform: translateY(-50%)
+
+    cursor: pointer
+    fill: $color
+    border-radius: 50%
+    border: 1px solid $color
+    padding: 4px
+    transition: fill $animParams, background $animParams, border $animParams
+    &:hover
+      fill: #fff
+      background-color: $pink
+      border-color: $pink
+
+
+.price
+  @extend .nooffsets

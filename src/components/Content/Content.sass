@@ -46,7 +46,15 @@
   line-height: 24px
   @include respond(mobile)
     font-size: 14px
-    line-height: 19px
+    line-height: 22px
+
+.size-6
+  @extend .text
+  font-size: 14px
+  line-height: 22px
+  @include respond(mobile)
+    font-size: 12px
+    line-height: 18px
 
 .regular
   font-weight: normal

@@ -2,6 +2,7 @@ export App from './App/App'
 
 /* containers */
 //export TodosContainer from './TodosContainer/TodosContainer'
+export ItemTilesBannerContainer from './ItemTilesBannerContainer/ItemTilesBannerContainer'
 export NavContainer from './NavContainer/NavContainer'
 
 export BaseFilterContainer from './BaseFilterContainer/BaseFilterContainer'
