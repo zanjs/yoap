@@ -1,0 +1,17 @@
+@import ../../theme/index
+
+
+.btn
+  border-top: 1px solid #DDDDDD
+  padding-top: 18px
+  position: absolute
+  left: 0
+  bottom: 0
+  @include respond(mobile)
+    position: static
+    margin: 20px 0
+  &__icon
+    @include size(20px)
+    transform: rotateZ(-90deg)
+  &__link
+    padding: 0

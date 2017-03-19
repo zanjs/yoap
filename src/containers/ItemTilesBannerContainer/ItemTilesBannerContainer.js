@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { ItemTilesBanner } from 'components'
+import { devicesBreakpoints } from 'config'
 
-const mapStateToProps = ({items: {data}}) => ({
-  data
+const mapStateToProps = ({device: {width}, items: {data}}) => ({
+  data, isMobile: width <= devicesBreakpoints.mobile
 })
 
 @inject(mapStateToProps) @observer

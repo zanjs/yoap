@@ -25,6 +25,9 @@ export default class Nav extends Component {
   show = () => {
     const { dur, ease } = this;
     if (this.isWide()) {
+      TweenMax.set(this.wrapper, {
+        opacity: 1
+      });
       return TweenMax.to(this.links, dur, {
         opacity: 1,
         ease

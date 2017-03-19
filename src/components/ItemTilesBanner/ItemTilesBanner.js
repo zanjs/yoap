@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {
   Title, Container, Content,
-  ItemTilesGrid, FlexGrid, Link,
-  Svg
+  ItemTilesGrid, FlexGrid, LinkIcon
 } from 'components'
 import s from './ItemTilesBanner.sass'
-import arrowIcon from 'icons/ui/arrow-small.svg'
 
 
 export default class  ItemTilesBanner extends Component {
@@ -22,6 +20,9 @@ export default class  ItemTilesBanner extends Component {
 
   resize = () => setTimeout(this.resizeHandler, 60);
   resizeHandler = () => {
+    if (this.props.isMobile)
+      return;
+
     const gridHeight = this.setGridWrapperHeight();
     this.setGridWidth();
     this.setContentHeight(gridHeight);
@@ -58,7 +59,7 @@ export default class  ItemTilesBanner extends Component {
     const { data } = this.props;
     return (
       <Container getRef={this.getContainerRef} className={s.wrapper}>
-        <FlexGrid justify="start" align="start" wrap="false">
+        <FlexGrid className={s.container} justify="start" align="start" wrap="false">
           <div className={s.content} ref={this.getContentRef}>
             <Title className={s.title} light size="2">Квартиры</Title>
             <Content className={s.text} size="4" gray>
@@ -67,11 +68,9 @@ export default class  ItemTilesBanner extends Component {
               и документы, представленные реальными владельцами прошли верификацию.
             </Content>
             <div className={s.btn}>
-              <FlexGrid gray className={s.btn__link} tag={Link} to="/y"
-                        justify="start" align="center">
-                <span>Все объявления</span>
-                <Svg className={s.btn__icon} src={arrowIcon}/>
-              </FlexGrid>
+              <LinkIcon gray to="/y">
+                Все объявления
+              </LinkIcon>
             </div>
           </div>
           <div ref={this.getGridWrapperRef} className={s.grid__wrapper}>

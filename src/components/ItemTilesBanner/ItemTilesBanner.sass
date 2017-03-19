@@ -4,9 +4,15 @@
   padding: 100px 0 90px
   position: relative
 
+.container
+  @include respond(mobile)
+    flex-wrap: wrap
 .content
   width: 30%
   position: relative
+  @include respond(mobile)
+    width: 100%
+    height: auto !important
 
 .title
   padding-top: 0
@@ -20,6 +26,9 @@
   left: 0
   top: 0
   width: 90vw
+  @include respond(mobile)
+    position: static
+    width: 100% !important
   &__wrapper
     position: relative
 
@@ -29,8 +38,6 @@
   position: absolute
   left: 0
   bottom: 0
-  &__icon
-    @include size(20px)
-    transform: rotateZ(-90deg)
-  &__link
-    padding: 0
+  @include respond(mobile)
+    position: static
+    margin: 20px 0

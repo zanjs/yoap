@@ -4,6 +4,7 @@ export App from './App/App'
 //export TodosContainer from './TodosContainer/TodosContainer'
 export ItemTilesBannerContainer from './ItemTilesBannerContainer/ItemTilesBannerContainer'
 export NavContainer from './NavContainer/NavContainer'
+export ItemTilesGridContainer from './ItemTilesGridContainer/ItemTilesGridContainer'
 
 export BaseFilterContainer from './BaseFilterContainer/BaseFilterContainer'
 export BaseFilterCategoryContainer from './BaseFilterCategoryContainer/BaseFilterCategoryContainer'

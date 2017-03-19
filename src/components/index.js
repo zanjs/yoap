@@ -2,6 +2,7 @@
 export Header from './Header/Header'
 export Content from './Content/Content'
 export Link from './Link/Link'
+export LinkIcon from './LinkIcon/LinkIcon'
 export Button from './Button/Button'
 export Title from './Title/Title'
 export Input from './Input/Input'
