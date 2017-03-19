@@ -11,7 +11,7 @@ const mapStateToProps = ({
 @inject(mapStateToProps) @observer
 export default class NavContainer extends Component {
   limit = 100;
-  state = {navHidden: false};
+  state = {navHidden: false, navFull: false};
   links = [
     {
       to: '/',
@@ -36,20 +36,21 @@ export default class NavContainer extends Component {
 
   getNavState = (prev, next, newState) => {
     const { limit } = this;
-    const { navHidden } = newState || this.state;
+    const { navHidden, navFull } = newState || this.state;
 
     if (next < limit && navHidden) {
-      return this.setState({navHidden: false})
+      return this.setState({navHidden: false, navFull: false})
     } else if (next < limit) {
+      if (navFull) return this.setState({navFull: false})
       return;
     }
 
     if (prev < next && !navHidden) {
-      return this.setState({navHidden: true})
+      return this.setState({navHidden: true, navFull: false})
     }
 
     if (prev > next && navHidden) {
-      return this.setState({navHidden: false})
+      return this.setState({navHidden: false, navFull: true})
     }
   }
 
@@ -70,9 +71,10 @@ export default class NavContainer extends Component {
 
 
   render() {
+    const { navHidden, navFull } = this.state;
 
     return (
-      <Nav hidden={this.state.navHidden} width={this.props.width}
+      <Nav hidden={navHidden} full={navFull} width={this.props.width}
            getRef={this.getNavRef} links={this.links}/>
     )
   }

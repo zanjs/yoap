@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container, FlexGrid, Link, Button, Logo } from 'components'
+import { classNames } from 'helpers'
 import s from './Nav.sass'
 
 export default class Nav extends Component {
@@ -63,9 +64,9 @@ export default class Nav extends Component {
   }
 
   render() {
-    const { links } = this.props;
+    const { links, full } = this.props;
     return (
-      <nav ref={this.getNavRef} className={s.nav}>
+      <nav ref={this.getNavRef} className={classNames(s.nav, full && s.nav_showed)}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>
           <Link className={s.nopadding} to="/"><Logo className={s.logo} /></Link>
