@@ -9,9 +9,6 @@ import { termTypes } from 'constants'
 import s from './ItemPagePrice.sass'
 
 const types = termTypes.types;
-const typesValues = types.map(
-  item => item.name
-);
 
 const data = [
   {
@@ -80,6 +77,18 @@ export default class ItemPagePrice extends Component {
     })
   }
 
+
+  changePrice(id, value) {
+    this.setState(({chosen}) => ({
+      chosen: chosen.map(item => {
+        if (item.id === id) {
+          item.value = parseInt(value, 10);
+        }
+
+        return item;
+      })
+    }))
+  }
   renderEditSelect() {
     const types = this.types.filter(item => {
       const hasAdded = !!this.state.chosen.find(
@@ -100,21 +109,10 @@ export default class ItemPagePrice extends Component {
 
     return (
       <Content lightColor light size="2" nooffsets>
-        <Select className={s.select}
-                onChange={this.togglePrices} values={types}/>
+        <Select inherit onChange={this.togglePrices}
+                values={types}/>
       </Content>
     )
-  }
-  changePrice(id, value) {
-    this.setState(({chosen}) => ({
-      chosen: chosen.map(item => {
-        if (item.id === id) {
-          item.value = parseInt(value, 10);
-        }
-
-        return item;
-      })
-    }))
   }
   renderEditInput({value, id}) {
     return (

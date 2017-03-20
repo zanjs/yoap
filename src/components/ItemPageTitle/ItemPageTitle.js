@@ -1,19 +1,27 @@
 import React, { Component } from 'react'
 import {
   Title, Content, InputClean,
-  ItemPageInfoTitle, ItemPageInfoEditIcon
+  ItemPageInfoTitle, ItemPageInfoEditIcon,
+  Select
 } from 'components'
+import { statusTypes } from 'constants'
 import { classNames } from 'helpers'
 import s from './ItemPageTitle.sass'
 
+const types = statusTypes.types.map(
+  item => item.name
+);
 
 const ItemPageTitle = ({edit, children, id, status, onChange}) => {
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title={`Объявление №${id}`}>
-        {status &&
+
+        {(edit || status) &&
           <Content nooffsets className={s.status}>
-            {status}
+            {!edit ? status :
+              <Select inherit values={types}/>
+            }
           </Content>
         }
       </ItemPageInfoTitle>
