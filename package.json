@@ -22,7 +22,7 @@
     "build": "rm -rf dist && webpack --config webpack/webpack.config.prod.js",
     "prod": "cd dist && python -m SimpleHTTPServer 8080",
     "server": "nodemon ./bin/index.js",
-    "watch": "webpack --config webpack/webpack.config.dev.js --watch",
+    "watch": "webpack --config webpack/webpack.config.prod.js --watch",
     "start": "better-npm-run build && better-npm-run server",
     "dev:webpack": "babel-node ./server/devServer.js"
   },

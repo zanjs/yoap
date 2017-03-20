@@ -26,26 +26,31 @@ export default class  ItemTilesBanner extends Component {
     const gridHeight = this.setGridWrapperHeight();
     this.setGridWidth();
     this.setContentHeight(gridHeight);
-  }
+  };
 
   setGridWrapperHeight = () => {
+    if (!this.grid) return;
     const height = parseInt(this.grid.clientHeight, 10);
 
-    this.setSize(this.gridWrapper, 'height', height)
+    this.setSize(this.gridWrapper, 'height', height);
     return height;
-  }
+  };
 
   setGridWidth = () => {
+    if (!this.grid) return;
+
     const width = parseInt(this.contaner.clientWidth, 10);
 
     this.setSize(this.grid, 'width', width)
-  }
+  };
 
   setContentHeight = h => {
+    if (!h || !this.grid) return;
+
     const height = h || parseInt(this.grid.clientHeight, 10);
 
     this.setSize(this.content, 'height', height)
-  }
+  };
 
   setSize = (block, size, value) =>
     block.style[size] = `${value}px`;

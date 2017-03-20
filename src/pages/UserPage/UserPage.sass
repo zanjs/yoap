@@ -1,13 +1,22 @@
 @import "../../theme/index"
 
-$border: 1px solid #efefef
+$offset: 5%
 
-.container
-  margin: 20px auto
-  max-width: 450px
-  text-align: center
-  input
-    text-align: center
+.dashboard
+  height: 350px
+  background-color: #ddd
 
-.button
-  margin: 30px 5px
+.info
+  width: 50% - $offset
+.data
+  width: 50% - $offset
+
+.content
+  padding: 100px 0
+
+.add
+  @include size(37px)
+  fill: #9c9c9c
+  margin: 0 auto
+  @include opacityAnim(.6)
+  cursor: pointer

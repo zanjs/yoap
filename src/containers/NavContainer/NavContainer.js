@@ -3,10 +3,11 @@ import { observer, inject } from 'mobx-react'
 import { Nav } from 'components'
 
 const mapStateToProps = ({
-  device: {saveValues, scrollY, width}
+  device: {saveValues, scrollY, width},
+  user: {name}
 }) => ({
   navResize: h => saveValues({navHeight: h}),
-  scrollY, width
+  scrollY, width, name
 });
 @inject(mapStateToProps) @observer
 export default class NavContainer extends Component {
@@ -25,7 +26,7 @@ export default class NavContainer extends Component {
       to: '/signup',
       content: 'Регистрация'
     }
-  ]
+  ];
 
   getNavRef = b => this.wrapper = b;
   resize = () => {
@@ -52,7 +53,7 @@ export default class NavContainer extends Component {
     if (prev > next && navHidden) {
       return this.setState({navHidden: false, navFull: true})
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const { width, scrollY } = this.props;
@@ -74,7 +75,7 @@ export default class NavContainer extends Component {
     const { navHidden, navFull } = this.state;
 
     return (
-      <Nav hidden={navHidden} full={navFull} width={this.props.width}
+      <Nav hidden={navHidden} name={this.props.name} full={navFull} width={this.props.width}
            getRef={this.getNavRef} links={this.links}/>
     )
   }

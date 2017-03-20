@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import DevTools from 'mobx-react-devtools'
 import {
   HomePage, LoginPage, SignupPage,
-  ItemsListPage, ItemPage
+  ItemsListPage, ItemPage, UserPage
 } from 'pages'
 import {
   BrowserRouter as Router,
@@ -62,6 +62,7 @@ export default class App extends Component {
             <Route path="/signup" component={SignupPage} />
             <Route path="/y" exact component={ItemsListPage}/>
             <Route path="/y/object" exact component={ItemPage}/>
+            <Route path="/you" exact component={UserPage}/>
           </Switch>
           {/*<PagesTransitions className={s.content}>*/}
             {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}

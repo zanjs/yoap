@@ -23,7 +23,50 @@ class ItemsStore {
     this.subscribeToLocalStorage();
   }
 
-  fetchItems = cb => getItems().then(resp => cb(resp.json()));
+  checkStatus = (res) => {
+    if (res.status >= 200 && res.status < 300) {
+      return res
+    } else {
+      const error = new Error(res.statusText);
+      error.response = res;
+      throw error
+    }
+  };
+
+  responseHandler = response => {
+    this.fromJSON(response.data);
+  };
+
+  errorHandler = response => {
+    const data = response.response || response;
+
+    if (data.json) {
+      return data.json().then(data => {
+        if (data.message.errmsg) {
+          data = {message: data.message.errmsg}
+        }
+
+        this.isError = {
+          ...data,
+          text: data.message
+        };
+        this.isFetching = false;
+      })
+    }
+
+    this.isError = data;
+    this.isFetching = false;
+  };
+
+  parseJSON = res => res.json();
+
+  fetchItems = cb => {
+    getItems(data)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.responseHandler)
+      .catch(this.errorHandler);
+  };
 
   createNew = data => {
     const validatedData = this.validate(data);
@@ -75,9 +118,8 @@ class ItemsStore {
   };
   toJSON = () => this.data.map(todo => todo.toJSON());
   fromJSON = data => {
-    console.log(data);
     return data && data.forEach && data.forEach(item => this.add(item));
-  }
+  };
 
 
   subscribeToLocalStorage = () => reaction(

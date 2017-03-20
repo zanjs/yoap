@@ -61,6 +61,9 @@ export BaseFilterSubway from './BaseFilterSubway/BaseFilterSubway'
 export BaseFilterCategory from './BaseFilterCategory/BaseFilterCategory'
 export BaseFilterPrice from './BaseFilterPrice/BaseFilterPrice'
 
+export UserCustomAddress from './UserCustomAddress/UserCustomAddress'
+export UserCustomAddressItem from './UserCustomAddressItem/UserCustomAddressItem'
+
 /*----------- ProFilter */
 export ProFilter from './ProFilter/ProFilter'
 

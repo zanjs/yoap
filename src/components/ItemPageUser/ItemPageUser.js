@@ -7,17 +7,17 @@ import s from './ItemPageUser.sass'
 
 import verifiedIcon from 'icons/ui/verifed.svg'
 
-const ItemPageUser = ({children, phone, email, link, image, isVerified}) => {
+const ItemPageUser = ({children, title = 'Хозяин', phone, email, link, image, isVerified}) => {
   return (
     <div className={s.wrapper}>
-      <ItemPageInfoTitle title="Хозяин">
-        <LinkIcon to={link}>
+      <ItemPageInfoTitle title={title}>
+        <LinkIcon gray to={link}>
           Профиль
         </LinkIcon>
       </ItemPageInfoTitle>
       <FlexGrid justify="flex-start" align="start">
         <div className={s.image}>
-          <Image src={image}/>
+          {image ? <Image src={image}/> : <div className={s.noImage}/>}
         </div>
         <div className={s.content}>
           <FlexGrid justify="start" align="center">

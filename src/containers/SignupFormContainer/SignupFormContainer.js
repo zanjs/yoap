@@ -45,9 +45,9 @@ export default class SignupFormContainer extends Component {
       isFetching, isError,
     };
 
-    // if (isAuthorized) {
-    //   return <Redirect to="/you"/>
-    // }
+    if (isAuthorized) {
+      return <Redirect to="/you"/>
+    }
 
     return (
       <SignupForm {...props}/>

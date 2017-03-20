@@ -292,4 +292,6 @@ const data =  [
   },
 ];
 
+window.data = data;
+
 export default data;

@@ -37,11 +37,11 @@ class UserStore {
     if (res.status >= 200 && res.status < 300) {
       return res
     } else {
-      var error = new Error(res.statusText)
-      error.response = res
+      const error = new Error(res.statusText);
+      error.response = res;
       throw error
     }
-  }
+  };
   parseJSON = res => res.json();
 
   /**
@@ -84,8 +84,6 @@ class UserStore {
       })
     }
 
-    console.log('data', window.d = data);
-
     this.isError = data;
     this.isFetching = false;
   };
@@ -96,7 +94,7 @@ class UserStore {
     const data = {
       ...(email ? {email} : {phone}),
       password
-    }
+    };
 
     return serverLogin(data)
       .then(this.checkStatus)

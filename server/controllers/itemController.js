@@ -1,5 +1,6 @@
 import cyrillicToTranslit from 'cyrillic-to-translit-js'
 import randomNumber from 'helpers/app/randomNumber'
+import testData from '../testItemsData.json'
 import db from 'models'
 const itemController = {};
 
@@ -12,7 +13,7 @@ itemController.post = (req, res) => {
   } = req.body;
 
   const link = cyrillicToTranslit()
-    .transform(title + '-' + randomNumber(1000, 9999))
+    .transform(title + '-' + randomNumber(1000, 9999));
 
   const item = new db.Item({
     title, description,
@@ -22,7 +23,7 @@ itemController.post = (req, res) => {
     //images,
 
     _creator
-  })
+  });
 
   item.save().then(data => {
       res.status(200).json({
@@ -34,6 +35,13 @@ itemController.post = (req, res) => {
         message: err
       })
     })
-}
+};
+
+itemController.get = (req, res) => {
+  res.status(200).json({
+    success: true,
+    data: testData
+  })
+};
 
 export default itemController;

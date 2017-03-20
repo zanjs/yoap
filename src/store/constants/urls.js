@@ -10,6 +10,6 @@ export const login = `/login`;
 export const loginApi = api + login;
 
 // item api
-export const getItems = `${api}/items/get`;
-export const saveItem = `${api}/items/save`;
+export const items = '/items';
+export const itemsApi = api + items;
 

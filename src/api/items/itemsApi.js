@@ -1,7 +1,6 @@
 import { fetch } from 'helpers'
 import {
-  getItems as getItemsUrl,
-  saveItem as saveItemUrl,
+  itemsApi as itemsUrl,
 
   JSONHeaders as headers
 } from 'constants'
@@ -9,12 +8,12 @@ import data from './data'
 
 
 
-export const getItems = () => fetch(getItemsUrl, {
+export const getItems = () => fetch(itemsUrl, {
   ...headers,
   method: 'get'
 }, data);
 
-export const saveItem = body => fetch(saveItemUrl, {
+export const saveItem = body => fetch(itemsUrl, {
   ...headers,
   method: 'post',
   body

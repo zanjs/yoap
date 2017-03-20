@@ -34,9 +34,9 @@ export default class LoginFormContainer extends Component {
       isFetching, isError, isAuthorized
     } = this.props;
 
-    // if (isAuthorized) {
-    //   return <Redirect to="/you"/>
-    // }
+    if (isAuthorized) {
+      return <Redirect to="/you"/>
+    }
 
     const props = {
       saveValues, login,

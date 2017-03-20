@@ -64,10 +64,10 @@ export default class Nav extends Component {
     if (this.props.getRef) {
       this.props.getRef(b);
     }
-  }
+  };
 
   render() {
-    const { links, full } = this.props;
+    const { links, full, name } = this.props;
     return (
       <nav ref={this.getNavRef} className={classNames(s.nav, full && s.nav_showed)}>
         <FlexGrid justify="space-between" align="center"
@@ -81,9 +81,10 @@ export default class Nav extends Component {
                 </Link>
               ))}
             </div>
-            <Button to="/login" type="light"
-                    className={s.button} rounded smallPadding>
-              Войти
+            <Button to={name ? '/you' : '/login'} type="light"
+                    className={s.button} rounded
+                    smallPadding>
+              {name || 'Войти'}
             </Button>
           </div>
         </FlexGrid>
