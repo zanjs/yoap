@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { classNames } from 'helpers'
+import { classNames, isEmpty } from 'helpers'
 import { Input } from 'components'
 import { BLUE_COLOR, PINK_COLOR, GREEN_COLOR } from 'constants'
 import s from './FormGroup.sass'
@@ -35,8 +35,14 @@ export default class FormGroup extends Component {
         break;
     }
 
+    if (isEmpty(message)) {
+      return null;
+    }
 
-    return <span className={classNames(s.msg, this.props.disabled && s.msg_disabled)} style={{color, borderColor: color}}>{message}</span>
+    return <span className={classNames(s.msg, this.props.disabled && s.msg_disabled)}
+                 style={{color, borderColor: color}}>
+      {message}
+    </span>
 
   };
 

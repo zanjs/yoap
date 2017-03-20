@@ -74,7 +74,10 @@ class ItemsStore {
 
   };
   toJSON = () => this.data.map(todo => todo.toJSON());
-  fromJSON = data => data.forEach(item => this.add(item));
+  fromJSON = data => {
+    console.log(data);
+    return data && data.forEach && data.forEach(item => this.add(item));
+  }
 
 
   subscribeToLocalStorage = () => reaction(

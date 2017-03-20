@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Button, FormGroup, Title, FlexGrid, Content } from 'components'
+import { Button, FormGroup, Title, FlexGrid, Content, Link } from 'components'
 import { classNames, isEmpty } from 'helpers'
 import { createHandleChange, createHandleBlur } from 'validation/userValidation'
 import s from './SignupForm.sass'
@@ -89,10 +89,16 @@ export default class SignupForm extends Component {
     this.nameInput && this.nameInput.focus();
   }
 
+  isDuplicated({message}) {
+    return message.toLowerCase().indexOf('duplicate') !== -1;
+  }
+
   render() {
     const {
-      isFetching, isAuthorized
+      isFetching, isAuthorized, isError
     } = this.props;
+
+    const isDuplicated = isError && this.isDuplicated(isError);
 
     return (
       <form onSubmit={this.submitHandler} className={s.wrapper}>
@@ -101,6 +107,8 @@ export default class SignupForm extends Component {
         <FormGroup {...this.extendInputProps('email')} getRef={b => this.emailInput = b}/>
         <FormGroup {...this.extendInputProps('phone')} getRef={b => this.phoneInput = b}/>
         <FormGroup {...this.extendInputProps('password')} getRef={b => this.passwordInput = b}/>
+        {isDuplicated && <Content>Кажется, вы уже зарегистрированы у нас. <Link to="/login" type="underline">Войти</Link></Content>}
+        {!isDuplicated && isError && <Content>{isError.message || isError.text || isError}</Content>}
         <FlexGrid align="center" className={s.buttons}>
           <Button disabled={isFetching} buttonType='submit' type="pink"
                   className={s.button}>

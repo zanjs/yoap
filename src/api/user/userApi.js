@@ -1,23 +1,25 @@
 import { fetch } from 'helpers'
 import {
-  auth as authUrl,
-  login as loginUrl,
+  signupApi as signupUrl,
+  loginApi as loginUrl,
 
   JSONHeaders as headers
 } from 'constants'
 
-export const login = ({name, password}) => fetch(loginUrl, {
+export const login = data => fetch(loginUrl, {
   ...headers,
   method: 'post',
-  body: {
-    name, password
-  }
+  body: JSON.stringify(data)
 });
 
-export const auth = ({name, email, phone, password}) => fetch(authUrl, {
-  ...headers,
-  method: 'post',
-  body: {
-    name, email, phone, password
-  }
-});
+export const signup = data => {
+  const {name, email, phone, password} = data;
+
+  return fetch(signupUrl, {
+    ...headers,
+    method: 'post',
+    body: JSON.stringify({
+      name, email, phone, password
+    })
+  })
+};

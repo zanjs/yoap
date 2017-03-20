@@ -43,14 +43,11 @@ export default class LoginForm extends Component {
       isError: errors[name],
       isNormal: normal[name],
 
-      msg: errors[name] || success[name],
-
       onBlur: this.onBlur,
       onChange: this.onChange,
 
       required: true,
       type: name,
-
 
       disabled: isFetching
     }
@@ -74,10 +71,6 @@ export default class LoginForm extends Component {
     this.props.saveValues(rest);
   };
 
-  submitHandlerclearAll = () => this.setState({
-    ...this.initialState
-  });
-
   componentWillUpdate(nextProps, nextState) {
     this.saveValues(nextState);
   }
@@ -88,14 +81,22 @@ export default class LoginForm extends Component {
   getEmailInputRef = b => this.emailInput = b;
   getPasswordInputRef = b => this.passwordInput = b;
 
+  isDuplicated({message}) {
+    return message.toLowerCase().indexOf('duplicate') !== -1;
+  }
+
   render() {
-    const { isFetching, isAuthorized, className } = this.props;
+    const { isFetching, isError, isAuthorized, className } = this.props;
+
+    const isDuplicated = isError && this.isDuplicated(isError);
 
     return (
       <form onSubmit={this.submitHandler} className={classNames(s.wrapper, className, isFetching && s.wrapper_disabled)}>
         <Title size="2" light>Вход в личный <br/>кабинет</Title>
         <FormGroup {...this.extendInputProps('email')} getRef={this.getEmailInputRef}/>
         <FormGroup {...this.extendInputProps('password')} getRef={this.getPasswordInputRef}/>
+        {isDuplicated && <Content>Мы сохранили ваши данные, нажмите "Готово"</Content>}
+        {!isDuplicated && isError && <Content>{isError.message || isError.text || isError}</Content>}
         <FlexGrid align="center" className={s.buttons}>
           <Button disabled={isFetching} buttonType='submit' type="pink" className={s.button}>Готово</Button>
           <Content tag={RouterLink} to="/reset-password"

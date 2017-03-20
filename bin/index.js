@@ -16,6 +16,9 @@ global.__SERVER__ = true;
 moduleAlias.addAliases({
   'models'  : path.join(__dirname, '../server/models'),
   'controllers': path.join(__dirname, '../server/controllers'),
+  'helpers': path.join(__dirname, '../src/helpers'),
+  'constants': path.join(__dirname, '../src/store/constants'),
+  'validation': path.join(__dirname, '../src/store/validation'),
 });
 
 require('../server/index');
