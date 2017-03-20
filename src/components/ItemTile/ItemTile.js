@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import { Content, Image, Svg, FlexGrid } from 'components'
 import { classNames } from 'helpers'
 import s from './ItemTile.sass'
@@ -18,7 +19,7 @@ const ItemTile = ({className, data}) => {
   const subway = location.subway && location.subway[0]
 
   return (
-    <div className={classNames(s.wrapper, className)}>
+    <RouterLink to="/y/object" className={classNames(s.wrapper, className)}>
       {/* Image */}
       <div className={s.image}>
         {images.thumbnail &&
@@ -58,7 +59,7 @@ const ItemTile = ({className, data}) => {
           <Svg src={arrowIcon} className={s.title__arrow} />
         </div>
       </div>
-    </div>
+    </RouterLink>
   )
 };
 

@@ -35,8 +35,10 @@ export default class InputNumber extends Component {
   }
 
   render() {
-    const { className, buttonsClassName, children, title,
-      minValue, maxValue, step, ...rest } = this.props;
+    const {
+      className, buttonsClassName, children, title,
+      minValue, maxValue, step, ...rest
+    } = this.props;
     return (
       <FlexGrid tag="span" justify="stretch" align="center"
                 className={classNames(s.wrapper, className)} {...rest}>

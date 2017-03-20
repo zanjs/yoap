@@ -40,6 +40,7 @@ export ItemTile from './ItemTile/ItemTile'
 export ItemTilesGrid from './ItemTilesGrid/ItemTilesGrid'
 export ItemTilesBanner from './ItemTilesBanner/ItemTilesBanner'
 
+export ItemPageInfoScroller from './ItemPageInfoScroller/ItemPageInfoScroller'
 export ItemPageInfoTitle from './ItemPageInfoTitle/ItemPageInfoTitle'
 export ItemPageTitle from './ItemPageTitle/ItemPageTitle'
 export ItemPageContent from './ItemPageContent/ItemPageContent'

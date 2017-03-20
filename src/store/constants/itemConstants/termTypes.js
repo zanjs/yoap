@@ -3,10 +3,19 @@ import { splitter } from 'config'
 
 const termTypeData = [
   {
-    ru: 'Посуточно'
+    ru: 'Сутки'
   },
   {
-    ru: 'Длительно'
+    ru: 'Неделя'
+  },
+  {
+    ru: 'Месяц'
+  },
+  {
+    ru: 'Полгода'
+  },
+  {
+    ru: 'Год'
   }
 ];
 
