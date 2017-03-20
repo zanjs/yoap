@@ -18,14 +18,14 @@ const isActive = (item, name, id) => {
   }
 };
 
-const ItemPageType = ({name, id, edit, onChange}) => {
-  const wrapperClassName = classNames(
-    s.wrapper, edit && ItemPageInfoEditIcon.wrapperClassName
-  );
+const ItemPageType = ({name, id, edit, className, onChange}) => {
   return (
-    <div className={wrapperClassName}>
-      <ItemPageInfoTitle title="Тип объекта" />
-      {edit && <ItemPageInfoEditIcon />}
+    <div className={classNames(s.wrapper, className)}>
+      <ItemPageInfoTitle title="Тип объекта"
+                         className={edit && ItemPageInfoEditIcon.wrapperClassName}>
+        {edit && <ItemPageInfoEditIcon />}
+      </ItemPageInfoTitle>
+
       <FlexGrid justify="space-between" align="center">
         {types.map(item => (
           <Content size="2" light className={

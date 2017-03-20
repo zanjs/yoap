@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
   Content, FlexGrid,
   ItemPageInfoTitle,
-  Select, InputClean
+  Select, InputClean,
+  ItemPageInfoEditIcon
 } from 'components'
 import { termTypes } from 'constants'
 import s from './ItemPagePrice.sass'
@@ -132,9 +133,12 @@ export default class ItemPagePrice extends Component {
   renderEdit() {
     const { edit, chosen } = this.state;
     const maximum = chosen.length === this.types.length;
+    const { wrapperClassName } = ItemPageInfoEditIcon;
     return (
       <div className={s.wrapper}>
-        <ItemPageInfoTitle title="Стоимость"/>
+        <ItemPageInfoTitle className={wrapperClassName} title="Стоимость">
+          <ItemPageInfoEditIcon />
+        </ItemPageInfoTitle>
 
         <FlexGrid className={s.grid} wrap="true" justify="start" align="start">
           {!!chosen && !!chosen.length && chosen.map((item, key) => (

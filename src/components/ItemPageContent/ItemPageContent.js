@@ -12,10 +12,11 @@ const placeholder =
 const ItemPageContent = ({children, edit, onChange}) => {
   return (
     <div className={s.wrapper}>
-      <ItemPageInfoTitle title="Описание" />
-      <Content nooffsets gray
-               className={edit && ItemPageInfoEditIcon.wrapperClassName}>
+      <ItemPageInfoTitle title="Описание"
+                         className={edit && ItemPageInfoEditIcon.wrapperClassName}>
         {edit && <ItemPageInfoEditIcon />}
+      </ItemPageInfoTitle>
+      <Content nooffsets gray>
         {edit ? <InputClean placeholder={placeholder} tag="textarea"
                             onChange={onChange}>
             {children}
