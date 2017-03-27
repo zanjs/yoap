@@ -42,8 +42,8 @@ export default class App extends Component {
           {/* React Helmet component for page info management */}
           <Helmet
             htmlAttributes={{lang: "en", amp: undefined}} // amp takes no value
-            titleTemplate="%s — yoap"
-            defaultTitle="yoap"
+            titleTemplate="%s — YOAP"
+            defaultTitle="YOAP - Ваши апартаменты"
           />
 
           {/* Defend your project. Works only in production mode. */}

@@ -13,7 +13,7 @@ export default class Image extends Component {
   isFaded = false;
   dur = config.dur; ease = config.ease();
 
-  state = {isLoaded: false, mainImageLoaded: false}
+  state = {isLoaded: false, mainImageLoaded: false};
   getPrevDeviceSize = (sizes, currentDevice) => {
     let prevDevice = getPrevDeviceBreakpoint(currentDevice);
 
@@ -63,7 +63,7 @@ export default class Image extends Component {
     this.fadeInImage(() => this.setState({
       isLoaded: true
     }))
-  }
+  };
   fadeInImage = onComplete => {
     const { dur, ease } = this;
     TweenMax.set(this.preview, {
@@ -77,11 +77,11 @@ export default class Image extends Component {
       ease,
       onComplete
     })
-  }
+  };
 
   renderImage = props => (
     <img {...props}/>
-  )
+  );
 
   getPreviewRef = b => this.preview = b;
   getImageRef = b => this.image = b;
@@ -93,7 +93,8 @@ export default class Image extends Component {
       src, getRef, alt
     } = this.props;
     const { isLoaded } = this.state;
-    const previewSrc = preview || src && src.preview || withLoading;
+    const previewSrc =
+      preview || src && src.preview || withLoading;
 
     if (!src)
       return null;

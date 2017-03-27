@@ -7,7 +7,7 @@ import starIcon from 'icons/ui/star.svg'
 export default class StarsRating extends Component {
   static defaultProps = {
     value: 5
-  }
+  };
 
   dur = .3; ease = Cubic.easeOut;
   activeColor = '#FF5388';

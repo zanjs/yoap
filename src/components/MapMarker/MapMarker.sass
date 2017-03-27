@@ -1,0 +1,23 @@
+@import ../../theme/index
+
+.wrapper
+  overflow: visible !important
+
+.item
+  padding: 0 !important
+  margin: 0 !important
+  width: 100% !important
+  display: block !important
+  background-color: #fff !important
+  border-radius: 4px !important
+  box-shadow: $shadow
+  transition: box-shadow $animParams
+  &:hover
+    box-shadow: $shadowBig !important
+    .item__image
+      box-shadow: none !important
+  &__content
+    padding: 10px 20px !important
+  &__image
+    box-shadow: none !important
+

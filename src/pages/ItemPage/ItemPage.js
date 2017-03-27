@@ -1,19 +1,27 @@
 import React, { Component } from 'react'
 import { inject } from 'mobx-react'
 import {
-  ItemPageInfo, ItemPageInfoEdit,
-  Container, ItemPageInfoScroller,
-  SliderImages
+  ItemPageInfo, ItemPageLocation,
+  ItemPageInfoScroller,
+  SliderImages, Image,
+  Map
 } from 'components'
-import { ItemPageParametersContainer } from 'containers'
+import {
+  ItemPageParametersContainer,
+  ItemPageInfoContainer,
+  ItemPageLocationContainer
+} from 'containers'
 import { randomNumber } from 'helpers'
+import { ItemModel } from 'models'
+import itemData from './item'
 import s from './ItemPage.sass'
 
-@inject(({items: {data}}) => ({
-  images: data ? data[0].images.gallery : null,
-  item: data[0]
-}))
+
 export default class ItemPage extends Component {
+  static defaultProps = {
+    data: ItemModel.fromJS(null, itemData)
+  };
+
   state = {
     shouldUpdate: 0
   };
@@ -28,21 +36,23 @@ export default class ItemPage extends Component {
 
   render() {
     const {
-      props: {images, item},
+      props: {data},
       state: {shouldUpdate},
       onChange
     } = this;
+
+    const { types } = data;
+
+    console.log(window.data = data);
+
     return (
       <div>
-
-        <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
-          <SliderImages data={images}/>
-        )}>
-          <ItemPageInfo className={s.info} />
-        </ItemPageInfoScroller>
-
-        <ItemPageParametersContainer onChange={onChange}
-                                     data={item.types} />
+        {/* Object title, des, images, price, rating, etc. */}
+        <ItemPageInfoContainer data={data} shouldUpdate={shouldUpdate}/>
+        {/* Object params */}
+        <ItemPageParametersContainer onChange={onChange} data={types} />
+        {/* Object location */}
+        <ItemPageLocationContainer data={data} shouldUpdate={shouldUpdate}/>
       </div>
     )
   }

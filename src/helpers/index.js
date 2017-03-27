@@ -16,6 +16,7 @@ export createUrlFromTitle from './app/createUrlFromTitle'
 export fetch from './app/fetch'
 export generateItemTypes from './app/generateItemTypes'
 export getOrderId from './app/getOrderId'
+export Map from './app/Map'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'

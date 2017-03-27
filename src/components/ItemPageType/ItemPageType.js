@@ -30,7 +30,7 @@ const ItemPageType = ({name, id, edit, className, onChange}) => {
         {types.map(item => (
           <Content size="2" light className={
             classNames(
-              s.item, edit && s.item_edit,isActive(item, name, id) && s.item_active
+              s.item, edit && s.item_edit, isActive(item, name, id) && s.item_active
             )} onClick={onChange && (() => onChange(item))}
                key={item.id}>
             {item.name}

@@ -19,14 +19,16 @@ export default class Nav extends Component {
 
     TweenMax.to(this.wrapper, dur, {
       opacity: 0,
+      display: 'none',
       ease
     })
-  }
+  };
   show = () => {
     const { dur, ease } = this;
     if (this.isWide()) {
       TweenMax.set(this.wrapper, {
-        opacity: 1
+        opacity: 1,
+        display: 'block'
       });
       return TweenMax.to(this.links, dur, {
         opacity: 1,
@@ -36,9 +38,10 @@ export default class Nav extends Component {
 
     TweenMax.to(this.wrapper, dur, {
       opacity: 1,
+      display: 'block',
       ease
     })
-  }
+  };
 
   trigger = props => {
     if ((props || this.props).hidden) {

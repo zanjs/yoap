@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Helmet from 'react-helmet'
 import {
   ItemPageTitle, ItemPageContent,
   ItemPageUser, ItemPageType,
@@ -11,27 +12,27 @@ import userImage from 'images/user.jpg'
 
 export default class ItemPageInfo extends Component {
   render() {
+    const {
+      title, description,
+      status, user,
+      price, rating,
+      category, type
+    } = this.props.data;
+
     return (
       <div className={classNames(s.wrapper, this.props.className)}>
-        <ItemPageTitle id="021" status="Модерация">
-          Светлая квартира в нордическом стиле
-        </ItemPageTitle>
-        <ItemPageContent>
-          Все это выглядело бы чистым абсурдом, если бы не те ранние утра, когда, запив
-          свой завтрак жидким чаем, я догонял трамвай, чтобы добавить еще одну вишенку к
-          темной людской грозди, свисавшей с подножки, и плыл сквозь акварельный
-          розово-голубой город к конуре-проходной. Там два вахтера
-          проверяли наши пропуска, а фасад был украшен классическими фанерными пилястрами.
-        </ItemPageContent>
-        <ItemPageUser phone="+7 (911) 140–30–30"
-                      email="irinaivanova@gmail.com"
-                      link="/y" image={userImage}
+        <Helmet title={title}/>
+        <ItemPageTitle id="021" status={status}>{title}</ItemPageTitle>
+        <ItemPageContent>{description}</ItemPageContent>
+        <ItemPageUser phone={user.phone}
+                      email={user.email}
+                      link={user.link || '/y'}
                       isVerified>
-          Ирина Иванова
+          {user.name}
         </ItemPageUser>
-        <ItemPageType name="Квартира"/>
-        <ItemPagePrice />
-        <ItemPageRating />
+        <ItemPageType name={type.name}/>
+        <ItemPagePrice data={price} />
+        <ItemPageRating data={category} value={rating} />
       </div>
     )
   }

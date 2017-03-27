@@ -8,28 +8,32 @@ import subwayIcon from 'icons/ui/subway.svg'
 import arrowIcon from 'icons/ui/arrow-right.svg'
 import favoriteIcon from 'icons/ui/favorite.svg'
 
-const ItemTile = ({className, data}) => {
-  if (!data) return null;
+const ItemTile = ({className, link, contentClassName, imageClassName, tag, data, getRef}) => {
+  if (!data)
+    return null;
 
   const {
     title, location, price, term,
     isFavorited, images
   } = data;
 
-  const subway = location.subway && location.subway[0]
+  const Element = tag || RouterLink;
+
+  const subway = location.subway && location.subway[0];
 
   return (
-    <RouterLink to="/y/object" className={classNames(s.wrapper, className)}>
+    <Element ref={getRef} to={link || "/y/object"} className={classNames(s.wrapper, className)}>
       {/* Image */}
-      <div className={s.image}>
+      <div className={classNames(s.image, imageClassName)}>
         {images.thumbnail &&
           <Image className={s.img}
-                 preview={images.thumbnail.preview} src={images.thumbnail.full}/>
+                 preview={images.thumbnail.preview}
+                 src={images.thumbnail.full}/>
         }
         <Svg src={favoriteIcon} className={s.favorite} />
       </div>
       {/* Content */}
-      <div className={s.content}>
+      <div className={classNames(s.content, contentClassName)}>
         {/* Subway */}
         {subway &&
           <FlexGrid align="center" justify="start"
@@ -59,7 +63,7 @@ const ItemTile = ({className, data}) => {
           <Svg src={arrowIcon} className={s.title__arrow} />
         </div>
       </div>
-    </RouterLink>
+    </Element>
   )
 };
 

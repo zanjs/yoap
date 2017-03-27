@@ -4,6 +4,7 @@ import {
   ItemPageUser, ItemPageType,
   ItemPagePrice, ItemPageRating
 } from 'components'
+import { classNames } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
 import userImage from 'images/user.jpg'
@@ -41,8 +42,9 @@ export default class ItemPageInfoEdit extends Component {
 
   render() {
     const { title, content, type, price } = this.state;
+    const { className } = this.props;
     return (
-      <div className={s.wrapper}>
+      <div className={classNames(s.wrapper, className)}>
         <ItemPageTitle edit id="021" status="Модерация"
                        onChange={this.onChangeTitle}>
           {title}

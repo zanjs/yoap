@@ -29,8 +29,9 @@ const ItemPageUser = ({children, title = 'Хозяин', phone, email, link, ima
           </FlexGrid>
 
           <div className={s.links}>
-            <Link tag="a" gray className={s.link} href={`tel:${phone}`}>{phone}</Link>
-            <Link tag="a" gray className={s.link} href={`mailto:${email}`}>{email}</Link>
+            {!phone && <Link tag="a" gray className={s.link} href={`tel:${phone}`}>Показать телефон</Link>}
+            {phone && <Link tag="a" gray className={s.link} href={`tel:${phone}`}>{phone}</Link>}
+            {email && <Link tag="a" gray className={s.link} href={`mailto:${email}`}>{email}</Link>}
           </div>
         </div>
       </FlexGrid>

@@ -16,7 +16,7 @@ const ItemPageContent = ({children, edit, onChange}) => {
                          className={edit && ItemPageInfoEditIcon.wrapperClassName}>
         {edit && <ItemPageInfoEditIcon />}
       </ItemPageInfoTitle>
-      <Content nooffsets gray>
+      <Content nooffsets lightColor>
         {edit ? <InputClean placeholder={placeholder} tag="textarea"
                             onChange={onChange}>
             {children}

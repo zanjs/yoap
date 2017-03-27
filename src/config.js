@@ -168,6 +168,53 @@ export const user = {
   nameMaxLength: 20
 };
 
+// ========================================================### MAP CONFIG ###
+import mapStyles from './data/mapStyles.js'
+export const map = {
+  apiKey: "AIzaSyCzIFSJwXc8KfxmERx6-ut9FMnzN2owdW4",
+  url: 'https://maps.googleapis.com/maps/api/js?key=',
+  loadingParams: 'libraries=places',
+  get link() {
+    return this.url + this.apiKey + (this.loadingParams ? '&' + this.loadingParams : '')
+  },
+  scriptId: 'map-script',
+
+  options: {
+    center: [59.92517, 30.32243900000003],
+    zoom: 13,
+    styles: mapStyles,
+    scrollwheel: true,
+    zoomControl: true,
+    scaleControl: true,
+    streetViewControl: true,
+    fullscreenControl: true
+  },
+
+  onSetPointZoom: 16,
+
+  points: [
+    {
+      position: [59.92517, 30.32243900000003],
+      title: 'г. Санкт-Петербург, м. Спасская, ул. Ефимова 4A \nЕжедневно с 9:00 до 21:00',
+      name: 'Пункт выдачи Ultrastore на Сенной',
+      body: [
+        {
+          title: 'Адрес',
+          content: 'Санкт-Петербург, ул. Ефимова 4A'
+        },
+        {
+          title: 'Метро',
+          content: 'м. Спасская, м. Сенная, м. Садовая'
+        },
+        {
+          title: 'Режим работы',
+          content: 'Ежедневно с 9:00 до 21:00'
+        }
+      ]
+    }
+  ]
+};
+
 
 
 

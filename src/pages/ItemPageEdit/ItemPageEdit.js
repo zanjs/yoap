@@ -34,15 +34,15 @@ export default class ItemPageEdit extends Component {
     } = this;
     return (
       <div>
-        <ItemPageParametersContainer onChange={onChange}
-                                     data={item.types} />
-
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <SliderImages data={images}/>
         )}>
           {/*<ItemPageInfoEdit />*/}
           <ItemPageInfoEdit className={s.info} />
         </ItemPageInfoScroller>
+
+        <ItemPageParametersContainer onChange={onChange}
+                                     data={item.types} />
       </div>
     )
   }

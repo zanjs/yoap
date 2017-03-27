@@ -31,17 +31,17 @@ const data = [
     name: 'Год',
     value: '4600000'
   }
-]
+];
 
 export default class ItemPagePrice extends Component {
   types = types;
 
-  state = {edit: false, chosen: []}
+  state = {edit: false, chosen: []};
 
   toggleEditMode = val =>
     this.setState(({edit}) => ({
       edit: val != null ? val : !edit
-    }))
+    }));
 
   togglePrices = value => {
     let data;
@@ -56,7 +56,7 @@ export default class ItemPagePrice extends Component {
       )
     }
 
-    const chosenData = data || value;;
+    const chosenData = data || value;
     const { id } = chosenData;
     const { chosen } = this.state;
     const hasAdded = !!chosen.find(item => item.id === id);
@@ -75,7 +75,7 @@ export default class ItemPagePrice extends Component {
       ],
       edit: false
     })
-  }
+  };
 
 
   changePrice(id, value) {
@@ -161,15 +161,17 @@ export default class ItemPagePrice extends Component {
       return this.renderEdit();
     }
 
+    const { data } = this.props;
+
     return (
       <div className={s.wrapper}>
         <ItemPageInfoTitle title="Стоимость"/>
         <FlexGrid className={s.grid} wrap="true" justify="start" align="start">
-          {data.map(({name, value}, key) => (
+          {data.map(({id, value}, key) => (
             <FlexGrid key={key} className={s.item} align="center"
                       justify="space-between">
               <Content lightColor light size="2" nooffsets>
-                {name}
+                {types.find(item => item.id === id).name}
               </Content>
               <Content lightColor regular size="3" nooffsets>
                 {`₽${value}`}

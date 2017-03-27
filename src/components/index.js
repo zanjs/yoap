@@ -24,6 +24,8 @@ export InputClean from './InputClean/InputClean'
 
 export Slider from './Slider/Slider'
 export SliderImages from './SliderImages/SliderImages'
+export Map from './Map/Map'
+export MapMarker from './MapMarker/MapMarker'
 
 /*----------- components */
 export SocialLinks from './SocialLinks/SocialLinks'
@@ -56,6 +58,7 @@ export ItemPageInfoEditIcon from './ItemPageInfoEditIcon/ItemPageInfoEditIcon'
 export ItemPageInfo from './ItemPageInfo/ItemPageInfo'
 export ItemPageInfoEdit from './ItemPageInfoEdit/ItemPageInfoEdit'
 export ItemPageParameters from './ItemPageParameters/ItemPageParameters'
+export ItemPageLocation from './ItemPageLocation/ItemPageLocation'
 /*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
 export BaseFilterItem from './BaseFilterItem/BaseFilterItem'
