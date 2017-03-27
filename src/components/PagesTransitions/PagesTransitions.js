@@ -1,55 +1,56 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { classNames } from 'helpers'
-import { Switch } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import s from './PagesTransitions.sass'
 
 
-const mapStateToProps = ({device: {width, height}, dom: {update}}) => ({
-  width, height,
-
-  updateDom: block => update({
-    name: 'content',
-    block
-  })
-});
-
-@inject(mapStateToProps) @observer
+@withRouter
 export default class PagesTransitions extends Component {
   isFirst = true;
-  dom = {};
-  dur = .7;
+  dur = .3;
   ease = Cubic.easeOut;
 
-  componentWillReceiveProps({currentPage}) {
-    const props = this.props;
-
-    if (props.currentPage !== 0) {
-      this.isFirst = false;
-    }
-
-    if (currentPage !== props.currentPage) {
-      this.update(currentPage, props.currentPage);
-    }
-  }
   componentDidMount() {
     this.animation();
   }
 
-  update(prev, next) {
-    if (!this.isFirst) {
-      // we will add direction support in future
-      const direction = prev < next ? 'next' : 'prev';
+  componentDidUpdate({location}) {
+    // compare old and new location
+    // to detect changes and prevent
+    // launching animation when
+    // we don't need that
+    const isEqual = this.shallowEqual(
+      location, this.props.location
+    );
 
-      this.animation(direction);
+    if (!isEqual) {
+      this.update()
     }
+  }
+
+  shallowEqual(prev, next) {
+    if (prev.hash !== next.hash) {
+      return false;
+    }
+    if (prev.search !== next.search) {
+      return false;
+    }
+
+    return prev.pathname === next.pathname
+  }
+
+  update() {
+    if (!this.isFirst) {
+      return this.animation();
+    }
+
+    this.isFirst = false;
   }
 
   animation() {
     if (!this.wrapper) return;
     const { dur, ease } = this;
 
-    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
 
     TweenMax.fromTo(this.wrapper, dur, {
       opacity: 0,
@@ -63,15 +64,12 @@ export default class PagesTransitions extends Component {
 
   getRef = b => {
     this.wrapper = b;
-    this.props.updateDom(b);
   };
 
   render() {
-    const { className, children } = this.props;
-
     return (
-      <div className={classNames(s.wrapper, className)} ref={this.getRef}>
-        {children}
+      <div className={s.wrapper} ref={this.getRef}>
+        {this.props.children}
       </div>
     )
   }

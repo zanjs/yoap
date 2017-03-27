@@ -57,15 +57,17 @@ export default class App extends Component {
           <NavContainer />
 
           {/* Routes */}
-          <Switch>
-            <Route path="/" exact component={HomePage}/>
-            <Route path="/login" component={LoginPage}/>
-            <Route path="/signup" component={SignupPage} />
-            <Route path="/y" exact component={ItemsListPage}/>
-            <Route path="/y/object" exact component={ItemPage}/>
-            <Route path="/y/edit" exact component={ItemPageEdit}/>
-            <Route path="/you" exact component={UserPage}/>
-          </Switch>
+          <PagesTransitions>
+            <Switch>
+              <Route path="/" exact component={HomePage}/>
+              <Route path="/login" component={LoginPage}/>
+              <Route path="/signup" component={SignupPage} />
+              <Route path="/y" exact component={ItemsListPage}/>
+              <Route path="/y/object" exact component={ItemPage}/>
+              <Route path="/y/edit" exact component={ItemPageEdit}/>
+              <Route path="/you" exact component={UserPage}/>
+            </Switch>
+          </PagesTransitions>
           {/*<PagesTransitions className={s.content}>*/}
             {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}
             {/*<PathNotify index={1} path="/login" component={LoginPage}/>*/}
