@@ -34,6 +34,10 @@ class ItemsStore {
   };
 
   responseHandler = response => {
+    if (response.json) {
+      return this.fromJSON(response.json())
+    }
+
     this.fromJSON(response.data);
   };
 
@@ -62,8 +66,8 @@ class ItemsStore {
 
   fetchItems = cb => {
     getItems(data)
-      .then(this.checkStatus)
-      .then(this.parseJSON)
+      // .then(this.checkStatus)
+      // .then(this.parseJSON)
       .then(this.responseHandler)
       .catch(this.errorHandler);
   };

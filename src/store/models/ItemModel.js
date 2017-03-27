@@ -348,6 +348,8 @@ export default class ItemModel {
   constructor(store, data) {
     this.store = store;
 
+    console.log(data);
+
     extend(this, data);
   }
   destroy = () => {

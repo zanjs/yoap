@@ -11,19 +11,14 @@ import {
   ItemPageInfoContainer,
   ItemPageLocationContainer
 } from 'containers'
-import { randomNumber, normalizeScroll } from 'helpers'
-import { ItemModel } from 'models'
-import itemData from './item'
+import { randomNumber, normalizeScroll, isEmpty } from 'helpers'
 import s from './ItemPage.sass'
 
-
+@inject(({items: {data}}) => ({data}))
 export default class ItemPage extends Component {
-  static defaultProps = {
-    data: ItemModel.fromJS(null, itemData)
-  };
-
   state = {
-    shouldUpdate: 0
+    shouldUpdate: 0,
+    data: {}
   };
 
   onChange = () => {
@@ -32,6 +27,29 @@ export default class ItemPage extends Component {
     this.setState({
       shouldUpdate
     })
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const {match: {params}, data} = nextProps;
+    const { props } = this;
+    if (props.match.params.link !== params.link || data !== props.data) {
+      this.setData()
+    }
+  }
+  componentDidMount() {
+    this.setData();
+  }
+
+  setData = (props = this.props) => {
+    const { data, match: {params} } = props;
+    if (isEmpty(data))
+      return;
+
+    this.setState({
+      data: data.find(
+        item => item.link === params.link
+      )
+    });
   };
 
   componentWillMount() {
@@ -43,13 +61,14 @@ export default class ItemPage extends Component {
 
   render() {
     const {
-      props: {data},
-      state: {shouldUpdate},
+      state: {shouldUpdate, data},
       onChange
     } = this;
 
-    const { types } = data;
+    if (isEmpty(data))
+      return null;
 
+    const { types } = data;
     window.data = data;
 
     return (

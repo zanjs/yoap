@@ -1,4 +1,4 @@
-export const fakeApiTimeout = 6000;
+export const fakeApiTimeout = 2000;
 export const ___PW = 'us--exp';
 
 export const divider = '-';

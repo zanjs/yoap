@@ -63,8 +63,8 @@ export default class App extends Component {
               <Route path="/login" component={LoginPage}/>
               <Route path="/signup" component={SignupPage} />
               <Route path="/y" exact component={ItemsListPage}/>
-              <Route path="/y/object" exact component={ItemPage}/>
               <Route path="/y/edit" exact component={ItemPageEdit}/>
+              <Route path="/y/:link" exact component={ItemPage}/>
               <Route path="/you" exact component={UserPage}/>
             </Switch>
           </PagesTransitions>

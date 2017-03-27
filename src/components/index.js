@@ -26,6 +26,7 @@ export Slider from './Slider/Slider'
 export SliderImages from './SliderImages/SliderImages'
 export Map from './Map/Map'
 export MapMarker from './MapMarker/MapMarker'
+export MapItems from './MapItems/MapItems'
 
 /*----------- components */
 export SocialLinks from './SocialLinks/SocialLinks'

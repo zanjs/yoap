@@ -74,7 +74,7 @@ export default class ItemTile extends Component {
     const { squares, rooms, type } = this.getSize();
 
     return (
-      <RouterLink ref={getRef} to={link || "/y/object"}
+      <RouterLink ref={getRef} to={link || `/y/${data.link}`}
                   className={classNames(s.wrapper, className)}>
         {/* Image */}
         <div className={classNames(s.image, imageClassName)}>
