@@ -13,3 +13,5 @@ export BaseFilterRoomsContainer from './BaseFilterRoomsContainer/BaseFilterRooms
 export ProFilterContainer from './ProFilterContainer/ProFilterContainer'
 export LoginFormContainer from './LoginFormContainer/LoginFormContainer'
 export SignupFormContainer from './SignupFormContainer/SignupFormContainer'
+
+export ItemPageParametersContainer from './ItemPageParametersContainer/ItemPageParametersContainer'

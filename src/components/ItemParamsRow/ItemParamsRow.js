@@ -13,7 +13,7 @@ export default class ItemParamsRow extends Component {
 
   toggleFullState = () => this.setState(({isFull}) => ({
     isFull: !isFull
-  }))
+  }), this.props.onChange);
 
 
 
@@ -40,14 +40,14 @@ export default class ItemParamsRow extends Component {
         )
       })}
     </FlexGrid>
-  )
+  );
 
   isActive = data => data.find(item => item.isActive);
 
   render() {
     const {
       limit, state: { isFull } ,
-      props: { title, children, data, onItemClick, onTitleClick }
+      props: { title, children, data, onItemClick, onTitleClick, readOnly }
     } = this;
     const isLimited = data && data.length > limit + 1;
     const isActive = data && this.isActive(data);
@@ -56,7 +56,7 @@ export default class ItemParamsRow extends Component {
       <div className={s.wrapper}>
         <Title onClick={onTitleClick && (() => onTitleClick(data))} size="5" regular light
                className={classNames(s.title, isActive && s.title_clear)}>
-          {isActive ? `${title} — Очистить` : title}
+          {isActive && !readOnly ? `${title} — Очистить` : title}
         </Title>
         {data && this.renderRows(data, onItemClick, isFull, limit)}
         {children && <FlexGrid className={s.grid} justify="start" align="start" wrap="true">

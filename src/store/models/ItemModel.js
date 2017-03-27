@@ -191,6 +191,44 @@ export default class ItemModel {
   }
 
   /**
+   * Serialize object params types.
+   *
+   * @returns {Array}
+   */
+  @computed get types() {
+    const { facilities, amenities, rules } = this;
+    let types = [];
+
+    // get facilities types
+    facilities.forEach(item => {
+      if (item.types.length > 0) {
+        types = [
+          ...types,
+          ...item.types
+        ]
+      }
+    });
+    // get amenities types
+    if (amenities.types.length > 0) {
+      types = [
+        ...types,
+        ...amenities.types
+      ]
+    }
+    // get rules types
+    if (rules.types.length > 0) {
+      types = [
+        ...types,
+        ...rules.types
+      ]
+    }
+
+    console.log({ facilities, amenities, rules });
+
+    return types;
+  };
+
+  /**
    * Object with pictures.
    * Contains image for preview & gallery with compressed versions
    * of images around 1kb.

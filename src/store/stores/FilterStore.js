@@ -61,18 +61,40 @@ class FilterStore {
     this.floor = value;
   };
 
+  getActiveParametersFromData = params => {
+    const lastElement = this.data.length - 1;
+    const data = this.data.filter((item, index) => (
+      index !== 0 && index !== lastElement
+    ));
+
+    return data.map((item, key) => {
+      const types = item.types.map((type, index) => {
+        const paramIndex = params.findIndex(param => param.id === type.id);
+
+        type.isActive = paramIndex >= 0;
+
+        return type;
+      });
+
+      return {
+        ...item,
+        types
+      }
+    });
+  };
+
   configureTypes = data => {
     const configure = ({isActive, ...rest}) => ({
       ...rest,
       @observable isActive: false
-    })
+    });
 
     return data.map(configure)
-  }
+  };
   configureData = data => ({
     ...data,
     @observable types: this.configureTypes(data.types)
-  })
+  });
   configureFacilities = data => {
     let types = [];
 
@@ -104,7 +126,7 @@ class FilterStore {
 
   @action setCategory = data => {
     this.category = data;
-  }
+  };
 
   fetchItems = cb => getItems().then(resp => cb(resp.json()));
 
@@ -126,7 +148,7 @@ class FilterStore {
     );
   };
 
-  removeAll = f => {
+  removeAll = () => {
     this.data.replace([]);
   };
 

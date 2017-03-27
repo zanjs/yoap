@@ -22,6 +22,9 @@ export Defender from './Defender/Defender'
 export InputNumber from './InputNumber/InputNumber'
 export InputClean from './InputClean/InputClean'
 
+export Slider from './Slider/Slider'
+export SliderImages from './SliderImages/SliderImages'
+
 /*----------- components */
 export SocialLinks from './SocialLinks/SocialLinks'
 export Logo from './Logo/Logo'
@@ -52,6 +55,7 @@ export ItemPageInfoEditIcon from './ItemPageInfoEditIcon/ItemPageInfoEditIcon'
 
 export ItemPageInfo from './ItemPageInfo/ItemPageInfo'
 export ItemPageInfoEdit from './ItemPageInfoEdit/ItemPageInfoEdit'
+export ItemPageParameters from './ItemPageParameters/ItemPageParameters'
 /*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
 export BaseFilterItem from './BaseFilterItem/BaseFilterItem'

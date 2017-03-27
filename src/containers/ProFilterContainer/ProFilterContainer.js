@@ -12,21 +12,21 @@ const mapStateToProps = ({
 export default class ProFilterContainer extends Component {
   onBedRoomsChange = value => this.props.sizeChange(
     'bedrooms', value
-  )
+  );
   onBedsChange = value => this.props.sizeChange(
     'beds', value
-  )
+  );
   onBathRoomsChange = value => this.props.sizeChange(
     'bathrooms', value
-  )
+  );
   onFloorChange = value => this.props.floorChange(
     value
-  )
+  );
   onSquaresChange = value => {
     this.props.squaresChange(
       'total', value
     )
-  }
+  };
 
   render() {
     const { data, size, floor } = this.props;

@@ -12,17 +12,37 @@ export default class ItemParams extends Component {
     item.isActive = !item.isActive;
   };
 
+  titleClickHandler = e => {
+    if (!this.props.readOnly) {
+      this.toggleActive(e)
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
+  };
+  itemClickHandler = e => {
+    if (!this.props.readOnly) {
+      this.toggleActive(e)
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
+  };
+
 
   render() {
-    const { data, readOnly, children } = this.props
+    const { data, readOnly, children, onChange } = this.props;
 
     return (
       <div className={s.wrapper}>
         {children}
         {data.map((item, key) => (
-          <ItemParamsRow onItemClick={!readOnly && this.toggleActive}
-                         onTitleClick={!readOnly && this.clearCategory}
-                         title={item.name} key={key}
+          <ItemParamsRow onItemClick={this.itemClickHandler}
+                         onTitleClick={this.titleClickHandler}
+                         onChange={onChange}
+                         title={item.name} key={key} readOnly={readOnly}
                          data={item.types}/>
         ))}
       </div>

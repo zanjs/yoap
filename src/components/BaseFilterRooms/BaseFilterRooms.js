@@ -11,7 +11,7 @@ const Item = ({onClick, isActive, children}) => {
       {children}
     </span>
   )
-}
+};
 
 export default class BaseFilterRooms extends Component {
   clickHandler = room => {

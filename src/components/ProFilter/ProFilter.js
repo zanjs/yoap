@@ -3,10 +3,10 @@ import { ItemParams, ItemParamsRowSize } from 'components'
 
 export default class ProFilter extends Component {
   render() {
-    const { data, size } = this.props
+    const { data, size, readOnly, onChange } = this.props;
     return (
-      <ItemParams data={data}>
-        <ItemParamsRowSize title="Комнаты и кровати" {...size}/>
+      <ItemParams onChange={onChange} readOnly data={data}>
+        {size && <ItemParamsRowSize readOnly title="Комнаты и кровати" {...size}/>}
       </ItemParams>
     )
   }

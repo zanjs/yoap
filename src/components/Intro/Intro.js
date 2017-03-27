@@ -20,7 +20,7 @@ export default class Intro extends Component {
   state = {isFilterFull: false};
   toggleFull = () => this.setState(({isFilterFull}) => ({
     isFilterFull: !isFilterFull
-  }))
+  }));
 
   render() {
     const { isFilterFull } = this.state;

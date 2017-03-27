@@ -5,7 +5,7 @@ import {
   UserCustomAddress,
   Container, FlexGrid,
   LinkIcon, ItemTile,
-  Svg
+  Svg, Content
 } from 'components'
 import s from './UserPage.sass'
 
@@ -34,6 +34,12 @@ export default class UserPage extends Component {
               </ItemPageUser>
 
               <UserCustomAddress />
+              <div className={s.item}>
+                <ItemPageInfoTitle title="Подписка" />
+                <Content nooffsets light size="3">Расширенный тариф до 21.04.17</Content>
+                <Content nooffsets light size="3">Осталось 30 дней и 293 открытия</Content>
+              </div>
+
             </div>
 
             <div className={s.data}>

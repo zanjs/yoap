@@ -1,12 +1,12 @@
+const app = require('./app');
 const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpackConfig = require('../webpack/webpack.config.dev');
+const webpackConfig = require('../webpack/webpack.config.server');
 
-const app = express();
-const port = 8080;
+const port = process.env.YOUR_PORT || process.env.PORT || 5000;
 
 // Webpack settings
 const compiler = webpack(webpackConfig);
