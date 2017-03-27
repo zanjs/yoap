@@ -4,6 +4,7 @@ import {
   ItemPageUser, ItemPageType,
   ItemPagePrice, ItemPageRating
 } from 'components'
+import { classNames } from 'helpers'
 import s from './ItemPageInfo.sass'
 
 import userImage from 'images/user.jpg'
@@ -11,7 +12,7 @@ import userImage from 'images/user.jpg'
 export default class ItemPageInfo extends Component {
   render() {
     return (
-      <div className={s.wrapper}>
+      <div className={classNames(s.wrapper, this.props.className)}>
         <ItemPageTitle id="021" status="Модерация">
           Светлая квартира в нордическом стиле
         </ItemPageTitle>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { inject } from 'mobx-react'
+import { devicesBreakpoints } from 'config'
 import s from './ItemPageInfoScroller.sass'
 
-@inject(({device: {scrollY, height}}) => ({
-  scrollY, height
+@inject(({device: {scrollY, height, width}}) => ({
+  scrollY, height, isMobile: width <= devicesBreakpoints.mobile
 }))
 export default class ItemPageInfoScroller extends Component {
   state = {min: this.props.min, max: this.props.max};
@@ -36,6 +37,8 @@ export default class ItemPageInfoScroller extends Component {
     }, cb);
   };
   resizeHandler = () => setTimeout(() => {
+    if (this.props.isMobile)
+      return;
     this.resize(() => this.scroll(this.props.scrollY));
   }, 100);
 
@@ -49,6 +52,9 @@ export default class ItemPageInfoScroller extends Component {
   }
 
   scroll = pos => {
+    if (this.props.isMobile)
+      return;
+
     const { min, max } = this.state;
     let y = pos + 0;
 
@@ -56,11 +62,6 @@ export default class ItemPageInfoScroller extends Component {
       y = min;
     if (y >= max)
       y = max;
-
-    console.log({
-      y,
-      min, max
-    });
 
     this.static.style.top = `${y}px`;
   };
@@ -70,11 +71,14 @@ export default class ItemPageInfoScroller extends Component {
   getScrollerRef = b => this.scroller = b;
 
   render() {
-    const { children, fixed, height, style } = this.props;
+    const { children, fixed, height, isMobile, style } = this.props;
+
+    const staticStyles = {height: (isMobile ? height * .7 : height) + 'px'};
 
     return (
       <div ref={this.getWrapperRef} className={s.wrapper}>
-        <div style={{height: `${height}px`}} ref={this.getStaticRef} className={s.static}>
+        <div style={staticStyles} ref={this.getStaticRef}
+             className={s.static}>
           {fixed}
         </div>
         <div ref={this.getScrollerRef} className={s.scroller} style={style}>

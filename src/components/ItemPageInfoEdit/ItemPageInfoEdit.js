@@ -14,14 +14,14 @@ export default class ItemPageInfoEdit extends Component {
     content: '',
     type: {},
     price: []
-  }
+  };
 
   onChangeTitle = ({target: {value}}) =>
-    this.setState({title: value})
+    this.setState({title: value});
   onChangeContent = ({target: {value}}) =>
-    this.setState({content: value})
+    this.setState({content: value});
   onTypeChange = type =>
-    this.setState({type})
+    this.setState({type});
   onPriceChange = data => {
     if (data.delete) {
       return this.setState({
@@ -37,7 +37,7 @@ export default class ItemPageInfoEdit extends Component {
         data
       ]
     })
-  }
+  };
 
   render() {
     const { title, content, type, price } = this.state;

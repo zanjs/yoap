@@ -13,14 +13,23 @@ $staticWidth: 48%
   width: $staticWidth
   height: 100%
   background-color: #ddd
+  @include respond(mobile)
+    position: static
+    width: 100% !important
+    height: auto
 
 .scroller
   position: relative
   margin-left: 50%
   width: 50%
+  @include respond(mobile)
+    margin-left: 0
+    width: 100%
 
 .container
   width: 80%
   max-width: $containerPX / 2
   margin-right: auto
   margin-left: 60px
+  @include respond(mobile)
+    @include container(root)

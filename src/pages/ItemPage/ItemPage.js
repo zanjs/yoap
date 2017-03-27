@@ -7,7 +7,7 @@ import {
 } from 'components'
 import { ItemPageParametersContainer } from 'containers'
 import { randomNumber } from 'helpers'
-//import s from './ItemPage.sass'
+import s from './ItemPage.sass'
 
 @inject(({items: {data}}) => ({
   images: data ? data[0].images.gallery : null,
@@ -37,20 +37,12 @@ export default class ItemPage extends Component {
 
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <SliderImages data={images}/>
-        )} style={{padding: '200px 0'}}>
-          {/*<ItemPageInfoEdit />*/}
-          <ItemPageInfo />
+        )}>
+          <ItemPageInfo className={s.info} />
         </ItemPageInfoScroller>
 
         <ItemPageParametersContainer onChange={onChange}
                                      data={item.types} />
-
-        <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
-          <SliderImages data={images}/>
-        )} style={{padding: '200px 0'}}>
-          {/*<ItemPageInfoEdit />*/}
-          <ItemPageInfo />
-        </ItemPageInfoScroller>
       </div>
     )
   }

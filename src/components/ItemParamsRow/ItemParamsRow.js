@@ -54,7 +54,7 @@ export default class ItemParamsRow extends Component {
 
     return (
       <div className={s.wrapper}>
-        <Title onClick={onTitleClick && (() => onTitleClick(data))} size="5" regular light
+        <Title onClick={onTitleClick && (() => onTitleClick(data))} size="5" regular
                className={classNames(s.title, isActive && s.title_clear)}>
           {isActive && !readOnly ? `${title} — Очистить` : title}
         </Title>
