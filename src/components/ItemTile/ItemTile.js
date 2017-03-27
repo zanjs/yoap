@@ -94,16 +94,15 @@ export default class ItemTile extends Component {
         <div className={classNames(s.content, contentClassName)}>
           {/* Subway */}
           {subway &&
-          <FlexGrid align="center" justify="start"
-                    className={s.subway}>
-            <Svg className={s.subway__icon}
-                 src={subwayIcon} style={{fill: subway.color}}/>
-            <Content className={s.nooffsets}
-                     size="6" regular gray>
-              {subway.name || subway.content}
-            </Content>
-          </FlexGrid>
-          }
+            <FlexGrid align="center" justify="start"
+                      className={s.subway}>
+              <Svg className={s.subway__icon}
+                   src={subwayIcon} style={{fill: subway.color}}/>
+              <Content className={s.nooffsets}
+                       size="6" regular gray>
+                {subway.name || subway.content}
+              </Content>
+            </FlexGrid>}
 
           {/* Title */}
           <div className={s.title}>
@@ -119,8 +118,8 @@ export default class ItemTile extends Component {
                 </Content>
                 <Content className={s.title__content}
                          size="5" gray regular>
-                  <StarsRating className={s.stars}
-                               itemClassName={s.star} tag="span" value={rating || 5}/>
+                  <StarsRating itemClassName={s.star}
+                               tag="span" value={rating || 5}/>
                 </Content>
               </FlexGrid>
             </div>
