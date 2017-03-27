@@ -4,7 +4,7 @@ import {
   ItemPageUser, ItemPageType,
   ItemPagePrice, ItemPageRating
 } from 'components'
-import { classNames } from 'helpers'
+import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
 import userImage from 'images/user.jpg'
@@ -16,6 +16,14 @@ export default class ItemPageInfoEdit extends Component {
     type: {},
     price: []
   };
+
+  componentWillMount() {
+    normalizeScroll(true);
+  }
+  componentWillUnmount() {
+    normalizeScroll(false);
+  }
+
 
   onChangeTitle = ({target: {value}}) =>
     this.setState({title: value});
@@ -60,7 +68,7 @@ export default class ItemPageInfoEdit extends Component {
         </ItemPageUser>
         <ItemPageType id={type.id} edit onChange={this.onTypeChange}/>
         <ItemPagePrice data={price} edit onChange={this.onPriceChange} />
-        <ItemPageRating />
+        <ItemPageRating data={{name: 'Комфорт', value: 5}}/>
       </div>
     )
   }

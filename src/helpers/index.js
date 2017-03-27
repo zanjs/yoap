@@ -17,6 +17,7 @@ export fetch from './app/fetch'
 export generateItemTypes from './app/generateItemTypes'
 export getOrderId from './app/getOrderId'
 export Map from './app/Map'
+export normalizeScroll from './app/normalizeScroll'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'

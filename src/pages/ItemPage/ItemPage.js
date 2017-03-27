@@ -11,7 +11,7 @@ import {
   ItemPageInfoContainer,
   ItemPageLocationContainer
 } from 'containers'
-import { randomNumber } from 'helpers'
+import { randomNumber, normalizeScroll } from 'helpers'
 import { ItemModel } from 'models'
 import itemData from './item'
 import s from './ItemPage.sass'
@@ -33,6 +33,13 @@ export default class ItemPage extends Component {
       shouldUpdate
     })
   };
+
+  componentWillMount() {
+    normalizeScroll(true);
+  }
+  componentWillUnmount() {
+    normalizeScroll(false);
+  }
 
   render() {
     const {

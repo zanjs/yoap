@@ -218,10 +218,10 @@ class DeviceStore {
   };
 
   getScrollPosition = () => {
-    var doc = this.doc;
+    const doc = this.doc;
     this.scrollX = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
     this.scrollY = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-  }
+  };
   subscribeToScrollEvent = () => {
     this.getScrollPosition();
     window.addEventListener('scroll', this.getScrollPosition)

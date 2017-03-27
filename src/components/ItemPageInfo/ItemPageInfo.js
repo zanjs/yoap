@@ -23,7 +23,6 @@ export default class ItemPageInfo extends Component {
       <div className={classNames(s.wrapper, this.props.className)}>
         <Helmet title={title}/>
         <ItemPageTitle id="021" status={status}>{title}</ItemPageTitle>
-        <ItemPageContent>{description}</ItemPageContent>
         <ItemPageUser phone={user.phone}
                       email={user.email}
                       link={user.link || '/y'}
@@ -32,6 +31,7 @@ export default class ItemPageInfo extends Component {
         </ItemPageUser>
         <ItemPageType name={type.name}/>
         <ItemPagePrice data={price} />
+        <ItemPageContent>{description}</ItemPageContent>
         <ItemPageRating data={category} value={rating} />
       </div>
     )
