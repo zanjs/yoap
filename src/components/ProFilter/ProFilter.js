@@ -5,8 +5,8 @@ export default class ProFilter extends Component {
   render() {
     const { data, size, readOnly, onChange } = this.props;
     return (
-      <ItemParams onChange={onChange} readOnly data={data}>
-        {size && <ItemParamsRowSize readOnly title="Комнаты и кровати" {...size}/>}
+      <ItemParams onChange={onChange} readOnly={readOnly} data={data}>
+        {size && <ItemParamsRowSize readOnly={readOnly} title="Комнаты и кровати" {...size}/>}
       </ItemParams>
     )
   }

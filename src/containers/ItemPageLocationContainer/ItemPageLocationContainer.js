@@ -26,7 +26,7 @@ export default class ItemPageLocationContainer extends Component {
       <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
         <Map wrapperClassName={mapClassName}
              markerComponent={MapMarker}
-             markerProps={data} point={point}
+             markerProps={this.props} point={point}
              className={mapClassName} />
       )}>
         <ItemPageLocation data={data.location} />

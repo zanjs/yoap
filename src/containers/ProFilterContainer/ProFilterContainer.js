@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { ProFilter } from 'components'
+import { ProFilter, Button, FlexGrid } from 'components'
 
 
 const mapStateToProps = ({
@@ -46,7 +46,13 @@ export default class ProFilterContainer extends Component {
 
 
     return (
-      <ProFilter data={data} size={_size}/>
+      <div>
+        <ProFilter readOnly={false} data={data} size={_size}/>
+        <FlexGrid justify="end" align="center">
+          <Button type="text">Отменить</Button>
+          <Button type="pink">Поиск</Button>
+        </FlexGrid>
+      </div>
     )
   }
 }

@@ -44,7 +44,6 @@ export default class Map extends Component {
         router: PropTypes.object
       };
       getChildContext() {
-        console.log(context);
         return context;
       }
       render() {
@@ -59,8 +58,7 @@ export default class Map extends Component {
     const Router = this.simulateRouter(this.context);
 
     return this.MapObject.createMarker({
-      data,
-      map: this.map,
+      data, map: this.map,
       className: s.marker,
       render: (
         <Provider {...store}>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Svg, FlexGrid } from 'components'
+import { classNames } from 'helpers'
 import s from './StarsRating.sass'
 
 import starIcon from 'icons/ui/star.svg'
@@ -33,22 +34,25 @@ export default class StarsRating extends Component {
         ease
       })
     })
-  }
+  };
 
   render() {
+    const {
+      className, itemClassName, tag
+    } = this.props;
     return (
-      <FlexGrid justify="start" align="center"
-                className={this.props.className}>
+      <FlexGrid tag={tag} justify="start" align="center"
+                className={className}>
         <Svg getRef={b => this.blocks[0] = b}
-             src={starIcon} className={s.item} tag="span"/>
+             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
         <Svg getRef={b => this.blocks[1] = b}
-             src={starIcon} className={s.item} tag="span"/>
+             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
         <Svg getRef={b => this.blocks[2] = b}
-             src={starIcon} className={s.item} tag="span"/>
+             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
         <Svg getRef={b => this.blocks[3] = b}
-             src={starIcon} className={s.item} tag="span"/>
+             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
         <Svg getRef={b => this.blocks[4] = b}
-             src={starIcon} className={s.item} tag="span"/>
+             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
       </FlexGrid>
     )
   }

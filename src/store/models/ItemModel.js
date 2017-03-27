@@ -76,7 +76,7 @@ export default class ItemModel {
    */
   @observable _type;
   @computed get type() {
-    return objectTypes.types.filter(item => item.id === this._type)[0];
+    return objectTypes.types.find(item => item.id === this._type);
   }
 
   /**

@@ -18,9 +18,9 @@
   margin-top: 10px
   border-radius: 6px
   cursor: pointer
-  transition: background $animParams, color $animParams, fill $animParams, box-shadow $animParams
+  transition: background $animParams, color $animParams, fill $animParams, box-shadow $animParams, opacity $animParams
   box-shadow: none
-  color: $black
+  color: $text
   &[disabled]
     opacity: .7 !important
 
@@ -31,6 +31,18 @@
 .min
   font-size: 14px !important
   padding: 7px 10px !important
+
+.text
+  @extend .btn
+  border: none
+  background-color: transparent
+  color: $text
+  &:hover
+    border: none
+    color: $text
+    opacity: .7
+    background-color: transparent
+
 
 .light
   @extend .btn

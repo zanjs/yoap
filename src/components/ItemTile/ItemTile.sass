@@ -30,6 +30,7 @@
   overflow: hidden
   transition: box-shadow $animParams
   z-index: 0
+  @include flexbox(column, flex-end, flex-end, no)
 
 .img
   @include absolute_center(normal, 0)
@@ -94,4 +95,14 @@
 
 
 .price
-  @extend .nooffsets
+  display: block
+  padding: 14px 0
+  &__wrapper
+    position: relative
+    z-index: 10
+
+.stars
+  margin-left: 10px
+.star
+  @include size(14px)
+  fill: $gray9b !important

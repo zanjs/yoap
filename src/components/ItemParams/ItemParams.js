@@ -14,7 +14,7 @@ export default class ItemParams extends Component {
 
   titleClickHandler = e => {
     if (!this.props.readOnly) {
-      this.toggleActive(e)
+      this.clearCategory(e)
     }
 
     if (this.props.onChange) {

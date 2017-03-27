@@ -5,6 +5,7 @@ import s from './MapMarker.sass'
 
 
 export default class MapMarker extends Component {
+
   componentDidMount() {
     this.removeWrapperChunks()
   }
@@ -41,7 +42,7 @@ export default class MapMarker extends Component {
                 contentClassName={s.item__content}
                 imageClassName={s.item__image}
                 getRef={this.getRef} link="/"
-                data={this.props}/>
+                data={this.props.data}/>
     )
   }
 }

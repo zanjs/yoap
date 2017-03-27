@@ -50,16 +50,16 @@ export default class ItemPage extends Component {
 
     const { types } = data;
 
-    console.log(window.data = data);
+    window.data = data;
 
     return (
       <div>
         {/* Object title, des, images, price, rating, etc. */}
         <ItemPageInfoContainer data={data} shouldUpdate={shouldUpdate}/>
-        {/* Object params */}
-        <ItemPageParametersContainer onChange={onChange} data={types} />
         {/* Object location */}
         <ItemPageLocationContainer data={data} shouldUpdate={shouldUpdate}/>
+        {/* Object params */}
+        <ItemPageParametersContainer onChange={onChange} data={types} />
       </div>
     )
   }
