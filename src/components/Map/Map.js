@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Provider } from 'mobx-react'
 import { store } from 'store'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Svg } from 'components'
+import { Svg, MapMarker } from 'components'
 import {
   loop, classNames, Map as MapClass
 } from 'helpers'
@@ -52,10 +52,9 @@ export default class Map extends Component {
     }
   };
 
-  createMarker = (data) => {
-    const Element = this.props.markerComponent;
-    const MarkerProps = this.props.markerProps;
+  createMarker = data => {
     const Router = this.simulateRouter(this.context);
+    console.log(data);
 
     return this.MapObject.createMarker({
       data, map: this.map,
@@ -63,7 +62,7 @@ export default class Map extends Component {
       render: (
         <Provider {...store}>
           <Router>
-            <Element {...MarkerProps}/>
+            <MapMarker {...data.props}/>
           </Router>
         </Provider>
       )
@@ -79,7 +78,7 @@ export default class Map extends Component {
       }
     } = this;
     this.markers = [];
-    this.map = MapObject.createMap(this.mapBlock);
+    this.map = MapObject.createMap(this.mapBlock, this.props.options);
 
     this.transitLayer = new MapObject.TransitLayer();
     this.transitLayer.setMap(this.map);
@@ -168,9 +167,9 @@ export default class Map extends Component {
 
   render() {
     const { isLoaded } = this.state;
-    const { className, wrapperClassName } = this.props;
+    const { className, wrapperClassName, style } = this.props;
     return (
-      <div className={classNames(s.wrapper, wrapperClassName)}>
+      <div className={classNames(s.wrapper, wrapperClassName)} style={style}>
         <div className={classNames(s.map, className)} ref={b => this.mapBlock = b}
              style={{display: isLoaded ? 'block' : 'none'}}/>
         {!isLoaded && <div className={classNames(s.map, className)}>

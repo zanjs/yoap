@@ -33,8 +33,11 @@ export default class Map {
     }, scriptId);
   };
 
-  createMap = block => {
-    return this.map = new this.Map(block, this.options);
+  createMap = (block, options) => {
+    return this.map = new this.Map(block, {
+      ...this.options,
+      ...options
+    });
   };
   createMarker = ({data, className, html, render, _icon = bulletIconPng, map = this.map}) => {
     const {

@@ -7,26 +7,21 @@ import {
 
 
 export default class ItemPageLocationContainer extends Component {
-  state = {
-    point: {
-      position: [59.8103184, 30.362779]
-    }
-  };
-
   render() {
     const { mapClassName } = ItemPageLocation;
     const {
       shouldUpdate, data
     } = this.props;
-    const {
-      point
-    } = this.state;
+
+    const pointData = {
+      position: data.location.location,
+      props: data
+    };
 
     return (
       <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
         <Map wrapperClassName={mapClassName}
-             markerComponent={MapMarker}
-             markerProps={this.props} point={point}
+             point={pointData}
              className={mapClassName} />
       )}>
         <ItemPageLocation data={data.location} />

@@ -33,7 +33,7 @@ export default class ItemPage extends Component {
     const {match: {params}, data} = nextProps;
     const { props } = this;
     if (props.match.params.link !== params.link || data !== props.data) {
-      this.setData()
+      this.setData(nextProps);
     }
   }
   componentDidMount() {

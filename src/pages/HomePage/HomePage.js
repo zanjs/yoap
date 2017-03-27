@@ -3,7 +3,9 @@ import {
   Intro, BannerThreeCols, BannerTwoCols,
   PricingBanner, PricingBannerFull
 } from 'components'
-import { ItemTilesBannerContainer } from 'containers'
+import {
+  ItemTilesBannerContainer, MapItemsContainer
+} from 'containers'
 import s from './HomePage.sass'
 
 const bannerThreeColsContent = [
@@ -26,6 +28,7 @@ export default class HomePage extends Component {
     return (
       <div className={s.homepage}>
         <Intro />
+        <MapItemsContainer />
         <ItemTilesBannerContainer />
         <PricingBanner />
         <PricingBannerFull />
