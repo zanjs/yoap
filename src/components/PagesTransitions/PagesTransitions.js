@@ -6,7 +6,7 @@ import s from './PagesTransitions.sass'
 @withRouter
 export default class PagesTransitions extends Component {
   isFirst = true;
-  dur = .3;
+  dur = .7;
   ease = Cubic.easeOut;
 
   componentDidMount() {

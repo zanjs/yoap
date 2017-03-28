@@ -3,7 +3,9 @@ import {
   FlexGrid, Link, BaseFilterItem, Svg
 } from 'components'
 import {
-  BaseFilterCategoryContainer, BaseFilterRoomsContainer
+  BaseFilterCategoryContainer,
+  BaseFilterRoomsContainer,
+  BaseFilterPriceContainer
 } from 'containers'
 import s from './BaseFilter.sass'
 
@@ -21,11 +23,8 @@ export default class BaseFilter extends Component {
             Звенигородская
           </BaseFilterItem>
           <BaseFilterCategoryContainer />
-          <BaseFilterItem noborder title="Стоимость в месяц">
-            <br/>
-            от 45.000 <br />
-            до 65.000
-          </BaseFilterItem>
+          <BaseFilterPriceContainer />
+
           <BaseFilterItem tag={Link} to="/y"
                           className={s.icon__wrapper} render={(
             <Svg className={s.icon} src={arrowIcon}/>

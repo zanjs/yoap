@@ -17,13 +17,13 @@ import {
 import { NavContainer } from 'containers'
 import s from './App.sass'
 
-configureDevtool({
-  // Turn on logging changes button programmatically:
-  logEnabled: true,
-  // Turn off displaying conponents' updates button programmatically:
-  updatesEnabled: false,
-  renderReporter: true
-});
+// configureDevtool({
+//   // Turn on logging changes button programmatically:
+//   logEnabled: true,
+//   // Turn off displaying conponents' updates button programmatically:
+//   updatesEnabled: false,
+//   renderReporter: true
+// });
 
 
 export default class App extends Component {
