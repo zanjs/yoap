@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {
   ItemPageInfoScroller,
-  ItemPageLocation,
-  Map, MapMarker
+  ItemPageLocation
 } from 'components'
+import { MapContainer } from 'containers'
 
 
 export default class ItemPageLocationContainer extends Component {
@@ -15,14 +15,14 @@ export default class ItemPageLocationContainer extends Component {
 
     const pointData = {
       position: data.location.location,
-      props: data
+      props: { data }
     };
 
     return (
       <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
-        <Map wrapperClassName={mapClassName}
-             point={pointData}
-             className={mapClassName} />
+        <MapContainer wrapperClassName={mapClassName}
+                      className={mapClassName}
+                      point={pointData}/>
       )}>
         <ItemPageLocation data={data.location} />
       </ItemPageInfoScroller>

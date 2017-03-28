@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-import { inject } from 'mobx-react'
-import { MapItems, Title, Content } from 'components'
+import { inject, observer } from 'mobx-react'
+import { MapItems } from 'components'
 
-@inject(({items: {data}, device: {height}}) => ({data, height}))
+const mapStateToProps = ({items, device: {height}}) => ({
+  height, items, data: items.data
+});
+
+@inject(mapStateToProps) @observer
 export default class MapItemsContainer extends Component {
   render() {
+    console.log('mapitemsrender');
     return (
       <MapItems height={this.props.height}
-                data={this.props.data}/>
+                data={this.props.items.data}/>
     )
   }
 }

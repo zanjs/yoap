@@ -6,7 +6,7 @@ import {
 import s from './ItemTilesBanner.sass'
 
 
-export default class  ItemTilesBanner extends Component {
+export default class ItemTilesBanner extends Component {
   componentDidMount() {
     setTimeout(this.resize, 300);
     window.addEventListener('resize', this.resize);
@@ -16,6 +16,9 @@ export default class  ItemTilesBanner extends Component {
   }
   componentDidUpdate() {
     this.resize();
+  }
+  componentWillReceiveProps() {
+    console.log('ItemTilesBanner received props!')
   }
 
   resize = () => setTimeout(this.resizeHandler, 60);
@@ -79,7 +82,9 @@ export default class  ItemTilesBanner extends Component {
             </div>
           </div>
           <div ref={this.getGridWrapperRef} className={s.grid__wrapper}>
-            <ItemTilesGrid getRef={this.getGridRef} limit={5} className={s.grid} data={data}/>
+            <ItemTilesGrid getRef={this.getGridRef}
+                           limit={5} className={s.grid}
+                           data={data}/>
           </div>
         </FlexGrid>
       </Container>

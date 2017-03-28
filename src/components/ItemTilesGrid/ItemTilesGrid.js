@@ -1,28 +1,38 @@
 import React, { Component } from 'react'
-import { FlexGrid, ItemTile } from 'components'
-import { classNames } from 'helpers'
+import { FlexGrid, ItemTile, Title } from 'components'
+import { classNames, isEmpty } from 'helpers'
 import s from './ItemTilesGrid.sass'
 
 
-const ItemTilesGrid = ({data, getRef, limit = false, className, itemClassName}) => {
-  if (!data || !data.length) return null;
+export default class ItemTilesGrid extends Component {
+  componentWillReceiveProps() {
+    console.log('itemtiles grid received new props!');
+  }
+  render() {
+    const {
+      data, getRef, limit = false,
+      className, itemClassName
+    } = this.props;
+    const dataIsEmpty = !data || !data.length;
 
-  return (
-    <FlexGrid wrap="true" justify="start"
-              align="start" getRef={getRef}
-              className={classNames(s.wrapper, className)}>
-      {data.map((item, key) => {
-        if (limit && key > limit)
-          return null;
+    console.log('ItemTilesGrid', dataIsEmpty, [...data]);
 
-        return (
-          <ItemTile data={item} className={classNames(s.item, itemClassName)}
-                    key={item.id || key} />
-        )
-      })}
-    </FlexGrid>
-  )
-};
+    return (
+      <FlexGrid wrap="true" justify="start"
+                align="start" getRef={getRef}
+                className={classNames(s.wrapper, className)}>
+        {!dataIsEmpty && data.map((item, key) => {
+          if (limit && key > limit)
+            return null;
 
-export default ItemTilesGrid;
+          return (
+            <ItemTile data={item} className={classNames(s.item, itemClassName)}
+                      key={item.id || key} />
+          )
+        })}
+        {dataIsEmpty && <Title>Объекты либо не найдены, либо загружаются :)</Title>}
+      </FlexGrid>
+    )
+  }
+}
 

@@ -45,6 +45,15 @@ export default class ItemModel {
     this._title = title;
   }
 
+  /**
+   * Generate a link to an Item.
+   *
+   * @returns {string} '/y/some-title'
+   */
+  @observable _link;
+  @computed get link() {
+    return `/y/${this._link}`;
+  }
 
   /**
    * Parse category id.
@@ -223,7 +232,7 @@ export default class ItemModel {
       ]
     }
 
-    console.log({ facilities, amenities, rules });
+    //console.log({ facilities, amenities, rules });
 
     return types;
   };
@@ -348,7 +357,7 @@ export default class ItemModel {
   constructor(store, data) {
     this.store = store;
 
-    console.log(data);
+    //console.log(data);
 
     extend(this, data);
   }
@@ -364,7 +373,7 @@ export default class ItemModel {
    */
   toJSON() {
     const {
-      id, title, _category,
+      id, title, _link, _category,
 
       _type,
       size, location,
@@ -383,6 +392,7 @@ export default class ItemModel {
     return {
       id,
       title,
+      link: _link,
 
       price,
 
@@ -416,16 +426,18 @@ export default class ItemModel {
   static fromJS(store, object) {
     const {
       params,
+      link,
       ...rest
     } = object;
     let data = {
       ...rest,
 
+      _link: link,
       _type: '',
       _term: '',
       _amenities: [],
       _facilities: [],
-      _rules: []
+      _rules: [],
     };
 
     // parse params

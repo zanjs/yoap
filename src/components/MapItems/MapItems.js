@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Title, Content, Map, Container } from 'components'
+import { Title, Content, Container } from 'components'
+import { MapContainer } from 'containers'
 import s from './MapItems.sass'
 
 
 export default class MapItems extends Component {
   state = { data: [] };
 
-  componentDidMount() {
+  componentWillMount() {
     this.parseData();
   }
   componentWillReceiveProps(nextProps) {
@@ -16,6 +17,7 @@ export default class MapItems extends Component {
   }
   parseData = (props = this.props) => {
     const { data } = props;
+    console.log('parsing data..', data);
 
     this.setState({
       data: data.map(item => ({
@@ -42,8 +44,8 @@ export default class MapItems extends Component {
             Используйте приближение, чтобы увидеть больше
           </Content>
         </Container>
-        <Map points={data} options={this.mapOptions}
-             style={{height: `${height}px`}}/>
+        <MapContainer points={data} options={this.mapOptions}
+             style={{height: `${height * .9}px`}}/>
       </div>
     )
   }

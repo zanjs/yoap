@@ -1,4 +1,4 @@
-import { observable, computed, reaction } from 'mobx'
+import { observable, computed, reaction, action, observer } from 'mobx'
 import { localStore } from 'helpers'
 import { store as config } from 'constants'
 import { getItems } from 'api'
@@ -6,8 +6,8 @@ import { ItemModel } from 'models'
 
 
 class ItemsStore {
-  storeName = config.items;
   @observable data = [];
+  storeName = config.items;
 
   constructor() {
     const data = localStore.get(this.storeName);
@@ -16,9 +16,7 @@ class ItemsStore {
       this.fromJSON(data);
     }
 
-    this.fetchItems(
-      this.fromJSON
-    );
+    this.fetchItems();
 
     this.subscribeToLocalStorage();
   }
@@ -72,23 +70,6 @@ class ItemsStore {
       .catch(this.errorHandler);
   };
 
-  createNew = data => {
-    const validatedData = this.validate(data);
-
-    if (validatedData) {
-
-    }
-  };
-
-  validate = data => {
-
-  };
-
-  clearCompleted = () => {
-    this.data = this.data.filter(
-      todo => !todo.completed
-    );
-  };
 
   removeAll = f => {
     this.data.replace([]);
@@ -104,7 +85,12 @@ class ItemsStore {
     let isExist = null;
 
     this.data.forEach((item, index) => {
-      if (item.id === data.id) {
+      const idProp = item.id ? 'id' : '_id';
+
+      if (
+        item[idProp] && data[idProp] &&
+        item[idProp] === data[idProp]
+      ) {
         isExist = index;
       }
     });
@@ -112,7 +98,7 @@ class ItemsStore {
     if (isExist != null) {
       return this.data[isExist] = this.newModel(data);
     }
-
+    console.log('added');
     this.data.push(
       this.newModel(data)
     );
@@ -121,8 +107,15 @@ class ItemsStore {
 
   };
   toJSON = () => this.data.map(todo => todo.toJSON());
-  fromJSON = data => {
-    return data && data.forEach && data.forEach(item => this.add(item));
+
+  @action fromJSON = data => {
+    if (data && data.forEach) {
+      console.log('data', data);
+      this.data.replace([]);
+      data.forEach(item => {
+        this.add(item);
+      });
+    }
   };
 
 

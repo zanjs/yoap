@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { ItemTilesGrid } from 'components'
 
-const mapStateToProps = ({items: {data}}) => ({
-  data
-})
 
-@inject(mapStateToProps) @observer
+@inject('items') @observer
 export default class ItemTilesGridContainer extends Component {
+  componentWillReact() {
+    console.log('reaction!!!!');
+  }
   render() {
+    const { data } = this.props.items;
     return (
-      <ItemTilesGrid {...this.props}/>
+      <ItemTilesGrid data={data}/>
     )
   }
 }

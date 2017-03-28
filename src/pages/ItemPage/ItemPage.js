@@ -36,9 +36,6 @@ export default class ItemPage extends Component {
       this.setData(nextProps);
     }
   }
-  componentDidMount() {
-    this.setData();
-  }
 
   setData = (props = this.props) => {
     const { data, match: {params} } = props;
@@ -47,13 +44,14 @@ export default class ItemPage extends Component {
 
     this.setState({
       data: data.find(
-        item => item.link === params.link
+        item => item._link === params.link
       )
     });
   };
 
   componentWillMount() {
     normalizeScroll(true);
+    this.setData();
   }
   componentWillUnmount() {
     normalizeScroll(false);

@@ -79,7 +79,7 @@ export default class Overlay extends Component {
 
   getRef = b => {
     this.props.updateDom(b, this.props.isOpen);
-    console.log({props: this.props});
+    //console.log({props: this.props});
     this.wrapper = b;
   };
 

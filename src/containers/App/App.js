@@ -1,6 +1,6 @@
 import React, { Component, } from 'react'
 import Helmet from 'react-helmet'
-import DevTools from 'mobx-react-devtools'
+import DevTools, { configureDevtool } from 'mobx-react-devtools'
 import {
   HomePage, LoginPage, SignupPage,
   ItemsListPage, ItemPage, UserPage,
@@ -15,8 +15,15 @@ import {
   Defender, PathNotify, Footer
 } from 'components'
 import { NavContainer } from 'containers'
-
 import s from './App.sass'
+
+configureDevtool({
+  // Turn on logging changes button programmatically:
+  logEnabled: true,
+  // Turn off displaying conponents' updates button programmatically:
+  updatesEnabled: false,
+  renderReporter: true
+});
 
 
 export default class App extends Component {
