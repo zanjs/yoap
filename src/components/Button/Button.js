@@ -45,7 +45,7 @@ export default class Button extends Component {
   render() {
     const { tag, type, className, children,
       isLoading, getRef, isDisabled, buttonType,
-      rounded, smallPadding,
+      rounded, smallPadding, nooffsets,
 
       ...rest
     } = this.props;
@@ -55,6 +55,7 @@ export default class Button extends Component {
       s.button, this.getType(_type),
       rounded && s.rounded,
       smallPadding && s.smallPadding,
+      nooffsets && s.nooffsets,
 
       className
     );

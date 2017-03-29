@@ -32,14 +32,12 @@ export default class BaseFilterCategory extends Component {
     return (
       <BaseFilterItem className={s.container} title="Категория объекта" icon={houseIcon}>
         <BaseFilterSlider className={wrapperClassName}>
-          {data.map((item, key) => {
-            const className = !hasActive && key === 0 && s.item_active || null;
-            return (
-              <Item onClick={this.clickHandler} className={className}
-                    isActive={hasActive && category.id === item.id}
-                    key={key} index={key}>{item.name}</Item>
-            )
-          })}
+          {data.map((item, key) => (
+            <Item onClick={this.clickHandler} key={key} index={key}
+                  isActive={hasActive && category.id === item.id}>
+              {item.name}
+            </Item>
+          ))}
         </BaseFilterSlider>
       </BaseFilterItem>
     )

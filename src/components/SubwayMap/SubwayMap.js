@@ -216,14 +216,24 @@ export default class SubwayMap extends Component {
     }
   };
 
+  dropSelected = () => {
+    this.setState({selected: []}, () => {
+      this.onChange(); this.applyClasses();
+    });
+  };
+
 
   render() {
     const {
       props: {src, onClose, height},
+      state: {selected},
       getMapRef,
       getWrapperRef,
-      mapClickHandler
+      mapClickHandler,
+      dropSelected
     } = this;
+
+    const selectedLength = selected.length;
 
     return (
       <Modal getRef={getWrapperRef}
@@ -231,6 +241,9 @@ export default class SubwayMap extends Component {
              style={{height}} onContextMenu={onClose}
              className={s.modal}>
         <NavContainer>
+          <Button type="text" nooffsets onClick={dropSelected}>
+            {selectedLength ? `Очистить (${selectedLength})` : 'Выберите станции'}
+          </Button>
           <Button type="light" onClick={onClose}
                   className={s.button} rounded
                   smallPadding>

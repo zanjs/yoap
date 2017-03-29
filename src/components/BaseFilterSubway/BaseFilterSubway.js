@@ -35,8 +35,6 @@ export default class BaseFilterSubway extends Component {
     let color;
     let colors = {};
 
-    console.log(data);
-
     // create unique array for each color
     data.forEach(({color}) => {
       if (colors[color]) {
@@ -58,7 +56,6 @@ export default class BaseFilterSubway extends Component {
 
     return color;
   };
-
   getProps = data => {
     if (!data || !data.length) {
       return {
@@ -95,12 +92,13 @@ export default class BaseFilterSubway extends Component {
     } = this;
 
     const { style, children, selected } = this.getProps(data);
+    const isEmpty = !selected || !selected.length;
 
     return (
       <BaseFilterItem className={s.wrapper} onClick={openHandler}
                       title="Ближайшее метро" icon={subwayIcon}
                       style={style}>
-        {children}
+        <span className={isEmpty && s.empty || null}>{children}</span>
         {isOpen && <SubwayMap onChange={mapChangeHandler} selected={selected}
                               onClose={closeHandler} src={mapImage}/>}
       </BaseFilterItem>

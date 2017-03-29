@@ -11,7 +11,8 @@ export default class BaseFilterPrice extends Component {
 
   state = {
     min: this.props.min,
-    max: this.props.max
+    max: this.props.max,
+    isActive: false
   };
 
   minHandler = ({target: {value}}) => {
@@ -37,6 +38,17 @@ export default class BaseFilterPrice extends Component {
     return this.setState({max});
   };
 
+  onChange = () => {
+    const { props, state } = this;
+
+    if (state.isActive)
+      return;
+
+    if (state.min !== props.min || state.max !== props.max) {
+      this.setState({isActive: true})
+    }
+  };
+
   setInputs = (min = this.state.min, max = this.state.max) => {
     this.inputMin.value = min;
     this.inputMax.value = max;
@@ -48,20 +60,23 @@ export default class BaseFilterPrice extends Component {
   render() {
     const {
       props: {min, max},
+      state: {isActive},
       getMaxRef, getMinRef,
       maxHandler, minHandler
     } = this;
     return (
       <BaseFilterItem noborder title="Стоимость в месяц">
         <br/>
-        <FlexGrid justify="start" align="center">
+        <FlexGrid justify="start" align="center"
+                  className={!isActive && s.inactive}>
           <span className={s.title}>от</span>
           <InputClean type="number" step="1000"
                       onChange={minHandler}
                       min="0" getRef={getMinRef}
                       defaultValue={min} focus/>
         </FlexGrid>
-        <FlexGrid justify="start" align="center">
+        <FlexGrid justify="start" align="center"
+                  className={!isActive && s.inactive}>
           <span className={s.title}>до</span>
           <InputClean type="number" step="1000"
                       onChange={maxHandler}
