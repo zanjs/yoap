@@ -3,8 +3,12 @@
 $itemInactiveOpacity: .3
 
 .wrapper
-  .item
-    opacity: $itemInactiveOpacity
+  &_active
+    .item
+      opacity: $itemInactiveOpacity
+  &:hover
+    .item
+      opacity: $itemInactiveOpacity
 
 .item
   display: inline-block

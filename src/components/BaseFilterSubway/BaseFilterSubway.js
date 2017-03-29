@@ -92,13 +92,12 @@ export default class BaseFilterSubway extends Component {
     } = this;
 
     const { style, children, selected } = this.getProps(data);
-    const isEmpty = !selected || !selected.length;
 
     return (
       <BaseFilterItem className={s.wrapper} onClick={openHandler}
                       title="Ближайшее метро" icon={subwayIcon}
                       style={style}>
-        <span className={isEmpty && s.empty || null}>{children}</span>
+        <span>{children}</span>
         {isOpen && <SubwayMap onChange={mapChangeHandler} selected={selected}
                               onClose={closeHandler} src={mapImage}/>}
       </BaseFilterItem>
