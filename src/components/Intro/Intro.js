@@ -31,7 +31,7 @@ export default class Intro extends Component {
         <FlexGrid style={{minHeight: height}} direction="column"
                   justify="end" className={s.intro}>
           <Container style={{paddingTop: offset}}>
-            <Title size="1">
+            <Title size="1" className={s.title}>
               {isMobile ? 'Поиск квартир. Проверено.' : <span>
                   Чувствуйте себя как дома. <br/>
                   Поиск квартир. Проверенные <br/>

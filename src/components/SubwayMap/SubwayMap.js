@@ -24,6 +24,13 @@ export default class SubwayMap extends Component {
   scale = 1;
   startScale = 1;
 
+  componentWillMount() {
+    if (this.props.selected) {
+      this.setState({
+        selected: this.props.selected
+      })
+    }
+  }
   componentDidMount() {
     setTimeout(this.initMap, 300);
   }
@@ -36,14 +43,23 @@ export default class SubwayMap extends Component {
   };
 
   applyClasses = () => {
-    const { itemClassName } = this;
+    const { itemClassName, activeItemClassName } = this;
+    const { selected } = this.state;
     const gElements = [...this.map.querySelector('svg').querySelectorAll('g')];
 
     gElements.forEach(item => {
       const attr = item.getAttribute('data:subway-station');
+      const id = item.getAttribute('id');
+      const isActive = !!selected.find(item => item === id);
 
       if (attr && JSON.parse(attr)) {
-        item.setAttribute('class', itemClassName);
+        item.setAttribute(
+          'class',
+          classNames(
+            itemClassName,
+            isActive && activeItemClassName
+          )
+        );
       }
     })
   };
@@ -158,7 +174,6 @@ export default class SubwayMap extends Component {
     const id = block.getAttribute('id');
 
     if (className.indexOf(itemClassName) !== -1) {
-      console.log(id);
       this.triggerStation(id, block);
     }
   };
@@ -177,7 +192,7 @@ export default class SubwayMap extends Component {
 
       return this.setState({
         selected: selected.filter(item => item !== id)
-      })
+      }, this.onChange)
     }
 
     node.setAttribute(
@@ -190,8 +205,17 @@ export default class SubwayMap extends Component {
         ...selected,
         id
       ]
-    })
+    }, this.onChange)
   };
+
+  onChange = () => {
+    if (this.props.onChange) {
+      this.props.onChange(
+        this.state.selected
+      );
+    }
+  };
+
 
   render() {
     const {

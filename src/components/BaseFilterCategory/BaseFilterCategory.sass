@@ -2,12 +2,12 @@
 
 $itemInactiveOpacity: .3
 
+.container
+  fill: #eaeaea
+
 .wrapper
   .item
     opacity: $itemInactiveOpacity
-  @media only screen and (min-width: $mobile)
-    .item
-      opacity: 0
   &_active
     .item
       opacity: $itemInactiveOpacity

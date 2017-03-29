@@ -10,7 +10,7 @@ const Item = ({children, className, onClick, index, isActive}) => (
         className={classNames(s.item, className, isActive && s.item_active)}>
     {children}
   </span>
-)
+);
 
 export default class BaseFilterCategory extends Component {
   clickHandler = index => {
@@ -19,7 +19,7 @@ export default class BaseFilterCategory extends Component {
     this.props.setCategory(
       this.props.data[index]
     );
-  }
+  };
 
   render() {
     const { props: { data, category } } = this;
@@ -30,7 +30,7 @@ export default class BaseFilterCategory extends Component {
     const wrapperClassName = classNames(s.wrapper, hasActive && s.wrapper_active);
 
     return (
-      <BaseFilterItem title="Категория объекта" icon={houseIcon}>
+      <BaseFilterItem className={s.container} title="Категория объекта" icon={houseIcon}>
         <BaseFilterSlider className={wrapperClassName}>
           {data.map((item, key) => {
             const className = !hasActive && key === 0 && s.item_active || null;

@@ -18,9 +18,10 @@
 
 .map
   @extend .absolute
-  top: 5%
-  height: 90%
-  transform: translateY(50%) scale(2, 2)
+  top: 0
+  height: 100%
+  transform: translate(0%, 50%) translate3d(0px, 0px, 0px) scale(2, 2)
+  transform-origin: center center 0px
   z-index: 10 !important
   svg
     position: absolute

@@ -23,8 +23,8 @@ export default class BaseFilter extends Component {
           <BaseFilterCategoryContainer />
           <BaseFilterPriceContainer />
 
-          <BaseFilterItem tag={Link} to="/y"
-                          className={s.icon__wrapper} render={(
+          <BaseFilterItem className={s.icon__wrapper}
+                          tag={Link} to="/y" render={(
             <Svg className={s.icon} src={arrowIcon}/>
           )} />
         </FlexGrid>

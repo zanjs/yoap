@@ -20,6 +20,9 @@ export normalizeScroll from './app/normalizeScroll'
 export shallowEqual from './app/shallowEqual'
 export bindWheel from './app/bindWheel'
 export blockScroll from './app/blockScroll'
+export JSONToQuery from './app/JSONToQuery'
+export queryToJSON from './app/queryToJSON'
+export Directions from './app/Directions'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'

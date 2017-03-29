@@ -5,12 +5,11 @@ import s from './PagesTransitions.sass'
 
 @withRouter
 export default class PagesTransitions extends Component {
-  isFirst = true;
   dur = .7;
   ease = Cubic.easeOut;
 
   componentDidMount() {
-    this.animation();
+    this.update();
   }
 
   componentDidUpdate({location}) {
@@ -39,11 +38,7 @@ export default class PagesTransitions extends Component {
   }
 
   update() {
-    if (!this.isFirst) {
-      return this.animation();
-    }
-
-    this.isFirst = false;
+    this.animation();
   }
 
   animation() {
@@ -52,6 +47,8 @@ export default class PagesTransitions extends Component {
 
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
+
+    console.log('scrolled to top');
 
     TweenMax.fromTo(this.wrapper, dur, {
       opacity: 0,

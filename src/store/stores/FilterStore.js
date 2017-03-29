@@ -14,7 +14,7 @@ console.log({
   rulesTypes,
   termTypes,
   categoryTypes
-})
+});
 
 const log = data => {
   console.log('log', data);
@@ -36,8 +36,13 @@ class FilterStore {
       @observable living: []
     },
   };
-  @observable floor = 0;
-  @observable price = [];
+  @observable floor  = 0;
+  @observable price  = [];
+  @observable stations = [];
+
+  @action replaceStations = stations => {
+    this.stations.replace(stations || []);
+  };
 
   @action toggleRooms = room => {
     const savedRoom = this.size.rooms.find(

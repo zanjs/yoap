@@ -171,7 +171,7 @@ export const user = {
 // ========================================================### MAP CONFIG ###
 import mapStyles from './data/mapStyles.js'
 export const map = {
-  apiKey: "AIzaSyCzIFSJwXc8KfxmERx6-ut9FMnzN2owdW4",
+  apiKey: "AIzaSyDfRCp7Rg_ufXZqgFBOsNP8ICY9LnPE1oI",
   url: 'https://maps.googleapis.com/maps/api/js?key=',
   loadingParams: 'libraries=places',
   get link() {
