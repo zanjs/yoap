@@ -3,39 +3,50 @@ import {
   Title, Link, LinkIcon, FlexGrid,
   Image, Svg, ItemPageInfoTitle
 } from 'components'
+import { classNames } from 'helpers'
 import s from './ItemPageUser.sass'
 
 import verifiedIcon from 'icons/ui/verifed.svg'
 
-const ItemPageUser = ({children, title = 'Хозяин', phone, email, link, image, isVerified}) => {
+const ItemPageUser = props => {
+  const {
+    children, title = 'Хозяин', phone,
+    email, link, image, notitle,
+    isVerified, className,
+    titleClassName, linkClassName,
+    imageClassName, linksClassName
+  } = props;
+
   return (
-    <div className={s.wrapper}>
-      <ItemPageInfoTitle title={title}>
+    <div className={classNames(s.wrapper, className)}>
+      {!notitle && <ItemPageInfoTitle title={title}>
         <LinkIcon gray to={link}>
           Профиль
         </LinkIcon>
-      </ItemPageInfoTitle>
+      </ItemPageInfoTitle>}
       <FlexGrid justify="flex-start" align="start">
-        <div className={s.image}>
-          {image ? <Image src={image}/> : <div className={s.noImage}/>}
+        <div className={classNames(s.image, imageClassName)}>
+          {image ? <Imag src={image}/> : <div className={s.noImage}/>}
         </div>
         <div className={s.content}>
           <FlexGrid justify="start" align="center">
-            <Title light nooffsets size="6">
+            <Title className={titleClassName} light nooffsets size="6">
               {children}
             </Title>
             {isVerified && <Svg className={s.icon}
                                 src={verifiedIcon}/>}
           </FlexGrid>
 
-          <div className={s.links}>
-            {!phone && <Link tag="a" gray className={s.link} href={`tel:${phone}`}>Показать телефон</Link>}
-            {phone && <Link tag="a" gray className={s.link} href={`tel:${phone}`}>{phone}</Link>}
-            {email && <Link tag="a" gray className={s.link} href={`mailto:${email}`}>{email}</Link>}
+          <div className={classNames(s.links, linksClassName)}>
+            {!phone && <Link tag="a" gray className={classNames(s.link, linkClassName)}
+                             href={`tel:${phone}`}>Показать телефон</Link>}
+            {phone && <Link tag="a" gray className={classNames(s.link, linkClassName)}
+                            href={`tel:${phone}`}>{phone}</Link>}
+            {email && <Link tag="a" gray className={classNames(s.link, linkClassName)}
+                            href={`mailto:${email}`}>{email}</Link>}
           </div>
         </div>
       </FlexGrid>
-
     </div>
   )
 };

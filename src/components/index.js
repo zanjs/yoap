@@ -46,6 +46,7 @@ export ItemParamsRow from './ItemParamsRow/ItemParamsRow'
 export ItemParamsRowSize from './ItemParamsRowSize/ItemParamsRowSize'
 
 export ItemTile from './ItemTile/ItemTile'
+export ItemTileManage from './ItemTileManage/ItemTileManage'
 export ItemTilesGrid from './ItemTilesGrid/ItemTilesGrid'
 export ItemTilesBanner from './ItemTilesBanner/ItemTilesBanner'
 
