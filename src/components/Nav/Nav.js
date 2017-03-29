@@ -76,10 +76,11 @@ export default class Nav extends Component {
   };
 
   render() {
-    const { links, full, name, children } = this.props;
+    const { links, full, name, children, className } = this.props;
     const isCustom = !!children;
     return (
-      <nav ref={this.getNavRef} className={classNames(s.nav, full && s.nav_showed)}>
+      <nav className={classNames(s.nav, className, full && s.nav_showed)}
+           ref={this.getNavRef}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>
           <Link className={s.nopadding} to="/"><Logo className={s.logo} /></Link>

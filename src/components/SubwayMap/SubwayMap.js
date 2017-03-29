@@ -84,7 +84,8 @@ export default class SubwayMap extends Component {
       type:"x,y",
       edgeResistance:0.65,
       bounds: this.wrapper,
-      throwProps:true
+      throwProps:true,
+      zIndexBoost: false
     });
 
     TweenMax.set(this.map, {
