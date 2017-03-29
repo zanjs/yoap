@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
+import pinchZoom from 'pinch-zoom'
+import { inject, observer } from 'mobx-react'
 import { Modal, Svg } from 'components'
 import { classNames, bindWheel } from 'helpers'
 import s from './SubwayMap.sass'
 
 
+const mapStateToProps = ({device: {support}}) => ({
+  touchable: support.touch
+});
+
+@inject(mapStateToProps) @observer
 export default class SubwayMap extends Component {
   state = {selected: []};
 
@@ -16,13 +23,15 @@ export default class SubwayMap extends Component {
   startScale = 1;
 
   componentDidMount() {
-    setTimeout(() => {
-      this.dragInit();
-      this.wheelInit();
-      this.applyStyles();
-    }, 300);
-    //this.touchInit();
+    setTimeout(this.initMap, 300);
   }
+
+  initMap = () => {
+    this.touchInit();
+    this.dragInit();
+    this.wheelInit();
+    this.applyStyles();
+  };
 
   applyClasses = () => {
     const { itemClassName } = this;
@@ -76,7 +85,12 @@ export default class SubwayMap extends Component {
       throwProps:true
     });
   };
-
+  touchInit = () => {
+    this.pinchZoom = pinchZoom(el, {
+      //draggable: this.props.touchable,
+      maxScale: this.max
+    })
+  };
   zoomScale = (y, prev, min, max, step) => {
     if (y < 0) {
       if (prev <= min) {
