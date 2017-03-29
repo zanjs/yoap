@@ -18,9 +18,12 @@ export default class BaseFilterSubway extends Component {
       isOpen: !isOpen
     }));
 
-  closeHandler = () =>
+  closeHandler = e => {
+    e.preventDefault();
     this.setState({isOpen: false});
-  openHandler = () =>
+    return false;
+  };
+  openHandler = e =>
     this.setState({isOpen: true});
 
   mapClickHandler = ({target}) => {

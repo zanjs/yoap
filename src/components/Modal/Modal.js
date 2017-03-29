@@ -99,10 +99,6 @@ export default class Modal extends Component {
   };
 
   componentWillMount() {
-    // if (this.props.overlay) {
-    //   this.props.changeOverlay(this.props.overlay);
-    // }
-
     this.mount();
   }
   componentWillUnmount() {
@@ -120,16 +116,21 @@ export default class Modal extends Component {
   };
 
   _render(cb) {
-    const { className, wrapperClassName, children, getRef, } = this.props;
+    const {
+      className, wrapperClassName,
+      overlayClassName,
+      children, getRef, ...rest
+    } = this.props;
 
     return render(
       <RouterStoreProvider onMount={cb} router={this.context.router}>
-        <div ref={getRef} className={classNames(s.wrapper, wrapperClassName)}>
-          <Container type="article"
-                     className={classNames(s.block, className)}>
+        <div className={classNames(s.wrapper, wrapperClassName)}>
+          <Container className={classNames(s.block, className)}
+                     getRef={getRef} type="article" {...rest}>
             {children}
           </Container>
-          <div onClick={this.close} className={s.overlay} />
+          <div onClick={this.close}
+               className={classNames(s.overlay, overlayClassName)} />
         </div>
       </RouterStoreProvider>,
 

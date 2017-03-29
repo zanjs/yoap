@@ -7,8 +7,9 @@ import { classNames, bindWheel } from 'helpers'
 import s from './SubwayMap.sass'
 
 
-const mapStateToProps = ({device: {support}}) => ({
-  touchable: support.touch
+const mapStateToProps = ({device: {support, height, navHeight}}) => ({
+  touchable: support.touch,
+  height: `${height - navHeight}px`
 });
 
 @inject(mapStateToProps) @observer
@@ -85,11 +86,12 @@ export default class SubwayMap extends Component {
       edgeResistance:0.65,
       bounds: this.wrapper,
       throwProps:true,
+      autoScroll:true,
       zIndexBoost: false
     });
 
     TweenMax.set(this.map, {
-      y: '65%'
+      y: '50%'
     })
   };
   touchInit = () => {
@@ -149,6 +151,8 @@ export default class SubwayMap extends Component {
       block = block.closest(`.${itemClassName}`)
     }
 
+    if (!block)
+      return;
 
     const className = block.getAttribute('class') || '';
     const id = block.getAttribute('id');
@@ -191,7 +195,7 @@ export default class SubwayMap extends Component {
 
   render() {
     const {
-      props: {src, onClose},
+      props: {src, onClose, height},
       getMapRef,
       getWrapperRef,
       mapClickHandler
@@ -199,7 +203,8 @@ export default class SubwayMap extends Component {
 
     return (
       <Modal getRef={getWrapperRef}
-             wrapperClassName={s.wrapper}
+             overlayClassName={s.overlay}
+             style={{height}} onContextMenu={onClose}
              className={s.modal}>
         <NavContainer>
           <Button type="light" onClick={onClose}
