@@ -13,17 +13,29 @@ export default class BaseFilterSubway extends Component {
       isOpen: !isOpen
     }));
 
+  closeHandler = () =>
+    this.setState({isOpen: false});
+  openHandler = () =>
+    this.setState({isOpen: true});
+
   mapClickHandler = ({target}) => {
 
   };
 
   render() {
-    const { isOpen } = this.state;
+    const {
+      state: {isOpen},
+      closeHandler,
+      openHandler
+    } = this;
+
+    window.open = openHandler;
 
     return (
-      <BaseFilterItem onClick={this.clickHandler} title="Ближайшее метро" icon={subwayIcon}>
+      <BaseFilterItem className={s.wrapper} onClick={openHandler}
+                      title="Ближайшее метро" icon={subwayIcon}>
         Звенигородская
-        {isOpen && <SubwayMap src={mapImage}/>}
+        {isOpen && <SubwayMap onClose={closeHandler} src={mapImage}/>}
       </BaseFilterItem>
     )
   }

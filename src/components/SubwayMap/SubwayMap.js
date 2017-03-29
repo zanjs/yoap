@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import pinchZoom from 'pinch-zoom'
 import { inject, observer } from 'mobx-react'
-import { Modal, Svg } from 'components'
+import { NavContainer } from 'containers'
+import { Modal, Svg, Button } from 'components'
 import { classNames, bindWheel } from 'helpers'
 import s from './SubwayMap.sass'
 
@@ -36,8 +37,6 @@ export default class SubwayMap extends Component {
   applyClasses = () => {
     const { itemClassName } = this;
     const gElements = [...this.map.querySelector('svg').querySelectorAll('g')];
-
-    console.log('gElements', gElements);
 
     gElements.forEach(item => {
       const attr = item.getAttribute('data:subway-station');
@@ -78,16 +77,23 @@ export default class SubwayMap extends Component {
   };
 
   dragInit = () => {
+    if (this.props.touchable)
+      return;
+
     Draggable.create(this.map, {
       type:"x,y",
       edgeResistance:0.65,
       bounds: this.wrapper,
       throwProps:true
     });
+
+    TweenMax.set(this.map, {
+      y: '65%'
+    })
   };
   touchInit = () => {
     this.pinchZoom = pinchZoom(this.map, {
-      //draggable: this.props.touchable,
+      draggable: this.props.touchable,
       maxScale: this.max
     })
   };
@@ -184,7 +190,7 @@ export default class SubwayMap extends Component {
 
   render() {
     const {
-      props: {src},
+      props: {src, onClose},
       getMapRef,
       getWrapperRef,
       mapClickHandler
@@ -194,6 +200,13 @@ export default class SubwayMap extends Component {
       <Modal getRef={getWrapperRef}
              wrapperClassName={s.wrapper}
              className={s.modal}>
+        <NavContainer>
+          <Button type="light" onClick={onClose}
+                  className={s.button} rounded
+                  smallPadding>
+            Готово
+          </Button>
+        </NavContainer>
         <Svg getRef={getMapRef}
              onClick={mapClickHandler}
              className={s.map} src={src}/>

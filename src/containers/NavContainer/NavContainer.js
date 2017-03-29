@@ -73,10 +73,13 @@ export default class NavContainer extends Component {
 
   render() {
     const { navHidden, navFull } = this.state;
+    const { width, children } = this.props;
 
     return (
-      <Nav hidden={navHidden} name={this.props.name} full={navFull} width={this.props.width}
-           getRef={this.getNavRef} links={this.links}/>
+      <Nav hidden={navHidden} name={this.props.name} full={navFull} width={width}
+           getRef={this.getNavRef} links={this.links}>
+        {children}
+      </Nav>
     )
   }
 }

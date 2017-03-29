@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { classNames } from 'helpers'
-import { Svg, Container } from 'components'
+import { Svg, Container, RouterStoreProvider } from 'components'
 import { blockScroll } from 'helpers'
 import s from './Modal.sass'
 
@@ -17,13 +17,29 @@ const Header = ({className, onCloseClick, close, children, ...rest}) => (
 );
 
 export default class Modal extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
   static Header = Header;
-  ease = Cubic.easeOut; dur = .3;
+
+  _block = null;
+  set block(b) {
+    if (b) {
+      this._block = b;
+    }
+  }
+  get block() {
+    if (this._block)
+      return this._block;
+
+    return document.querySelector(`.${s.container}`)
+  }
+
+  ease = Cubic.easeOut; dur = .35;
   y = 30;
   display;
   state = {shouldUpdate: false};
 
-  block;
   isMount = false;
 
   mount() {
@@ -35,8 +51,7 @@ export default class Modal extends Component {
     block.style.display = 'none';
 
     document.body.appendChild(block);
-    this._render();
-    this.fadeIn();
+    this._render(this.fadeIn);
   }
   unMount() {
     //this.props.triggerOverlay(false);
@@ -84,9 +99,9 @@ export default class Modal extends Component {
   };
 
   componentWillMount() {
-    if (this.props.overlay) {
-      this.props.changeOverlay(this.props.overlay);
-    }
+    // if (this.props.overlay) {
+    //   this.props.changeOverlay(this.props.overlay);
+    // }
 
     this.mount();
   }
@@ -104,17 +119,19 @@ export default class Modal extends Component {
     }
   };
 
-  _render() {
+  _render(cb) {
     const { className, wrapperClassName, children, getRef, } = this.props;
 
     return render(
-      <div ref={getRef} className={classNames(s.wrapper, wrapperClassName)}>
-        <Container type="article"
-                   className={classNames(s.block, className)}>
-          {children}
-        </Container>
-        <div onClick={this.close} className={s.overlay} />
-      </div>,
+      <RouterStoreProvider onMount={cb} router={this.context.router}>
+        <div ref={getRef} className={classNames(s.wrapper, wrapperClassName)}>
+          <Container type="article"
+                     className={classNames(s.block, className)}>
+            {children}
+          </Container>
+          <div onClick={this.close} className={s.overlay} />
+        </div>
+      </RouterStoreProvider>,
 
       this.block
     )

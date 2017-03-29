@@ -3,9 +3,7 @@ import {
   render as mount,
   unmountComponentAtNode as unmount
 } from 'react-dom'
-import { Provider } from 'mobx-react'
-import { store } from 'store'
-import { Svg, MapMarker } from 'components'
+import { Svg, MapMarker, RouterStoreProvider } from 'components'
 import { loop, classNames, loadScript, shallowEqual } from 'helpers'
 import { map as config } from 'config'
 import s from './Map.sass'
@@ -43,21 +41,6 @@ export default class Map extends Component {
     this.setState({isLoaded: true}, () => {
       this.initMap();
     });
-  };
-
-  // each marker needs access to the router
-  simulateRouter = context => {
-    return class Router extends Component {
-      static childContextTypes = {
-        router: PropTypes.object
-      };
-      getChildContext() {
-        return context;
-      }
-      render() {
-        return this.props.children;
-      }
-    }
   };
 
   // create marker
@@ -108,14 +91,10 @@ export default class Map extends Component {
   };
   // render marker by react
   renderMarker = data => {
-    const Router = this.simulateRouter(this.context);
-
     return (
-      <Provider {...store}>
-        <Router>
-          <MapMarker {...data.props}/>
-        </Router>
-      </Provider>
+      <RouterStoreProvider router={this.context.router}>
+        <MapMarker {...data.props}/>
+      </RouterStoreProvider>
     )
   };
   // get map options

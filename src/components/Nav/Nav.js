@@ -6,15 +6,18 @@ import s from './Nav.sass'
 export default class Nav extends Component {
   dur = .3; ease = Cubic.easeOut;
 
-  isWide = () => this.props.width >= 1870
+  isWide = () => this.props.width >= 1870;
 
   hide = () => {
     const { dur, ease } = this;
     if (this.isWide()) {
-      return TweenMax.to(this.links, dur, {
-        opacity: 0,
-        ease
-      })
+      if (this.links)
+        TweenMax.to(this.links, dur, {
+          opacity: 0,
+          ease
+        });
+
+      return false;
     }
 
     TweenMax.to(this.wrapper, dur, {
@@ -30,10 +33,13 @@ export default class Nav extends Component {
         opacity: 1,
         display: 'block'
       });
-      return TweenMax.to(this.links, dur, {
-        opacity: 1,
-        ease
-      })
+      if (this.links)
+        TweenMax.to(this.links, dur, {
+          opacity: 1,
+          ease
+        });
+
+      return false;
     }
 
     TweenMax.to(this.wrapper, dur, {
@@ -49,7 +55,7 @@ export default class Nav extends Component {
     } else {
       this.show();
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.hidden !== this.props.hidden) {
@@ -70,25 +76,27 @@ export default class Nav extends Component {
   };
 
   render() {
-    const { links, full, name } = this.props;
+    const { links, full, name, children } = this.props;
+    const isCustom = !!children;
     return (
       <nav ref={this.getNavRef} className={classNames(s.nav, full && s.nav_showed)}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>
           <Link className={s.nopadding} to="/"><Logo className={s.logo} /></Link>
           <div className={s.links}>
-            <div ref={this.getLinksRef} className={s.links__wrapper}>
+            {!isCustom && <div ref={this.getLinksRef} className={s.links__wrapper}>
               {links.map(({to, content}, key) => (
                 <Link regular className={s.item} to={to} key={key}>
                   {content}
                 </Link>
               ))}
-            </div>
-            <Button to={name ? '/you' : '/login'} type="light"
+            </div>}
+            {!isCustom && <Button to={name ? '/you' : '/login'} type="light"
                     className={s.button} rounded
                     smallPadding>
               {name || 'Войти'}
-            </Button>
+            </Button>}
+            {children}
           </div>
         </FlexGrid>
       </nav>

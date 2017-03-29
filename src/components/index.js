@@ -23,7 +23,7 @@ export InputNumber from './InputNumber/InputNumber'
 export InputClean from './InputClean/InputClean'
 
 export SubwayMap from './SubwayMap/SubwayMap'
-
+export RouterStoreProvider from './RouterStoreProvider/RouterStoreProvider'
 export Modal from './Modal/Modal'
 export Slider from './Slider/Slider'
 export SliderImages from './SliderImages/SliderImages'
