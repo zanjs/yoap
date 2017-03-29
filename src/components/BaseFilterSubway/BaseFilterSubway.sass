@@ -1,4 +1,13 @@
 @import ../../theme/index
 
+.modal
+  position: absolute
+  @include absolute_center(normal, 30)
+  height: 90%
+  width: 70%
+  min-width: 300px
 
-
+.map
+  svg
+    @include absolute_center(normal, 0)
+    max-height: 100%

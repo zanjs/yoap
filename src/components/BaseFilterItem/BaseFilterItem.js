@@ -12,7 +12,7 @@ const BaseFilterItem = ({className, tag, title, icon, noborder, render, children
   }
 
   return (
-    <Element className={classNames(s.item, noborder && s.noborder, className)}>
+    <Element className={classNames(s.item, noborder && s.noborder, className)} {...rest}>
       <Content className={s.item__title} gray>{title}</Content>
       {icon && <Svg className={s.item__icon} src={icon}/>}
       <Title size="4" regular light className={s.item__content}>

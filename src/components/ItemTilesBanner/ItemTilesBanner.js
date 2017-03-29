@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import {
   Title, Container, Content,
   ItemTilesGrid, FlexGrid, LinkIcon
 } from 'components'
 import s from './ItemTilesBanner.sass'
 
-
+@observer
 export default class ItemTilesBanner extends Component {
   componentDidMount() {
     setTimeout(this.resize, 300);

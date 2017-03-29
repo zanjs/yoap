@@ -3,11 +3,17 @@ import { classNames } from 'helpers'
 import s from './InputClean.sass'
 
 
-const InputClean = ({className, tag, defaultValue, children, ...rest}) => {
+const InputClean = ({className, tag, focus, defaultValue, getRef, children, ...rest}) => {
   const Element = tag || 'input';
+  const _className = classNames(
+    s.input,
+    focus && s.focus,
+
+    className
+  );
 
   return (
-    <Element className={classNames(s.input, className)}
+    <Element className={_className} ref={getRef}
          defaultValue={defaultValue || children} {...rest}/>
   )
 };

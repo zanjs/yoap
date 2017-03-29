@@ -51,6 +51,7 @@ export default class PagesTransitions extends Component {
     const { dur, ease } = this;
 
     window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
 
     TweenMax.fromTo(this.wrapper, dur, {
       opacity: 0,

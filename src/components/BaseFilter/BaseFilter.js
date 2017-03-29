@@ -5,11 +5,11 @@ import {
 import {
   BaseFilterCategoryContainer,
   BaseFilterRoomsContainer,
-  BaseFilterPriceContainer
+  BaseFilterPriceContainer,
+  BaseFilterSubwayContainer
 } from 'containers'
 import s from './BaseFilter.sass'
 
-import subwayIcon from 'icons/ui/subway.svg'
 import arrowIcon from 'icons/ui/arrow-big.svg'
 
 export default class BaseFilter extends Component {
@@ -19,9 +19,7 @@ export default class BaseFilter extends Component {
       <div className={s.container}>
         <FlexGrid justify="space-between" wrap="true" className={s.wrapper}>
           <BaseFilterRoomsContainer />
-          <BaseFilterItem title="Ближайшее метро" icon={subwayIcon}>
-            Звенигородская
-          </BaseFilterItem>
+          <BaseFilterSubwayContainer />
           <BaseFilterCategoryContainer />
           <BaseFilterPriceContainer />
 
