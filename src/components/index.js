@@ -22,6 +22,8 @@ export Defender from './Defender/Defender'
 export InputNumber from './InputNumber/InputNumber'
 export InputClean from './InputClean/InputClean'
 
+export SubwayMap from './SubwayMap/SubwayMap'
+
 export Modal from './Modal/Modal'
 export Slider from './Slider/Slider'
 export SliderImages from './SliderImages/SliderImages'

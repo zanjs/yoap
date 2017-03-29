@@ -10,7 +10,8 @@ const getAbsolutePath = (path) => __APP + '/' + path;
 module.exports = {
   entry: {
     main: [
-      'gsap',
+      'gsap/TweenMax.js',
+      'gsap/Draggable.js',
       `${__APP}/index.js`
     ],
   },

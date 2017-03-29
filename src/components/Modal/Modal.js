@@ -105,10 +105,10 @@ export default class Modal extends Component {
   };
 
   _render() {
-    const { className, wrapperClassName, children } = this.props;
+    const { className, wrapperClassName, children, getRef, } = this.props;
 
     return render(
-      <div className={classNames(s.wrapper, wrapperClassName)}>
+      <div ref={getRef} className={classNames(s.wrapper, wrapperClassName)}>
         <Container type="article"
                    className={classNames(s.block, className)}>
           {children}

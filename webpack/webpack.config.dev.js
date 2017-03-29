@@ -23,7 +23,8 @@ module.exports = {
     // bundle the client for hot reloading
     // only- means to only hot reload for successful updates
 
-    'gsap',
+    'gsap/TweenMax.js',
+    'gsap/Draggable.js',
     // vendors
 
     './index.js',

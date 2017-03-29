@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BaseFilterItem, Modal, Svg } from 'components'
+import { BaseFilterItem, SubwayMap } from 'components'
 import s from './BaseFilterSubway.sass'
 import subwayIcon from 'icons/ui/subway.svg'
 
@@ -37,9 +37,8 @@ export default class BaseFilterSubway extends Component {
     return (
       <BaseFilterItem onClick={this.clickHandler} title="Ближайшее метро" icon={subwayIcon}>
         Звенигородская
-        {isOpen && <Modal className={s.modal}>
-          <Svg onClick={this.mapClickHandler} className={s.map} src={MapImage}/>
-        </Modal>}
+        <SubwayMap src={MapImage}/>
+        {/*{isOpen && <SubwayMap src={MapImage}/>}*/}
       </BaseFilterItem>
     )
   }
