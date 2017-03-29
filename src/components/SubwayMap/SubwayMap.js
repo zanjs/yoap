@@ -86,7 +86,7 @@ export default class SubwayMap extends Component {
     });
   };
   touchInit = () => {
-    this.pinchZoom = pinchZoom(el, {
+    this.pinchZoom = pinchZoom(this.map, {
       //draggable: this.props.touchable,
       maxScale: this.max
     })
