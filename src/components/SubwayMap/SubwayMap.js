@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Svg } from 'components'
-import { classNames } from 'helpers'
+import { classNames, bindWheel } from 'helpers'
 import s from './SubwayMap.sass'
 
 
@@ -109,8 +109,9 @@ export default class SubwayMap extends Component {
   };
 
   wheelInit = () => {
-    this.wrapper.addEventListener('wheel', e => {
-      this.zoom(e.deltaY)
+    bindWheel.on(this.wrapper, e => {
+      const delta = e.deltaY || e.detail || e.wheelDelta;
+      this.zoom(delta)
     })
   };
 
@@ -124,16 +125,15 @@ export default class SubwayMap extends Component {
     const tagName = block.tagName.toLowerCase();
 
     if (tagName !== 'g') {
-      block = block.closest('g')
+      block = block.closest(`.${itemClassName}`)
     }
 
 
     const className = block.getAttribute('class') || '';
     const id = block.getAttribute('id');
 
-    console.log(block, id, className);
-
     if (className.indexOf(itemClassName) !== -1) {
+      console.log(id);
       this.triggerStation(id, block);
     }
   };

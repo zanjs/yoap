@@ -18,17 +18,7 @@ export default class BaseFilterSubway extends Component {
     }));
 
   mapClickHandler = ({target}) => {
-    let element = target;
-    const tagName = target.tagName.toLowerCase();
 
-    switch (tagName) {
-      case 'polygon':
-      case 'path':
-      case 'circle':
-        element = target.parentElement;
-    }
-
-    console.log(element);
   };
 
   render() {
@@ -37,8 +27,7 @@ export default class BaseFilterSubway extends Component {
     return (
       <BaseFilterItem onClick={this.clickHandler} title="Ближайшее метро" icon={subwayIcon}>
         Звенигородская
-        <SubwayMap src={MapImage}/>
-        {/*{isOpen && <SubwayMap src={MapImage}/>}*/}
+        {isOpen && <SubwayMap src={MapImage}/>}
       </BaseFilterItem>
     )
   }

@@ -18,6 +18,7 @@ export generateItemTypes from './app/generateItemTypes'
 export getOrderId from './app/getOrderId'
 export normalizeScroll from './app/normalizeScroll'
 export shallowEqual from './app/shallowEqual'
+export bindWheel from './app/bindWheel'
 export blockScroll from './app/blockScroll'
 
 // animation helpers
