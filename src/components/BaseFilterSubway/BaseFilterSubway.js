@@ -2,11 +2,16 @@ import React, { Component } from 'react'
 import { BaseFilterItem, SubwayMap } from 'components'
 import s from './BaseFilterSubway.sass'
 import subwayIcon from 'icons/ui/subway.svg'
-import mapImage from 'icons/subway/spb.svg'
 
 export default class BaseFilterSubway extends Component {
-  state = {isOpen: false};
+  state = {mapImage: null, isOpen: false};
 
+  componentWillMount() {
+    System.import('icons/subway/spb.svg')
+      .then(mapImage => this.setState({
+        mapImage
+      }));
+  }
 
   clickHandler = () =>
     this.setState(({isOpen}) => ({
@@ -24,7 +29,7 @@ export default class BaseFilterSubway extends Component {
 
   render() {
     const {
-      state: {isOpen},
+      state: {isOpen, mapImage},
       closeHandler,
       openHandler
     } = this;
