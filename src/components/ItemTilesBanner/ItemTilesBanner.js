@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
-import { observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import {
   Title, Container, Content,
   ItemTilesGrid, FlexGrid, LinkIcon
 } from 'components'
 import s from './ItemTilesBanner.sass'
+import { devicesBreakpoints } from 'config'
 
-@observer
+
+const mapStateToProps = ({device: {width}, items: {data}}) => ({
+  data, isMobile: width <= devicesBreakpoints.mobile
+});
+@inject(mapStateToProps) @observer
 export default class ItemTilesBanner extends Component {
   componentDidMount() {
     setTimeout(this.resize, 300);
@@ -17,9 +22,6 @@ export default class ItemTilesBanner extends Component {
   }
   componentDidUpdate() {
     this.resize();
-  }
-  componentWillReceiveProps() {
-    console.log('ItemTilesBanner received props!')
   }
 
   resize = () => setTimeout(this.resizeHandler, 60);

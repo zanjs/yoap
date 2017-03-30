@@ -169,7 +169,6 @@ export const user = {
 };
 
 // ========================================================### MAP CONFIG ###
-import mapStyles from './data/mapStyles.js'
 export const map = {
   //apiKey: "AIzaSyDfRCp7Rg_ufXZqgFBOsNP8ICY9LnPE1oI",
   apiKey: 'AIzaSyCzIFSJwXc8KfxmERx6-ut9FMnzN2owdW4',
@@ -183,8 +182,7 @@ export const map = {
 
   options: {
     center: [59.92517, 30.32243900000003],
-    zoom: 13,
-    styles: mapStyles,
+    zoom: 12,
     scrollwheel: true,
     zoomControl: true,
     scaleControl: true,

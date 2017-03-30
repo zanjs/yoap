@@ -4,7 +4,7 @@ import {
   unmountComponentAtNode as unmount
 } from 'react-dom'
 import { Svg, MapMarker, RouterStoreProvider } from 'components'
-import { loop, classNames, loadScript, shallowEqual } from 'helpers'
+import { isEmpty, loop, classNames, loadScript, shallowEqual } from 'helpers'
 import { map as config } from 'config'
 import s from './Map.sass'
 
@@ -108,20 +108,17 @@ export default class Map extends Component {
   getOptions = () => {
     const { center: [lat, lng], ...rest } = config.options;
 
-    this.options = {
+    return this.options = {
       center: { lat, lng },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       ...rest,
       ...this.props.options,
-    };
-
-    return this.options;
+    }
   };
 
   // initialize map
   initMap = () => {
     const { point, points } = this.props;
-    this.markers = [];
     this.map = new window.google.maps.Map(this.mapBlock, this.getOptions());
 
     this.transitLayer = new window.google.maps.TransitLayer();
@@ -133,14 +130,15 @@ export default class Map extends Component {
       suppressMarkers: true, suppressInfoWindows: true
     });
 
-
     if (points) {
       this.addMarkers(points);
     }
 
-    if (point) {
+    if (point && point.position[0] && point.position[1]) {
       this.setPoint(point);
     }
+
+    this.setMapStyles(this.map);
 
     // onLoad
     if (this.props.onLoad) {
@@ -148,10 +146,22 @@ export default class Map extends Component {
     }
   };
 
+  setMapStyles = map => {
+    System.import('data/mapStyles.js')
+      .then(styles => {
+        map.setOptions({styles: styles.default})
+      })
+  };
   // add just one marker
   addMarker = (mark, isTemp) => {
     if (!this.markers)
       this.markers = [];
+
+    if (
+      !mark || !mark.position ||
+      !mark.position[0] || !mark.position[1]
+    )
+      return null
 
     const marker = this.createMarker(mark);
 
@@ -183,7 +193,13 @@ export default class Map extends Component {
   };
   // zoom to the point
   zoomPoint = ({position: [lat, lng], zoom}) => {
-    this.map.setCenter({lat, lng});
+    const { center } = this.options;
+    const _center = {
+      lat: +lat || center.lat,
+      lng: +lng || center.lng
+    };
+
+    this.map.setCenter(_center);
     this.map.setZoom(zoom || config.onSetPointZoom);
   };
 
@@ -197,6 +213,10 @@ export default class Map extends Component {
 
   setDirection = props => {
     const { point, direction } = props || this.props;
+
+    if (!point || !direction || !point.position || !direction.position)
+      return null;
+
     const [lat, lng] = point.position;
     const [_lat, _lng] = direction.position;
 
@@ -238,8 +258,9 @@ export default class Map extends Component {
     const _point = props.point || {};
     const _points = props.points || {};
     const _direction = props.direction || {};
+    const hasNoPoints = isEmpty(points);
 
-    if (!shallowEqual(point.position, _point.position)) {
+    if (hasNoPoints && !shallowEqual(point.position, _point.position)) {
       console.log('set point...');
       return this.setPoint(point);
     }
@@ -250,7 +271,7 @@ export default class Map extends Component {
     }
 
     if (nextProps.points && !shallowEqual(points, _points)) {
-      console.log('create new markers from points');
+      console.log('CREATE NEW MARKERS', points);
       this.createNewMarkers(points);
     }
   }

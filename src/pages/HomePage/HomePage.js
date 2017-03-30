@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {
   Intro, BannerThreeCols, BannerTwoCols,
-  PricingBanner, PricingBannerFull
+  PricingBanner, PricingBannerFull,
+  ItemTilesBanner, MapItems
 } from 'components'
-import {
-  ItemTilesBannerContainer, MapItemsContainer
-} from 'containers'
 import s from './HomePage.sass'
 
 const bannerThreeColsContent = [
@@ -28,8 +26,8 @@ export default class HomePage extends Component {
     return (
       <div className={s.homepage}>
         <Intro />
-        <MapItemsContainer />
-        <ItemTilesBannerContainer />
+        <MapItems />
+        <ItemTilesBanner />
         <PricingBanner />
         <PricingBannerFull />
         <BannerThreeCols content={bannerThreeColsContent}

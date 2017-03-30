@@ -1,39 +1,38 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Title, Content, Container } from 'components'
 import { MapContainer } from 'containers'
 import s from './MapItems.sass'
 
 
+const mapStateToProps = ({items, device: {height}}) => ({
+  height, items
+});
+
+@inject(mapStateToProps) @observer
 export default class MapItems extends Component {
   state = { data: [] };
 
-  componentWillMount() {
-    this.parseData();
-  }
-  componentWillReceiveProps(nextProps) {
-    if (this.props.data !== nextProps.data) {
-      this.parseData(nextProps);
-    }
-  }
-  parseData = (props = this.props) => {
-    const { data } = props;
-    console.log('parsing data..', data);
+  parseData = data => {
+    return data.map(item => {
+      const { location } = item.location;
+      const position = [location[0], location[1]];
 
-    this.setState({
-      data: data.map(item => ({
-        position: item.location.location,
+      return {
+        position,
         props: {
           data: item
         }
-      }))
+      }
     })
   };
 
   mapOptions = {scrollwheel: false};
 
   render() {
-    const { height } = this.props;
-    const { data } = this.state;
+    const { height, items } = this.props;
+    const data = this.parseData(items.data);
+
     return (
       <div className={s.wrapper}>
         <Container tag="header" className={s.header}>

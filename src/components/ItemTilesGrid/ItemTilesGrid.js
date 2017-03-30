@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { FlexGrid, ItemTile, Title } from 'components'
-import { classNames, isEmpty } from 'helpers'
+import { classNames } from 'helpers'
 import s from './ItemTilesGrid.sass'
 
-
+@inject('items') @observer
 export default class ItemTilesGrid extends Component {
-  componentWillReceiveProps() {
-    console.log('itemtiles grid received new props!');
-  }
   render() {
     const {
-      data, getRef, limit = false,
+      items: { data },
+      getRef, limit = false,
       className, itemClassName
     } = this.props;
     const dataIsEmpty = !data || !data.length;
-
-    console.log('ItemTilesGrid', dataIsEmpty, [...data]);
 
     return (
       <FlexGrid wrap="true" justify="start"
@@ -30,7 +27,7 @@ export default class ItemTilesGrid extends Component {
                       key={item.id || key} />
           )
         })}
-        {dataIsEmpty && <Title>Объекты либо не найдены, либо загружаются :)</Title>}
+        {dataIsEmpty && <Title gray light>Объекты либо не найдены, либо загружаются :)</Title>}
       </FlexGrid>
     )
   }

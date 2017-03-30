@@ -98,7 +98,7 @@ class ItemsStore {
     if (isExist != null) {
       return this.data[isExist] = this.newModel(data);
     }
-    console.log('added');
+
     this.data.push(
       this.newModel(data)
     );
@@ -110,8 +110,6 @@ class ItemsStore {
 
   @action fromJSON = data => {
     if (data && data.forEach) {
-      console.log('data', data);
-      this.data.replace([]);
       data.forEach(item => {
         this.add(item);
       });

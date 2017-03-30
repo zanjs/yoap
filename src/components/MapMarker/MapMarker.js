@@ -8,7 +8,6 @@ export default class MapMarker extends Component {
 
   componentDidMount() {
     this.removeWrapperChunks();
-    //console.log('MapMarker', 'did mount');
   }
 
   removeWrapperChunks = () => {
@@ -30,7 +29,6 @@ export default class MapMarker extends Component {
 
   componentDidUpdate() {
     this.removeWrapperChunks();
-    //console.log('MapMarker', 'did update');
   }
 
 
@@ -39,8 +37,6 @@ export default class MapMarker extends Component {
   };
 
   render() {
-    //console.log('props', this.props);
-
     return (
       <ItemTile className={s.item}
                 contentClassName={s.item__content}

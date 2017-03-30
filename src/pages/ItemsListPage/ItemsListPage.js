@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-import { Container, FlexGrid, Title, LinkIcon } from 'components'
-import { ItemTilesGridContainer } from 'containers'
+import {
+  Container, FlexGrid, Title, LinkIcon,
+  ItemTilesGrid
+} from 'components'
 import s from './ItemsListPage.sass'
 
 
@@ -12,10 +14,10 @@ export default class ItemsListPage extends Component {
         <Helmet title="Все объявления"/>
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
-            <Title className={s.nooffsets} size="1">Все объявления</Title>
+            <Title nooffsets size="1">Все объявления</Title>
             <LinkIcon className={s.link} to="/y" gray>Посмотреть на карте</LinkIcon>
           </FlexGrid>
-          <ItemTilesGridContainer />
+          <ItemTilesGrid />
         </Container>
       </div>
     )
