@@ -5,7 +5,10 @@ import {
   Container, ItemPageInfoScroller,
   SliderImages
 } from 'components'
-import { ItemPageParametersContainer } from 'containers'
+import {
+  ItemPageParametersContainer,
+  ItemPageLocationContainer
+} from 'containers'
 import { randomNumber } from 'helpers'
 import s from './ItemPageEdit.sass'
 
@@ -37,9 +40,11 @@ export default class ItemPageEdit extends Component {
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <SliderImages data={images}/>
         )}>
-          {/*<ItemPageInfoEdit />*/}
           <ItemPageInfoEdit className={s.info} />
         </ItemPageInfoScroller>
+
+        <ItemPageLocationContainer data={item} edit
+                                   shouldUpdate={shouldUpdate}/>
 
         <ItemPageParametersContainer onChange={onChange}
                                      data={item.types} />

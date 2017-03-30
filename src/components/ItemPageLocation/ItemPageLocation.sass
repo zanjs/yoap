@@ -13,6 +13,16 @@
 
 .point
   margin-bottom: 15px
+  user-select: none
+  cursor: pointer
+  transition: opacity $animParams, color $animParams
+  &_active
+    color: $blue
+    opacity: 1 !important
+    *
+      color: inherit !important
+  &:hover
+    opacity: .7
   &__icon
     @include size(20px)
     margin-right: 12px

@@ -7,7 +7,7 @@ export default function Content({
   className, bold, regular,
   light, size = 4, gray, lightGray,
   lightColor, white, transparent, center,
-  nooffsets,
+  nooffsets, blue,
 
   tag, children,
 
@@ -23,6 +23,7 @@ export default function Content({
     lightColor && s.lightColor,
     lightGray && s.lightGray,
     gray && s.gray,
+    blue && s.blue,
     center && s.center,
     white && s.white,
     transparent && s.transparent,
@@ -30,7 +31,7 @@ export default function Content({
 
 
     className
-  )
+  );
 
   return (
     <Element className={_className} {...rest}>

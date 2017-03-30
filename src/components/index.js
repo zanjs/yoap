@@ -30,6 +30,8 @@ export SliderImages from './SliderImages/SliderImages'
 export Map from './Map/Map'
 export MapMarker from './MapMarker/MapMarker'
 export MapItems from './MapItems/MapItems'
+export AddressInput from './AddressInput/AddressInput'
+export NearestStations from './NearestStations/NearestStations'
 
 /*----------- components */
 export SocialLinks from './SocialLinks/SocialLinks'

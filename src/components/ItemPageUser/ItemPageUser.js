@@ -26,7 +26,7 @@ const ItemPageUser = props => {
       </ItemPageInfoTitle>}
       <FlexGrid justify="flex-start" align="start">
         <div className={classNames(s.image, imageClassName)}>
-          {image ? <Imag src={image}/> : <div className={s.noImage}/>}
+          {image ? <Image src={image}/> : <div className={s.noImage}/>}
         </div>
         <div className={s.content}>
           <FlexGrid justify="start" align="center">

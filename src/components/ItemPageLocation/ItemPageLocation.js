@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import {
   ItemPageInfoTitle, Content,
-  FlexGrid, Svg
+  FlexGrid, Svg, InputClean,
+  NearestStations,
+  AddressInput
 } from 'components'
 import { classNames } from 'helpers'
 import s from './ItemPageLocation.sass'
@@ -14,18 +16,26 @@ import subwayTrainIcon from 'icons/ui/subway-train.svg'
 import taxiIcon from 'icons/ui/taxi.svg'
 import busIcon from 'icons/ui/bus.svg'
 
-const Point = ({src = subwayIcon, fill = '#afafaf', title, children}) => (
-  <FlexGrid className={s.point} justify="space-between" align="center">
-    <FlexGrid justify="start"  align="center"
-              className={s.point__title}>
-      <Svg style={{fill}} src={src}
-           className={s.point__icon} />
-      <Content size="2" nooffsets lightColor light>{title}</Content>
+const Point = props => {
+  const {
+    src = subwayIcon, isActive, fill = '#afafaf',
+    title, children, onClick
+  } = props;
+
+  return (
+    <FlexGrid onClick={onClick} justify="space-between" align="center"
+              className={classNames(s.point, isActive && s.point_active)}>
+      <FlexGrid justify="start"  align="center"
+                className={s.point__title}>
+        <Svg style={{fill}} src={src}
+             className={s.point__icon} />
+        <Content size="2" nooffsets lightColor light>{title}</Content>
+      </FlexGrid>
+      <Content className={s.point__dist}
+               size="3" nooffsets lightColor regular>{children}</Content>
     </FlexGrid>
-    <Content className={s.point__dist}
-             size="3" nooffsets lightColor regular>{children}</Content>
-  </FlexGrid>
-);
+  )
+};
 
 export default class ItemPageLocation extends Component {
   static mapClassName = s.map;
@@ -52,26 +62,38 @@ export default class ItemPageLocation extends Component {
     }
   };
 
+  renderStation = ({name, color, duration, distance, position, isActive}) => (
+    <Point onClick={() => this.props.setDirection(position)}
+           isActive={isActive} fill={color} title={name}>
+      {`${duration} / ${distance}`}
+    </Point>
+  );
+
   render() {
     const {
-      className,
-      data: { address, subway, timing }
+      className, edit, point, direction,
+      data: { address, subway, timing },
     } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
         <div className={s.item}>
           <ItemPageInfoTitle title="Адрес"/>
-          <Content size="2" light lightColor>{address}</Content>
+          {edit && <AddressInput defaultValue={address}
+                                 setPoint={this.props.setPoint}/>}
+          {!edit && <Content size="2" light lightColor>{address}</Content>}
         </div>
-        <div className={s.item}>
+        {subway && <div className={s.item}>
           <ItemPageInfoTitle title="Ближайшее метро"/>
-          {subway.map((item, key) => (
-            <Point key={key} fill="#EE5450" title={item.name}>
-              {`${item.time} мин / ${item.distance} м`}
-            </Point>
-          ))}
-        </div>
-        <div className={s.item}>
+          <NearestStations direction={direction}
+                           point={point}
+                           render={this.renderStation}/>
+          {/*{subway.map((item, key) => (*/}
+            {/*<Point key={key} fill="#EE5450" title={item.name}>*/}
+              {/*{`${item.time} мин / ${item.distance} м`}*/}
+            {/*</Point>*/}
+          {/*))}*/}
+        </div>}
+        {timing && <div className={s.item}>
           <ItemPageInfoTitle title="Время в пути"/>
           {timing.map((item, key) => {
             const { name, time, distance, src} = this.getTimingData(item);
@@ -82,7 +104,7 @@ export default class ItemPageLocation extends Component {
               </Point>
             )
           })}
-        </div>
+        </div>}
         <div className={s.item}>
           <ItemPageInfoTitle title="Доступность транспорта"/>
           <FlexGrid justify="start" align="center" className={s.icons}>

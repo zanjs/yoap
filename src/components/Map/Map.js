@@ -14,7 +14,10 @@ import bulletIconPng from 'images/ui/bullet.png'
 
 
 export default class Map extends Component {
-  static defaultProps = {currentPoint: {position: []}};
+  static defaultProps = {
+    point: {position: []},
+    direction: {position: []}
+  };
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -91,6 +94,10 @@ export default class Map extends Component {
   };
   // render marker by react
   renderMarker = data => {
+    if (!data.props) {
+      return <noscript />
+    }
+
     return (
       <RouterStoreProvider router={this.context.router}>
         <MapMarker {...data.props}/>
@@ -119,6 +126,12 @@ export default class Map extends Component {
 
     this.transitLayer = new window.google.maps.TransitLayer();
     this.transitLayer.setMap(this.map);
+    this.directionsDisplay = new google.maps.DirectionsRenderer();
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsDisplay.setMap(this.map);
+    this.directionsDisplay.setOptions({
+      suppressMarkers: true, suppressInfoWindows: true
+    });
 
 
     if (points) {
@@ -182,17 +195,61 @@ export default class Map extends Component {
     this.zoomPoint({position: center, zoom})
   };
 
+  setDirection = props => {
+    const { point, direction } = props || this.props;
+    const [lat, lng] = point.position;
+    const [_lat, _lng] = direction.position;
+
+    const origin = new google.maps.LatLng(lat, lng);
+    const destination = new google.maps.LatLng(_lat, _lng);
+
+    const request = {
+      origin, destination,
+      travelMode: google.maps.TravelMode[direction.method || 'WALKING'],
+      unitSystem: google.maps.UnitSystem.METRIC,
+      optimizeWaypoints: true,
+      provideRouteAlternatives: true,
+      avoidHighways: true,
+      avoidTolls: true
+    };
+    this.directionsService.route(request, (result, status) => {
+      if (status == google.maps.DirectionsStatus.OK) {
+        this.directionsDisplay.setDirections(result);
+
+        const routes = result.routes;
+        const leg = routes[0].legs;
+        const length = leg[0].distance.text;
+        const duration = leg[0].duration.text;
+
+        console.log(window.res = {
+          routes,
+          leg, length,
+          duration
+        })
+      }
+    });
+  };
+
   componentWillReceiveProps(nextProps) {
     if (!this.state.isLoaded) return;
 
     const { props } = this;
-    const { point, points } = nextProps;
+    const { point, points, direction } = nextProps;
+    const _point = props.point || {};
+    const _points = props.points || {};
+    const _direction = props.direction || {};
 
-    if (!shallowEqual(point, props.point)) {
+    if (!shallowEqual(point.position, _point.position)) {
+      console.log('set point...');
       return this.setPoint(point);
     }
 
-    if (nextProps.points && !shallowEqual(points, props.points)) {
+    if (!shallowEqual(direction.position, _direction.position)) {
+      console.log('set direction...');
+      return this.setDirection(nextProps);
+    }
+
+    if (nextProps.points && !shallowEqual(points, _points)) {
       console.log('create new markers from points');
       this.createNewMarkers(points);
     }

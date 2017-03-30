@@ -22,7 +22,8 @@ export bindWheel from './app/bindWheel'
 export blockScroll from './app/blockScroll'
 export JSONToQuery from './app/JSONToQuery'
 export queryToJSON from './app/queryToJSON'
-export Directions from './app/Directions'
+export Predictions from './app/Predictions'
+export NearestTransport from './app/NearestTransport'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'
