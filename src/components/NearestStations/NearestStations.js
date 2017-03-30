@@ -33,8 +33,28 @@ export default class NearestStations extends Component {
     this.setState({data, isFetching: false});
   };
 
-  search = () => {
-    const { position } = this.props.point;
+  componentWillReceiveProps(nextProps) {
+    const { point } = nextProps;
+    const _point = this.props.point;
+    const { position } = point;
+    const _position = _point.position;
+
+
+    if (!_point && point) {
+      return this.search(point)
+    }
+
+    if (!point || !position) {
+      return this.setState({data: null})
+    }
+
+    if (position[0] !== _position[0] || position[1] !== _position[1]) {
+      return this.search(point);
+    }
+  }
+
+  search = point => {
+    const { position } = point || this.props.point;
 
     this.setState({isFetching: true});
     return this.transport.findStations(
@@ -68,7 +88,7 @@ export default class NearestStations extends Component {
 
     return (
       <div className={s.wrapper}>
-        {data.length && data.map((item, key) => (
+        {data && data.length && data.map((item, key) => (
           <Render isActive={isActive(item.position)} key={key} {...item}/>
         )) || <Content gray size="4" light className={s.message}>
           {isFetching ? 'Загружаем данные...' : 'Ближайшие станции не найдены :('}

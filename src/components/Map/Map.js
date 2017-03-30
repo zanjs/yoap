@@ -260,12 +260,12 @@ export default class Map extends Component {
     const _direction = props.direction || {};
     const hasNoPoints = isEmpty(points);
 
-    if (hasNoPoints && !shallowEqual(point.position, _point.position)) {
+    if (hasNoPoints && point.position && !shallowEqual(point.position, _point.position)) {
       console.log('set point...');
       return this.setPoint(point);
     }
 
-    if (!shallowEqual(direction.position, _direction.position)) {
+    if (direction && !shallowEqual(direction.position, _direction.position)) {
       console.log('set direction...');
       return this.setDirection(nextProps);
     }

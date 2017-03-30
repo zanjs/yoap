@@ -97,7 +97,6 @@ export default class ItemPageLocation extends Component {
           <ItemPageInfoTitle title="Время в пути"/>
           {timing.map((item, key) => {
             const { name, time, distance, src} = this.getTimingData(item);
-
             return (
               <Point src={src || houseIcon} key={key} title={name}>
                 {`${time} мин / ${distance}`}
