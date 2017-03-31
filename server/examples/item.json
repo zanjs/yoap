@@ -1,0 +1,154 @@
+{
+  "title": "Отличная квартира с видом на залив",
+  "description": "Великолепный вид на залив, рядом метро, супермаркеты и большой и красивый парк",
+  "category": "CATEGORY_TYPE@0",
+  "type": "OBJECT_TYPE@1",
+  "price": [
+    {
+      "id":"TERM_TYPE@0",
+      "value":2100,
+      "deposit":2100
+    },
+    {
+      "id":"TERM_TYPE@2",
+      "value":35000,
+      "deposit":17500
+    }
+  ],
+  "size": {
+    "rooms":3,
+    "bedrooms":0,
+    "bathrooms":1,
+    "squares":72,
+    "beds": 0
+  },
+  "floors": [4,12],
+  "location": {
+    "address":"Дунайский пр-кт д.3к.3, Звёздное, Санкт-Петербург",
+    "location":[59.8282439,30.3279568],
+    "subway":[
+      {
+        "distance":"1.3 км",
+        "duration":"21 мин",
+        "name":"Звёздная",
+        "position":[
+          59.833154,
+          30.349321
+        ],
+        "id":"spb-id2-16"
+      },
+      {
+        "distance":"2.3 км",
+        "duration":"38 мин",
+        "name":"Московская",
+        "position":[
+          59.848873,
+          30.321483
+        ],
+        "color":"#4466AD",
+        "id":"spb-id2-15"
+      },
+      {
+        "distance":"2.7 км",
+        "duration":"44 мин",
+        "name":"Купчино",
+        "position":[
+          59.829328,
+          30.375588
+        ],
+        "id":"spb-id2-17"
+      },
+      {
+        "distance":"4.2 км",
+        "duration":"1 ч 10 мин",
+        "name":"Ленинский проспект",
+        "position":[
+          59.851774,
+          30.268428
+        ],
+        "id":"spb-id1-18"
+      },
+      {
+        "distance":"4.3 км",
+        "duration":"1 ч 10 мин",
+        "name":"Парк Победы",
+        "position":[
+          59.866269,
+          30.321887
+        ],
+        "id":"spb-id2-14"
+      },
+      {
+        "distance":"4.6 км",
+        "duration":"1 ч 16 мин",
+        "name":"Проспект Ветеранов",
+        "position":[
+          59.84211,
+          30.250588
+        ],
+        "id":"spb-id1-19"
+      },
+      {
+        "distance":"5.5 км",
+        "duration":"1 ч 31 мин",
+        "name":"Международная",
+        "position":[
+          59.870203,
+          30.379289
+        ],
+        "id":"spb-id5-12"
+      },
+      {
+        "distance":"5.7 км",
+        "duration":"1 ч 34 мин",
+        "name":"Электросила",
+        "position":[
+          59.879164,
+          30.318716
+        ],
+        "color":"#4466AD",
+        "id":"spb-id2-13"
+      },
+      {
+        "distance":"5.7 км",
+        "duration":"1 ч 35 мин",
+        "name":"Автово",
+        "position":[
+          59.867308,
+          30.261403
+        ],
+        "id":"spb-id1-17"
+      },
+      {
+        "distance":"6.6 км",
+        "duration":"1 ч 49 мин",
+        "name":"Бухарестская",
+        "position":[
+          59.883769,
+          30.368932
+        ],
+        "id":"spb-id5-11"
+      }
+    ],
+    "timing":[
+      {
+        "distance":"6.6 км",
+        "duration":"1 ч 49 мин",
+        "name":"Центр",
+        "type":"center",
+        "position": [59.92517, 30.32243900000003]
+      }
+    ]
+  },
+  "params": [
+    "CATEGORY_TYPE@0", "OBJECT_TYPE@1", "TERM_TYPE@1",
+    "FACILITY_TYPE@1-0", "FACILITY_TYPE@1-1", "FACILITY_TYPE@1-2",
+    "FACILITY_TYPE@1-3",
+    "FACILITY_TYPE@2-1", "FACILITY_TYPE@3-3",
+    "FACILITY_TYPE@6-1",
+    "TERM_TYPE@0", "TERM_TYPE@1",
+    "RULES_TYPE@2",
+    "AMENITY_TYPE@0", "AMENITY_TYPE@9"
+  ],
+  "_creator": "58de68c2598fb962ebc751c6"
+}

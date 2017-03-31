@@ -38,8 +38,13 @@ export default class SliderImages extends Component {
   resizeHandler = () => setTimeout(this.resize, 100);
 
 
-  getImageRef = index => b =>
+  getImageRef = index => b => {
     this.images[index] = b;
+
+    if (this.props.getRef) {
+      this.props.getRef(b, index)
+    }
+  };
   getWrapperRef = b => this.wrapper = b;
   getCurrentSlide = index => {
     this.current = index;

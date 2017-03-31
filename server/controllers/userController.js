@@ -1,6 +1,6 @@
 import db from 'models'
 
-const userController = {}
+const userController = {};
 
 userController.login = (req, res) => {
   const { email, phone, password } = req.body;
@@ -52,17 +52,17 @@ userController.signup = (req, res) => {
     })
   }).catch(err => {
     res.status(500).json({
-      message: err
+      message: err.toString()
     })
   })
-}
+};
 
 userController.update = (req, res) => {
 
-}
+};
 
 userController.delete = (req, res) => {
 
-}
+};
 
 export default userController;

@@ -68,6 +68,8 @@ export default class Slider extends Component {
       to,
     } = this;
 
+    const needNav = !!(data && data.length > 1);
+
     return (
       <div ref={getWrapperRef} onMouseMove={onMouseMove}
            className={classNames(s.wrapper, className)}>
@@ -78,12 +80,13 @@ export default class Slider extends Component {
             </div>
           ))}
         </div>
-        <FlexGrid justify="center" align="center" className={s.nav}>
+        {needNav && <FlexGrid justify="center" align="center"
+                              className={s.nav}>
           {data.map((item, index) => (
             <div onClick={() => to(index)} key={index}
                  className={classNames(s.nav__item, index === current && s.nav__item_active)} />
           ))}
-        </FlexGrid>
+        </FlexGrid>}
       </div>
     )
   }

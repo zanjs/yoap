@@ -16,6 +16,7 @@ global.__SERVER__ = true;
 moduleAlias.addAliases({
   'models'  : path.join(__dirname, '../server/models'),
   'controllers': path.join(__dirname, '../server/controllers'),
+  'utils': path.join(__dirname, '../server/utils'),
   'helpers': path.join(__dirname, '../src/helpers'),
   'constants': path.join(__dirname, '../src/store/constants'),
   'validation': path.join(__dirname, '../src/store/validation'),

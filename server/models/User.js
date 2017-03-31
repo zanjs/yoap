@@ -14,7 +14,6 @@ const userSchema = new Schema({
     required: true,
     minLength: [4, 'Пароль не может быть короче 4-ех символов']
   },
-
   phone: {
     type: String,
     required: true,
@@ -26,15 +25,55 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
+  image: {
+    type: String,
+    default: ''
+  },
+  objects: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Item'
+    }
+  ],
+  featured: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Item'
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now
   },
+  editedAt: {
+    type: Date,
+    default: Date.now
+  },
+  lastVisit: {
+    type: Date,
+    default: Date.now,
+    duration: {
+      type: Number,
+      default: 1
+    }
+  },
+  visits: [
+    {
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+      duration: {
+        type: Number,
+        default: 1
+      }
+    }
+  ],
   isDeleted: {
     type: Boolean,
     default: false
   }
-})
+});
 
 const User = mongoose.model('User', userSchema);
 
