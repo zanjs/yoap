@@ -3,7 +3,7 @@ import { inject } from 'mobx-react'
 import {
   ItemPageInfo, ItemPageInfoEdit,
   Container, ItemPageInfoScroller,
-  SliderImages
+  PhotoGallery
 } from 'components'
 import {
   ItemPageParametersContainer,
@@ -38,7 +38,7 @@ export default class ItemPageEdit extends Component {
     return (
       <div>
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
-          <SliderImages data={images}/>
+          <PhotoGallery data={images}/>
         )}>
           <ItemPageInfoEdit className={s.info} />
         </ItemPageInfoScroller>

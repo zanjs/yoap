@@ -8,6 +8,7 @@ const Title = ({
   light, center, white,
   lightColor, className,
   children, getRef, nooffsets,
+  gray,
 
   ...rest
 }) => {
@@ -21,9 +22,10 @@ const Title = ({
     center && s.center,
     white && s.white,
     nooffsets && s.nooffsets,
+    gray && s.gray,
 
     className
-  )
+  );
 
   return (
     <Element ref={getRef} className={_className} {...rest}>

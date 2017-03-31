@@ -1,0 +1,60 @@
+@import ../../theme/index
+
+$gray: #dddddd
+
+.wrapper
+  @include absolute_init(full, 0)
+  background-color: #fff
+
+.container
+  position: absolute
+  left: 10%
+  top: 10%
+  height: 90%
+  width: 80%
+
+.item
+  display: block
+  width: 20%
+  height: 97px
+  min-width: 75px
+  border: 6px solid rgba(255, 255, 255,0)
+  user-select: none
+  cursor: move
+  position: relative
+  overflow: hidden
+  transition: opacity $animParams, box-shadow $animParams
+  &_active
+    border-color: $light-blue !important
+    box-shadow: $shadow !important
+  &_drag
+    transition: opacity $animParams
+  &_remove
+    opacity: .5
+
+  &__image
+    display: block
+    width: 100%
+    height: 100%
+    object-fit: cover
+    object-position: center center
+
+.title
+  padding-bottom: 40px
+
+
+.remove
+  padding: 36px 0
+  border-top: 1px solid $gray
+  transition: opacity $animParams, border $animParams
+  &__icon
+    fill: $gray
+    transition: fill $animParams
+    @include size(30px)
+
+  &_active
+    border-color: $pink
+    &:hover
+      opacity: .7
+    .remove__icon
+      fill: $pink
