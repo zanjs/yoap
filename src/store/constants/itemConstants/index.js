@@ -1,4 +1,6 @@
 export * from './objectTypes'
+export * from './stateTypes'
+export * from './furnitureTypes'
 export * from './facilitiesTypes'
 export * from './amenitiesTypes'
 export * from './rulesTypes'

@@ -3,12 +3,12 @@
 import { divider, splitter } from 'config'
 import { generateItemTypes as getTypes, getOrderId } from 'helpers'
 import {
-  amenitiesTypes,
+  amenitiesTypes, stateTypes,
+  furnitureTypes,
 
   facilityTypesMedia, facilityTypesCommon,
-  facilityTypesAppliances, facilityTypesFurniture,
-  facilityTypesSafety, facilityTypesStuff,
-  facilityTypesState, facilityTypesAdditional
+  facilityTypesAppliances, facilityTypesSafety,
+  facilityTypesStuff, facilityTypesAdditional
 } from 'constants/itemConstants'
 
 //import
@@ -30,9 +30,9 @@ export const categoryTypesMin = {
     ],
     additional: [
       // Мебель
-      facilityTypesFurniture.types[0],
-      facilityTypesFurniture.types[2],
-      facilityTypesFurniture.types[3],
+      furnitureTypes.types[0],
+      furnitureTypes.types[2],
+      furnitureTypes.types[3],
 
       // Общие параметры
       facilityTypesCommon.types[3],
@@ -70,8 +70,8 @@ export const categoryTypesBase = {
       facilityTypesAppliances.types[8],
 
       // Мебель
-      facilityTypesFurniture.types[1],
-      facilityTypesFurniture.types[2],
+      furnitureTypes.types[1],
+      furnitureTypes.types[2],
 
       // Общие параметры
       facilityTypesCommon.types[3],
@@ -112,7 +112,7 @@ export const categoryTypesComfort = {
       facilityTypesAppliances.types[8],
 
       // Мебель
-      facilityTypesFurniture.types[1],
+      furnitureTypes.types[1],
 
       // Общие параметры
       facilityTypesCommon.types[0],
@@ -179,7 +179,7 @@ export const categoryTypesExtended = {
       facilityTypesAppliances.types[8],
 
       // Мебель
-      facilityTypesFurniture.types[1],
+      furnitureTypes.types[1],
 
       // Общие параметры
       facilityTypesCommon.types[0],

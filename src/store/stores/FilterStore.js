@@ -4,7 +4,8 @@ import {
   store as config,
   objectTypes, facilitiesTypes,
   amenitiesTypes, rulesTypes,
-  termTypes, categoryTypes
+  termTypes, categoryTypes,
+  stateTypes, furnitureTypes
 } from 'constants'
 
 console.log({
@@ -13,7 +14,9 @@ console.log({
   amenitiesTypes,
   rulesTypes,
   termTypes,
-  categoryTypes
+  categoryTypes,
+  stateTypes,
+  furnitureTypes
 });
 
 const log = data => {
@@ -24,6 +27,8 @@ const log = data => {
 class FilterStore {
   storeName = config.filter;
   @observable category;
+  @observable state = [];
+  @observable furniture = [];
   @observable rooms = [1,2,3,4,5,6,7,8,9,10];
   @observable size =  {
     @observable rooms: [],
@@ -121,7 +126,9 @@ class FilterStore {
       types: categoryTypes,
       data: [
         this.configureData(objectTypes),
+        this.configureData(stateTypes),
         this.configureFacilities(facilitiesTypes),
+        this.configureData(furnitureTypes),
         this.configureData(amenitiesTypes),
         this.configureData(rulesTypes),
         this.configureData(termTypes)

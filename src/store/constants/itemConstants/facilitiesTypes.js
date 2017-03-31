@@ -102,28 +102,6 @@ export const facilityTypesAppliances = {
   types: getTypes(facilityTypeAppliances, facilityTypeAppliancesData)
 };
 
-// ======================================== FACILITY TYPES @ FURNITURE
-export const facilityTypeFurniture = getId();
-const facilityTypeFurnitureData = [
-  {
-    "ru":"Без мебели"
-  },
-  {
-    "ru":"Полностью"
-  },
-  {
-    "ru":"Частично"
-  },
-  {
-    "ru":"Только кухня"
-  }
-];
-export const facilityTypesFurniture = {
-  id: facilityTypeFurniture,
-  name: 'Мебель',
-  types: getTypes(facilityTypeFurniture, facilityTypeFurnitureData)
-};
-
 // ======================================== FACILITY TYPES @ SAFETY
 export const facilityTypeSafety = getId();
 const facilityTypeSafetyData = [
@@ -171,34 +149,6 @@ export const facilityTypesStuff = {
   types: getTypes(facilityTypeStuff, facilityTypeStuffData)
 };
 
-// ======================================== FACILITY TYPES @ STATE
-export const facilityTypeState = getId();
-const facilityTypeStateData = [
-  {
-    "ru":"Под отделку (голые стены)"
-  },
-  {
-    "ru":"Без ремонта (ремонт старше 5-ти)"
-  },
-  {
-    "ru":"Косметический ремонт"
-  },
-  {
-    "ru":"Недавний (не старше 5-ти лет)"
-  },
-  {
-    "ru":"Капитальный (не старше 2-ух лет)"
-  },
-  {
-    "ru":"Уникальный дизайн (не старше 2-ух лет)"
-  },
-];
-export const facilityTypesState = {
-  id: facilityTypeState,
-  name: 'Состояние',
-  types: getTypes(facilityTypeState, facilityTypeStateData)
-};
-
 // ======================================== FACILITY TYPES @ ADDITIONAL
 export const facilityTypeAdditional = getId();
 const facilityTypeAdditionalData = [
@@ -230,7 +180,5 @@ export const facilityTypesAdditional = {
 // ======================================== FACILITY TYPES @ ENTRY POINT
 export const facilitiesTypes = [
   facilityTypesMedia, facilityTypesCommon, facilityTypesAppliances,
-  facilityTypesFurniture, facilityTypesStuff,
-  facilityTypesSafety, facilityTypesState,
-  facilityTypesAdditional
+  facilityTypesStuff, facilityTypesSafety, facilityTypesAdditional
 ];

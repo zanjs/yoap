@@ -14,7 +14,10 @@ import {
   amenityType, amenitiesTypes,
   rulesType, rulesTypes,
   termType, termTypes,
-  categoryType, categoryTypes
+  categoryType, categoryTypes,
+
+  furnitureType, furnitureTypes,
+  stateType, stateTypes
 } from 'constants'
 
 
@@ -86,6 +89,28 @@ export default class ItemModel {
   @observable _type;
   @computed get type() {
     return objectTypes.types.find(item => item.id === this._type);
+  }
+
+  /**
+   * Parse object state.
+   *
+   * @param objectTypes, _type
+   * @returns {object} {id, name}
+   */
+  @observable _state;
+  @computed get state() {
+    return stateTypes.types.find(item => item.id === this._state);
+  }
+
+  /**
+   * Parse object furniture.
+   *
+   * @param objectTypes, _type
+   * @returns {object} {id, name}
+   */
+  @observable _furniture;
+  @computed get furniture() {
+    return furnitureTypes.types.find(item => item.id === this._furniture);
   }
 
   /**
@@ -205,8 +230,13 @@ export default class ItemModel {
    * @returns {Array}
    */
   @computed get types() {
-    const { facilities, amenities, rules } = this;
+    const { furniture, state, facilities, amenities, rules } = this;
     let types = [];
+
+    // get state
+    types = [
+      state
+    ];
 
     // get facilities types
     facilities.forEach(item => {
@@ -217,6 +247,13 @@ export default class ItemModel {
         ]
       }
     });
+
+    // get furniture
+    types = [
+      furniture,
+      ...types,
+    ];
+
     // get amenities types
     if (amenities.types.length > 0) {
       types = [
@@ -311,6 +348,8 @@ export default class ItemModel {
       views,
 
       type,
+      state,
+      furniture,
       term,
       params
     } = this;
@@ -327,6 +366,8 @@ export default class ItemModel {
       user,
       views,
       type,
+      state,
+      furniture,
       term,
       params
     }
@@ -340,14 +381,14 @@ export default class ItemModel {
    */
   @computed get previewData() {
     const {
-      id, title,
+      id, title, state, furniture,
       category, price,
       location,
       images, size, views
     } = this;
 
     return {
-      id, title,
+      id, title, state, furniture,
       category, price,
       location,
       images, size, views
@@ -374,6 +415,7 @@ export default class ItemModel {
   toJSON() {
     const {
       id, title, _link, _category,
+      _state, _furniture,
 
       _type,
       size, location,
@@ -399,7 +441,9 @@ export default class ItemModel {
       params: [
         _category,
         _type,
+        _state,
         _term,
+        _furniture,
         ..._amenities,
         ..._facilities,
         ..._rules,
@@ -434,6 +478,8 @@ export default class ItemModel {
 
       _link: link,
       _type: '',
+      _state: '',
+      _furniture: '',
       _term: '',
       _amenities: [],
       _facilities: [],
@@ -462,6 +508,10 @@ export default class ItemModel {
           return data._amenities.push(item);
         case rulesType:
           return data._rules.push(item);
+        case stateType:
+          return data._state = item;
+        case furnitureType:
+          return data._furniture = item;
         case categoryType:
           return data._category = item;
       }
@@ -484,6 +534,8 @@ export default class ItemModel {
       test(objectType)   ||
       test(rulesType)    ||
       test(termType)     ||
+      test(stateType)     ||
+      test(furnitureType)     ||
       test(categoryType)
     );
   });
@@ -581,5 +633,7 @@ window.types = {
   amenitiesTypes,
   rulesTypes,
   termTypes,
-  categoryTypes
+  categoryTypes,
+  stateTypes,
+  furnitureTypes
 };
