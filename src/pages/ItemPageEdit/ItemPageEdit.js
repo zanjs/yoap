@@ -43,7 +43,7 @@ export default class ItemPageEdit extends Component {
           <ItemPageInfoEdit className={s.info} />
         </ItemPageInfoScroller>
 
-        <ItemPageLocationContainer data={item} edit
+        <ItemPageLocationContainer data={item} edit onChange={onChange}
                                    shouldUpdate={shouldUpdate}/>
 
         <ItemPageParametersContainer onChange={onChange}

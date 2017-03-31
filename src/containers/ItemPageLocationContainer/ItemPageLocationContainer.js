@@ -25,16 +25,14 @@ export default class ItemPageLocationContainer extends Component {
   render() {
     const { mapClassName } = ItemPageLocation;
     const {
+      state: {address, direction},
+      props: {
+        shouldUpdate, data, edit,
+        onChange
+      },
       setPoint,
       setDirection
     } = this;
-    const {
-      address,
-      direction
-    } = this.state;
-    const {
-      shouldUpdate, data, edit
-    } = this.props;
 
     let pointData = {
       position: data.location.location,
@@ -53,7 +51,8 @@ export default class ItemPageLocationContainer extends Component {
                       point={pointData}/>
       )}>
         <ItemPageLocation setPoint={setPoint} point={pointData}
-                          setDirection={setDirection} direction={direction}
+                          onChange={onChange} direction={direction}
+                          setDirection={setDirection}
                           edit={edit} data={data.location} />
       </ItemPageInfoScroller>
     )

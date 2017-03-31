@@ -74,7 +74,7 @@ export default class ItemPage extends Component {
         {/* Object title, des, images, price, rating, etc. */}
         <ItemPageInfoContainer data={data} shouldUpdate={shouldUpdate}/>
         {/* Object location */}
-        <ItemPageLocationContainer data={data} shouldUpdate={shouldUpdate}/>
+        <ItemPageLocationContainer onChange={onChange} data={data} shouldUpdate={shouldUpdate}/>
         {/* Object params */}
         <ItemPageParametersContainer onChange={onChange} data={types} />
       </div>

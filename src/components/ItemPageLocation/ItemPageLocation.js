@@ -72,6 +72,7 @@ export default class ItemPageLocation extends Component {
   render() {
     const {
       className, edit, point, direction,
+      onChange,
       data: { address, subway, timing },
     } = this.props;
     return (
@@ -85,7 +86,7 @@ export default class ItemPageLocation extends Component {
         {subway && <div className={s.item}>
           <ItemPageInfoTitle title="Ближайшее метро"/>
           <NearestStations direction={direction}
-                           point={point}
+                           point={point} onChange={onChange}
                            render={this.renderStation}/>
           {/*{subway.map((item, key) => (*/}
             {/*<Point key={key} fill="#EE5450" title={item.name}>*/}

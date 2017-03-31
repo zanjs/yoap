@@ -30,7 +30,7 @@ export default class NearestStations extends Component {
       }
     });
 
-    this.setState({data, isFetching: false});
+    this.setState({data, isFetching: false}, this.onChange);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -81,15 +81,21 @@ export default class NearestStations extends Component {
     return _lat === lat && lng === _lng;
   };
 
+  onChange = () => {
+    if (this.props.onChange) {
+      this.props.onChange(this.state.data);
+    }
+  };
+
   render() {
     const { data, isFetching } = this.state;
     const { isActive } = this;
-    const Render = this.props.render;
+    const Point = this.props.render;
 
     return (
       <div className={s.wrapper}>
         {data && data.length && data.map((item, key) => (
-          <Render isActive={isActive(item.position)} key={key} {...item}/>
+          <Point isActive={isActive(item.position)} key={key} {...item}/>
         )) || <Content gray size="4" light className={s.message}>
           {isFetching ? 'Загружаем данные...' : 'Ближайшие станции не найдены :('}
         </Content>}
