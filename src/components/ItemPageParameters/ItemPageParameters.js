@@ -5,11 +5,12 @@ import s from './ItemPageParameters.sass'
 
 export default class ItemPageParameters extends Component {
   render() {
-    const { getRef, data, onChange } = this.props;
+    const { getRef, data, onChange, edit, size } = this.props;
 
     return (
       <div ref={getRef} className={s.wrapper}>
-        <ProFilter onChange={onChange} readOnly data={data}/>
+        <ProFilter onChange={onChange} readOnly
+                   edit={edit} size={size} data={data}/>
       </div>
     )
   }

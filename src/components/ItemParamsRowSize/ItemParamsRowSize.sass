@@ -32,3 +32,14 @@
   @include respond(mobile)
     width: 100%
     @include flexbox(row, space-between, center, nowrap)
+
+.label
+  white-space: pre
+  margin-right: 10px
+  display: inline-block
+  &_last
+    @extend .label
+    margin-left: 10px
+.squares
+  max-width: 80px
+  text-align: center

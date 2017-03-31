@@ -15,19 +15,19 @@ export default class ItemPageParametersContainer extends Component {
     }
   };
 
-
   getRef = b => this.wrapper = b;
 
   render() {
     const {
-      props: {data, parseTypes},
+      props: {data, size, parseTypes, edit},
       getRef, onChange
     } = this;
     const _data = data && data.length && parseTypes(data);
 
     return (
       <Container getRef={getRef}>
-        <ItemPageParameters onChange={onChange} data={_data}/>
+        <ItemPageParameters edit={edit} data={_data} size={size}
+                            onChange={onChange}/>
       </Container>
     )
   }

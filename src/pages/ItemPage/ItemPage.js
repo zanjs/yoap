@@ -66,8 +66,13 @@ export default class ItemPage extends Component {
     if (isEmpty(data))
       return null;
 
-    const { types } = data;
+    const { types, size, floors } = data;
     window.data = data;
+
+    const _size = {
+      ...size,
+      floors
+    };
 
     return (
       <div>
@@ -76,7 +81,7 @@ export default class ItemPage extends Component {
         {/* Object location */}
         <ItemPageLocationContainer onChange={onChange} data={data} shouldUpdate={shouldUpdate}/>
         {/* Object params */}
-        <ItemPageParametersContainer onChange={onChange} data={types} />
+        <ItemPageParametersContainer onChange={onChange} data={types} size={_size} />
       </div>
     )
   }
