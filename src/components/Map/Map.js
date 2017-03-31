@@ -54,9 +54,10 @@ export default class Map extends Component {
     } = window.google.maps;
     const wrapper = document.createElement('div');
     const size = 32;
+    const withWindow = !!data.props;
 
     wrapper.className = s.marker;
-    const ReactElement = mount(
+    const ReactElement = withWindow && mount(
       this.renderMarker(data),
       wrapper
     );
@@ -75,16 +76,18 @@ export default class Map extends Component {
       icon, map: this.map
     });
 
-    const infowindow = new InfoWindow({
+    const infowindow = withWindow && new InfoWindow({
       content: wrapper
     });
 
-    event.addListener(marker, 'click', () => {
+    withWindow && event.addListener(marker, 'click', () => {
       infowindow.open(this.map, marker);
     });
 
-    event.addListener(infowindow, 'domready', () => {
-      marker.ReactElement.forceUpdate();
+    withWindow && event.addListener(infowindow, 'domready', () => {
+      if (marker.ReactElement) {
+        marker.ReactElement.forceUpdate();
+      }
     });
 
     marker.block = wrapper;
