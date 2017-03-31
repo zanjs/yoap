@@ -51,7 +51,7 @@ export default class PhotoGallery extends Component {
       : arrayMove(data, oldIndex, newIndex);
 
     this.setState({
-      data: _data,
+      data: this.setActive(_data),
       isDragged: false,
       toRemove: false
     });
@@ -93,18 +93,20 @@ export default class PhotoGallery extends Component {
     )
   };
 
+  setActive = data => data.map(
+    (item, key) => ({
+      ...item,
+      isActive: key === 0
+    })
+  );
+
   itemClickHandler = index => {
-    this.setState(({data}) => ({
-      data: data.map((item, key) => ({
-        ...item,
-        isActive: key === index
-      }))
-    }))
+    console.log('clicked on', index);
   };
 
   render() {
     const {
-      state: {data, isDragged, toRemove },
+      state: { data, isDragged },
       onSortEnd,
       onSortStart,
       mouseLeaveHandler,
