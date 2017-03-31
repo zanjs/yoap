@@ -2,6 +2,7 @@ import { observable, computed, action, extendObservable } from 'mobx'
 import { localStore, isEmpty, extend } from 'helpers'
 import {
   store as config,
+  facilityType,
   objectTypes, facilitiesTypes,
   amenitiesTypes, rulesTypes,
   termTypes, categoryTypes,
@@ -36,10 +37,7 @@ class FilterStore {
     @observable bedrooms: 0,
     @observable beds: 0,
 
-    @observable squares: {
-      @observable total: [0, 100],
-      @observable living: []
-    },
+    @observable squares: [0, 100],
   };
   @observable floor  = 0;
   @observable price  = [];
@@ -64,8 +62,8 @@ class FilterStore {
   @action sizeChange = (prop, value) => {
     this.size[prop] = value;
   };
-  @action squaresChange = (prop, value) => {
-    this.size.squares[prop].replace(value);
+  @action squaresChange = value => {
+    this.size.squares.replace(value);
   };
   @action floorChange = value => {
     this.floor = value;
@@ -117,6 +115,7 @@ class FilterStore {
 
     return {
       name: 'Удобства',
+      id: facilityType,
       types: this.configureTypes(types)
     }
   };
@@ -134,6 +133,31 @@ class FilterStore {
         this.configureData(termTypes)
       ]
     })
+  }
+
+  @computed get cleanTypes() {
+    let data = this.data.filter((i, index) => index !== 0);
+
+    return data.map(item => ({
+      ...item,
+      types: item.types.map(_item => ({
+        ..._item,
+        isActive: false
+      }))
+    }));
+  }
+
+  @computed get cleanSize() {
+    return {
+      size: {
+        rooms: 0,
+        beds: 0,
+        bedrooms: 0,
+        bathrooms: 0,
+        squares: 0,
+      },
+      floors: [3,9],
+    }
   }
 
   @action setCategory = data => {

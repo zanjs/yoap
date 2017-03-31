@@ -7,27 +7,24 @@ import { ItemPageParameters, Container } from 'components'
   parseTypes: filter.getActiveParametersFromData
 }))
 export default class ItemPageParametersContainer extends Component {
-
-  onChange = () => {
-    console.log('changed');
-    if (this.props.onChange) {
-      this.props.onChange()
-    }
-  };
-
   getRef = b => this.wrapper = b;
 
   render() {
     const {
-      props: {data, size, parseTypes, edit},
-      getRef, onChange
+      props: {data, size, parseTypes, edit, onChange, onSizeChange},
+      getRef
     } = this;
-    const _data = data && data.length && parseTypes(data);
+
+    const _data = data && data.length && (edit
+        ? data
+        : parseTypes(data)
+      );
 
     return (
       <Container getRef={getRef}>
         <ItemPageParameters edit={edit} data={_data} size={size}
-                            onChange={onChange}/>
+                            onChange={onChange}
+                            onSizeChange={onSizeChange}/>
       </Container>
     )
   }

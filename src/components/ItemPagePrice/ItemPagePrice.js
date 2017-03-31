@@ -10,29 +10,6 @@ import s from './ItemPagePrice.sass'
 
 const types = termTypes.types;
 
-const data = [
-  {
-    name: 'Сутки',
-    value: '1400'
-  },
-  {
-    name: 'Неделя',
-    value: '8000'
-  },
-  {
-    name: 'Месяц',
-    value: '40000'
-  },
-  {
-    name: 'Полгода',
-    value: '230000'
-  },
-  {
-    name: 'Год',
-    value: '4600000'
-  }
-];
-
 export default class ItemPagePrice extends Component {
   types = types;
 
@@ -89,6 +66,17 @@ export default class ItemPagePrice extends Component {
       })
     }))
   }
+  changeDeposit(id, value) {
+    this.setState(({chosen}) => ({
+      chosen: chosen.map(item => {
+        if (item.id === id) {
+          item.deposit = parseInt(value, 10);
+        }
+
+        return item;
+      })
+    }))
+  }
   renderEditSelect() {
     const types = this.types.filter(item => {
       const hasAdded = !!this.state.chosen.find(
@@ -114,16 +102,26 @@ export default class ItemPagePrice extends Component {
       </Content>
     )
   }
-  renderEditInput({value, id}) {
+  renderEditInput({value, deposit, id}) {
     return (
       <Content lightColor regular size="3" nooffsets>
-        <FlexGrid tag="span" justify="start" align="center">
-          <InputClean type="number" min="0" step="500"
-                      onChange={({target}) => this.changePrice(id, target.value)}
-                      className={s.inputNumber}>
-            {value || 0}
-          </InputClean>
-          <span>₽</span>
+        <FlexGrid tag="span" justify="space-between" align="center">
+          <FlexGrid tag="span" justify="start" align="center">
+            <InputClean type="number" min="0" step="500"
+                        onChange={({target}) => this.changePrice(id, target.value)}
+                        className={s.inputNumber}>
+              {value || 0}
+            </InputClean>
+            <span>₽</span>
+          </FlexGrid>
+          <FlexGrid tag="span" justify="start" align="center">
+            <InputClean type="number" min="0" step="500"
+                        onChange={({target}) => this.changeDeposit(id, target.value)}
+                        className={s.inputNumber}>
+              {deposit || 0}
+            </InputClean>
+            <span>₽</span>
+          </FlexGrid>
         </FlexGrid>
       </Content>
     )
@@ -134,9 +132,9 @@ export default class ItemPagePrice extends Component {
     const { wrapperClassName } = ItemPageInfoEditIcon;
     return (
       <div className={s.wrapper}>
-        <ItemPageInfoTitle className={wrapperClassName} title="Стоимость">
-          <ItemPageInfoEditIcon />
-        </ItemPageInfoTitle>
+        <ItemPageInfoTitle className={wrapperClassName}
+                           subtitle="Укажите залог"
+                           title="Укажите стоимость" />
 
         <FlexGrid className={s.grid} wrap="true" justify="start" align="start">
           {!!chosen && !!chosen.length && chosen.map((item, key) => (

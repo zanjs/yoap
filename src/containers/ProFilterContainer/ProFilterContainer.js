@@ -6,36 +6,83 @@ import { ProFilter, Button, FlexGrid } from 'components'
 const mapStateToProps = ({
   filter: { data, size, floor, sizeChange, squaresChange, floorChange }
 }) => ({
-  data, size, floor, sizeChange, squaresChange, floorChange
+  derived: {data, size, floor}, sizeChange, squaresChange, floorChange
 });
 @inject(mapStateToProps) @observer
 export default class ProFilterContainer extends Component {
-  onBedRoomsChange = value => this.props.sizeChange(
-    'bedrooms', value
-  );
-  onBedsChange = value => this.props.sizeChange(
-    'beds', value
-  );
-  onBathRoomsChange = value => this.props.sizeChange(
-    'bathrooms', value
-  );
-  onFloorChange = value => this.props.floorChange(
-    value
-  );
+  changeHandler = props => {
+    if (this.props.onSizeChange) {
+      this.props.onSizeChange(props);
+    }
+  };
+  onBedRoomsChange = value => {
+    if (this.props.edit) {
+      return this.changeHandler({
+        bedrooms: parseInt(value, 10)
+      })
+    }
+
+    this.props.sizeChange(
+      'bedrooms', value
+    );
+  };
+  onBedsChange = value => {
+    if (this.props.edit) {
+      return this.changeHandler({
+        beds: parseInt(value, 10)
+      })
+    }
+
+    this.props.sizeChange(
+      'beds', value
+    );
+  };
+  onBathRoomsChange = value => {
+    if (this.props.edit) {
+      return this.changeHandler({
+        bathrooms: parseInt(value, 10)
+      })
+    }
+
+    this.props.sizeChange(
+      'bathrooms', value
+    )
+  };
+  onFloorChange = value => {
+    if (this.props.edit) {
+      return this.changeHandler({
+        floors: value
+      })
+    }
+
+    this.props.floorChange(
+      value
+    );
+  };
   onSquaresChange = value => {
+    if (this.props.edit) {
+      return this.changeHandler({
+        squares: parseInt(value, 10)
+      })
+    }
+
     this.props.squaresChange(
-      'total', value
+      value
     )
   };
 
   render() {
-    const { data, size, floor } = this.props;
+    const { edit, onChange } = this.props;
+
+    const { data, size, floor } = edit
+      ? this.props
+      : this.props.derived;
 
     const _size = {
       ...size,
 
       floor,
-      squares: size.squares.total,
+      squares: size.squares.total ? size.squares.total : size.squares,
 
       onBedRoomsChange: this.onBedRoomsChange,
       onBedsChange: this.onBedsChange,
@@ -47,11 +94,12 @@ export default class ProFilterContainer extends Component {
 
     return (
       <div>
-        <ProFilter readOnly={false} data={data} size={_size}/>
-        <FlexGrid justify="end" align="center">
+        <ProFilter onChange={onChange} edit={edit}
+                   readOnly={false} data={data} size={_size}/>
+        {!edit && <FlexGrid justify="end" align="center">
           <Button type="text">Отменить</Button>
           <Button type="pink">Поиск</Button>
-        </FlexGrid>
+        </FlexGrid>}
       </div>
     )
   }

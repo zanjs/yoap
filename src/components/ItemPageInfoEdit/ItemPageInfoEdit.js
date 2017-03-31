@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   ItemPageTitle, ItemPageContent,
   ItemPageUser, ItemPageType,
-  ItemPagePrice, ItemPageRating
+  ItemPagePriceEdit, ItemPageRating
 } from 'components'
 import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
@@ -26,30 +26,23 @@ export default class ItemPageInfoEdit extends Component {
 
 
   onChangeTitle = ({target: {value}}) =>
-    this.setState({title: value});
+    this.onChange({title: value});
   onChangeContent = ({target: {value}}) =>
-    this.setState({content: value});
+    this.onChange({content: value});
   onTypeChange = type =>
-    this.setState({type});
-  onPriceChange = data => {
-    if (data.delete) {
-      return this.setState({
-        price: this.state.price.filter(
-          item => item.id !== data.id
-        )
-      })
-    }
+    this.onChange({type});
+  onPriceChange = props => {
+    this.onChange(props);
+  };
 
-    return this.setState({
-      price: [
-        ...this.state.price,
-        data
-      ]
-    })
+  onChange = props => {
+    if (this.props.onChange) {
+      this.props.onChange(props)
+    }
   };
 
   render() {
-    const { title, content, type, price } = this.state;
+    const { title, content, type, price } = this.props.data;
     const { className } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
@@ -66,8 +59,8 @@ export default class ItemPageInfoEdit extends Component {
                       isVerified>
           Ирина Иванова
         </ItemPageUser>
-        <ItemPageType id={type.id} edit onChange={this.onTypeChange}/>
-        <ItemPagePrice data={price} edit onChange={this.onPriceChange} />
+        <ItemPageType id={type && type.id || type || ''} edit onChange={this.onTypeChange}/>
+        <ItemPagePriceEdit data={price} onChange={this.onPriceChange} />
         <ItemPageRating data={{name: 'Комфорт', value: 5}}/>
       </div>
     )

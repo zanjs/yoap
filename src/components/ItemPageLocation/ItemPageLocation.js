@@ -38,6 +38,9 @@ const Point = props => {
 };
 
 export default class ItemPageLocation extends Component {
+  static defaultProps = {
+    data: {}
+  };
   static mapClassName = s.map;
 
   getTimingData = item => {
@@ -83,7 +86,7 @@ export default class ItemPageLocation extends Component {
                                  setPoint={this.props.setPoint}/>}
           {!edit && <Content size="2" light lightColor>{address}</Content>}
         </div>
-        {subway && <div className={s.item}>
+        {subway && !!subway.length && <div className={s.item}>
           <ItemPageInfoTitle title="Ближайшее метро"/>
           <NearestStations direction={direction}
                            point={point} onChange={onChange}
@@ -94,7 +97,7 @@ export default class ItemPageLocation extends Component {
             {/*</Point>*/}
           {/*))}*/}
         </div>}
-        {timing && <div className={s.item}>
+        {timing && !!timing.length && <div className={s.item}>
           <ItemPageInfoTitle title="Время в пути"/>
           {timing.map((item, key) => {
             const { name, time, distance, src} = this.getTimingData(item);

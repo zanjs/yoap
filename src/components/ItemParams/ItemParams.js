@@ -9,6 +9,9 @@ export default class ItemParams extends Component {
     return this.forceUpdate();
   };
   toggleActive = item => {
+    if (this.props.edit)
+      return this.props.onChange(item);
+
     item.isActive = !item.isActive;
   };
 

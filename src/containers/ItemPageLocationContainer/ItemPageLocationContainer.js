@@ -10,16 +10,48 @@ import { isEmpty } from 'helpers'
 export default class ItemPageLocationContainer extends Component {
   state = {
     address: null,
-    direction: null
+    direction: null,
+    subway: null
   };
 
   setPoint = address =>
-    this.setState({address});
+    this.setState({address}, this.onChange);
   setDirection = position => {
     this.setState({direction: {
       method: false,
       position
     }});
+  };
+  metroChangeHandler = subway => {
+    this.setState({
+      subway
+    }, this.onChange)
+  };
+  onChange = () => {
+    console.log('start changing', !!this.props.onChange);
+
+    if (!this.props.onChange)
+      return null;
+
+    console.log('everything is ok..', !!this.props.onChange);
+
+    const { state } = this;
+    const _address = state.address;
+    const address = _address && _address.name;
+    const location = _address && _address.position;
+    const { subway } = state;
+
+    console.log({
+      address,
+      location,
+      subway
+    });
+
+    this.props.onChange({
+      address,
+      location,
+      subway
+    })
   };
 
   render() {
@@ -31,10 +63,11 @@ export default class ItemPageLocationContainer extends Component {
         onChange
       },
       setPoint,
-      setDirection
+      setDirection,
+      metroChangeHandler
     } = this;
 
-    let pointData = {
+    let pointData = data && data.location && {
       position: data.location.location,
       props: { data }
     };
@@ -51,9 +84,9 @@ export default class ItemPageLocationContainer extends Component {
                       point={pointData}/>
       )}>
         <ItemPageLocation setPoint={setPoint} point={pointData}
-                          onChange={onChange} direction={direction}
+                          onChange={metroChangeHandler} direction={direction}
                           setDirection={setDirection}
-                          edit={edit} data={data.location} />
+                          edit={edit} data={data && data.location} />
       </ItemPageInfoScroller>
     )
   }

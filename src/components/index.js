@@ -59,6 +59,7 @@ export ItemPageContent from './ItemPageContent/ItemPageContent'
 export ItemPageUser from './ItemPageUser/ItemPageUser'
 export ItemPageType from './ItemPageType/ItemPageType'
 export ItemPagePrice from './ItemPagePrice/ItemPagePrice'
+export ItemPagePriceEdit from './ItemPagePriceEdit/ItemPagePriceEdit'
 export ItemPageRating from './ItemPageRating/ItemPageRating'
 export ItemPageInfoEditIcon from './ItemPageInfoEditIcon/ItemPageInfoEditIcon'
 

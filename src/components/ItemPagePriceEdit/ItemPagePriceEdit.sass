@@ -1,0 +1,47 @@
+@import ../../theme/index
+
+.wrapper
+  border-bottom: 1px solid #ddd
+  padding: 20px 0 40px
+
+.header
+  padding: 29px 0 30px
+.title
+  width: 50%
+  &_clickable
+    cursor: pointer
+    @include opacityAnim(.7)
+  &:last-child
+    @extend .title_clickable
+  &_bottom
+    @extend .title_clickable
+    width: 100%
+    padding: 20px 0
+
+.deposit
+  width: 50%
+  &__item
+    width: 25%
+
+.item
+  width: 100%
+  padding-bottom: 22px
+  &__des
+    width: 25%
+
+
+.add
+  @include opacityAnim(.6)
+  cursor: pointer
+  user-select: none
+
+.inputNumber
+  margin-left: 10px
+  max-width: 100px
+  text-align: left
+  border-bottom: 1px solid #ddd
+
+.input
+  width: 25%
+
+

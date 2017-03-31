@@ -21,7 +21,7 @@ const Item = ({children, noinput, className, onChange, ...rest}) => (
 
 
 export default class ItemParamsRowSize extends Component {
-  state = {value: 0}
+  state = {value: 0};
   onBedRoomsChange = value => this.props.onBedRoomsChange(
     value
   );
@@ -34,9 +34,27 @@ export default class ItemParamsRowSize extends Component {
   onFloorChange = value => this.props.onFloorChange(
     value
   );
+  onFloorChangeAmount = value => {
+    const floors = [parseInt(value, 10), this.props.floors[1]];
+
+    this.props.onFloorChange(
+      floors
+    );
+  };
+  onFloorChangeSum = value => {
+    const floors = [this.props.floors[0], parseInt(value,10)];
+
+    this.props.onFloorChange(
+      floors
+    );
+  };
   onSquaresChange = (min, max) => this.props.onSquaresChange(
     [min, max]
   );
+  onSquaresChangeOne = ({target: {value}}) =>
+    this.props.onSquaresChange(
+      value
+    );
 
   render() {
     const {
@@ -45,28 +63,34 @@ export default class ItemParamsRowSize extends Component {
       bedrooms = 0, beds = 0, floor = 0,
       bathrooms = 0, squares = 0, floors = [0,0]
     } = this.props;
+    const splitter = readOnly || edit ? '' : '-';
 
     return (
       <div className={s.wrapper}>
         <ItemParamsRow title={title}>
           <Item noinput={readOnly} onChange={this.onBedRoomsChange}>
-            {readOnly ? `${bedrooms} спален` : `${bedrooms}+ спален`}
+            {`${bedrooms}${splitter} спален`}
           </Item>
           <Item noinput={readOnly} onChange={this.onBedsChange}>
-            {readOnly ? `${beds} кроватей` : `${beds}+ кроватей`}
+            {`${beds}${splitter} спален`}
           </Item>
           <Item noinput={readOnly} onChange={this.onBathRoomsChange} step={0.5}>
-            {readOnly ? `${bathrooms} ванных` : `${bathrooms}+ ванных`}
+            {`${bathrooms}${splitter} спален`}
           </Item>
-          <Item noinput={readOnly} onChange={this.onFloorChange}>
-            {readOnly ? `${floors[0]}/${floors[1]} этаж` : `${floor}+ этаж`}
+          <Item noinput={readOnly}
+                onChange={edit ? this.onFloorChangeAmount : this.onFloorChange}>
+            {readOnly ? `${floors[0]}/${floors[1]} этаж` : `${floors[0] || floor}${splitter} этаж`}
           </Item>
+          {edit && <Item onChange={this.onFloorChangeSum}>
+            {`${floors[1] || floor} этажность`}
+          </Item>}
 
           <Item readOnly={readOnly} noinput className={s.item_big}>
             {edit && <FlexGrid justify="start" align="center">
               <span className={s.label}>Общая площадь:</span>
               <InputClean className={s.squares} focus min="0"
-                          step="5" type="number" defaultValue={squares}/>
+                          onChange={this.onSquaresChangeOne}
+                          step="5" type="number" defaultValue={squares || 0}/>
               <span className={s.label_last}>кв. м</span>
             </FlexGrid>}
             {!edit && readOnly && <span>Общая площадь: {squares} кв. м</span>}
