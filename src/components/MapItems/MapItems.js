@@ -11,7 +11,8 @@ const mapStateToProps = ({items, device: {height}}) => ({
 
 @inject(mapStateToProps) @observer
 export default class MapItems extends Component {
-  state = { data: [] };
+  mapOptions = {scrollwheel: false};
+  state = {data: []};
 
   parseData = data => {
     return data.map(item => {
@@ -27,11 +28,9 @@ export default class MapItems extends Component {
     })
   };
 
-  mapOptions = {scrollwheel: false};
-
   render() {
     const { height, items } = this.props;
-    const data = this.parseData(items.data);
+    const data = items.data && this.parseData(items.data) || [];
 
     return (
       <div className={s.wrapper}>
