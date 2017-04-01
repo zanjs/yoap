@@ -16,15 +16,14 @@ const ItemPageContent = ({children, edit, onChange}) => {
                          className={edit && ItemPageInfoEditIcon.wrapperClassName}>
         {edit && <ItemPageInfoEditIcon />}
       </ItemPageInfoTitle>
-      <Content nooffsets lightColor>
+      <Content className={!edit && s.noselect} nooffsets lightColor>
         {edit ? <InputClean placeholder={placeholder} tag="textarea"
                             onChange={onChange}>
-            {children}
-          </InputClean> : children}
+          {children}
+        </InputClean> : children}
       </Content>
     </div>
   )
 };
 
 export default ItemPageContent;
-

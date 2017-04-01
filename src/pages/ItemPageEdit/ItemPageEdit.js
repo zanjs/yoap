@@ -4,7 +4,8 @@ import {
   ItemPageInfoEdit,
   ItemPageInfoScroller,
   ItemPageEditPhoto,
-  ButtonsAction
+  ButtonsAction,
+  Button
 } from 'components'
 import {
   ItemPageParametersContainer,
@@ -12,11 +13,10 @@ import {
 } from 'containers'
 import { randomNumber, shallowEqual } from 'helpers'
 import { stateType, furnitureType } from 'constants'
-import { ItemModel } from 'models'
 import s from './ItemPageEdit.sass'
 
-@inject(({filter, user}) => ({
-  filter, user
+@inject(({filter, items, user}) => ({
+  filter, user, items
 })) @observer
 export default class ItemPageEdit extends Component {
   state = {
@@ -69,22 +69,8 @@ export default class ItemPageEdit extends Component {
       };
     }
 
-    result = {
-      ...result,
-      buttons: [
-        {
-          type: 'text',
-          content: 'Отменить'
-        },
-        {
-          type: 'green',
-          content: 'Готово',
-          onClick: this.submitHandler
-        }
-      ]
-    };
-
     this.setState(result);
+    console.log(this.props);
   }
 
   onChange = () => {
@@ -192,10 +178,9 @@ export default class ItemPageEdit extends Component {
     _data.params = _params;
     _data.user = user;
 
-    const model = ItemModel.fromJS(null, _data);
-    const result = model.toJSON();
-
-    console.log(window.newItem = result);
+    this.props.items.createItem(_data, props => {
+      console.log('saved!!!', props);
+    });
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -230,19 +215,21 @@ export default class ItemPageEdit extends Component {
 
   render() {
     const {
-      state: {shouldUpdate, size, params, data, location, buttons},
+      state: {shouldUpdate, size, params, data, location},
+      props: {items: {isFetching}, user},
       paramsChangeHandler,
       infoChangeHandler,
       locationChangeHandler,
-      sizeChangeHandler
+      sizeChangeHandler,
+      submitHandler
     } = this;
 
     return (
-      <div>
+      <div style={{opacity: isFetching ? .5 : 1}}>
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <ItemPageEditPhoto />
         )}>
-          <ItemPageInfoEdit data={data} onChange={infoChangeHandler}
+          <ItemPageInfoEdit data={data} user={user} onChange={infoChangeHandler}
                             className={s.info} />
         </ItemPageInfoScroller>
 
@@ -254,7 +241,10 @@ export default class ItemPageEdit extends Component {
                                      onSizeChange={sizeChangeHandler}
                                      edit size={size}
                                      data={params} />
-        <ButtonsAction data={buttons} withContainer/>
+        <ButtonsAction withContainer>
+          <Button type="text">Отменить</Button>
+          <Button onClick={submitHandler} type="green">Готово</Button>
+        </ButtonsAction>
       </div>
     )
   }

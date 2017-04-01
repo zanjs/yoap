@@ -3,10 +3,11 @@
  * @module stores/UserStore
  * @see store
  */
-import { observable, reaction } from 'mobx'
+import { observable, reaction, computed } from 'mobx'
 import { login as serverLogin, signup as serverSignup } from 'api'
-import { extend, localStore } from 'helpers'
+import { extend, localStore, noop } from 'helpers'
 import { store as config } from 'constants'
+import { store } from 'store'
 
 /**
  * UserStore class.
@@ -16,12 +17,60 @@ import { store as config } from 'constants'
  */
 class UserStore {
   storeName = config.user;
+
   // user data
-  @observable id;
+  @observable _id;
   @observable name;
   @observable email;
   @observable phone;
   @observable password;
+
+  @observable image;
+  @observable visits;
+  @observable lastVisit;
+  @observable isDeleted;
+  @observable createdAt;
+  @observable verified;
+
+  @observable _objects;
+  set objects(d) {
+    this._objects = d;
+  }
+  @computed get objects() {
+    if (!this._objects)
+      return null;
+
+    this.isItemsFetching = true;
+    store.items.fetchUserItems(
+      this._objects, () => {
+        this.isItemsFetching = false;
+      }
+    );
+
+    return store.items.users;
+  }
+
+  @observable _featured;
+  set featured(d) {
+    this._featured = d;
+  }
+  @computed get featured() {
+    if (!this._featured)
+      return null;
+
+    this.isFeaturedFetching = true;
+    store.items.fetchUserFeatured(
+      this._featured, () => {
+        this.isFeaturedFetching = false;
+      }
+    );
+
+    return store.items.users;
+  }
+
+  // item states
+  @observable isItemsFetching = false;
+  @observable isFeaturedFetching = false;
 
   // auth states
   @observable isFetching = false;
@@ -51,20 +100,11 @@ class UserStore {
    * @return {Function}
    */
   responseHandler = response => {
-    console.log(window.resp = response);
-
-    const {
-      name, phone, email,
-      _id
-    } = response.data;
     this.isAuthorized = true;
     this.isError = false;
     this.isFetching = false;
 
-    this.name = name;
-    this.phone = phone;
-    this.email = email;
-    this.id = _id;
+    extend(this, response.data);
   };
 
   errorHandler = response => {
@@ -88,7 +128,7 @@ class UserStore {
     this.isFetching = false;
   };
 
-  login = () => {
+  login = (cb = noop) => {
     this.isFetching = true;
     const { email, phone, password } = this.toJSON();
     const data = {
@@ -100,6 +140,7 @@ class UserStore {
       .then(this.checkStatus)
       .then(this.parseJSON)
       .then(this.responseHandler)
+      .then(cb)
       .catch(this.errorHandler);
   };
 
@@ -113,14 +154,19 @@ class UserStore {
       .catch(this.errorHandler);
   };
 
+  update = () => {
+    return this.login(() => {
+      this.featured;
+      this.objects;
+    });
+  };
+
   subscribeToLocalStore = () => reaction(
     // parse data to json
     () => this.toJSON(),
 
     // save to the local store
     data => {
-      console.log('saving to store', JSON.stringify(data));
-
       localStore.set(this.storeName, data)
     }
   );
@@ -155,7 +201,7 @@ class UserStore {
   * @return {Object}
   */
   toJSON = () => ({
-    id: this.id,
+    id: this.id || this._id || '',
     name: this.name,
     email: this.email,
     phone: this.phone,

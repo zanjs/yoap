@@ -1,7 +1,9 @@
-export const apiOrigin = 'http://localhost:500';
+export const apiOrigin = 'http://localhost:5000';
 export const api = '/api';
 export const JSONHeaders = {
-  headers: {"Content-type": 'application/json'}
+  headers: {
+    "Content-type": 'application/json'
+  }
 };
 
 // user api
@@ -16,5 +18,5 @@ export const itemsApi = apiOrigin + api + items;
 
 // item api
 export const item = '/item';
-export const itemApi = apiOrigin + api + items;
+export const itemApi = apiOrigin + api + item;
 

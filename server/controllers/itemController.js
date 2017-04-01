@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { createItemUrl } from 'utils'
 import testData from '../testItemsData.json'
 import db from 'models'
@@ -36,20 +37,20 @@ itemController.itemHandler = (req, res) => {
       _creator,
       { $push: { 'objects': newItem._id } },
       { 'new': true }
-    ).then(existingPost => {
+    ).then(user => {
       res.status(200).json({
         success: true,
-        existingPost,
+        user,
         data: newItem
       })
     }).catch(err => {
       res.status(500).json({
-        message: err
+        message: err.toString()
       })
     });
   }).catch(err => {
     res.status(500).json({
-      message: err
+      message: err.toString()
     })
   })
 };
@@ -91,7 +92,19 @@ itemController.getOne = (req, res) => {
   }
 };
 itemController.getAll = (req, res) => {
-  db.Item.find({})
+  let query = {};
+
+  if (req.body.ids) {
+    query = {
+      '_id': {
+        $in: req.body.ids.map(item =>
+          mongoose.Types.ObjectId(item)
+        )
+      }
+    };
+  }
+
+  db.Item.find(query)
     .then(data => {
       res.status(200).json({
         success: true,

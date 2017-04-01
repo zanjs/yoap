@@ -143,6 +143,7 @@ class DeviceStore {
     device.isUnix = device.appVersion.indexOf("x11")!=-1;
     device.isLinux = device.appVersion.indexOf("linux")!=-1;
 
+
     return this.saveValues(device);
   };
 
@@ -150,10 +151,10 @@ class DeviceStore {
     let device = {};
 
     // Mobile
-    device.isMobile = this.support.touch && (size.windowWidth || this.windowWidth) < 767;
+    device.isMobile = this.support && this.support.touch && (size.windowWidth || this.windowWidth) < 767;
 
     // Tab
-    device.isTab = this.support.touch && (size.windowWidth || this.windowWidth) < 1030;
+    device.isTab = this.support && this.support.touch && (size.windowWidth || this.windowWidth) < 1030;
 
     // Desktop
     device.isDesktop = (size.windowWidth || this.windowWidth) >= 1280;
@@ -162,10 +163,10 @@ class DeviceStore {
     device.isSmallScreen = (size.windowWidth || this.windowWidth) <= 767;
 
     // Android
-    device.isAndroid = function(that){
-      let match = that.agent.match(/android\s([0-9\.]*)/);
+    device.isAndroid = (() => {
+      let match = this.agent && this.agent.match(/android\s([0-9\.]*)/);
       return match ? parseFloat(match[1]) : false;
-    }(this);
+    })();
 
     // Retina
     device.isRetina = (window.devicePixelRatio && window.devicePixelRatio>1);

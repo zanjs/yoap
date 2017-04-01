@@ -2,23 +2,27 @@ import React, { Component } from 'react'
 import { FlexGrid, Button, Container } from 'components'
 import s from './ButtonsAction.sass'
 
-const Buttons = ({data, className}) => (
+const Wrapper = ({children, className}) => (
   <FlexGrid className={className} justify="end" align="center">
-    {data.map(({content, ...rest}, key) => (
-      <Button key={key} {...rest}>{content}</Button>
-    ))}
+    {children}
   </FlexGrid>
 );
 
-const ButtonsAction = ({data, withContainer}) => {
+const ButtonsAction = ({withContainer, children}) => {
   if (withContainer)
     return (
       <Container className={s.wrapper}>
-        <Buttons data={data}/>
+        <Wrapper>
+          {children}
+        </Wrapper>
       </Container>
     );
 
-  return <Buttons className={s.wrapper} data={data}/>
+  return (
+    <Wrapper>
+      {children}
+    </Wrapper>
+  )
 };
 
 export default ButtonsAction;

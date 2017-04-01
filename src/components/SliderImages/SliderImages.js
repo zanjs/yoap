@@ -96,7 +96,7 @@ export default class SliderImages extends Component {
     this.move(wrapperPercent);
   };
 
-  parseData = data => data.map((item, key) => (
+  parseData = data => data && data.map((item, key) => (
     <Image getRef={this.getImageRef(key)} className={s.image} src={item}/>
   ));
 

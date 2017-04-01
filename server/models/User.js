@@ -29,6 +29,10 @@ const userSchema = new Schema({
     type: String,
     default: ''
   },
+  verified: {
+    type: Boolean,
+    default: false
+  },
   objects: [
     {
       type: Schema.ObjectId,

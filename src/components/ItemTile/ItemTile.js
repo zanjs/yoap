@@ -11,6 +11,7 @@ import s from './ItemTile.sass'
 import subwayIcon from 'icons/ui/subway.svg'
 import arrowIcon from 'icons/ui/arrow-right.svg'
 import favoriteIcon from 'icons/ui/favorite.svg'
+import editIcon from 'icons/ui/edit.svg'
 
 export default class ItemTile extends Component {
 
@@ -29,10 +30,10 @@ export default class ItemTile extends Component {
       }
 
       const { id, value } = price[0];
-      const { term } = termTypes.find(item => item.id === id);
+      const { name } = termTypes.types.find(item => item.id === id);
 
       return {
-        term,
+        term: name.toLowerCase(),
         price: value
       }
     }
@@ -57,7 +58,8 @@ export default class ItemTile extends Component {
   render() {
     const {
       className, link, contentClassName,
-      imageClassName, data, getRef
+      imageClassName, data, getRef,
+      edit
     } = this.props;
 
     if (!data)
@@ -65,8 +67,8 @@ export default class ItemTile extends Component {
 
     const {
       title, location,
-      category,
-      isFavorited, images, rating
+      category, isFavorited,
+      images, rating
     } = data;
 
     const { price, term } = this.getPrice();
@@ -78,17 +80,17 @@ export default class ItemTile extends Component {
                   className={classNames(s.wrapper, className)}>
         {/* Image */}
         <div className={classNames(s.image, imageClassName)}>
-          {images.thumbnail &&
+          {images && images.thumbnail &&
             <Image className={s.img}
                    preview={images.thumbnail.preview}
-                   src={images.thumbnail.full}/>}
+                   src={images.thumbnail.full}/> || <div className={s.image__noop}/>}
           {/* Price */}
           <Container type="container" className={s.price__wrapper}>
             <Content size="4" white regular className={s.price}>
               {`₽${price}/${term}`}
             </Content>
           </Container>
-          <Svg src={favoriteIcon} className={s.favorite} />
+          <Svg src={edit ? editIcon : favoriteIcon} className={s.favorite} />
         </div>
         {/* Content */}
         <div className={classNames(s.content, contentClassName)}>

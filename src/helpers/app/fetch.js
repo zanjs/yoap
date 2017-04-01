@@ -41,10 +41,10 @@ class Fetch {
 }
 
 export default function fetch(url, data, response, isError) {
-  // if (!response && window.fetch) {
-  //   console.log(`fetching ${url}`, data);
-  //   return window.fetch(url, data);
-  // }
+  if (!response && window.fetch) {
+    console.log(`fetching ${url}`, data);
+    return window.fetch(url, data);
+  }
 
   return new Fetch(url, data, response, isError);
 }

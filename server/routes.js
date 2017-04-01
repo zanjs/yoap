@@ -14,6 +14,6 @@ routes.post(item, itemController.itemHandler);
 routes.get(item, itemController.getOne);
 
 // Items routes
-routes.get(items, itemController.getAll);
+routes.post(items, itemController.getAll);
 
 export default routes;

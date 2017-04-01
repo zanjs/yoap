@@ -23,7 +23,15 @@ import {
 
 export default class ItemModel {
   store;
-  id;
+  @observable _id;
+
+  @computed get id() {
+    return this._id;
+  }
+  set id(v) {
+    this._id = v;
+  }
+
 
   /**
    * Generate a title for an Item.
@@ -439,7 +447,7 @@ export default class ItemModel {
       images, description,
       price,
 
-      user,
+      user = {},
       views
     } = this;
 

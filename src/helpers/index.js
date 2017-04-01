@@ -24,6 +24,7 @@ export JSONToQuery from './app/JSONToQuery'
 export queryToJSON from './app/queryToJSON'
 export Predictions from './app/Predictions'
 export NearestTransport from './app/NearestTransport'
+export noop from './app/noop'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'

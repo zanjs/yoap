@@ -9,10 +9,11 @@ import data from './data'
 
 
 
-export const getItems = () => fetch(itemsUrl, {
+export const getItems = body => fetch(itemsUrl, {
   ...headers,
-  method: 'get'
-}, data);
+  method: 'post',
+  body: body ? JSON.stringify(body) : null
+});
 
 export const saveItem = body => fetch(itemUrl, {
   ...headers,

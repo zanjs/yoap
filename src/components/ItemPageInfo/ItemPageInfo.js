@@ -14,10 +14,11 @@ export default class ItemPageInfo extends Component {
   render() {
     const {
       title, description,
-      status, user,
-      price, rating,
+      status, price, rating,
       category, type
     } = this.props.data;
+
+    const user = this.props.data.user || this.props.data._creator;
 
     return (
       <div className={classNames(s.wrapper, this.props.className)}>

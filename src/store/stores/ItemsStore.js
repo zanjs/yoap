@@ -1,12 +1,18 @@
 import { observable, computed, reaction, action, observer } from 'mobx'
-import { localStore } from 'helpers'
+import { localStore, noop } from 'helpers'
 import { store as config } from 'constants'
-import { getItems } from 'api'
+import { getItems, saveItem } from 'api'
 import { ItemModel } from 'models'
 
 
 class ItemsStore {
   @observable data = [];
+  @observable users = [];
+  @observable featured = [];
+
+  @observable isError = false;
+  @observable isFetching = false;
+
   storeName = config.items;
 
   constructor() {
@@ -31,12 +37,33 @@ class ItemsStore {
     }
   };
 
+  // responses handlers
   responseHandler = response => {
-    if (response.json) {
-      return this.fromJSON(response.json())
-    }
-
     this.fromJSON(response.data);
+    this.isFetching = false;
+
+    return response.data;
+  };
+  userItemsResponse = response => {
+    this.fromJSON(response.data, 'users');
+    this.isFetching = false;
+
+    return response.data;
+  };
+  userFeaturedResponse = response => {
+    this.fromJSON(response.data, 'featured');
+    this.isFetching = false;
+
+    return response.data;
+  };
+  createItemResponse = response => {
+    const item = [response.data];
+
+    this.fromJSON(item, 'users');
+    this.fromJSON(item, 'data');
+    this.isFetching = false;
+
+    return item;
   };
 
   errorHandler = response => {
@@ -62,11 +89,46 @@ class ItemsStore {
 
   parseJSON = res => res.json();
 
-  fetchItems = cb => {
-    getItems(data)
-      // .then(this.checkStatus)
-      // .then(this.parseJSON)
+  // fetches
+  fetchItems = (cb = noop) => {
+    this.isFetching = true;
+    getItems()
+      .then(this.checkStatus)
+      .then(this.parseJSON)
       .then(this.responseHandler)
+      .then(cb)
+      .catch(this.errorHandler);
+  };
+  fetchUserItems = (ids, cb = noop) => {
+    this.isFetching = true;
+    getItems({ids})
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.userItemsResponse)
+      .then(cb)
+      .catch(this.errorHandler);
+  };
+  fetchUserFeatured = (ids, cb = noop) => {
+    this.isFetching = true;
+    getItems({ids})
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.userFeaturedResponse)
+      .then(cb)
+      .catch(this.errorHandler);
+  };
+  createItem = (data, cb = noop) => {
+    this.isFetching = true;
+    console.log(data.user);
+    const item = this
+      .newModel(null, data)
+      .toJSON();
+
+    saveItem(item)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.createItemResponse)
+      .then(cb)
       .catch(this.errorHandler);
   };
 
@@ -75,32 +137,29 @@ class ItemsStore {
     this.data.replace([]);
   };
 
-  newModel = data => ItemModel.fromJS(
-    this.data,
-
-    data
+  newModel = (col, data) => ItemModel.fromJS(
+    col, data
   );
 
-  add = data => {
+  add = (data, collection = 'data') => {
     let isExist = null;
+    const col = this[collection];
 
-    this.data.forEach((item, index) => {
-      const idProp = item.id ? 'id' : '_id';
+    col.forEach((item, index) => {
+      const itemId = item.id;
+      const dataId = data && (data.id || data._id);
 
-      if (
-        item[idProp] && data[idProp] &&
-        item[idProp] === data[idProp]
-      ) {
+      if (dataId && itemId === dataId) {
         isExist = index;
       }
     });
 
     if (isExist != null) {
-      return this.data[isExist] = this.newModel(data);
+      return col[isExist] = this.newModel(col, data);
     }
 
-    this.data.push(
-      this.newModel(data)
+    col.push(
+      this.newModel(col, data)
     );
   };
   replace = () => {
@@ -108,10 +167,10 @@ class ItemsStore {
   };
   toJSON = () => this.data.map(todo => todo.toJSON());
 
-  @action fromJSON = data => {
+  @action fromJSON = (data, collection) => {
     if (data && data.forEach) {
       data.forEach(item => {
-        this.add(item);
+        this.add(item, collection);
       });
     }
   };

@@ -6,13 +6,20 @@ import { api as apiLink } from 'constants/urls'
 
 mongoose.connect('mongodb://localhost:27017/yoap', () => {
   console.log('Connected to mongodb');
-})
+});
 
-const app = express()
+const app = express();
 
 // middlewares
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  return next();
+});
 // routes
 app.use(apiLink, routes);
 

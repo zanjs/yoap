@@ -31,6 +31,9 @@
   transition: box-shadow $animParams
   z-index: 0
   @include flexbox(column, flex-end, flex-end, no)
+  &__noop
+    @include absolute_init(full, 0)
+    background-color: #eaeaea
 
 .img
   @include absolute_center(normal, 0)

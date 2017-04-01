@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import {
   ItemPageInfo, ItemPageLocation,
   ItemPageInfoScroller,
@@ -14,7 +14,11 @@ import {
 import { randomNumber, normalizeScroll, isEmpty } from 'helpers'
 import s from './ItemPage.sass'
 
-@inject(({items: {data}}) => ({data}))
+const mapStateToProps = ({items: {data}, user}) => ({
+  data
+});
+
+@inject(mapStateToProps) @observer
 export default class ItemPage extends Component {
   state = {
     shouldUpdate: 0,
