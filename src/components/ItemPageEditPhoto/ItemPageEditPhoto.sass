@@ -1,8 +1,13 @@
 @import ../../theme/index
 
+.wrapper
+  display: block
+  position: static
+
 .upload
-  @include absolute_init(full, 10)
+  @include absolute_init(full, 100)
   background-color: #e0e0e0
+  cursor: pointer
   &__wrapper
     @include absolute_center(normal, 0)
   &__icon
@@ -10,4 +15,19 @@
     display: block
     margin: 10px auto
     fill: #fff
+    transition: fill $animParams, opacity $animParams
+  &__title
+    transition: color $animParams, opacity $animParams
+  &_active
+    .upload__icon
+      opacity: .7
+    .upload__title
+      opacity: .7
+
+  &:hover
+    @extend .upload_active
+    //.upload__icon
+    //  fill: $green !important
+    //.upload__title
+    //  color: $green !important
 
