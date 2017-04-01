@@ -22,7 +22,7 @@ itemController.itemHandler = (req, res) => {
     category, type,
     price, size,
     floors, location,
-    params,
+    params, images,
     link, rating,
     _creator
   });

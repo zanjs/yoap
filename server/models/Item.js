@@ -29,6 +29,30 @@ const itemSchema = new Schema({
     type: String,
     required: true
   },
+  images: {
+    thumbnail: {
+      preview: {
+        type: String,
+        required: true
+      },
+      full: {
+        type: String,
+        required: true
+      }
+    },
+    gallery: [
+      {
+        preview: {
+          type: String,
+          required: true
+        },
+        full: {
+          type: String,
+          required: true
+        }
+      }
+    ]
+  },
   price: [
     {
       id: String,

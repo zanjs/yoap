@@ -69,7 +69,7 @@ export default class ItemPageEditPhoto extends Component {
   };
 
   onGalleryChange = (data) => {
-    this.setState({data});
+    this.setState({data}, this.onChangeCallback);
   };
 
   filterNull = data => data.filter(item => !!item);
@@ -113,8 +113,14 @@ export default class ItemPageEditPhoto extends Component {
 
         this.setState({
           data: modifiedData
-        })
+        }, this.onChangeCallback)
       })
+    }
+  };
+
+  onChangeCallback = () => {
+    if (this.props.onChange) {
+      this.props.onChange(this.state.data);
     }
   };
 

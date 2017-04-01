@@ -22,9 +22,9 @@ export default class ItemPageEdit extends Component {
   state = {
     data: {},
     params: {},
+    images: {},
     size: {},
-    location: {},
-    buttons: null
+    location: {}
   };
 
   componentWillMount() {
@@ -106,6 +106,10 @@ export default class ItemPageEdit extends Component {
     }}))
   };
 
+  photosChangeHandler = images => {
+    this.setState({images})
+  };
+
   parseChangedParams = (params, id, onlyOne) => {
     const data = params.map(type => {
       if (id.indexOf(type.id) === -1)
@@ -157,7 +161,10 @@ export default class ItemPageEdit extends Component {
   };
 
   submitHandler = () => {
-    const { data, params, size, location } = this.state;
+    const {
+      data, params, size,
+      location, images
+    } = this.state;
     const { user } = this.props;
 
     let _data = {
@@ -177,6 +184,17 @@ export default class ItemPageEdit extends Component {
 
     _data.params = _params;
     _data.user = user;
+
+    if (images) {
+      const gallery = images.filter(
+        (item, index) => index !== 0
+      );
+
+      _data.images = {
+        thumbnail: images[0],
+        gallery
+      }
+    }
 
     this.props.items.createItem(_data, props => {
       console.log('saved!!!', props);
@@ -221,13 +239,14 @@ export default class ItemPageEdit extends Component {
       infoChangeHandler,
       locationChangeHandler,
       sizeChangeHandler,
-      submitHandler
+      submitHandler,
+      photosChangeHandler
     } = this;
 
     return (
       <div style={{opacity: isFetching ? .5 : 1}}>
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
-          <ItemPageEditPhoto />
+          <ItemPageEditPhoto onChange={photosChangeHandler} />
         )}>
           <ItemPageInfoEdit data={data} user={user} onChange={infoChangeHandler}
                             className={s.info} />

@@ -111,7 +111,6 @@ export default class Image extends Component {
       })
     }
 
-    console.log(this.props.src);
     const _src = this.getSrc(this.props.src);
 
     if (isLoaded) {
