@@ -8,3 +8,4 @@
 
 export userController from './userController'
 export itemController from './itemController'
+export imageController from './imageController'

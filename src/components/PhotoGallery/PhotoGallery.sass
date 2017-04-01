@@ -30,8 +30,9 @@ $gray: #dddddd
   &_drag
     transition: opacity $animParams
   &_remove
-    opacity: .5
-
+    opacity: .5 !important
+  &_loading
+    @extend .item_remove
   &__image
     display: block
     width: 100%

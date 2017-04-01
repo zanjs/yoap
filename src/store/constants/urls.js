@@ -20,3 +20,8 @@ export const itemsApi = apiOrigin + api + items;
 export const item = '/item';
 export const itemApi = apiOrigin + api + item;
 
+// images api
+export const image = '/images';
+export const imageApi = apiOrigin + api + image;
+
+

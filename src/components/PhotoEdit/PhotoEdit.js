@@ -24,14 +24,15 @@ export default class PhotoEdit extends Component {
 
   render() {
     const { data } = this.state;
+    const { onClose } = this.props;
     return (
       <div className={s.wrapper}>
         <header className={s.header}>
           <FlexGrid className={s.header__wrapper}
                     justify="space-between" align="center">
-            <Content className={s.link}
+            <Content className={s.link} onClick={onClose}
                      white size="3">Назад</Content>
-            <Content className={s.link}
+            <Content className={s.link} onClick={onClose}
                      white size="3">Готово</Content>
           </FlexGrid>
         </header>

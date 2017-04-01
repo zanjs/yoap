@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import routes from './routes'
 import { api as apiLink } from 'constants/urls'
 
+
 mongoose.connect('mongodb://localhost:27017/yoap', () => {
   console.log('Connected to mongodb');
 });

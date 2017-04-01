@@ -40,6 +40,12 @@ export default class Image extends Component {
     if (typeof sizes === 'string')
       return sizes;
 
+    if (Object.keys(sizes).length <= 2) {
+      return sizes.full;
+    }
+
+    console.log(sizes);
+
     // get current device params
     let currentDevice = getDeviceBreakpoint(this.props.width);
 
@@ -68,7 +74,7 @@ export default class Image extends Component {
     const { dur, ease } = this;
     TweenMax.set(this.preview, {
       display: 'none'
-    })
+    });
     TweenMax.fromTo(this.image, dur, {
       opacity: 0,
       display: 'block',
@@ -105,6 +111,7 @@ export default class Image extends Component {
       })
     }
 
+    console.log(this.props.src);
     const _src = this.getSrc(this.props.src);
 
     if (isLoaded) {

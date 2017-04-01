@@ -64,6 +64,10 @@ export default class SliderImages extends Component {
   };
   move = pos => {
     const block = this.images[this.current];
+
+    if (!block)
+      return null;
+
     let { max, x } = this.parsePosition(
       pos, block
     );

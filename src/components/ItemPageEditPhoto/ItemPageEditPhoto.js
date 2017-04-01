@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { PhotoEdit, PhotoGallery, Svg, Title } from 'components'
 import { classNames } from 'helpers'
+import { imagesUpload } from 'api'
 import s from './ItemPageEditPhoto.sass'
 
 import addIcon from 'icons/ui/add-box.svg'
@@ -23,7 +24,8 @@ export default class ItemPageEditPhoto extends Component {
   state = {
     Dropzone: null,
     toDrop: false,
-    data: null
+    data: null,
+    selected: null
   };
 
   componentWillMount() {
@@ -35,18 +37,22 @@ export default class ItemPageEditPhoto extends Component {
 
   parseFiles = files => {
     const { data } = this.state;
-
-    return [
+    const res = [
       ...(data || []),
-      ...files
+      ...(files.map(item => ({
+        file: item,
+        isLoading: false
+      })))
     ];
+
+    return this.filterNull(res);
   };
 
   onDrop = files => {
     this.setState({
       toDrop: false,
       data: this.parseFiles(files)
-    })
+    }, this.onChange)
   };
   onDragOver = () => {
     this.setState({toDrop: true})
@@ -54,7 +60,6 @@ export default class ItemPageEditPhoto extends Component {
   onDragLeave = () => {
     this.setState({toDrop: false})
   };
-
   getDropZoneRef = b => this.dropzone = b;
 
   openUpload = () => {
@@ -67,21 +72,82 @@ export default class ItemPageEditPhoto extends Component {
     this.setState({data});
   };
 
+  filterNull = data => data.filter(item => !!item);
+
+  onChange = () => {
+    const needLoading = [];
+    const { data } = this.state;
+
+    data.forEach((file, index) => {
+      if (file.file)
+        needLoading.push(index)
+    });
+
+    this.setState({
+      data: this.filterNull(data.map(item => {
+        if (item.file)
+          return {
+            ...item,
+            isLoading: true
+          };
+
+        return item;
+      }))
+    });
+
+    if (needLoading.length) {
+      const images = needLoading.map(item => {
+        return data[item].file;
+      });
+
+      imagesUpload(images).then(newData => {
+        let modifiedData = [...data];
+        let index = 0;
+
+        console.log('newData', newData);
+        needLoading.forEach(item => {
+          modifiedData[item] = newData[index];
+
+          index += 1;
+        });
+
+        this.setState({
+          data: modifiedData
+        })
+      })
+    }
+  };
+
+  onItemClickHandler = (index) => {
+    this.setState({
+      selected: index
+    })
+  };
+
+  closeSelected = () => {
+    this.setState({
+      selected: null
+    })
+  };
+
   render() {
     if (!this.state.Dropzone)
       return null;
 
     const {
-      state: {Dropzone, toDrop, data},
+      state: {Dropzone, toDrop, selected, data},
       onDrop,
       onDragLeave,
       onDragOver,
       getDropZoneRef,
       openUpload,
-      onGalleryChange
+      onGalleryChange,
+      onItemClickHandler,
+      closeSelected
     } = this;
 
     const isEmpty = !data || !data.length;
+    const isSelected = selected != null;
 
     return (
       <Dropzone disableClick onDrop={onDrop}
@@ -89,9 +155,10 @@ export default class ItemPageEditPhoto extends Component {
                 onDragLeave={onDragLeave}
                 ref={getDropZoneRef}
                 className={s.wrapper}>
-        {/*<PhotoEdit data={images[0]}/>*/}
+        {isSelected && <PhotoEdit data={data[selected]} onClose={closeSelected}/>}
         {(toDrop || isEmpty) && <PhotoEmpty onClick={openUpload} isActive={toDrop} />}
-        {!isEmpty && <PhotoGallery onChange={onGalleryChange}
+        {!isSelected && !isEmpty && <PhotoGallery onChange={onGalleryChange}
+                                   onClick={onItemClickHandler}
                                    data={data} />}
       </Dropzone>
     )

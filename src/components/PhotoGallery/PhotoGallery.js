@@ -31,9 +31,15 @@ const Item = SortableElement(class SortableItem extends Component {
   }
 
   render() {
-    const {data: {src, isActive}, position, onClick} = this.props;
+    const {data: {src, isActive, isLoading}, position, onClick} = this.props;
+    const _className = classNames(
+      s.item,
+      isActive && s.item_active,
+      isLoading && s.item_loading
+    );
+
     return (
-      <div ref={this.getRef} className={classNames(s.item, isActive && s.item_active)}
+      <div ref={this.getRef} className={_className}
            onClick={() => onClick(position)}>
         <Image className={s.item__image} src={src}/>
       </div>
@@ -60,9 +66,11 @@ export default class PhotoGallery extends Component {
   };
 
   parseData = data => {
+    const filteredData = data && data.filter(item => !!item);
+
     this.setState({
-      data: data && data.map((item, index) => ({
-        src: item.preview || item,
+      data: filteredData && filteredData.map((item, index) => ({
+        src: item.file && item.file.preview || item.preview || item,
         ...(typeof item === 'string' ? {} : item),
         isActive: index === 0
       })) || []
@@ -158,7 +166,10 @@ export default class PhotoGallery extends Component {
   );
 
   itemClickHandler = index => {
-    console.log('clicked on', index);
+    console.log(index);
+    if (this.props.onClick) {
+      this.props.onClick(index);
+    }
   };
 
   render() {

@@ -1,19 +1,49 @@
 import express from 'express'
-import { userController, itemController } from 'controllers'
-import { signup, login, items, item } from 'constants/urls'
+import {
+  userController, itemController, imageController,
+} from 'controllers'
+import { signup, login, items, item, image } from 'constants/urls'
 
 const routes = express();
 
 
 // User routes
-routes.post(signup, userController.signup);
-routes.post(login, userController.login);
+routes.post(
+  signup,
+  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+
+  userController.signup
+);
+routes.post(
+  login,
+  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+
+  userController.login
+);
 
 // Item routes
-routes.post(item, itemController.itemHandler);
-routes.get(item, itemController.getOne);
+routes.post(
+  item,
+  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+
+  itemController.itemHandler
+);
+routes.get(
+  item,
+  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+
+  itemController.getOne
+);
 
 // Items routes
-routes.post(items, itemController.getAll);
+routes.post(
+  items,
+  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+
+  itemController.getAll
+);
+
+// Image routes
+routes.post(image, imageController.upload);
 
 export default routes;
