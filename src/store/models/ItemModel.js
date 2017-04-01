@@ -68,14 +68,16 @@ export default class ItemModel {
   @computed get category() {
     if (this._category) {
       const { id, name } =
-        categoryTypes.filter(item => item.id === this._category)[0];
+        categoryTypes.find(item => item.id === this._category);
 
       return {id, name}
     }
 
-    return this.testCategory(
-      this.toJSON().params
-    );
+    // test category if it's not defined
+    const category = this.testCategory();
+    this._category = category.id;
+
+    return {id: category.id, name: category.name};
   }
   set category(id) {
     this._category = id;
@@ -217,8 +219,19 @@ export default class ItemModel {
    * @returns {Array}
    */
   @computed get params() {
+    const state = {
+      ...stateTypes,
+      types: [this.state]
+    };
+    const furniture = {
+      ...furnitureTypes,
+      types: [this.furniture]
+    };
+
     return [
+      state,
       this.facilities,
+      furniture,
       this.amenities,
       this.rules
     ]
@@ -424,25 +437,27 @@ export default class ItemModel {
       _rules,
 
       images, description,
-
-      _term, price,
+      price,
 
       user,
       views
     } = this;
 
+    const category = _category || this.category.id;
+
     return {
       id,
       title,
       link: _link,
+      type: _type,
+      category,
 
       price,
 
       params: [
-        _category,
+        category,
         _type,
         _state,
-        _term,
         _furniture,
         ..._amenities,
         ..._facilities,
@@ -450,15 +465,25 @@ export default class ItemModel {
       ],
 
       size,
-      location,
+      location: this.parseLocation(location),
 
       images,
       description,
 
-      user,
+      _creator: user.id || user._id,
       views
     };
   }
+
+  parseLocation = location => {
+    return {
+      ...location,
+      subway: location.subway && location.subway.map(
+        ({distance, duration, name, position, id}) =>
+          ({distance, duration, name, position, id})
+      )
+    }
+  };
 
   /**
    * Parse JSON to the model.
@@ -471,6 +496,9 @@ export default class ItemModel {
     const {
       params,
       link,
+      type,
+      category,
+
       ...rest
     } = object;
     let data = {
@@ -516,6 +544,13 @@ export default class ItemModel {
           return data._category = item;
       }
     });
+
+    if (!data._type) {
+      data._type = type;
+    }
+    if (!data._category) {
+      data._category = category;
+    }
 
 
     return new ItemModel(store, data);
@@ -606,7 +641,7 @@ export default class ItemModel {
    * @param {Array} params Array of object parameters.
    * @return {object} Matched object category.
    */
-  testCategory = window.testCategory = params => {
+  testCategory = window.testCategory = (params = this.types) => {
     console.time('testCategory');
     let result;
     const data = this._filterParams(params);
@@ -621,6 +656,7 @@ export default class ItemModel {
     });
 
     console.timeEnd('testCategory');
+    console.log('tested', result);
     return result;
   };
 

@@ -89,7 +89,8 @@ const itemSchema = new Schema({
   },
   _creator: {
     type: Schema.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   // images: {
   //   thumbnail: {

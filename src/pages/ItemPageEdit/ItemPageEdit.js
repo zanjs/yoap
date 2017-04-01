@@ -3,7 +3,8 @@ import { inject, observer } from 'mobx-react'
 import {
   ItemPageInfoEdit,
   ItemPageInfoScroller,
-  ItemPageEditPhoto
+  ItemPageEditPhoto,
+  ButtonsAction
 } from 'components'
 import {
   ItemPageParametersContainer,
@@ -11,16 +12,19 @@ import {
 } from 'containers'
 import { randomNumber, shallowEqual } from 'helpers'
 import { stateType, furnitureType } from 'constants'
+import { ItemModel } from 'models'
 import s from './ItemPageEdit.sass'
 
-@inject(({filter}) => ({
-  filter
+@inject(({filter, user}) => ({
+  filter, user
 })) @observer
 export default class ItemPageEdit extends Component {
   state = {
     data: {},
     params: {},
-    size: {}
+    size: {},
+    location: {},
+    buttons: null
   };
 
   componentWillMount() {
@@ -65,6 +69,21 @@ export default class ItemPageEdit extends Component {
       };
     }
 
+    result = {
+      ...result,
+      buttons: [
+        {
+          type: 'text',
+          content: 'Отменить'
+        },
+        {
+          type: 'green',
+          content: 'Готово',
+          onClick: this.submitHandler
+        }
+      ]
+    };
+
     this.setState(result);
   }
 
@@ -88,8 +107,8 @@ export default class ItemPageEdit extends Component {
   };
 
   locationChangeHandler = props => {
-    this.setState(({data}) => ({data: {
-      ...data,
+    this.setState(({location}) => ({location: {
+      ...location,
       ...props
     }}), this.onChange);
   };
@@ -151,6 +170,34 @@ export default class ItemPageEdit extends Component {
     });
   };
 
+  submitHandler = () => {
+    const { data, params, size, location } = this.state;
+    const { user } = this.props;
+
+    let _data = {
+      ...data,
+      size,
+      location
+    };
+    let _params = [];
+
+    params.forEach(item => {
+      item.types.forEach(block => {
+        if (block.isActive) {
+          _params.push(block.id);
+        }
+      })
+    });
+
+    _data.params = _params;
+    _data.user = user;
+
+    const model = ItemModel.fromJS(null, _data);
+    const result = model.toJSON();
+
+    console.log(window.newItem = result);
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     const { state } = this;
 
@@ -170,12 +217,20 @@ export default class ItemPageEdit extends Component {
       return true;
     }
 
-    return !shallowEqual(state.params, nextState.params);
+    if (!shallowEqual(state.params, nextState.params)) {
+      return true
+    }
+
+    if (!shallowEqual(state.location, nextState.location)) {
+      return true
+    }
+
+    return state.buttons !== nextState.buttons;
   }
 
   render() {
     const {
-      state: {shouldUpdate, size, params},
+      state: {shouldUpdate, size, params, data, location, buttons},
       paramsChangeHandler,
       infoChangeHandler,
       locationChangeHandler,
@@ -187,17 +242,19 @@ export default class ItemPageEdit extends Component {
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <ItemPageEditPhoto />
         )}>
-          <ItemPageInfoEdit data={this.state.data} onChange={infoChangeHandler}
+          <ItemPageInfoEdit data={data} onChange={infoChangeHandler}
                             className={s.info} />
         </ItemPageInfoScroller>
 
         <ItemPageLocationContainer edit onChange={locationChangeHandler}
+                                   data={location}
                                    shouldUpdate={shouldUpdate}/>
 
         <ItemPageParametersContainer onChange={paramsChangeHandler}
                                      onSizeChange={sizeChangeHandler}
                                      edit size={size}
                                      data={params} />
+        <ButtonsAction data={buttons} withContainer/>
       </div>
     )
   }

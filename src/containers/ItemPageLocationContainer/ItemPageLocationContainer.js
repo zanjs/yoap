@@ -28,24 +28,14 @@ export default class ItemPageLocationContainer extends Component {
     }, this.onChange)
   };
   onChange = () => {
-    console.log('start changing', !!this.props.onChange);
-
     if (!this.props.onChange)
       return null;
-
-    console.log('everything is ok..', !!this.props.onChange);
 
     const { state } = this;
     const _address = state.address;
     const address = _address && _address.name;
     const location = _address && _address.position;
     const { subway } = state;
-
-    console.log({
-      address,
-      location,
-      subway
-    });
 
     this.props.onChange({
       address,
@@ -60,7 +50,7 @@ export default class ItemPageLocationContainer extends Component {
       state: {address, direction},
       props: {
         shouldUpdate, data, edit,
-        onChange
+        onChange, location
       },
       setPoint,
       setDirection,
@@ -84,9 +74,9 @@ export default class ItemPageLocationContainer extends Component {
                       point={pointData}/>
       )}>
         <ItemPageLocation setPoint={setPoint} point={pointData}
-                          onChange={metroChangeHandler} direction={direction}
+                          onStationChange={metroChangeHandler} direction={direction}
                           setDirection={setDirection}
-                          edit={edit} data={data && data.location} />
+                          edit={edit} data={location || data && data.location} />
       </ItemPageInfoScroller>
     )
   }

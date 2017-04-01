@@ -72,10 +72,16 @@ export default class ItemPageLocation extends Component {
     </Point>
   );
 
+  onStationChange = props => {
+    if (this.props.onStationChange) {
+      this.props.onStationChange(props)
+    }
+  };
+
   render() {
     const {
       className, edit, point, direction,
-      onChange,
+      onStationChange,
       data: { address, subway, timing },
     } = this.props;
     return (
@@ -86,17 +92,17 @@ export default class ItemPageLocation extends Component {
                                  setPoint={this.props.setPoint}/>}
           {!edit && <Content size="2" light lightColor>{address}</Content>}
         </div>
-        {subway && !!subway.length && <div className={s.item}>
+        <div className={s.item}>
           <ItemPageInfoTitle title="Ближайшее метро"/>
           <NearestStations direction={direction}
-                           point={point} onChange={onChange}
+                           point={point} onChange={onStationChange}
                            render={this.renderStation}/>
           {/*{subway.map((item, key) => (*/}
             {/*<Point key={key} fill="#EE5450" title={item.name}>*/}
               {/*{`${item.time} мин / ${item.distance} м`}*/}
             {/*</Point>*/}
           {/*))}*/}
-        </div>}
+        </div>
         {timing && !!timing.length && <div className={s.item}>
           <ItemPageInfoTitle title="Время в пути"/>
           {timing.map((item, key) => {

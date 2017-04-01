@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { ProFilter, Button, FlexGrid } from 'components'
+import { ProFilter } from 'components'
 
 
 const mapStateToProps = ({
@@ -70,6 +70,11 @@ export default class ProFilterContainer extends Component {
       value
     )
   };
+  onRoomsChange = value => {
+    return this.changeHandler({
+      rooms: parseInt(value, 10)
+    })
+  };
 
   render() {
     const { edit, onChange } = this.props;
@@ -89,6 +94,7 @@ export default class ProFilterContainer extends Component {
       onBathRoomsChange: this.onBathRoomsChange,
       onFloorChange: this.onFloorChange,
       onSquaresChange: this.onSquaresChange,
+      onRoomsChange: this.onRoomsChange
     };
 
 
@@ -96,10 +102,6 @@ export default class ProFilterContainer extends Component {
       <div>
         <ProFilter onChange={onChange} edit={edit}
                    readOnly={false} data={data} size={_size}/>
-        {!edit && <FlexGrid justify="end" align="center">
-          <Button type="text">Отменить</Button>
-          <Button type="pink">Поиск</Button>
-        </FlexGrid>}
       </div>
     )
   }

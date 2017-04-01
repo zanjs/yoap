@@ -36,9 +36,8 @@ export default class NearestStations extends Component {
   componentWillReceiveProps(nextProps) {
     const { point } = nextProps;
     const _point = this.props.point;
-    const { position } = point;
-    const _position = _point.position;
-
+    const { position } = point || {};
+    const _position = _point && _point.position || [];
 
     if (!_point && point) {
       return this.search(point)
@@ -54,7 +53,10 @@ export default class NearestStations extends Component {
   }
 
   search = point => {
-    const { position } = point || this.props.point;
+    const { position } = point || this.props.point || {};
+
+    if (!position || !position[0] || !position[1])
+      return;
 
     this.setState({isFetching: true});
     return this.transport.findStations(

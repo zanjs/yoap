@@ -12,7 +12,7 @@ import userImage from 'images/user.jpg'
 export default class ItemPageInfoEdit extends Component {
   state = {
     title: '',
-    content: '',
+    description: '',
     type: {},
     price: []
   };
@@ -28,7 +28,7 @@ export default class ItemPageInfoEdit extends Component {
   onChangeTitle = ({target: {value}}) =>
     this.onChange({title: value});
   onChangeContent = ({target: {value}}) =>
-    this.onChange({content: value});
+    this.onChange({description: value});
   onTypeChange = type =>
     this.onChange({type});
   onPriceChange = props => {

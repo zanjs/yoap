@@ -41,6 +41,13 @@ export default class ItemParamsRowSize extends Component {
       floors
     );
   };
+  onRoomsChange = value => {
+    const rooms = parseInt(value, 10);
+
+    this.props.onRoomsChange(
+      rooms
+    );
+  };
   onFloorChangeSum = value => {
     const floors = [this.props.floors[0], parseInt(value,10)];
 
@@ -60,7 +67,7 @@ export default class ItemParamsRowSize extends Component {
     const {
       title, readOnly, edit,
 
-      bedrooms = 0, beds = 0, floor = 0,
+      bedrooms = 0, beds = 0, floor = 0, rooms,
       bathrooms = 0, squares = 0, floors = [0,0]
     } = this.props;
     const splitter = readOnly || edit ? '' : '-';
@@ -72,17 +79,20 @@ export default class ItemParamsRowSize extends Component {
             {`${bedrooms}${splitter} спален`}
           </Item>
           <Item noinput={readOnly} onChange={this.onBedsChange}>
-            {`${beds}${splitter} спален`}
+            {`${beds}${splitter} кроватей`}
           </Item>
           <Item noinput={readOnly} onChange={this.onBathRoomsChange} step={0.5}>
-            {`${bathrooms}${splitter} спален`}
+            {`${bathrooms}${splitter} ванных`}
           </Item>
           <Item noinput={readOnly}
                 onChange={edit ? this.onFloorChangeAmount : this.onFloorChange}>
             {readOnly ? `${floors[0]}/${floors[1]} этаж` : `${floors[0] || floor}${splitter} этаж`}
           </Item>
           {edit && <Item onChange={this.onFloorChangeSum}>
-            {`${floors[1] || floor} этажность`}
+            {`${floors[1] || floor} этажей`}
+          </Item>}
+          {edit && <Item className={s.item_big} onChange={this.onRoomsChange}>
+            {`${rooms} общее кол. комнат`}
           </Item>}
 
           <Item readOnly={readOnly} noinput className={s.item_big}>
