@@ -4,11 +4,10 @@ import {
   itemApi as itemUrl,
   itemFindApi as itemFindUrl,
   itemUpdateApi as itemUpdateUrl,
+  itemToggleFeaturedApi as itemToggleFeaturedUrl,
 
   JSONHeaders as headers
 } from 'constants'
-import data from './data'
-
 
 
 export const getItems = body => fetch(itemsUrl, {
@@ -35,4 +34,8 @@ export const updateItem = body => fetch(itemUpdateUrl, {
   body: JSON.stringify(body)
 });
 
-window.getItems = getItems;
+export const toggleFeaturedItem = data => fetch(itemToggleFeaturedUrl, {
+  ...headers,
+  method: 'post',
+  body: JSON.stringify(data)
+});

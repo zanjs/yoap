@@ -3,7 +3,8 @@ import { localStore, noop } from 'helpers'
 import { store as config, statusTypes } from 'constants'
 import {
   getItems, saveItem, getItem,
-  updateItem as updateItemApi
+  updateItem as updateItemApi,
+  toggleFeaturedItem as toggleFeaturedItemApi
 } from 'api'
 import { ItemModel } from 'models'
 import { store } from 'store'
@@ -57,7 +58,7 @@ class ItemsStore {
   };
   userFeaturedResponse = response => {
     if (response.data && response.data.length) {
-      this.fromJSON(response.data, 'featured');
+      this.fromJSON(response.data, 'featured', true);
     }
     this.isFetching = false;
 
@@ -98,6 +99,18 @@ class ItemsStore {
     this.isFetching = false;
 
     return response.data;
+  };
+  toggleFeaturedItemResponse = response => {
+    // TODO: remove featured items from collection!
+    // maybe server will send updated featured items ?
+    let item;
+    if (response.data && !response.data.ok) {
+      item = [response.data];
+    }
+
+    this.isFetching = false;
+
+    return item || response.data;
   };
 
   errorHandler = response => {
@@ -180,7 +193,19 @@ class ItemsStore {
       .then(cb)
       .catch(this.errorHandler);
   };
+  toggleFeaturedItem = (id, cb = noop) => {
+    const userId = store.user.id || store.user._id;
 
+    if (!userId || !id)
+      return;
+
+    toggleFeaturedItemApi({user: userId, id})
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.toggleFeaturedItemResponse)
+      .then(cb)
+      .catch(this.errorHandler);
+  };
 
   // selectors
   findBy = (sel, val, col, cb) => {
@@ -255,15 +280,18 @@ class ItemsStore {
       this.newModel(col, data)
     );
   };
-  replace = () => {
-
+  replace = (data, col = 'data') => {
+    return this[col].replace(data);
+  };
+  find = (query, col = 'data') => {
+    return this[col].find(query)
   };
   toJSON = () => this.data.map(todo => todo.toJSON());
 
-  @action fromJSON = (data, collection) => {
+  @action fromJSON = (data, collection, toReplace) => {
     if (data && data.forEach) {
-      if (collection === 'manage') {
-        this.manage.replace([]);
+      if (toReplace || collection === 'manage') {
+        this[collection].replace([]);
       }
 
       data.forEach(item => {

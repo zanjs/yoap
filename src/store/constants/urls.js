@@ -36,6 +36,10 @@ export const itemFindApi = apiOrigin + api + itemFind;
 export const itemUpdate = '/item/update';
 export const itemUpdateApi = apiOrigin + api + itemUpdate;
 
+// item find api
+export const itemToggleFeatured = '/item/featured';
+export const itemToggleFeaturedApi = apiOrigin + api + itemToggleFeatured;
+
 // images api
 export const image = '/images';
 export const imageApi = apiOrigin + api + image;

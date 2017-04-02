@@ -4,7 +4,8 @@ import DevTools, { configureDevtool } from 'mobx-react-devtools'
 import {
   HomePage, LoginPage, SignupPage,
   ItemsListPage, ItemPage, UserPage,
-  ItemPageEdit, ManageItemsPage, UserItemsPage
+  ItemPageEdit, ManageItemsPage, UserItemsPage,
+  UserFeaturedPage
 } from 'pages'
 import {
   BrowserRouter as Router,
@@ -73,6 +74,7 @@ export default class App extends Component {
               <Route path="/y/:link" exact component={ItemPage}/>
               <Route path="/you" exact component={UserPage}/>
               <Route path="/you/yours" exact component={UserItemsPage} />
+              <Route path="/you/featured" exact component={UserFeaturedPage} />
               <Route path="/manage" exact component={ManageItemsPage}/>
               <Route path="/manage/:link" component={ItemPageEdit}/>
             </Switch>

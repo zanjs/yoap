@@ -26,20 +26,61 @@ const mapStateToProps = ({
   email: user.email,
   isFetching: isFetching || user.isFetching,
   isAuthorized: user.isAuthorized,
-  user,
+  _objects: user._objects,
+  _featured: user._featured,
+  update: user.update,
 
   fetchUserItems, fetchUserFeatured
 });
 
 @inject(mapStateToProps) @observer
 export default class UserPage extends Component {
+  isLoading = true;
+
   componentWillMount() {
-    this.props.fetchUserItems(
-      this.props.user._objects
-    );
-    this.props.fetchUserFeatured(
-      this.props.user._featured
-    );
+    this.props.update(() => {
+      this.updateUserItems();
+      this.updateUserFeatured();
+    })
+  }
+  updateUserItems = (objects = this.props._objects) => {
+    if (objects && objects.length) {
+      this.props.fetchUserItems(
+        objects
+      );
+    }
+  };
+  updateUserFeatured = (featured = this.props._featured) => {
+    if (featured && featured.length) {
+      this.props.fetchUserFeatured(
+        featured
+      );
+    }
+  };
+  compare = (prev, next) => {
+    if (!prev && !next || !prev.length && !next.length)
+      return;
+
+    return (
+      !prev && next || prev.length !== next.length
+    )
+  };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isFetching)
+      return;
+
+    const {
+      props: {_featured, _objects, featured, objects},
+      compare
+    } = this;
+
+    if (compare(_objects, nextProps._objects, objects)) {
+      this.updateUserItems(nextProps._objects)
+    }
+
+    if (compare(_featured, nextProps._featured, featured)) {
+      this.updateUserFeatured(nextProps._featured)
+    }
   }
   render() {
     const {
@@ -92,7 +133,9 @@ export default class UserPage extends Component {
               </div>
               <div className={s.item}>
                 <ItemPageInfoTitle title="Избранное">
-                  <LinkIcon gray to="/y">Все избранные</LinkIcon>
+                  <LinkIcon gray to="/you/featured">
+                    Все избранные{featured.length ? ` (${featured.length})` : ''}
+                  </LinkIcon>
                 </ItemPageInfoTitle>
                 {featured && <FlexGrid justify="start" align="center">
                   {featured.map((item, key) => (

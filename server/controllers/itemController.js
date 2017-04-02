@@ -193,5 +193,60 @@ itemController.update = (req, res) => {
       })
     })
 };
+itemController.featured = (req, res) => {
+  const { id, user } = req.body;
+
+  if (!id || !user) {
+    return res.status(500).json({
+      message: 'Невозможно добавить в избранное объект ' +
+                'не предоставив object id и user id.'
+    })
+  }
+
+  const query = {_id: user};
+
+  const update = data => {
+    return db.User.findOneAndUpdate(query, {featured: data})
+      .then(data => {
+        res.status(200).json({
+          success: true,
+          data
+        })
+    }).catch(err => {
+      res.status(500).json({
+        message: err
+      })
+    })
+  };
+  db.User.findOne(query)
+    .then(item => {
+      if (item && item.featured) {
+        const { featured } = item;
+        const objId = mongoose.Types.ObjectId(id);
+        const isExist = !!(featured && featured.length && featured.find(
+          fav => objId.toString() === fav.toString()
+        ));
+
+        if (isExist) {
+          return update(
+            featured.filter(fav => fav.toString() !== objId.toString())
+          );
+        }
+
+        return update([...featured, objId]);
+      }
+
+      res.status(500).json({
+        message: 'Такого юзера нет!',
+        data: item
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
+      })
+    })
+
+};
 
 export default itemController;

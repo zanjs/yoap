@@ -5,7 +5,7 @@ import {
 import {
   signup, login, items,
   item, image, itemFind,
-  itemUpdate
+  itemUpdate, itemToggleFeatured
 } from 'constants/urls'
 
 const routes = express();
@@ -38,6 +38,11 @@ routes.post(
   itemUpdate,
 
   itemController.update
+);
+routes.post(
+  itemToggleFeatured,
+
+  itemController.featured
 );
 
 // Items routes

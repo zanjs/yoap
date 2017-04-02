@@ -14,8 +14,9 @@ import arrowIcon from 'icons/ui/arrow-right.svg'
 import favoriteIcon from 'icons/ui/favorite.svg'
 import editIcon from 'icons/ui/edit.svg'
 
-const mapStatToProps = ({user: { isAdmin, _objects }}) => ({
-  isAdmin, objects: _objects
+const mapStatToProps = ({user: { isAdmin, _objects, _featured }, items: {toggleFeaturedItem}}) => ({
+  isAdmin, objects: _objects, featured: _featured,
+  toggleFeaturedItem
 });
 
 @inject(mapStatToProps) @observer
@@ -23,6 +24,7 @@ export default class ItemTile extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
+  state = {fav: null};
 
   getPrice = () => {
     const { price } = this.props.data;
@@ -74,6 +76,21 @@ export default class ItemTile extends Component {
     return {};
   };
 
+  clickHandler = (e) => {
+    const tagName = e.target.tagName.toLowerCase();
+
+    if (tagName === 'path' || tagName === 'svg') {
+      e.preventDefault();
+      return false;
+    }
+  };
+
+  editClickHandler = () => {
+    this.context.router.history.push(
+      `/manage/${this.props.data._link}`
+    )
+  };
+
   isEditMode = () => {
     if (this.props.edit)
       return true;
@@ -90,19 +107,28 @@ export default class ItemTile extends Component {
     );
   };
 
-  clickHandler = (e) => {
-    const tagName = e.target.tagName.toLowerCase();
+  favoriteClickHandler = () => {
+    const fav = this.isFeatured();
+    this.setState({
+      fav: !fav
+    });
 
-    if (tagName === 'path' || tagName === 'svg') {
-      e.preventDefault();
-      return false;
-    }
+    this.props.toggleFeaturedItem(this.props.data.id);
   };
 
-  editClickHandler = () => {
-    this.context.router.history.push(
-      `/manage/${this.props.data._link}`
-    )
+  isFeatured = () => {
+    if (this.state.fav !== null) {
+      return this.state.fav;
+    }
+
+    const { featured, data } = this.props;
+
+    if (featured && featured.length) {
+      const { id } = data;
+      return !!featured.find(item => item === id);
+    }
+
+    return false;
   };
 
   render() {
@@ -120,15 +146,17 @@ export default class ItemTile extends Component {
       return null;
 
     const edit = this.isEditMode();
-    const {
+    let {
       title, location,
-      category, isFavorited,
+      category,
       images, rating
     } = data;
+
 
     const { price, term } = this.getPrice();
     const subway = this.getSubway(location);
     const { squares, rooms, type } = this.getSize();
+    const featured = this.isFeatured();
 
     return (
       <RouterLink ref={getRef} to={data.link} onClick={clickHandler}
@@ -147,7 +175,7 @@ export default class ItemTile extends Component {
           </Container>
           <Svg src={edit ? editIcon : favoriteIcon}
                onClick={edit ? editClickHandler : favoriteClickHandler}
-               className={s.favorite} />
+               className={classNames(s.favorite, featured && s.favorite_active)} />
         </div>
         {/* Content */}
         <div className={classNames(s.content, contentClassName)}>

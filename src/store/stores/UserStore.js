@@ -156,9 +156,9 @@ class UserStore {
       .catch(this.errorHandler);
   };
 
-  update = () => {
+  update = cb => {
     if ((this.email || this.phone) && this.password) {
-      return this.login();
+      return this.login(cb);
     }
   };
 
@@ -200,7 +200,9 @@ class UserStore {
     name: this.name,
     email: this.email,
     phone: this.phone,
-    password: this.password
+    password: this.password,
+    // _featured: this._featured,
+    // _objects: this._objects
   })
 }
 
