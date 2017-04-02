@@ -97,11 +97,6 @@ export default class ItemPageLocation extends Component {
           <NearestStations direction={direction} defaultData={subway}
                            point={point} onChange={onStationChange}
                            render={this.renderStation}/>
-          {/*{subway.map((item, key) => (*/}
-            {/*<Point key={key} fill="#EE5450" title={item.name}>*/}
-              {/*{`${item.time} мин / ${item.distance} м`}*/}
-            {/*</Point>*/}
-          {/*))}*/}
         </div>
         {timing && !!timing.length && <div className={s.item}>
           <ItemPageInfoTitle title="Время в пути"/>

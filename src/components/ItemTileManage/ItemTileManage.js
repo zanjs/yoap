@@ -5,7 +5,7 @@ import {
   FlexGrid, ItemPageUser, StarsRating
 } from 'components'
 import { classNames } from 'helpers'
-import { objectTypes, termTypes } from 'constants'
+import { objectTypes, termTypes, subwaySpb } from 'constants'
 import s from './ItemTileManage.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
@@ -37,7 +37,6 @@ export default class ItemTileManage extends Component {
 
     return {price: price.amount || price, term: 'месяц'};
   };
-
   getSize = () => {
     let output = {};
     const { size, type } = this.props.data;
@@ -51,10 +50,21 @@ export default class ItemTileManage extends Component {
 
     return output;
   };
+  getSubway = loc => {
+    if (loc && loc.subway) {
+      const [station] = loc.subway;
+      return {
+        ...station,
+        color: subwaySpb.find(station.id).color
+      }
+    }
+
+    return {};
+  };
 
   render() {
     const {
-      className, link, contentClassName,
+      className, contentClassName,
       imageClassName, data, getRef
     } = this.props;
 
@@ -62,19 +72,19 @@ export default class ItemTileManage extends Component {
       return null;
 
     const {
-      title, location,
+      title, location, _link,
       category, images, rating,
     } = data;
 
     const { price, term } = this.getPrice();
-    const subway = location.subway && location.subway[0];
+    const subway = this.getSubway(location);
     const address = location.address;
     const { squares, rooms, type } = this.getSize();
 
     const user = data.user || data._creator || {};
 
     return (
-      <div ref={getRef}
+      <RouterLink to={`/manage/${_link}`} ref={getRef}
            className={classNames(s.wrapper, className)}>
         {/* Image */}
         <div className={classNames(s.image, imageClassName)}>
@@ -134,6 +144,7 @@ export default class ItemTileManage extends Component {
 
           {/* User */}
           <ItemPageUser className={s.user} titleClassName={s.user__title}
+                        tag="div"
                         linkClassName={s.user__link} imageClassName={s.user__image}
                         linksClassName={s.user__links}
                         phone={user.phone} email={user.email}
@@ -142,7 +153,7 @@ export default class ItemTileManage extends Component {
             {user.name}
           </ItemPageUser>
         </div>
-      </div>
+      </RouterLink>
     )
   }
 }

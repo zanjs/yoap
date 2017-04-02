@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import {
-  ItemPageInfo, ItemPageLocation,
-  ItemPageInfoScroller,
-  SliderImages, Image,
-  Map
-} from 'components'
+import { LoadingAnimation } from 'components'
 import {
   ItemPageParametersContainer,
   ItemPageInfoContainer,
@@ -14,8 +9,8 @@ import {
 import { randomNumber, normalizeScroll, isEmpty } from 'helpers'
 import s from './ItemPage.sass'
 
-const mapStateToProps = ({items: {data}, user}) => ({
-  data
+const mapStateToProps = ({items, user}) => ({
+  items, user
 });
 
 @inject(mapStateToProps) @observer
@@ -42,14 +37,13 @@ export default class ItemPage extends Component {
   }
 
   setData = (props = this.props) => {
-    const { data, match: {params} } = props;
-    if (isEmpty(data))
+    const { match: {params} } = props;
+
+    if (!params.link)
       return;
 
-    this.setState({
-      data: data.find(
-        item => item._link === params.link
-      )
+    this.props.items.findByLink(params.link, 'data', data => {
+      this.setState({data})
     });
   };
 
@@ -67,8 +61,11 @@ export default class ItemPage extends Component {
       onChange
     } = this;
 
-    if (isEmpty(data))
-      return null;
+    if (isEmpty(data)) {
+      return <div className={s.empty}>
+        <LoadingAnimation />
+      </div>
+    }
 
     const { types, size, floors } = data;
     window.data = data;

@@ -14,13 +14,14 @@ const ItemPageUser = props => {
     email, link, image, notitle,
     isVerified, className,
     titleClassName, linkClassName,
-    imageClassName, linksClassName
+    imageClassName, linksClassName,
+    tag
   } = props;
 
   return (
     <div className={classNames(s.wrapper, className)}>
       {!notitle && <ItemPageInfoTitle title={title}>
-        <LinkIcon gray to={link}>
+        <LinkIcon tag={tag} gray to={link}>
           Профиль
         </LinkIcon>
       </ItemPageInfoTitle>}
@@ -38,11 +39,11 @@ const ItemPageUser = props => {
           </FlexGrid>
 
           <div className={classNames(s.links, linksClassName)}>
-            {!phone && <Link tag="a" gray className={classNames(s.link, linkClassName)}
+            {!phone && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
                              href={`tel:${phone}`}>Показать телефон</Link>}
-            {phone && <Link tag="a" gray className={classNames(s.link, linkClassName)}
+            {phone && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
                             href={`tel:${phone}`}>{phone}</Link>}
-            {email && <Link tag="a" gray className={classNames(s.link, linkClassName)}
+            {email && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
                             href={`mailto:${email}`}>{email}</Link>}
           </div>
         </div>

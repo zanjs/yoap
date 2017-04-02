@@ -31,6 +31,7 @@ export default class ItemPageLocationContainer extends Component {
   setPoint = address =>
     this.setState({address}, this.onChange);
   setDirection = position => {
+    // method means walking, transit etc.
     this.setState({direction: {
       method: false,
       position

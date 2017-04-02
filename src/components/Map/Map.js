@@ -252,29 +252,33 @@ export default class Map extends Component {
       }
     });
   };
+  comparePoints = (first, last) => {
+    return first && last && first.length && last.length
+      && (first[0] === last[0] || first[1] === last[1]);
+  };
 
   componentWillReceiveProps(nextProps) {
     if (!this.state.isLoaded) return;
 
-    const { props } = this;
+    const { props, comparePoints } = this;
     const { point, points, direction } = nextProps;
     const _point = props.point || {};
     const _points = props.points || {};
     const _direction = props.direction || {};
     const hasNoPoints = isEmpty(points);
 
-    if (hasNoPoints && point.position && !shallowEqual(point.position, _point.position)) {
+    if (hasNoPoints && !comparePoints(point.position, _point.position)) {
       console.log('set point...');
       return this.setPoint(point);
     }
 
-    if (direction && !shallowEqual(direction.position, _direction.position)) {
+    if (direction && !comparePoints(direction.position, _direction.position)) {
       console.log('set direction...');
       return this.setDirection(nextProps);
     }
 
     if (nextProps.points && !shallowEqual(points, _points)) {
-      console.log('CREATE NEW MARKERS', points);
+      console.log('new markers...');
       this.createNewMarkers(points);
     }
   }

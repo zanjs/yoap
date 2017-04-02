@@ -24,11 +24,15 @@ export default class NearestStations extends Component {
   sortData = data => data;
 
   formatDefaultData = () => {
-    const data = this.sortData(this.props.defaultData.map(item => ({
-      ...item,
-      position: this.props.point,
-      color: subwaySpb.find(item.id).color
-    })));
+    const data = this.sortData(this.props.defaultData.map(item => {
+      const station = subwaySpb.find(item.id);
+
+      return {
+        ...item,
+        //position: this.props.point,
+        color: station.color
+      }
+    }));
 
     this.setState({data, isFetching: false});
   };
@@ -81,6 +85,7 @@ export default class NearestStations extends Component {
     if (this.props.defaultData) {
       return this.formatDefaultData();
     }
+
     this.search();
   }
 

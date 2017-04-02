@@ -14,8 +14,22 @@ export default class Link extends Component {
     return null;
   };
 
+  isLink = (tag, element, rest) => {
+    const taqCheck = typeof tag === 'string' || typeof  element === 'string';
+
+    return !(taqCheck
+    && (tag !== 'a' || element !== 'a')
+    && (rest.href || rest.to))
+  };
+
   render() {
-    const { className, children, type, tag, ...rest } = this.props;
+    let { className, children, type, tag, element, ...rest } = this.props;
+
+    if (!this.isLink(tag, element, rest)) {
+      rest = {...rest};
+      delete rest.href;
+      delete rest.to;
+    }
 
     return (
         <Content tag={tag || RouterLink}

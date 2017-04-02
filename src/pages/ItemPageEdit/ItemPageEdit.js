@@ -13,7 +13,7 @@ import {
   ItemPageParametersContainer,
   ItemPageLocationContainer
 } from 'containers'
-import { randomNumber, shallowEqual } from 'helpers'
+import { randomNumber, shallowEqual, isEmpty } from 'helpers'
 import {
   stateType, furnitureType,
   facilityTypeCommon, facilityTypesCommon
@@ -24,6 +24,7 @@ import s from './ItemPageEdit.sass'
   filter, user, items
 })) @observer
 export default class ItemPageEdit extends Component {
+  isMount = false;
   state = {
     data: {},
     params: {},
@@ -170,7 +171,11 @@ export default class ItemPageEdit extends Component {
     console.log(this.props);
   }
   componentDidMount() {
-    setTimeout(() => this.forceUpdate(), 2000);
+    this.isMount = true;
+    setTimeout(() => this.isMount && this.forceUpdate(), 2000);
+  }
+  componentWillUnmount() {
+    this.isMount = false;
   }
 
   onChange = () => {
@@ -362,6 +367,12 @@ export default class ItemPageEdit extends Component {
 
     if (saved) {
       return <Redirect to="/you"/>
+    }
+
+    if (isEmpty(params) || isEmpty(size) || isEmpty(data)) {
+      return <div className={s.empty}>
+        <LoadingAnimation />
+      </div>
     }
 
     return (
