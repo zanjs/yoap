@@ -4,7 +4,8 @@ import Helmet from 'react-helmet'
 import { inject, observer } from 'mobx-react'
 import {
   Container, FlexGrid, Title, LinkIcon,
-  ItemTileManage, LoadingAnimation
+  ItemTileManage, LoadingAnimation,
+  ManageItemsSort
 } from 'components'
 import { statusTypes } from 'constants'
 import s from './ManageItemsPage.sass'
@@ -16,6 +17,7 @@ const mapStateToProps = ({items, user}) => ({
 @inject(mapStateToProps) @observer
 export default class ManageItemsPage extends Component {
   statuses = statusTypes.types;
+  state = {data: null};
 
   componentWillMount() {
     this.props.items.getAllManageItems((items) => {
@@ -46,6 +48,60 @@ export default class ManageItemsPage extends Component {
     });
   };
 
+  sortHandler = q => {
+    const query  = q.toLowerCase();
+    const compare = s => (s + '').toLowerCase().indexOf(query) !== -1;
+    let data = [];
+
+    this.props.items.data.forEach(item => {
+      if (item.title) {
+        if (compare(item.title))
+          return data.push(item);
+      }
+      if (item.location) {
+        const { location } = item;
+
+        if (compare(location.address))
+          return data.push(item);
+        if (compare(location.subway[0].name))
+          return data.push(item);
+      }
+      if (item.category) {
+        if (compare(item.category.name))
+          return data.push(item);
+      }
+      if (item.rating) {
+        if (compare(item.rating))
+          return data.push(item);
+      }
+
+      //if (item.types) {
+      //  let isMatched = false;
+      //  item.types.forEach(type => {
+      //    if (compare(type.name))
+      //      isMatched = true;
+      //  });
+      //  if (isMatched)
+      //    return data.push(item);
+      //}
+    });
+
+    this.setState({
+      data: data.length ? data : null
+    })
+  };
+
+  sortStatusHandler = status => {
+    let data = null;
+
+    if (status)
+      data = this.props.items.manage.filter(
+        item => item.status === status
+      );
+
+    this.setState({data});
+  };
+
   publish = id => {
     this.changeStatus(id, this.statuses[1].id);
   };
@@ -53,11 +109,19 @@ export default class ManageItemsPage extends Component {
     this.changeStatus(id, this.statuses[2].id);
   };
 
+  selectStatusHandler = (id, status) => {
+    this.changeStatus(id, status)
+  };
+
   render() {
     const { manage, isFetching } = this.props.items;
+    const { data } = this.state;
     const { isAdmin } = this.props.user;
     const {
-      publish, decline
+      publish, decline,
+      selectStatusHandler,
+      sortStatusHandler,
+      sortHandler,
     } = this;
 
     if (!isAdmin) {
@@ -76,11 +140,15 @@ export default class ManageItemsPage extends Component {
               Опубликованные
             </LinkIcon>
           </FlexGrid>
+          <ManageItemsSort onSort={sortHandler}
+                           onSortStatusChange={sortStatusHandler}
+                           className={s.sort} />
 
           <FlexGrid wrap="true" justify="start" align="start">
-            {manage.map((item, key) => (
+            {(data || manage).map((item, key) => (
               <ItemTileManage onAccept={publish}
                               onDecline={decline}
+                              onStatusChange={selectStatusHandler}
                               data={item} key={key}/>
             ))}
           </FlexGrid>

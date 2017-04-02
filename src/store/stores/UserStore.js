@@ -157,7 +157,9 @@ class UserStore {
   };
 
   update = () => {
-    return this.login();
+    if ((this.email || this.phone) && this.password) {
+      return this.login();
+    }
   };
 
   subscribeToLocalStore = () => reaction(

@@ -3,10 +3,18 @@ import { classNames } from 'helpers'
 import s from './Select.sass'
 
 
-const Select = ({className, inherit, itemClassName, values, ...rest}) => {
+const Select = ({className, getRef, inherit, itemClassName, values, data, ...rest}) => {
+  const _data = values || data;
+  const _className = classNames(
+    s.select, inherit && s.inherit,
+
+    className
+  );
+
   return (
-    <select className={classNames(s.select, inherit && s.inherit, className)} {...rest}>
-      {values.map((val, key) => (
+    <select className={_className}
+            ref={getRef}  {...rest}>
+      {_data.map((val, key) => (
         <option className={itemClassName}
                 key={key} value={val}>{val}</option>
       ))}

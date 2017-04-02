@@ -15,7 +15,7 @@ itemController.itemHandler = (req, res) => {
   } = req.body;
 
   if (id || _id) {
-    db.Item
+    return db.Item
       .update({'_id': id || _id}, {
         title, description,
         price, dewa, size, floors,
@@ -32,8 +32,6 @@ itemController.itemHandler = (req, res) => {
           message: err.toString()
         })
     });
-
-    return;
   }
 
 

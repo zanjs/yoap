@@ -19,12 +19,14 @@ const mapStateToProps = ({
     },
     user
   }) => ({
-  data: users, featured,
+  data: users,
+  featured,
   name: user.name,
   phone: user.phone,
   email: user.email,
   isFetching: isFetching || user.isFetching,
   isAuthorized: user.isAuthorized,
+  user,
 
   fetchUserItems, fetchUserFeatured
 });
@@ -32,8 +34,12 @@ const mapStateToProps = ({
 @inject(mapStateToProps) @observer
 export default class UserPage extends Component {
   componentWillMount() {
-    this.props.fetchUserItems();
-    this.props.fetchUserFeatured();
+    this.props.fetchUserItems(
+      this.props.user._objects
+    );
+    this.props.fetchUserFeatured(
+      this.props.user._featured
+    );
   }
   render() {
     const {

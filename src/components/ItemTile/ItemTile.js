@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Content, Image, Svg,
@@ -13,6 +14,11 @@ import arrowIcon from 'icons/ui/arrow-right.svg'
 import favoriteIcon from 'icons/ui/favorite.svg'
 import editIcon from 'icons/ui/edit.svg'
 
+const mapStatToProps = ({user: { isAdmin, _objects }}) => ({
+  isAdmin, objects: _objects
+});
+
+@inject(mapStatToProps) @observer
 export default class ItemTile extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
@@ -68,6 +74,22 @@ export default class ItemTile extends Component {
     return {};
   };
 
+  isEditMode = () => {
+    if (this.props.edit)
+      return true;
+
+    if (this.props.isAdmin)
+      return true;
+
+    const { objects } = this.props;
+    if (!objects || !objects.length)
+      return false;
+
+    return !!this.props.objects.find(
+      item => item === this.props.data.id
+    );
+  };
+
   clickHandler = (e) => {
     const tagName = e.target.tagName.toLowerCase();
 
@@ -87,7 +109,7 @@ export default class ItemTile extends Component {
     const {
       props: {
         className, link, contentClassName,
-        imageClassName, data, getRef, edit
+        imageClassName, data, getRef
       },
       clickHandler,
       editClickHandler,
@@ -97,6 +119,7 @@ export default class ItemTile extends Component {
     if (!data)
       return null;
 
+    const edit = this.isEditMode();
     const {
       title, location,
       category, isFavorited,
@@ -155,7 +178,7 @@ export default class ItemTile extends Component {
                 <Content className={s.title__content}
                          size="5" gray regular>
                   <StarsRating itemClassName={s.star}
-                               tag="span" value={rating || 5}/>
+                               tag="span" value={rating || 0}/>
                 </Content>
               </FlexGrid>
             </div>

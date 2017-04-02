@@ -122,8 +122,9 @@ export default class ItemPageEdit extends Component {
   componentWillMount() {
     const isExist = this.getData();
 
+    console.log('isExist', isExist);
     if (isExist) {
-     return;
+      return;
     }
 
     let result = {};
@@ -369,7 +370,7 @@ export default class ItemPageEdit extends Component {
       return <Redirect to="/you"/>
     }
 
-    if (isEmpty(params) || isEmpty(size) || isEmpty(data)) {
+    if (isEmpty(params)) {
       return <div className={s.empty}>
         <LoadingAnimation />
       </div>

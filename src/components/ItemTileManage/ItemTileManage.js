@@ -1,18 +1,23 @@
 import React, { Component } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import {
-  Content, Image, Svg,
+  Content, Image, Svg, Select,
   FlexGrid, ItemPageUser, StarsRating
 } from 'components'
 import { classNames } from 'helpers'
-import { objectTypes, termTypes, subwaySpb } from 'constants'
+import { objectTypes, termTypes, subwaySpb, statusTypes } from 'constants'
 import s from './ItemTileManage.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
 import plusIcon from 'icons/ui/plus.svg'
 import minusIcon from 'icons/ui/plus.svg'
 
+const { types } = statusTypes;
+const selectContent = statusTypes.types.map(item => item.name || item.content);
+
 export default class ItemTileManage extends Component {
+  types  = types;
+  selectContent = selectContent;
 
   getPrice = () => {
     const { price } = this.props.data;
@@ -67,12 +72,30 @@ export default class ItemTileManage extends Component {
   clickHandler = e => {
     const tagName = e.target.tagName.toLowerCase();
 
-    if (tagName === 'svg' || tagName === 'path' || tagName === 'g') {
+    if (
+      tagName === 'svg'
+      || tagName === 'path'
+      || tagName === 'g'
+      || tagName === 'select'
+      || tagName === 'option') {
       e.preventDefault();
       return false;
     }
 
   };
+  selectHandler = e => {
+    const { value } = e.target;
+
+    if (value === this.props.data.status)
+      return;
+
+    if (this.props.onStatusChange) {
+      const type = this.types.find(item => item.name === value);
+      this.props.onStatusChange(this.props.data, type.id);
+    }
+  };
+
+  getSelectRef = b => this.select = b;
 
   acceptHandler = () => {
     if (this.props.onAccept) {
@@ -85,6 +108,23 @@ export default class ItemTileManage extends Component {
     }
   };
 
+  updateSelect = () => {
+    if (!this.select)
+      return;
+
+    const { data: {status} } = this.props;
+    const type = this.types.find(item => item.id === status);
+    if (type)
+      this.select.value = type.name;
+  };
+
+  componentDidMount() {
+    this.updateSelect();
+  }
+  componentDidUpdate() {
+    this.updateSelect();
+  }
+
   render() {
     const {
       className, contentClassName,
@@ -96,7 +136,10 @@ export default class ItemTileManage extends Component {
 
     const {
       acceptHandler,
-      declineHandler
+      declineHandler,
+      selectContent,
+      selectHandler,
+      getSelectRef
     } = this;
     const {
       title, location, _link,
@@ -139,7 +182,10 @@ export default class ItemTileManage extends Component {
 
             <FlexGrid className={s.status} justify="space-between" align="center">
               <Content size="6" nooffsets regular gray>Объявление #023</Content>
-              <Content size="6" nooffsets regular>Модерация</Content>
+              <Content size="6" nooffsets regular>
+                <Select inherit getRef={getSelectRef}
+                        onChange={selectHandler} data={selectContent} />
+              </Content>
             </FlexGrid>
 
             {/* Name of the object */}

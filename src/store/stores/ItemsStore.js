@@ -1,8 +1,12 @@
 import { observable, computed, reaction, action, observer } from 'mobx'
 import { localStore, noop } from 'helpers'
 import { store as config, statusTypes } from 'constants'
-import { getItems, saveItem, getItem, updateItem } from 'api'
+import {
+  getItems, saveItem, getItem,
+  updateItem as updateItemApi
+} from 'api'
 import { ItemModel } from 'models'
+import { store } from 'store'
 
 
 class ItemsStore {
@@ -52,7 +56,9 @@ class ItemsStore {
     return response.data;
   };
   userFeaturedResponse = response => {
-    this.fromJSON(response.data, 'featured');
+    if (response.data && response.data.length) {
+      this.fromJSON(response.data, 'featured');
+    }
     this.isFetching = false;
 
     return response.data;
@@ -65,11 +71,10 @@ class ItemsStore {
   };
   createItemResponse = response => {
     let item;
-    if (response.data) {
+    if (response.data && !response.data.ok) {
       item = [response.data];
 
       this.fromJSON(item, 'users');
-      this.fromJSON(item, 'data');
     }
 
     this.isFetching = false;
@@ -129,6 +134,9 @@ class ItemsStore {
       .catch(this.errorHandler);
   };
   fetchUserItems = (ids, cb = noop) => {
+    if (!ids || !ids.length)
+      return;
+
     this.isFetching = true;
     getItems({ids, noStatus: true})
       .then(this.checkStatus)
@@ -138,6 +146,9 @@ class ItemsStore {
       .catch(this.errorHandler);
   };
   fetchUserFeatured = (ids, cb = noop) => {
+    if (!ids || !ids.length)
+      return;
+
     this.isFetching = true;
     getItems({ids})
       .then(this.checkStatus)
@@ -162,13 +173,14 @@ class ItemsStore {
   updateItem = (id, update, cb = noop) => {
     this.isFetching = true;
 
-    updateItem({id, update})
+    updateItemApi({id, update})
       .then(this.checkStatus)
       .then(this.parseJSON)
       .then(this.updateItemResponse)
       .then(cb)
       .catch(this.errorHandler);
   };
+
 
   // selectors
   findBy = (sel, val, col, cb) => {
