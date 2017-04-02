@@ -3,14 +3,20 @@ import Helmet from 'react-helmet'
 import { inject, observer } from 'mobx-react'
 import {
   Container, FlexGrid, Title, LinkIcon,
-  ItemTileManage
+  ItemTileManage, LoadingAnimation
 } from 'components'
 import s from './ManageItemsPage.sass'
 
 @inject('items') @observer
 export default class ManageItemsPage extends Component {
+  componentWillMount() {
+    this.props.items.getAllManageItems((items) => {
+      console.log('items to moderate loaded', items);
+    })
+  }
+
   render() {
-    const { data } = this.props.items;
+    const { manage, isFetching } = this.props.items;
 
     return (
       <div className={s.wrapper}>
@@ -18,7 +24,7 @@ export default class ManageItemsPage extends Component {
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
             <Title nooffsets size="1">
-              На модерации {data.length}
+              На модерации {manage.length}
             </Title>
             <LinkIcon className={s.link} to="/y" gray>
               Опубликованные
@@ -26,11 +32,12 @@ export default class ManageItemsPage extends Component {
           </FlexGrid>
 
           <FlexGrid wrap="true" justify="start" align="start">
-            {data.map((item, key) => (
+            {manage.map((item, key) => (
               <ItemTileManage data={item} key={key}/>
             ))}
           </FlexGrid>
         </Container>
+        {isFetching && <LoadingAnimation />}
       </div>
     )
   }

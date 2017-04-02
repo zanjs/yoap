@@ -4,29 +4,17 @@ import { Nav } from 'components'
 
 const mapStateToProps = ({
   device: {saveValues, scrollY, width},
-  user: {name}
+  user: {isAuthorized, isAdmin, name}
 }) => ({
   navResize: h => saveValues({navHeight: h}),
-  scrollY, width, name
+  scrollY, width,
+
+  isAuthorized, isAdmin, name
 });
 @inject(mapStateToProps) @observer
 export default class NavContainer extends Component {
   limit = 100;
   state = {navHidden: false, navFull: false};
-  links = [
-    {
-      to: '/manage/create',
-      content: 'Добавить объявление'
-    },
-    {
-      to: '/y',
-      content: 'Все объявления'
-    },
-    {
-      to: '/signup',
-      content: 'Регистрация'
-    }
-  ];
 
   getNavRef = b => this.wrapper = b;
   resize = () => {
@@ -42,7 +30,7 @@ export default class NavContainer extends Component {
     if (next < limit && navHidden) {
       return this.setState({navHidden: false, navFull: false})
     } else if (next < limit) {
-      if (navFull) return this.setState({navFull: false})
+      if (navFull) return this.setState({navFull: false});
       return;
     }
 
@@ -55,8 +43,53 @@ export default class NavContainer extends Component {
     }
   };
 
+  updateLinks = props => {
+    const { isAuthorized, isAdmin } = props || this.props;
+    let links = [];
+
+    if (!isAuthorized) {
+      links.push({
+        to: '/signup',
+        content: 'Стать хозяином'
+      })
+    } else {
+      links.push({
+        to: '/manage/create',
+        content: 'Добавить'
+      })
+    }
+
+    links.push({
+      to: '/y',
+      content: 'Поиск'
+    });
+
+    if (!isAuthorized) {
+      links.push({
+        to: '/signup',
+        content: 'Регистрация'
+      })
+    }
+
+    if (isAdmin) {
+      links = [
+        {
+          to: '/manage',
+          content: 'Управление'
+        },
+        ...links
+      ]
+    }
+
+    this.setState({links});
+  };
+
+  componentWillMount() {
+    this.updateLinks()
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { width, scrollY } = this.props;
+    const { width, scrollY, isAuthorized, isAdmin } = this.props;
 
     if (width !== nextProps.width) {
       this.resize();
@@ -65,20 +98,28 @@ export default class NavContainer extends Component {
     if (scrollY !== nextProps.width) {
       this.getNavState(scrollY, nextProps.scrollY);
     }
+
+    if (
+      isAuthorized !== nextProps.isAuthorized
+      || isAdmin !== nextProps.isAdmin
+    ) {
+      this.updateLinks(nextProps);
+    }
   }
+
   componentDidMount() {
     setTimeout(this.resize, 300);
   }
 
 
   render() {
-    const { navHidden, navFull } = this.state;
-    const { width, children, className } = this.props;
+    const { navHidden, navFull, links } = this.state;
+    const { width, children, className, name } = this.props;
 
     return (
-      <Nav hidden={navHidden} name={this.props.name}
+      <Nav hidden={navHidden} name={name}
            full={navFull} width={width} className={className}
-           getRef={this.getNavRef} links={this.links}>
+           getRef={this.getNavRef} links={links}>
         {children}
       </Nav>
     )

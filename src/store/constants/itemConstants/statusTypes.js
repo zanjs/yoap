@@ -1,4 +1,4 @@
-import { generateItemTypes as getTypes } from 'helpers'
+import getTypes from 'helpers/app/generateItemTypes'
 import { splitter } from 'config'
 
 const statusesTypeData = [
@@ -10,10 +10,13 @@ const statusesTypeData = [
   },
   {
     ru: 'Отказано'
+  },
+  {
+    ru: 'Удалено'
   }
 ];
 
-export const statusType = 'RULES_TYPE';
+export const statusType = 'STATUS_TYPE';
 export const statusTypes = {
   id: statusType,
   name: 'Статус объявления',

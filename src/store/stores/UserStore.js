@@ -24,6 +24,7 @@ class UserStore {
   @observable email;
   @observable phone;
   @observable password;
+  @observable isAdmin;
 
   @observable image;
   @observable visits;
@@ -74,8 +75,10 @@ class UserStore {
 
   // auth states
   @observable isFetching = false;
-  @observable isAuthorized = false;
   @observable isError = false;
+  get isAuthorized() {
+    return !!(this._id || this.id)
+  }
 
   constructor() {
     this.restoreValues();
@@ -100,7 +103,6 @@ class UserStore {
    * @return {Function}
    */
   responseHandler = response => {
-    this.isAuthorized = true;
     this.isError = false;
     this.isFetching = false;
 
@@ -186,13 +188,6 @@ class UserStore {
     if (data) {
       return extend(this, data);
     }
-  };
-
-  checkAuth = () => {
-    if (!this.isAuthorized) return false;
-    const isAuth = this.id && this.name && this.email && this.phone;
-
-    return isAuth || (this.isAuthorized = false);
   };
 
   /**

@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { createItemUrl } from 'utils'
 import testData from '../testItemsData.json'
 import db from 'models'
+import { statusTypes } from 'constants/itemConstants/statusTypes'
 const itemController = {};
 
 itemController.itemHandler = (req, res) => {
@@ -115,16 +116,31 @@ itemController.getOne = (req, res) => {
   }
 };
 itemController.getAll = (req, res) => {
-  let query = {};
+  const { status, statuses, noStatus, ids } = req.body;
+  let query = {
+    status: status || statusTypes.types[1].id
+  };
 
-  if (req.body.ids) {
+  if (ids) {
     query = {
       '_id': {
         $in: req.body.ids.map(item =>
           mongoose.Types.ObjectId(item)
         )
-      }
+      },
+      ...query
     };
+  }
+
+  if (statuses) {
+    query = {
+      ...query,
+      status: { $in: statuses },
+    };
+  }
+
+  if (noStatus) {
+    delete query.status;
   }
 
   db.Item.find(query)

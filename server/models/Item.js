@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { statusTypes } from 'constants/itemConstants/statusTypes'
 const { Schema } = mongoose;
 
 mongoose.Promise = global.Promise;
@@ -24,6 +25,10 @@ const itemSchema = new Schema({
   type: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+    default: statusTypes.types[0].id
   },
   description: {
     type: String,

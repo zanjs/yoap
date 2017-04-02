@@ -1,12 +1,13 @@
 import { observable, computed, reaction, action, observer } from 'mobx'
 import { localStore, noop } from 'helpers'
-import { store as config } from 'constants'
+import { store as config, statusTypes } from 'constants'
 import { getItems, saveItem, getItem } from 'api'
 import { ItemModel } from 'models'
 
 
 class ItemsStore {
   @observable data = [];
+  @observable manage = [];
   @observable users = [];
   @observable featured = [];
 
@@ -52,6 +53,12 @@ class ItemsStore {
   };
   userFeaturedResponse = response => {
     this.fromJSON(response.data, 'featured');
+    this.isFetching = false;
+
+    return response.data;
+  };
+  manageItemsResponse = response => {
+    this.fromJSON(response.data, 'manage');
     this.isFetching = false;
 
     return response.data;
@@ -111,7 +118,7 @@ class ItemsStore {
   };
   fetchUserItems = (ids, cb = noop) => {
     this.isFetching = true;
-    getItems({ids})
+    getItems({ids, noStatus: true})
       .then(this.checkStatus)
       .then(this.parseJSON)
       .then(this.userItemsResponse)
@@ -129,13 +136,9 @@ class ItemsStore {
   };
   createItem = (data, cb = noop) => {
     this.isFetching = true;
-    console.log(data.user);
     const item = this
       .newModel(null, data)
       .toJSON();
-
-    console.log('createItem dewa', item.dewa);
-    console.log('createItem floors', item.floors);
 
     saveItem(item)
       .then(this.checkStatus)
@@ -174,6 +177,18 @@ class ItemsStore {
   };
   findByLink = (link, col, cb) => {
     return this.findBy('_link', link, col, cb);
+  };
+  getAllManageItems = cb => {
+    const statuses = statusTypes.types
+      .map(item => item.id)
+      .filter((item, index) => index !== 1);
+
+    getItems({statuses})
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.manageItemsResponse)
+      .then(cb)
+      .catch(this.errorHandler);
   };
 
   removeAll = f => {
