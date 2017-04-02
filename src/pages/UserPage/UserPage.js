@@ -24,6 +24,8 @@ export default class UserPage extends Component {
   }
   render() {
     const { data, featured, name, phone, email } = this.props;
+    const object = data && data.length ? data[data.length-1] : null;
+
     return (
       <div>
         <div className={s.dashboard} />
@@ -49,12 +51,12 @@ export default class UserPage extends Component {
             <div className={s.data}>
               <div className={s.item}>
                 <ItemPageInfoTitle title="Мои объявления">
-                  <LinkIcon gray to="/y">Все объявления</LinkIcon>
+                  <LinkIcon gray to="/you/yours">
+                    Все объявления{data.length ? ` (${data.length})` : ''}
+                  </LinkIcon>
                 </ItemPageInfoTitle>
-                <FlexGrid justify="start" align="center">
-                  {data.map((item, key) => (
-                    <ItemTile edit data={item} key={key}/>
-                  ))}
+                <FlexGrid className={s.items__wrapper} justify="start" align="center" wrap="true">
+                  {object && <ItemTile edit data={object}/>}
                   <RouterLink to="/manage/create">
                     <Svg src={addIcon} className={s.add} />
                   </RouterLink>

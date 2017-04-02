@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Redirect } from 'react-router-dom'
 import {
   ItemPageInfoEdit,
   ItemPageInfoScroller,
   ItemPageEditPhoto,
   ButtonsAction,
+  LoadingAnimation,
   Button
 } from 'components'
 import {
@@ -27,7 +29,8 @@ export default class ItemPageEdit extends Component {
     params: {},
     images: {},
     size: {},
-    location: {}
+    location: {},
+    saved: false
   };
 
   getData = () => {
@@ -166,6 +169,9 @@ export default class ItemPageEdit extends Component {
     this.setState(result);
     console.log(this.props);
   }
+  componentDidMount() {
+    setTimeout(() => this.forceUpdate(), 2000);
+  }
 
   onChange = () => {
     const shouldUpdate = randomNumber(1111,9999);
@@ -298,12 +304,22 @@ export default class ItemPageEdit extends Component {
     console.log(window.data = _data);
 
     this.props.items.createItem(_data, props => {
-      console.log('saved!!!', props);
+      this.setState({
+        saved: true
+      })
     });
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { state } = this;
+    const { state, props } = this;
+
+    if (state.saved !== nextState.saved) {
+      return true;
+    }
+
+    if (props.items.isFetching !== nextProps.items.isFetching) {
+      return true;
+    }
 
     if (state.shouldUpdate !== nextState.shouldUpdate) {
       return true;
@@ -334,7 +350,7 @@ export default class ItemPageEdit extends Component {
 
   render() {
     const {
-      state: {shouldUpdate, size, params, data, images, location},
+      state: {shouldUpdate, size, params, data, images, saved, location},
       props: {items: {isFetching}, user},
       paramsChangeHandler,
       infoChangeHandler,
@@ -343,6 +359,10 @@ export default class ItemPageEdit extends Component {
       submitHandler,
       photosChangeHandler
     } = this;
+
+    if (saved) {
+      return <Redirect to="/you"/>
+    }
 
     return (
       <div style={{opacity: isFetching ? .5 : 1}}>
@@ -365,6 +385,7 @@ export default class ItemPageEdit extends Component {
           <Button type="text">Отменить</Button>
           <Button onClick={submitHandler} type="green">Готово</Button>
         </ButtonsAction>
+        {isFetching && <LoadingAnimation />}
       </div>
     )
   }

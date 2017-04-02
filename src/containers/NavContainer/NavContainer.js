@@ -15,12 +15,12 @@ export default class NavContainer extends Component {
   state = {navHidden: false, navFull: false};
   links = [
     {
-      to: '/',
-      content: 'Стать хозяином'
+      to: '/manage/create',
+      content: 'Добавить объявление'
     },
     {
-      to: '/',
-      content: 'Помощь'
+      to: '/y',
+      content: 'Все объявления'
     },
     {
       to: '/signup',

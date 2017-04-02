@@ -22,6 +22,7 @@ export Defender from './Defender/Defender'
 export InputNumber from './InputNumber/InputNumber'
 export InputClean from './InputClean/InputClean'
 export ButtonsAction from './ButtonsAction/ButtonsAction'
+export LoadingAnimation from './LoadingAnimation/LoadingAnimation'
 
 export SubwayMap from './SubwayMap/SubwayMap'
 export RouterStoreProvider from './RouterStoreProvider/RouterStoreProvider'

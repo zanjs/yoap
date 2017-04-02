@@ -36,9 +36,10 @@
     background-color: #eaeaea
 
 .img
-  @include absolute_center(normal, 0)
-  min-height: 100%
-  min-width: 100%
+  @include absolute_init(full, 0)
+  object-fit: cover
+  object-position: center center
+
 
 .favorite
   @include size(30px)

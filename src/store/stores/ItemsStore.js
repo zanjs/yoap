@@ -16,15 +16,15 @@ class ItemsStore {
   storeName = config.items;
 
   constructor() {
-    const data = localStore.get(this.storeName);
-
-    if (data) {
-      this.fromJSON(data);
-    }
-
+    // const data = localStore.get(this.storeName);
+    //
+    // if (data) {
+    //   this.fromJSON(data);
+    // }
+    //
     this.fetchItems();
-
-    this.subscribeToLocalStorage();
+    //
+    // this.subscribeToLocalStorage();
   }
 
   checkStatus = (res) => {

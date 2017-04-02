@@ -5,7 +5,7 @@ import {
   FlexGrid, Container, StarsRating
 } from 'components'
 import { classNames } from 'helpers'
-import { objectTypes, termTypes } from 'constants'
+import { objectTypes, termTypes, subwaySpb } from 'constants'
 import s from './ItemTile.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
@@ -56,6 +56,17 @@ export default class ItemTile extends Component {
 
     return output;
   };
+  getSubway = loc => {
+    if (loc && loc.subway) {
+      const [station] = loc.subway;
+      return {
+        ...station,
+        color: subwaySpb.find(station.id).color
+      }
+    }
+
+    return {};
+  };
 
   clickHandler = (e) => {
     const tagName = e.target.tagName.toLowerCase();
@@ -93,7 +104,7 @@ export default class ItemTile extends Component {
     } = data;
 
     const { price, term } = this.getPrice();
-    const subway = location.subway && location.subway[0];
+    const subway = this.getSubway(location);
     const { squares, rooms, type } = this.getSize();
 
     return (
