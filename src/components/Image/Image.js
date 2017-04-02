@@ -111,7 +111,7 @@ export default class Image extends Component {
       })
     }
 
-    const _src = this.getSrc(this.props.src);
+    const _src = src.full ? src.full : this.getSrc(src);
 
     if (isLoaded) {
       return this.renderImage({

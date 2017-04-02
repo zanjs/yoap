@@ -136,7 +136,10 @@ class FilterStore {
   }
 
   @computed get cleanTypes() {
-    let data = this.data.filter((i, index) => index !== 0);
+    let max = this.data.length - 1;
+    let data = this.data.filter(
+      (i, index) => index !== 0 && index !== max
+    );
 
     return data.map(item => ({
       ...item,

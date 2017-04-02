@@ -12,7 +12,10 @@ import {
   ItemPageLocationContainer
 } from 'containers'
 import { randomNumber, shallowEqual } from 'helpers'
-import { stateType, furnitureType } from 'constants'
+import {
+  stateType, furnitureType,
+  facilityTypeCommon, facilityTypesCommon
+} from 'constants'
 import s from './ItemPageEdit.sass'
 
 @inject(({filter, items, user}) => ({
@@ -51,9 +54,34 @@ export default class ItemPageEdit extends Component {
         params
       };
     } else {
+      const except = facilityTypesCommon.types[
+          facilityTypesCommon.types.length - 1
+        ].id;
       result = {
         ...result,
         params: filter.cleanTypes
+          .map(param => {
+            if (facilityTypeCommon.indexOf(param.id) !== -1) {
+              return {
+                ...param,
+                types: param.types.map(item => {
+                  if (
+                    item.id.indexOf(facilityTypeCommon) !== -1
+                    && item.id !== except
+                  ) {
+                    return {
+                      ...item,
+                      isActive: true
+                    };
+                  }
+
+                  return item;
+                })
+              }
+            }
+
+            return param;
+          })
       };
     }
 
@@ -186,13 +214,9 @@ export default class ItemPageEdit extends Component {
     _data.user = user;
 
     if (images) {
-      const gallery = images.filter(
-        (item, index) => index !== 0
-      );
-
       _data.images = {
         thumbnail: images[0],
-        gallery
+        gallery: images
       }
     }
 
