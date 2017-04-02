@@ -32,6 +32,10 @@ export const itemApi = apiOrigin + api + item;
 export const itemFind = '/item/find';
 export const itemFindApi = apiOrigin + api + itemFind;
 
+// item find api
+export const itemUpdate = '/item/update';
+export const itemUpdateApi = apiOrigin + api + itemUpdate;
+
 // images api
 export const image = '/images';
 export const imageApi = apiOrigin + api + image;

@@ -157,10 +157,7 @@ class UserStore {
   };
 
   update = () => {
-    return this.login(() => {
-      this.featured;
-      this.objects;
-    });
+    return this.login();
   };
 
   subscribeToLocalStore = () => reaction(
@@ -186,7 +183,8 @@ class UserStore {
     const data = localStore.get(this.storeName);
 
     if (data) {
-      return extend(this, data);
+      extend(this, data);
+      this.update();
     }
   };
 

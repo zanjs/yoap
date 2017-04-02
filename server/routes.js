@@ -4,7 +4,8 @@ import {
 } from 'controllers'
 import {
   signup, login, items,
-  item, image, itemFind
+  item, image, itemFind,
+  itemUpdate
 } from 'constants/urls'
 
 const routes = express();
@@ -13,13 +14,11 @@ const routes = express();
 // User routes
 routes.post(
   signup,
-  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
   userController.signup
 );
 routes.post(
   login,
-  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
   userController.login
 );
@@ -27,21 +26,23 @@ routes.post(
 // Item routes
 routes.post(
   item,
-  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
   itemController.itemHandler
 );
 routes.post(
   itemFind,
-  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
   itemController.getOne
+);
+routes.post(
+  itemUpdate,
+
+  itemController.update
 );
 
 // Items routes
 routes.post(
   items,
-  //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
   itemController.getAll
 );

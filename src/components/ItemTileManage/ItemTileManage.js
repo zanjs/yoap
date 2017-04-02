@@ -9,6 +9,8 @@ import { objectTypes, termTypes, subwaySpb } from 'constants'
 import s from './ItemTileManage.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
+import plusIcon from 'icons/ui/plus.svg'
+import minusIcon from 'icons/ui/plus.svg'
 
 export default class ItemTileManage extends Component {
 
@@ -62,6 +64,27 @@ export default class ItemTileManage extends Component {
     return {};
   };
 
+  clickHandler = e => {
+    const tagName = e.target.tagName.toLowerCase();
+
+    if (tagName === 'svg' || tagName === 'path' || tagName === 'g') {
+      e.preventDefault();
+      return false;
+    }
+
+  };
+
+  acceptHandler = () => {
+    if (this.props.onAccept) {
+      this.props.onAccept(this.props.data);
+    }
+  };
+  declineHandler = () => {
+    if (this.props.onDecline) {
+      this.props.onDecline(this.props.data);
+    }
+  };
+
   render() {
     const {
       className, contentClassName,
@@ -71,6 +94,10 @@ export default class ItemTileManage extends Component {
     if (!data)
       return null;
 
+    const {
+      acceptHandler,
+      declineHandler
+    } = this;
     const {
       title, location, _link,
       category, images, rating,
@@ -85,13 +112,25 @@ export default class ItemTileManage extends Component {
 
     return (
       <RouterLink to={`/manage/${_link}`} ref={getRef}
+                  onClick={this.clickHandler}
            className={classNames(s.wrapper, className)}>
         {/* Image */}
         <div className={classNames(s.image, imageClassName)}>
           {images.thumbnail &&
           <Image className={s.img}
                  preview={images.thumbnail.preview}
-                 src={images.thumbnail.full}/>}
+                 src={images.thumbnail.full}/> || <div className={s.noimage} />}
+          <FlexGrid justify="center" direction="column"
+                    align="center" className={s.image__hover}>
+            <FlexGrid justify="center" align="center" className={s.action}>
+              <Svg onClick={declineHandler}
+                   className={s.action__minus}
+                   src={minusIcon} />
+              <Svg onClick={acceptHandler}
+                   className={s.action__plus}
+                   src={plusIcon} />
+            </FlexGrid>
+          </FlexGrid>
         </div>
         {/* Content */}
         <div className={classNames(s.content, contentClassName)}>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   Intro, BannerThreeCols, BannerTwoCols,
   PricingBanner, PricingBannerFull,
-  ItemTilesBanner, MapItems
+  ItemTilesBanner, MapItems, LoadingAnimation
 } from 'components'
 import s from './HomePage.sass'
 
@@ -20,9 +21,15 @@ const bannerThreeColsContent = [
     content: 'Там два вахтера проверяли наши пропуска, а фасад был украшен классическими фанерными пилястрами.'
   }
 ];
+const mapStateToProps = ({items: {isFetching}, user}) => ({
+  isFetching: isFetching || user.isFetching
+});
 
+@inject(mapStateToProps) @observer
 export default class HomePage extends Component {
   render() {
+    const { isFetching } = this.props;
+
     return (
       <div className={s.homepage}>
         <Intro />
@@ -33,6 +40,7 @@ export default class HomePage extends Component {
         <BannerThreeCols content={bannerThreeColsContent}
                          title="Услуги"/>
         <BannerTwoCols />
+        {isFetching && <LoadingAnimation />}
       </div>
     )
   }

@@ -1,34 +1,56 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
 import {
   ItemPageUser, ItemPageInfoTitle,
   UserCustomAddress,
   Container, FlexGrid,
   LinkIcon, ItemTile,
-  Svg, Content
+  Svg, Content, LoadingAnimation
 } from 'components'
 import s from './UserPage.sass'
 
 import addIcon from 'icons/ui/add.svg'
 
-const mapStateToProps = ({items: {users, featured}, user: {name, phone, email, update}}) => ({
+const mapStateToProps = ({
+    items: {
+      users, featured, isFetching,
+      fetchUserItems, fetchUserFeatured,
+    },
+    user
+  }) => ({
   data: users, featured,
-  name, phone, email, update
+  name: user.name,
+  phone: user.phone,
+  email: user.email,
+  isFetching: isFetching || user.isFetching,
+  isAuthorized: user.isAuthorized,
+
+  fetchUserItems, fetchUserFeatured
 });
 
 @inject(mapStateToProps) @observer
 export default class UserPage extends Component {
   componentWillMount() {
-    this.props.update();
+    this.props.fetchUserItems();
+    this.props.fetchUserFeatured();
   }
   render() {
-    const { data, featured, name, phone, email } = this.props;
+    const {
+      data, featured, name,
+      phone, email, isFetching,
+      isAuthorized
+    } = this.props;
     const object = data && data.length ? data[data.length-1] : null;
+
+    if (!isAuthorized) {
+      return <Redirect to="/login"/>
+    }
 
     return (
       <div>
         <div className={s.dashboard} />
+        {isFetching && <LoadingAnimation />}
 
         <Container className={s.content}>
           <FlexGrid justify="space-between" align="start">

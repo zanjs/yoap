@@ -3,6 +3,7 @@ import {
   itemsApi as itemsUrl,
   itemApi as itemUrl,
   itemFindApi as itemFindUrl,
+  itemUpdateApi as itemUpdateUrl,
 
   JSONHeaders as headers
 } from 'constants'
@@ -23,6 +24,12 @@ export const getItem = body => fetch(itemFindUrl, {
 });
 
 export const saveItem = body => fetch(itemUrl, {
+  ...headers,
+  method: 'post',
+  body: JSON.stringify(body)
+});
+
+export const updateItem = body => fetch(itemUpdateUrl, {
   ...headers,
   method: 'post',
   body: JSON.stringify(body)

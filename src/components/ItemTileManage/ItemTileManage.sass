@@ -30,11 +30,39 @@
   transition: box-shadow $animParams
   z-index: 0
   @include flexbox(column, flex-end, flex-end, no)
+  &__hover
+    @include absolute_init(full, 10)
+    opacity: 0
+    transition: opacity $animParams
+  &:hover
+    .img
+      filter: blur(10px)
+    .image__hover
+      opacity: 1
 
 .img
-  @include absolute_center(normal, 0)
-  min-height: 100%
-  min-width: 100%
+  @include absolute_init(full, 0)
+  object-fit: cover
+  object-position: center center
+  transition: filter $animParams
+
+.noimage
+  @include absolute_init(full, 0)
+
+.action
+  width: 100%
+  &__button
+    @include size(48px)
+    margin: 0 25px
+    @include opacityAnim(.3)
+  &__plus
+    @extend .action__button
+    fill: #7ed321
+  &__minus
+    @extend .action__button
+    transform: rotateZ(45deg)
+    fill: #fff
+    opacity: .64
 
 .favorite
   @include size(30px)

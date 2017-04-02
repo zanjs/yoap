@@ -61,7 +61,7 @@ export default class NavContainer extends Component {
 
     links.push({
       to: '/y',
-      content: 'Поиск'
+      content: 'Объявления'
     });
 
     if (!isAuthorized) {

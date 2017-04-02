@@ -1,7 +1,7 @@
 import { observable, computed, reaction, action, observer } from 'mobx'
 import { localStore, noop } from 'helpers'
 import { store as config, statusTypes } from 'constants'
-import { getItems, saveItem, getItem } from 'api'
+import { getItems, saveItem, getItem, updateItem } from 'api'
 import { ItemModel } from 'models'
 
 
@@ -70,6 +70,18 @@ class ItemsStore {
 
       this.fromJSON(item, 'users');
       this.fromJSON(item, 'data');
+    }
+
+    this.isFetching = false;
+
+    return item || response.data;
+  };
+  updateItemResponse = response => {
+    let item;
+    if (response.data) {
+      item = [response.data];
+
+      this.fromJSON(item, 'manage');
     }
 
     this.isFetching = false;
@@ -147,6 +159,16 @@ class ItemsStore {
       .then(cb)
       .catch(this.errorHandler);
   };
+  updateItem = (id, update, cb = noop) => {
+    this.isFetching = true;
+
+    updateItem({id, update})
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.updateItemResponse)
+      .then(cb)
+      .catch(this.errorHandler);
+  };
 
   // selectors
   findBy = (sel, val, col, cb) => {
@@ -179,6 +201,7 @@ class ItemsStore {
     return this.findBy('_link', link, col, cb);
   };
   getAllManageItems = cb => {
+    this.isFetching = true;
     const statuses = statusTypes.types
       .map(item => item.id)
       .filter((item, index) => index !== 1);
@@ -227,6 +250,10 @@ class ItemsStore {
 
   @action fromJSON = (data, collection) => {
     if (data && data.forEach) {
+      if (collection === 'manage') {
+        this.manage.replace([]);
+      }
+
       data.forEach(item => {
         this.add(item, collection);
       });

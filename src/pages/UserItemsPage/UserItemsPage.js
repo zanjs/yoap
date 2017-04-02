@@ -3,24 +3,23 @@ import { inject, observer } from 'mobx-react'
 import Helmet from 'react-helmet'
 import {
   Container, FlexGrid, Title, LinkIcon,
-  ItemTile
+  ItemTile, LoadingAnimation
 } from 'components'
 import s from './UserItemsPage.sass'
 
-const mapStateToProps = ({user: {name, objects}}) => ({
-  data: objects, name
+const mapStateToProps = ({user: {name, objects, isFetching}, items}) => ({
+  data: objects, name,
+  isFetching: isFetching || items.isFetching
 });
 
 @inject(mapStateToProps) @observer
 export default class UserItemsPage extends Component {
-  componentDidMount() {
-  }
-
   render() {
-    const { data, name } = this.props;
+    const { data, name, isFetching } = this.props;
     return (
       <div className={s.wrapper}>
         <Helmet title="Ваши объявления"/>
+        {isFetching && <LoadingAnimation />}
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
             <Title nooffsets size="1">Ваши объявления, {name}</Title>

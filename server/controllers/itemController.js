@@ -96,24 +96,24 @@ itemController.getOne = (req, res) => {
   }
 
   if (!query) {
-    res.status(500).json({
+    return res.status(500).json({
       message:
         'Невозможно найти объект не предоставив id/_id или link'
     })
-  } else {
-    db.Item.find(query)
-      .then(data => {
-        res.status(200).json({
-          success: true,
-          data
-        })
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: err
-        })
-      })
   }
+
+  db.Item.find(query)
+    .then(data => {
+      res.status(200).json({
+        success: true,
+        data
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
+      })
+    })
 };
 itemController.getAll = (req, res) => {
   const { status, statuses, noStatus, ids } = req.body;
@@ -153,6 +153,45 @@ itemController.getAll = (req, res) => {
     .catch(err => {
       res.status(500).json({
         message: err.toString()
+      })
+    })
+};
+
+itemController.update = (req, res) => {
+  let query;
+  const { id, _id, link, _link, update } = req.body;
+
+  if (id || _id) {
+    query = {
+      _id: id || _id
+    };
+  }
+
+  if (!query && (link || _link)) {
+    query = {
+      link: link || _link
+    };
+  }
+
+  console.log(query, req.body);
+
+  if (!query) {
+    return res.status(500).json({
+      message:
+        'Невозможно изменить объект не предоставив id/_id или link/_link'
+    })
+  }
+
+  db.Item.findOneAndUpdate(query, update)
+    .then(data => {
+      res.status(200).json({
+        success: true,
+        data
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
       })
     })
 };
