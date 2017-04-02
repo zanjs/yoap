@@ -14,6 +14,20 @@ export default class ItemPageLocationContainer extends Component {
     subway: null
   };
 
+  componentWillMount() {
+    const { data } = this.props;
+
+    if (data && data.location && data.location[0]) {
+      // this.setState({
+      //   address: {
+      //     position: [...data.location],
+      //     props: null
+      //   },
+      //   subway: data.subway
+      // })
+    }
+  }
+
   setPoint = address =>
     this.setState({address}, this.onChange);
   setDirection = position => {
@@ -44,6 +58,35 @@ export default class ItemPageLocationContainer extends Component {
     })
   };
 
+  getPointData = data => {
+    if (!data)
+      return null;
+
+    if (data.location && data.location.location) {
+      return {
+        position: data.location.location,
+        props: { data }
+      }
+    }
+
+    return {
+      position: data.location,
+      props: {}
+    }
+  };
+
+  getLocationData = () => {
+    const { location, data } = this.props;
+
+    if (location)
+      return location;
+
+    if (data.location && data.location.location)
+      return data.location;
+
+    return data;
+  };
+
   render() {
     const { mapClassName } = ItemPageLocation;
     const {
@@ -57,10 +100,8 @@ export default class ItemPageLocationContainer extends Component {
       metroChangeHandler
     } = this;
 
-    let pointData = data && data.location && {
-      position: data.location.location,
-      props: { data }
-    };
+    const locationData = this.getLocationData();
+    let pointData = this.getPointData(data);
 
     if (!isEmpty(address)) {
       pointData = address;
@@ -76,7 +117,7 @@ export default class ItemPageLocationContainer extends Component {
         <ItemPageLocation setPoint={setPoint} point={pointData}
                           onStationChange={metroChangeHandler} direction={direction}
                           setDirection={setDirection}
-                          edit={edit} data={location || data && data.location} />
+                          edit={edit} data={locationData} />
       </ItemPageInfoScroller>
     )
   }

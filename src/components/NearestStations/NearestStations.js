@@ -17,18 +17,31 @@ export default class NearestStations extends Component {
   constructor(props) {
     super(props);
 
-    this.transport = new NearestTransport();
+    //if (!this.props.defaultData)
+      this.transport = new NearestTransport();
   }
 
+  sortData = data => data;
+
+  formatDefaultData = () => {
+    const data = this.sortData(this.props.defaultData.map(item => ({
+      ...item,
+      position: this.props.point,
+      color: subwaySpb.find(item.id).color
+    })));
+
+    this.setState({data, isFetching: false});
+  };
+
   formatStations = stations => {
-    let data = stations.map(item => {
+    let data = this.sortData(stations.map(item => {
       const block = subwaySpb.findByName(item.name);
 
       return {
         ...item,
         ...block
       }
-    });
+    }));
 
     this.setState({data, isFetching: false}, this.onChange);
   };
@@ -65,6 +78,9 @@ export default class NearestStations extends Component {
   };
 
   componentDidMount() {
+    if (this.props.defaultData) {
+      return this.formatDefaultData();
+    }
     this.search();
   }
 
@@ -99,7 +115,7 @@ export default class NearestStations extends Component {
         {data && data.length && data.map((item, key) => (
           <Point isActive={isActive(item.position)} key={key} {...item}/>
         )) || <Content gray size="4" light className={s.message}>
-          {isFetching ? 'Загружаем данные...' : 'Ближайшие станции не найдены :('}
+          {isFetching ? 'Загружаем данные...' : 'Ближайшие станции не найдены.'}
         </Content>}
       </div>
     )

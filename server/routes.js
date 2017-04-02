@@ -2,7 +2,10 @@ import express from 'express'
 import {
   userController, itemController, imageController,
 } from 'controllers'
-import { signup, login, items, item, image } from 'constants/urls'
+import {
+  signup, login, items,
+  item, image, itemFind
+} from 'constants/urls'
 
 const routes = express();
 
@@ -28,8 +31,8 @@ routes.post(
 
   itemController.itemHandler
 );
-routes.get(
-  item,
+routes.post(
+  itemFind,
   //bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
   itemController.getOne

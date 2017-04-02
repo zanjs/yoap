@@ -28,7 +28,20 @@ export default class ItemPageEditPhoto extends Component {
     selected: null
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.data && nextProps.data && nextProps.data.gallery) {
+      this.setState({
+        data: nextProps.data.gallery
+      }, this.onChangeCallback)
+    }
+  }
   componentWillMount() {
+    if (this.props.data) {
+      this.setState({
+        data: this.props.data.gallery
+      }, this.onChangeCallback)
+    }
+
     System.import('react-dropzone')
       .then(module => this.setState({
         Dropzone: module

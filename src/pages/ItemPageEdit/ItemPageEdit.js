@@ -30,7 +30,98 @@ export default class ItemPageEdit extends Component {
     location: {}
   };
 
+  getData = () => {
+    const { link } = this.props.match.params;
+    console.log(link);
+    if (link !== 'create' && link !== 'add' && link !== 'new') {
+      this.props.items.findByLink(link, 'users', data => {
+        this.insertData(data);
+      });
+
+      return true;
+    }
+
+    return false;
+  };
+
+  insertData = data => {
+    let newData = {};
+
+    newData.size = {
+      ...data.size,
+      floors: data.floors.length ? data.floors : [0, 0]
+    };
+    newData.location = data.location;
+    newData.images = data.images;
+    newData.params = this.parseParams(data.types);
+    newData.data = data;
+
+    console.log(newData);
+
+    this.setState(newData);
+  };
+
+  // set active parameters of object
+  parseParams = params => {
+    let types = this.props.filter.cleanTypes;
+
+    return types.map(item => ({
+      ...item,
+      types: item.types.map(type => {
+        const res = params.find(param => param.id === type.id);
+        if (res) {
+          return {
+            ...type,
+            isActive: true
+          }
+        }
+
+        return type;
+      })
+    }))
+  };
+
+  // filter clean parameters
+  generateParams = data => {
+    const type = facilityTypeCommon;
+    const { types } = facilityTypesCommon;
+    const except = types[types.length - 1].id;
+    const match = (str, str1) => str.indexOf(str1) !== -1;
+
+    return data.map(param => {
+      if (match(type, param.id)) {
+        return {
+          ...param,
+          types: param.types.map(item => {
+            if (
+              match(item.id, type)
+              && item.id !== except
+            ) {
+              return {
+                ...item,
+                isActive: true
+              };
+            }
+
+            return item;
+          })
+        }
+      }
+
+      return param;
+    })
+  };
+
+  // entry point of initialize page
+  // if this page exist at db -> insert that data
+  // if not -> generate clean params
   componentWillMount() {
+    const isExist = this.getData();
+
+    if (isExist) {
+     return;
+    }
+
     let result = {};
     const { size, params, data, filter } = this.props;
 
@@ -54,34 +145,9 @@ export default class ItemPageEdit extends Component {
         params
       };
     } else {
-      const except = facilityTypesCommon.types[
-          facilityTypesCommon.types.length - 1
-        ].id;
       result = {
         ...result,
-        params: filter.cleanTypes
-          .map(param => {
-            if (facilityTypeCommon.indexOf(param.id) !== -1) {
-              return {
-                ...param,
-                types: param.types.map(item => {
-                  if (
-                    item.id.indexOf(facilityTypeCommon) !== -1
-                    && item.id !== except
-                  ) {
-                    return {
-                      ...item,
-                      isActive: true
-                    };
-                  }
-
-                  return item;
-                })
-              }
-            }
-
-            return param;
-          })
+        params: this.generateParams(filter.cleanTypes)
       };
     }
 
@@ -210,8 +276,17 @@ export default class ItemPageEdit extends Component {
       })
     });
 
-    _data.params = _params;
+    // type
+    if (typeof _data.type !== 'string') {
+      _data.type = _data._type;
+    }
+
+    _data.params = [..._params, _data.type];
     _data.user = user;
+
+    // floors
+    _data.floors = _data.size.floors;
+    delete _data.size.floors;
 
     if (images) {
       _data.images = {
@@ -219,6 +294,8 @@ export default class ItemPageEdit extends Component {
         gallery: images
       }
     }
+
+    console.log(window.data = _data);
 
     this.props.items.createItem(_data, props => {
       console.log('saved!!!', props);
@@ -257,7 +334,7 @@ export default class ItemPageEdit extends Component {
 
   render() {
     const {
-      state: {shouldUpdate, size, params, data, location},
+      state: {shouldUpdate, size, params, data, images, location},
       props: {items: {isFetching}, user},
       paramsChangeHandler,
       infoChangeHandler,
@@ -270,7 +347,7 @@ export default class ItemPageEdit extends Component {
     return (
       <div style={{opacity: isFetching ? .5 : 1}}>
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
-          <ItemPageEditPhoto onChange={photosChangeHandler} />
+          <ItemPageEditPhoto data={images} onChange={photosChangeHandler} />
         )}>
           <ItemPageInfoEdit data={data} user={user} onChange={infoChangeHandler}
                             className={s.info} />

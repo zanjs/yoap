@@ -44,8 +44,6 @@ export default class Image extends Component {
       return sizes.full;
     }
 
-    console.log(sizes);
-
     // get current device params
     let currentDevice = getDeviceBreakpoint(this.props.width);
 

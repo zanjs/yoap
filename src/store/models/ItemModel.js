@@ -331,6 +331,7 @@ export default class ItemModel {
       }
    */
   @observable price;
+  @observable dewa;
 
   /**
    * The landlord info.
@@ -438,8 +439,9 @@ export default class ItemModel {
       id, title, _link, _category,
       _state, _furniture,
 
-      _type,
+      _type, dewa,
       size, location,
+      floors, rating,
 
       _facilities, _amenities,
       _rules,
@@ -452,15 +454,20 @@ export default class ItemModel {
     } = this;
 
     const category = _category || this.category.id;
+    const type = _type && _type.id ? _type.id : _type;
+    console.log('type', {
+      type, this
+    });
 
     return {
       id,
       title,
       link: _link,
-      type: _type,
+      type,
       category,
 
       price,
+      dewa,
 
       params: [
         category,
@@ -473,13 +480,15 @@ export default class ItemModel {
       ],
 
       size,
+      floors,
       location: this.parseLocation(location),
 
       images,
       description,
 
       _creator: user.id || user._id,
-      views
+      views,
+      rating: rating || 0
     };
   }
 

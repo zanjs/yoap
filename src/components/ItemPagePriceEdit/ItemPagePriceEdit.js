@@ -5,7 +5,7 @@ import {
   Title
 } from 'components'
 import { termTypes } from 'constants'
-import { classNames } from 'helpers'
+import { classNames, shallowEqual } from 'helpers'
 import s from './ItemPagePriceEdit.sass'
 
 const types = termTypes.types;
@@ -17,6 +17,38 @@ export default class ItemPagePriceEdit extends Component {
     edit: false, deposit: false,
     chosen: [], dewa: false
   };
+
+  importProps = (props) => {
+    let res = {};
+    if (props.dewa) {
+      res.dewa = this.createDewa(props.dewa).dewa;
+    }
+    if (props.data) {
+      res.chosen = [...props.data].map(item => ({
+        value: item.value,
+        id: item.id,
+        deposit: item.deposit,
+        name: this.types.find(block => block.id === item.id).name
+      }))
+    }
+    if (res.chosen && res.chosen.find(item => !!item.deposit)) {
+      res.deposit = true;
+    }
+
+    console.log('imported props', window.res = res);
+
+    this.setState(res, this.onChange);
+  };
+
+  componentWillMount() {
+    this.importProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.data && !!nextProps.data) {
+      this.importProps(nextProps);
+    }
+  }
 
   onChange = () => {
     if (this.props.onChange) {
@@ -102,13 +134,22 @@ export default class ItemPagePriceEdit extends Component {
       }
     }, this.onChange)
   };
-  createDewa = () => {
-    this.setState({
+  createDewa = value => {
+    const noChange = typeof value === 'number' || typeof value === 'string';
+    console.log(value);
+
+    const data = {
       dewa: {
-        value: 0,
+        value: noChange ? parseInt(value, 10) : 0,
         name: 'Ком. услуги'
       }
-    })
+    };
+
+    if (noChange)
+      return data;
+
+
+    this.setState(data)
   };
   renderEditSelect = () => {
     const types = this.types.filter(item => {
@@ -135,21 +176,19 @@ export default class ItemPagePriceEdit extends Component {
       </Content>
     )
   };
-  renderInput = (value, id, onChange, className) => {
-    return (
-      <Content className={classNames(s.input, className)}
-               lightColor regular size="3" nooffsets>
-        <FlexGrid tag="span" justify="start" align="center">
-          <span>₽</span>
-          <InputClean type="number" min="0" step="500"
-                      onChange={({target}) => onChange(id, target.value)}
-                      className={s.inputNumber}>
-            {value || 0}
-          </InputClean>
-        </FlexGrid>
-      </Content>
-    )
-  };
+  renderInput = (value, id, onChange, className) => (
+    <Content className={classNames(s.input, className)}
+             lightColor regular size="3" nooffsets>
+      <FlexGrid tag="span" justify="start" align="center">
+        <span>₽</span>
+        <InputClean type="number" min="0" step="500"
+                    onChange={({target}) => onChange(id, target.value)}
+                    className={s.inputNumber}>
+          {value || 0}
+        </InputClean>
+      </FlexGrid>
+    </Content>
+  );
   renderItem = (item, key, deposit, onChange) => (
     <FlexGrid key={key} className={s.item} align="center"
               justify="start">
@@ -167,6 +206,7 @@ export default class ItemPagePriceEdit extends Component {
   render() {
     const { edit, chosen, deposit, dewa } = this.state;
     const maximum = chosen.length === this.types.length;
+
     return (
       <div className={s.wrapper}>
         {/* Header */}

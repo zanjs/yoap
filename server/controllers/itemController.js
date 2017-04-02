@@ -7,11 +7,34 @@ const itemController = {};
 itemController.itemHandler = (req, res) => {
   const {
     title, description,
-    _creator, price, size,
+    _creator, price, size, dewa,
     floors, location, category,
     type, params, rating,
-    images
+    images, id, _id
   } = req.body;
+
+  if (id || _id) {
+    db.Item
+      .update({'_id': id || _id}, {
+        title, description,
+        price, dewa, size, floors,
+        type, category, rating,
+        params, images, location
+      })
+      .then(updatedData => {
+        res.status(200).json({
+          success: true,
+          data: updatedData
+        })
+      }).catch(err => {
+        res.status(500).json({
+          message: err.toString()
+        })
+    });
+
+    return;
+  }
+
 
   const link = createItemUrl({
     title, category, size
@@ -20,7 +43,7 @@ itemController.itemHandler = (req, res) => {
   const item = new db.Item({
     title, description,
     category, type,
-    price, size,
+    price, size, dewa,
     floors, location,
     params, images,
     link, rating,
@@ -57,7 +80,7 @@ itemController.itemHandler = (req, res) => {
 
 itemController.getOne = (req, res) => {
   let query;
-  const { id, _id, link } = req.body;
+  const { id, _id, link, _link } = req.body;
 
   if (id || _id) {
     query = {
@@ -65,9 +88,9 @@ itemController.getOne = (req, res) => {
     };
   }
 
-  if (!query && link) {
+  if (!query && (link || _link)) {
     query = {
-      link
+      link: link || _link
     };
   }
 

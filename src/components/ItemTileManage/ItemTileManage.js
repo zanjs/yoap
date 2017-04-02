@@ -27,10 +27,10 @@ export default class ItemTileManage extends Component {
       }
 
       const { id, value } = price[0];
-      const { term } = termTypes.find(item => item.id === id);
+      const { name } = termTypes.types.find(item => item.id === id);
 
       return {
-        term,
+        term: name.toLowerCase(),
         price: value
       }
     }
@@ -62,7 +62,7 @@ export default class ItemTileManage extends Component {
       return null;
 
     const {
-      title, location, user,
+      title, location,
       category, images, rating,
     } = data;
 
@@ -70,6 +70,8 @@ export default class ItemTileManage extends Component {
     const subway = location.subway && location.subway[0];
     const address = location.address;
     const { squares, rooms, type } = this.getSize();
+
+    const user = data.user || data._creator || {};
 
     return (
       <div ref={getRef}

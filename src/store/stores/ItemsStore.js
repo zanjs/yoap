@@ -1,7 +1,7 @@
 import { observable, computed, reaction, action, observer } from 'mobx'
 import { localStore, noop } from 'helpers'
 import { store as config } from 'constants'
-import { getItems, saveItem } from 'api'
+import { getItems, saveItem, getItem } from 'api'
 import { ItemModel } from 'models'
 
 
@@ -57,13 +57,23 @@ class ItemsStore {
     return response.data;
   };
   createItemResponse = response => {
-    const item = [response.data];
+    let item;
+    if (response.data) {
+      item = [response.data];
 
-    this.fromJSON(item, 'users');
-    this.fromJSON(item, 'data');
+      this.fromJSON(item, 'users');
+      this.fromJSON(item, 'data');
+    }
+
     this.isFetching = false;
 
-    return item;
+    return item || response.data;
+  };
+  findByResponse = col => response => {
+    this.fromJSON(response.data, col);
+    this.isFetching = false;
+
+    return response.data;
   };
 
   errorHandler = response => {
@@ -124,6 +134,9 @@ class ItemsStore {
       .newModel(null, data)
       .toJSON();
 
+    console.log('createItem dewa', item.dewa);
+    console.log('createItem floors', item.floors);
+
     saveItem(item)
       .then(this.checkStatus)
       .then(this.parseJSON)
@@ -132,6 +145,36 @@ class ItemsStore {
       .catch(this.errorHandler);
   };
 
+  // selectors
+  findBy = (sel, val, col, cb) => {
+    const selector = item => item[sel] === val;
+    let data = this.data.find(selector);
+
+    if (!data) {
+      data = this.users.find(selector);
+    }
+
+    if (!data) {
+      data = this.featured.find(selector);
+    }
+
+    if (data)
+      return cb(data);
+
+    if (!data) {
+      this.isFetching = true;
+      getItem({[sel]: val})
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(this.findByResponse(col || 'data'))
+        .then(() => {
+          this.findBy(sel, val, col, cb);
+        })
+    }
+  };
+  findByLink = (link, col, cb) => {
+    return this.findBy('_link', link, col, cb);
+  };
 
   removeAll = f => {
     this.data.replace([]);

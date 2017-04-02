@@ -137,7 +137,7 @@ export default class Map extends Component {
       this.addMarkers(points);
     }
 
-    if (point && point.position[0] && point.position[1]) {
+    if (point && point.position && point.position[0] && point.position[1]) {
       this.setPoint(point);
     }
 
@@ -164,7 +164,7 @@ export default class Map extends Component {
       !mark || !mark.position ||
       !mark.position[0] || !mark.position[1]
     )
-      return null
+      return null;
 
     const marker = this.createMarker(mark);
 

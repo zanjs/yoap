@@ -94,7 +94,7 @@ export default class ItemPageLocation extends Component {
         </div>
         <div className={s.item}>
           <ItemPageInfoTitle title="Ближайшее метро"/>
-          <NearestStations direction={direction}
+          <NearestStations direction={direction} defaultData={subway}
                            point={point} onChange={onStationChange}
                            render={this.renderStation}/>
           {/*{subway.map((item, key) => (*/}

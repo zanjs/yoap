@@ -1,4 +1,12 @@
-export const apiOrigin = 'http://localhost:5000';
+export const hostname = (() => {
+  if (typeof window !== 'object') {
+    return 'localhost'
+  }
+
+  return window.location.hostname;
+})();
+
+export const apiOrigin = `http://${hostname}:5000`;
 export const api = '/api';
 export const JSONHeaders = {
   headers: {
@@ -19,6 +27,10 @@ export const itemsApi = apiOrigin + api + items;
 // item api
 export const item = '/item';
 export const itemApi = apiOrigin + api + item;
+
+// item find api
+export const itemFind = '/item/find';
+export const itemFindApi = apiOrigin + api + itemFind;
 
 // images api
 export const image = '/images';

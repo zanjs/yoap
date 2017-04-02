@@ -42,7 +42,7 @@ export default class ItemPageInfoEdit extends Component {
   };
 
   render() {
-    const { title, content, type, price } = this.props.data;
+    const { title, content, description, type, price, dewa } = this.props.data;
     const { className, user } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
@@ -51,7 +51,7 @@ export default class ItemPageInfoEdit extends Component {
           {title}
         </ItemPageTitle>
         <ItemPageContent edit onChange={this.onChangeContent}>
-          {content}
+          {content || description}
         </ItemPageContent>
         <ItemPageUser phone={user.phone}
                       email={user.email}
@@ -60,7 +60,7 @@ export default class ItemPageInfoEdit extends Component {
           {user.name}
         </ItemPageUser>
         <ItemPageType id={type && type.id || type || ''} edit onChange={this.onTypeChange}/>
-        <ItemPagePriceEdit data={price} onChange={this.onPriceChange} />
+        <ItemPagePriceEdit data={price} dewa={dewa} onChange={this.onPriceChange} />
         <ItemPageRating data={{name: 'Комфорт', value: 5}}/>
       </div>
     )

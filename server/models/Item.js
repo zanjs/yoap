@@ -60,6 +60,10 @@ const itemSchema = new Schema({
       deposit: Number,
     }
   ],
+  dewa: {
+    type: Number,
+    default: 0
+  },
   size: {
     rooms: Number,
     bedrooms: Number,

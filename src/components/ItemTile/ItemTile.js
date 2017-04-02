@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Content, Image, Svg,
@@ -14,6 +14,9 @@ import favoriteIcon from 'icons/ui/favorite.svg'
 import editIcon from 'icons/ui/edit.svg'
 
 export default class ItemTile extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
 
   getPrice = () => {
     const { price } = this.props.data;
@@ -40,7 +43,6 @@ export default class ItemTile extends Component {
 
     return {price: price.amount || price, term: 'месяц'};
   };
-
   getSize = () => {
     let output = {};
     const { size, type } = this.props.data;
@@ -55,12 +57,31 @@ export default class ItemTile extends Component {
     return output;
   };
 
+  clickHandler = (e) => {
+    const tagName = e.target.tagName.toLowerCase();
+
+    if (tagName === 'path' || tagName === 'svg') {
+      e.preventDefault();
+      return false;
+    }
+  };
+
+  editClickHandler = () => {
+    this.context.router.history.push(
+      `/manage/${this.props.data._link}`
+    )
+  };
+
   render() {
     const {
-      className, link, contentClassName,
-      imageClassName, data, getRef,
-      edit
-    } = this.props;
+      props: {
+        className, link, contentClassName,
+        imageClassName, data, getRef, edit
+      },
+      clickHandler,
+      editClickHandler,
+      favoriteClickHandler
+    } = this;
 
     if (!data)
       return null;
@@ -76,7 +97,7 @@ export default class ItemTile extends Component {
     const { squares, rooms, type } = this.getSize();
 
     return (
-      <RouterLink ref={getRef} to={data.link}
+      <RouterLink ref={getRef} to={data.link} onClick={clickHandler}
                   className={classNames(s.wrapper, className)}>
         {/* Image */}
         <div className={classNames(s.image, imageClassName)}>
@@ -90,7 +111,9 @@ export default class ItemTile extends Component {
               {`₽${price}/${term}`}
             </Content>
           </Container>
-          <Svg src={edit ? editIcon : favoriteIcon} className={s.favorite} />
+          <Svg src={edit ? editIcon : favoriteIcon}
+               onClick={edit ? editClickHandler : favoriteClickHandler}
+               className={s.favorite} />
         </div>
         {/* Content */}
         <div className={classNames(s.content, contentClassName)}>
