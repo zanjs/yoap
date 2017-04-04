@@ -33,6 +33,7 @@ export default class ItemModel {
     this._id = v;
   }
 
+  @observable featured = 0;
 
   /**
    * Generate a title for an Item.
@@ -62,7 +63,7 @@ export default class ItemModel {
    *
    * @returns {string} '/y/some-title'
    */
-  @observable _link;
+  _link;
   @computed get link() {
     return `/y/${this._link}`;
   }
@@ -112,7 +113,7 @@ export default class ItemModel {
    * @param objectTypes, _type
    * @returns {object} {id, name}
    */
-  @observable _type;
+  _type;
   @computed get type() {
     return objectTypes.types.find(item => item.id === this._type);
   }
@@ -123,7 +124,7 @@ export default class ItemModel {
    * @param objectTypes, _type
    * @returns {object} {id, name}
    */
-  @observable _state;
+  _state;
   @computed get state() {
     return stateTypes.types.find(item => item.id === this._state);
   }
@@ -134,7 +135,7 @@ export default class ItemModel {
    * @param objectTypes, _type
    * @returns {object} {id, name}
    */
-  @observable _furniture;
+  _furniture;
   @computed get furniture() {
     return furnitureTypes.types.find(item => item.id === this._furniture);
   }
@@ -144,7 +145,7 @@ export default class ItemModel {
    *
    * @returns {Array} [floor, amount of floors]
    */
-  @observable floors;
+  floors;
   /**
    * Object size.
    * Contains amount of rooms and squares;
@@ -160,7 +161,7 @@ export default class ItemModel {
         }
       }
    */
-  @observable size;
+  size;
   /**
    * Object location.
    * Contains object address, point on map, near metro stations
@@ -183,7 +184,7 @@ export default class ItemModel {
         }
       }
    */
-  @observable location;
+  location;
 
   /**
    * Parse facilities to pretty view.
@@ -191,7 +192,7 @@ export default class ItemModel {
    *
    * @returns {Array}
    */
-  @observable _facilities = [];
+  _facilities = [];
   @computed get facilities() {
     let _facilities = this._facilities.toString();
     return facilitiesTypes.map(({id, name, types}, index) => ({
@@ -205,7 +206,7 @@ export default class ItemModel {
    *
    * @returns {Array}
    */
-  @observable _amenities = [];
+  _amenities = [];
   @computed get amenities() {
     const { id, name, types } = amenitiesTypes;
     return {
@@ -219,7 +220,7 @@ export default class ItemModel {
    *
    * @returns {object} {id, name}
    */
-  @observable _rules = [];
+  _rules = [];
   @computed get rules() {
     const { id, name, types } = rulesTypes;
     return {
@@ -233,7 +234,7 @@ export default class ItemModel {
    *
    * @returns {object} {id, name}
    */
-  @observable _term;
+  _term;
   @computed get term() {
     return termTypes.types.filter(item => item.id === this._term)[0];
   }
@@ -329,13 +330,13 @@ export default class ItemModel {
       ]
      }
    */
-  @observable images;
+  images;
   /**
    * Object description.
    *
    * @returns {string}
    */
-  @observable description;
+  description;
 
   /**
    * Object price.
@@ -346,8 +347,8 @@ export default class ItemModel {
         amount: {number}
       }
    */
-  @observable price;
-  @observable dewa;
+  price;
+  dewa;
 
   /**
    * The landlord info.
@@ -360,7 +361,7 @@ export default class ItemModel {
    *
    * @returns {number}
    */
-  @observable views;
+  views;
 
 
   /**

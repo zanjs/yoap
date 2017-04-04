@@ -89,7 +89,7 @@ export default class UserPage extends Component {
       phone, email, isFetching,
       isAuthorized
     } = this.props;
-    const object = data && data.length ? data[data.length-1] : null;
+    const object = data && data.length ? data[0] : null;
 
     if (!isAuthorized) {
       return <Redirect to="/login"/>

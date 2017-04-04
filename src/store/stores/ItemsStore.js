@@ -259,21 +259,24 @@ class ItemsStore {
     col, data
   );
 
-  add = (data, collection = 'data') => {
-    let isExist = null;
+  add = (data, collection = 'data', noCheck) => {
     const col = this[collection];
 
-    col.forEach((item, index) => {
-      const itemId = item.id;
-      const dataId = data && (data.id || data._id);
+    if (!noCheck) {
+      let isExist = null;
 
-      if (dataId && itemId === dataId) {
-        isExist = index;
+      col.forEach((item, index) => {
+        const itemId = item.id;
+        const dataId = data && (data.id || data._id);
+
+        if (dataId && itemId === dataId) {
+          isExist = index;
+        }
+      });
+
+      if (isExist != null) {
+        return col[isExist] = this.newModel(col, data);
       }
-    });
-
-    if (isExist != null) {
-      return col[isExist] = this.newModel(col, data);
     }
 
     col.push(
@@ -290,12 +293,14 @@ class ItemsStore {
 
   @action fromJSON = (data, collection, toReplace) => {
     if (data && data.forEach) {
-      if (toReplace || collection === 'manage') {
+      let shouldReplace = toReplace;
+      if (toReplace || collection === 'data') {
         this[collection].replace([]);
+        shouldReplace = true;
       }
 
       data.forEach(item => {
-        this.add(item, collection);
+        this.add(item, collection, shouldReplace);
       });
     }
   };

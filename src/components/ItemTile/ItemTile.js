@@ -55,7 +55,7 @@ export default class ItemTile extends Component {
     let output = {};
     const { size, type } = this.props.data;
 
-    output.squares = size.squares.total || size.squares;
+    output.squares = size.squares && size.squares.total || size.squares;
     if (size.rooms && type.id !== objectTypes.types[2].id) {
       output.rooms = size.rooms;
     }
@@ -65,7 +65,7 @@ export default class ItemTile extends Component {
     return output;
   };
   getSubway = loc => {
-    if (loc && loc.subway) {
+    if (loc && loc.subway && loc.subway.length) {
       const [station] = loc.subway;
       return {
         ...station,
@@ -145,6 +145,8 @@ export default class ItemTile extends Component {
       editClickHandler,
       favoriteClickHandler
     } = this;
+
+    console.log(window.__data = data);
 
     if (!data)
       return null;

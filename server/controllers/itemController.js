@@ -142,6 +142,7 @@ itemController.getAll = (req, res) => {
   }
 
   db.Item.find(query)
+    .sort({editedAt: -1})
     .then(data => {
       res.status(200).json({
         success: true,
@@ -157,7 +158,7 @@ itemController.getAll = (req, res) => {
 
 itemController.update = (req, res) => {
   let query;
-  const { id, _id, link, _link, update } = req.body;
+  let { id, _id, link, _link, update } = req.body;
 
   if (id || _id) {
     query = {
@@ -173,12 +174,20 @@ itemController.update = (req, res) => {
 
   console.log(query, req.body);
 
-  if (!query) {
+  update = {
+    ...update,
+    editedAt: Date.now()
+  };
+
+  if (!query || !update) {
     return res.status(500).json({
-      message:
-        'Невозможно изменить объект не предоставив id/_id или link/_link'
+      message: update
+        ? 'Вы не предоставили объект обновления'
+        : 'Невозможно изменить объект не предоставив id/_id или link/_link'
     })
   }
+
+
 
   db.Item.findOneAndUpdate(query, update)
     .then(data => {
@@ -205,19 +214,57 @@ itemController.featured = (req, res) => {
 
   const query = {_id: user};
 
-  const update = data => {
-    return db.User.findOneAndUpdate(query, {featured: data})
-      .then(data => {
-        res.status(200).json({
-          success: true,
-          data
+  const updateFeaturedCount = ({id, increase}, cb) => {
+    const _query = {_id: id};
+    db.Item.findOne(_query)
+      .then(item => {
+        let featured;
+
+        if (increase) {
+          if (item.featured) {
+            featured = item.featured + 1;
+          } else {
+            featured = 1;
+          }
+        } else {
+          if (item.featured) {
+            featured = item.featured <= 1 ? 0 : item.featured - 1;
+          } else {
+            featured = 0;
+          }
+        }
+
+        console.log('featured updated to', featured);
+
+        db.Item.findOneAndUpdate(_query, {featured})
+          .then(cb)
+          .catch(err => {
+            res.status(500).json({
+              message: err
+            })
+          })
+      }).catch(err => {
+        res.status(500).json({
+          message: err
         })
-    }).catch(err => {
-      res.status(500).json({
-        message: err
+      })
+  };
+  const update = (data, item) => {
+    return updateFeaturedCount(item, () => {
+      db.User.findOneAndUpdate(query, {featured: data})
+        .then(data => {
+          res.status(200).json({
+            success: true,
+            data
+          })
+        }).catch(err => {
+          res.status(500).json({
+            message: err
+          })
       })
     })
   };
+
   db.User.findOne(query)
     .then(item => {
       if (item && item.featured) {
@@ -228,12 +275,18 @@ itemController.featured = (req, res) => {
         ));
 
         if (isExist) {
-          return update(
-            featured.filter(fav => fav.toString() !== objId.toString())
-          );
+          return update(featured.filter(fav =>
+            fav.toString() !== objId.toString()
+          ), {
+            id: objId,
+            increase: false
+          });
         }
 
-        return update([...featured, objId]);
+        return update([...featured, objId], {
+          id: objId,
+          increase: true
+        });
       }
 
       res.status(500).json({

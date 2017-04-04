@@ -30,6 +30,7 @@ const translit = string => {
     .replace(/ь?ъ/gi, '')
     .replace(/э/gi, 'e')
     .replace(/ы/gi, 'i')
+    .replace(/х/gi, 'h')
     .replace(/\"\'/gi, '')
 };
 
