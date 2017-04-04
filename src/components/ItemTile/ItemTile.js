@@ -14,9 +14,9 @@ import arrowIcon from 'icons/ui/arrow-right.svg'
 import favoriteIcon from 'icons/ui/favorite.svg'
 import editIcon from 'icons/ui/edit.svg'
 
-const mapStatToProps = ({user: { isAdmin, _objects, _featured }, items: {toggleFeaturedItem}}) => ({
+const mapStatToProps = ({user: { isAdmin, _objects, isAuthorized, _featured }, items: {toggleFeaturedItem}}) => ({
   isAdmin, objects: _objects, featured: _featured,
-  toggleFeaturedItem
+  isAuthorized, toggleFeaturedItem
 });
 
 @inject(mapStatToProps) @observer
@@ -92,6 +92,9 @@ export default class ItemTile extends Component {
   };
 
   isEditMode = () => {
+    if (!this.props.isAuthorized)
+      return false;
+
     if (this.props.edit)
       return true;
 
@@ -108,6 +111,9 @@ export default class ItemTile extends Component {
   };
 
   favoriteClickHandler = () => {
+    if (!this.props.isAuthorized)
+      return;
+
     const fav = this.isFeatured();
     this.setState({
       fav: !fav
@@ -187,7 +193,7 @@ export default class ItemTile extends Component {
                    src={subwayIcon} style={{fill: subway.color}}/>
               <Content className={s.nooffsets}
                        size="6" regular gray>
-                {subway.name || subway.content}
+                {`${subway.name || subway.content}${subway.distance ? `, ${subway.distance}` : ''}`}
               </Content>
             </FlexGrid>}
 

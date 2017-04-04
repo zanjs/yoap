@@ -2,14 +2,32 @@
 
 .group
   display: block
+  position: relative
   width: 100%
 
 .msg
   border: none
-  display: block
-  width: 100%
+  width: 50%
   padding: 4px 12px
   box-sizing: border-box
+  position: absolute
+  z-index: 0
+  left: 100%
+  top: 50%
+  transform: translateY(-50%)
+  &__icon
+    @include size(25px)
+    position: absolute
+    left: -15px
+    top: 50%
+    transform: translate(-100%, -50%)
+    display: block
+    fill: #fff
+    border-radius: 50%
+    svg
+      @include absolute_center(normal, 0)
+      @include size(90%)
+      display: block
   &_disabled
     opacity: .7
     user-select: none

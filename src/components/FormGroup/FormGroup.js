@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { classNames, isEmpty } from 'helpers'
-import { Input } from 'components'
+import { Input, FlexGrid, Svg } from 'components'
 import { BLUE_COLOR, PINK_COLOR, GREEN_COLOR } from 'constants'
 import s from './FormGroup.sass'
 
+import doneIcon from 'icons/ui/done.svg'
+import closeIcon from 'icons/ui/close.svg'
 
 export default class FormGroup extends Component {
   componentDidMount() {
@@ -23,9 +25,11 @@ export default class FormGroup extends Component {
     }
 
     let color = '';
+    let icon = doneIcon;
     switch(type) {
       case 'error':
         color = PINK_COLOR;
+        icon = closeIcon;
         break;
       case 'success':
         color = GREEN_COLOR;
@@ -38,11 +42,16 @@ export default class FormGroup extends Component {
     if (isEmpty(message)) {
       return null;
     }
-
-    return <span className={classNames(s.msg, this.props.disabled && s.msg_disabled)}
-                 style={{color, borderColor: color}}>
-      {message}
-    </span>
+    const _className = classNames(s.msg, this.props.disabled && s.msg_disabled);
+    return (
+      <FlexGrid tag="span" align="center" justify="start"
+                wrap="false" className={_className}
+                style={{color}}>
+        <Svg style={{backgroundColor: color}} tag="span"
+             className={s.msg__icon} src={icon}/>
+        <span>{message}</span>
+      </FlexGrid>
+    )
 
   };
 

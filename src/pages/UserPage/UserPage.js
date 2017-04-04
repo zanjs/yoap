@@ -8,6 +8,7 @@ import {
   LinkIcon, ItemTile,
   Svg, Content, LoadingAnimation
 } from 'components'
+import { classNames } from 'helpers'
 import s from './UserPage.sass'
 
 import addIcon from 'icons/ui/add.svg'
@@ -124,10 +125,12 @@ export default class UserPage extends Component {
                     Все объявления{data.length ? ` (${data.length})` : ''}
                   </LinkIcon>
                 </ItemPageInfoTitle>
-                <FlexGrid className={s.items__wrapper} justify="start" align="center" wrap="true">
+                <FlexGrid className={s.items__wrapper} justify="start"
+                          align="start" wrap="false">
                   {object && <ItemTile edit data={object}/>}
                   <RouterLink to="/manage/create">
-                    <Svg src={addIcon} className={s.add} />
+                    <Svg className={classNames(s.add, !!object && s.add_last)}
+                         src={addIcon} />
                   </RouterLink>
                 </FlexGrid>
               </div>
