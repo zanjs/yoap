@@ -25,7 +25,8 @@ export default class ItemPageEditPhoto extends Component {
     Dropzone: null,
     toDrop: false,
     data: null,
-    selected: null
+    selected: null,
+    isFetching: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -82,6 +83,8 @@ export default class ItemPageEditPhoto extends Component {
   };
 
   onGalleryChange = (data) => {
+    if (this.state.isFetching)
+      return null;
     this.setState({data}, this.onChangeCallback);
   };
 
@@ -105,7 +108,8 @@ export default class ItemPageEditPhoto extends Component {
           };
 
         return item;
-      }))
+      })),
+      isFetching: true
     });
 
     if (needLoading.length) {
@@ -125,7 +129,8 @@ export default class ItemPageEditPhoto extends Component {
         });
 
         this.setState({
-          data: modifiedData
+          data: modifiedData,
+          isFetching: false
         }, this.onChangeCallback)
       })
     }

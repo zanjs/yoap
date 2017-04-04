@@ -106,7 +106,6 @@ export default class PhotoGallery extends Component {
   };
 
   cleanAll = () => {
-    console.log('clicked');
     this.setState({
       isDragged: false,
       toRemove: false,
@@ -193,6 +192,8 @@ export default class PhotoGallery extends Component {
       itemClickHandler,
       cleanAll
     } = this;
+
+
     return (
       <div className={s.wrapper}>
         <FlexGrid direction="column" justify="space-between"
@@ -207,7 +208,9 @@ export default class PhotoGallery extends Component {
                 Фото объекта
               </Title>
               <Content onClick={cleanAll} className={s.clear}
-                       gray size="5" nooffsets>Удалить все</Content>
+                       gray size="5" nooffsets>
+                {!!data.length && 'Удалить все'}
+              </Content>
             </FlexGrid>
             <Grid data={data} axis="xy"
                   distance={10}
