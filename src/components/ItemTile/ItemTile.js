@@ -55,12 +55,14 @@ export default class ItemTile extends Component {
     let output = {};
     const { size, type } = this.props.data;
 
-    output.squares = size.squares && size.squares.total || size.squares;
-    if (size.rooms && type.id !== objectTypes.types[2].id) {
-      output.rooms = size.rooms;
+    if (size) {
+      output.squares = size.squares && size.squares.total || size.squares;
+      if (size.rooms && type.id !== objectTypes.types[2].id) {
+        output.rooms = size.rooms;
+      }
     }
 
-    output.type = type.name;
+    output.type = type && type.name;
 
     return output;
   };
@@ -155,7 +157,6 @@ export default class ItemTile extends Component {
       category,
       images, rating
     } = data;
-
 
     const { price, term } = this.getPrice();
     const subway = this.getSubway(location);

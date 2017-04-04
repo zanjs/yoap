@@ -140,7 +140,7 @@ export default class UserPage extends Component {
                     Все избранные{featured.length ? ` (${featured.length})` : ''}
                   </LinkIcon>
                 </ItemPageInfoTitle>
-                {featured && <FlexGrid justify="start" align="center">
+                {featured && <FlexGrid justify="start" align="start">
                   {featured.map((item, key) => (
                     <ItemTile key={key} data={item}/>
                   ))}

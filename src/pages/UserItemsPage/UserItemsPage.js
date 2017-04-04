@@ -7,13 +7,25 @@ import {
 } from 'components'
 import s from './UserItemsPage.sass'
 
-const mapStateToProps = ({user: {name, objects, isFetching}, items}) => ({
-  data: objects, name,
-  isFetching: isFetching || items.isFetching
+const mapStateToProps = ({user: {name, update, isFetching, _objects}, items}) => ({
+  data: items.users, name,
+  isFetching: isFetching || items.isFetching,
+  fetchUserItems: items.fetchUserItems,
+  update, objects: _objects
 });
 
 @inject(mapStateToProps) @observer
 export default class UserItemsPage extends Component {
+  componentWillMount() {
+    this.props.update(() => {
+      const { objects } = this.props;
+      if (objects && objects.length) {
+        this.props.fetchUserItems(
+          objects
+        );
+      }
+    })
+  }
   render() {
     const { data, name, isFetching } = this.props;
     return (

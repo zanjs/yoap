@@ -262,7 +262,7 @@ class ItemsStore {
   add = (data, collection = 'data', noCheck) => {
     const col = this[collection];
 
-    if (!noCheck) {
+    if (!noCheck && col.length) {
       let isExist = null;
 
       col.forEach((item, index) => {
@@ -291,10 +291,10 @@ class ItemsStore {
   };
   toJSON = () => this.data.map(todo => todo.toJSON());
 
-  @action fromJSON = (data, collection, toReplace) => {
+  @action fromJSON = (data, collection = 'data', toReplace) => {
     if (data && data.forEach) {
-      let shouldReplace = toReplace;
-      if (toReplace || collection === 'data') {
+      let shouldReplace = !!toReplace;
+      if (toReplace || collection !== 'data') {
         this[collection].replace([]);
         shouldReplace = true;
       }

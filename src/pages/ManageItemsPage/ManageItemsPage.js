@@ -12,12 +12,13 @@ import { statusTypes } from 'constants'
 import s from './ManageItemsPage.sass'
 
 const mapStateToProps = ({items, user}) => ({
-  items, user
+  items, user,
+  manage: items.manage,
+  data: items.data
 });
 
 @inject(mapStateToProps) @observer
 export default class ManageItemsPage extends Component {
-  needResort;
   statuses = statusTypes.types;
   state = {data: null, status: null, isPublished: false};
 
@@ -44,15 +45,22 @@ export default class ManageItemsPage extends Component {
 
     this.props.items.updateItem(id, {status}, data => {
       console.log('STATUS WAS CHANGED TO', data.status);
+      //setTimeout(this.update, 300);
       this.update();
     });
   };
+  compare = query => s =>
+    (s + '').toLowerCase().indexOf(query) !== -1;
   sortHandler = q => {
     const query  = q.toLowerCase();
-    const compare = s => (s + '').toLowerCase().indexOf(query) !== -1;
+    const _data = this.state.isPublished
+      ? this.props.data
+      : this.props.manage;
+
+    const compare = this.compare(query);
     let data = [];
 
-    this.props.items.data.forEach(item => {
+    _data.forEach(item => {
       if (item.title) {
         if (compare(item.title))
           return data.push(item);
@@ -93,11 +101,15 @@ export default class ManageItemsPage extends Component {
     let data = null;
 
     if (status) {
+      const _data = this.state.isPublished
+        ? this.props.data
+        : this.props.manage;
+
       const selector = except
         ? item => item.status !== status
         : item => item.status === status;
 
-      data = this.props.items.manage
+      data = _data
         .filter(selector);
     }
 
@@ -134,7 +146,8 @@ export default class ManageItemsPage extends Component {
   };
 
   render() {
-    const { manage, isFetching } = this.props.items;
+    const { isFetching } = this.props.items;
+    const { manage } = this.props;
     const { data, isPublished } = this.state;
     const { isAdmin } = this.props.user;
     const {
@@ -150,7 +163,7 @@ export default class ManageItemsPage extends Component {
     }
 
     const _data = isPublished
-      ? this.props.items.data
+      ? (data || this.props.data)
       : (data || manage);
 
     return (
