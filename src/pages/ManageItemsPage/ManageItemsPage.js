@@ -7,6 +7,7 @@ import {
   ItemTileManage, LoadingAnimation,
   ManageItemsSort
 } from 'components'
+import { shallowEqual } from 'helpers'
 import { statusTypes } from 'constants'
 import s from './ManageItemsPage.sass'
 
@@ -17,7 +18,7 @@ const mapStateToProps = ({items, user}) => ({
 @inject(mapStateToProps) @observer
 export default class ManageItemsPage extends Component {
   statuses = statusTypes.types;
-  state = {data: null};
+  state = {data: null, status: null};
 
   componentWillMount() {
     this.props.items.getAllManageItems((items) => {
@@ -25,12 +26,17 @@ export default class ManageItemsPage extends Component {
     })
   }
 
+  componentDidUpdate() {
+    if (!this.state.status) {
+      this.sortStatusHandler(this.statuses[0].id);
+    }
+  }
+
   update = () => {
     this.props.items.getAllManageItems(items => {
       console.log('items to moderate updated', items.length);
     })
   };
-
   getObjectId = _id => {
     let id = _id;
     if (typeof id !== 'string')
@@ -38,7 +44,6 @@ export default class ManageItemsPage extends Component {
 
     return id;
   };
-
   changeStatus = (_id, status) => {
     const id = this.getObjectId(_id);
 
@@ -47,7 +52,6 @@ export default class ManageItemsPage extends Component {
       this.update();
     });
   };
-
   sortHandler = q => {
     const query  = q.toLowerCase();
     const compare = s => (s + '').toLowerCase().indexOf(query) !== -1;
@@ -90,21 +94,31 @@ export default class ManageItemsPage extends Component {
       data: data.length ? data : null
     })
   };
-
-  sortStatusHandler = status => {
+  sortStatusHandler = (status, except) => {
     let data = null;
 
-    if (status)
-      data = this.props.items.manage.filter(
-        item => item.status === status
-      );
+    if (status) {
+      const selector = except
+        ? item => item.status !== status
+        : item => item.status === status;
 
-    this.setState({data});
+      data = this.props.items.manage
+        .filter(selector);
+    }
+
+    this.setState({
+      data, status: except
+        ? null
+        : status
+          ? status
+          : 'no sort'
+    });
   };
 
   publish = id => {
     this.changeStatus(id, this.statuses[1].id);
   };
+
   decline = id => {
     this.changeStatus(id, this.statuses[2].id);
   };
@@ -128,13 +142,15 @@ export default class ManageItemsPage extends Component {
       return <Redirect to="/y"/>
     }
 
+    const _data = data || manage;
+
     return (
       <div className={s.wrapper}>
         <Helmet title="Все объявления"/>
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
             <Title nooffsets size="1">
-              На модерации {manage.length}
+              На модерации {_data.length}
             </Title>
             <LinkIcon className={s.link} to="/y" gray>
               Опубликованные
@@ -145,7 +161,7 @@ export default class ManageItemsPage extends Component {
                            className={s.sort} />
 
           <FlexGrid wrap="true" justify="start" align="start">
-            {(data || manage).map((item, key) => (
+            {_data.map((item, key) => (
               <ItemTileManage onAccept={publish}
                               onDecline={decline}
                               onStatusChange={selectStatusHandler}

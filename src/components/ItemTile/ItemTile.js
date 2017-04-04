@@ -146,8 +146,6 @@ export default class ItemTile extends Component {
       favoriteClickHandler
     } = this;
 
-    console.log(window.__data = data);
-
     if (!data)
       return null;
 

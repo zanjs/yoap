@@ -27,7 +27,8 @@ const translit = string => {
 
   return cyrillicToTranslit()
     .transform(formattedString)
-    .replace(/ь?ъ/gi, '')
+    .replace(/ь/gi, '')
+    .replace(/ъ/gi, '')
     .replace(/э/gi, 'e')
     .replace(/ы/gi, 'i')
     .replace(/х/gi, 'h')
