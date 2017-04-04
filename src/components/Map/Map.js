@@ -16,7 +16,6 @@ import bulletIconPng from 'images/ui/bullet.png'
 export default class Map extends Component {
   static defaultProps = {
     point: {position: []},
-    direction: {position: []}
   };
   static contextTypes = {
     router: PropTypes.object.isRequired

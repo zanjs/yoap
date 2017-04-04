@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { render } from 'react-dom'
+import { render, unmountComponentAtNode } from 'react-dom'
 import s from './LoadingAnimation.sass'
 
 
@@ -21,6 +21,7 @@ export default class LoadingAnimation extends Component {
   };
   unMount = () => {
     this.fadeOut(() => {
+      unmountComponentAtNode(this.block);
       document.body.removeChild(this.block);
       this.block = null;
       this.isMount = false;

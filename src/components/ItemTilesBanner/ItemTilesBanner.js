@@ -23,6 +23,9 @@ export default class ItemTilesBanner extends Component {
   componentDidUpdate() {
     this.resize();
   }
+  update = () => {
+    this.forceUpdate();
+  };
 
   resize = () => setTimeout(this.resizeHandler, 60);
   resizeHandler = () => {
@@ -87,6 +90,7 @@ export default class ItemTilesBanner extends Component {
           <div ref={this.getGridWrapperRef} className={s.grid__wrapper}>
             <ItemTilesGrid getRef={this.getGridRef}
                            limit={5} className={s.grid}
+                           onChange={this.update}
                            data={data}/>
           </div>
         </FlexGrid>

@@ -6,6 +6,11 @@ import s from './ItemTilesGrid.sass'
 
 @inject('items') @observer
 export default class ItemTilesGrid extends Component {
+  componentWillReact() {
+    if (this.props.onChange) {
+      this.props.onChange();
+    }
+  }
   render() {
     const {
       items: { data },
