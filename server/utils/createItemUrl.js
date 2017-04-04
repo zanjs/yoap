@@ -18,9 +18,24 @@ const getCategoryName = category => {
   }
 };
 
+const translit = string => {
+  const formattedString = string
+    .toLowerCase()
+    .replace(/\s/gi, '-')
+    .match(/[а-я0-9\-]/gi)
+    .join('');
+
+  return cyrillicToTranslit()
+    .transform(formattedString)
+    .replace(/ь?ъ/gi, '')
+    .replace(/э/gi, 'e')
+    .replace(/ы/gi, 'i')
+    .replace(/\"\'/gi, '')
+};
+
 const createItemUrl = ({title, category, size}) => {
   let result = '';
-  let _title = cyrillicToTranslit().transform(title);
+  let _title = translit(title);
 
   result += size && size.rooms ? `${size.rooms}k` : 'studio';
 

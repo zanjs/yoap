@@ -77,9 +77,7 @@ export default class ItemTile extends Component {
   };
 
   clickHandler = (e) => {
-    const tagName = e.target.tagName.toLowerCase();
-
-    if (tagName === 'path' || tagName === 'svg') {
+    if (!!e.target.closest(`.${s.favorite}`)) {
       e.preventDefault();
       return false;
     }

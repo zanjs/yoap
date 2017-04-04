@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import Helmet from 'react-helmet'
 import {
   ItemPageTitle, ItemPageContent,
@@ -8,17 +9,27 @@ import {
 import { classNames } from 'helpers'
 import s from './ItemPageInfo.sass'
 
-import userImage from 'images/user.jpg'
 
+@inject('user') @observer
 export default class ItemPageInfo extends Component {
+  getStatus = id => {
+    if (this.props.user.isAdmin || this.props.user.has(id)) {
+      return this.props.data.statusName;
+    }
+
+    return null;
+  };
+
   render() {
     const {
       title, description,
-      status, price, rating,
-      category, type
+      price, rating,
+      category, type,
+      id
     } = this.props.data;
 
     const user = this.props.data.user || this.props.data._creator;
+    const status = this.getStatus(id);
 
     return (
       <div className={classNames(s.wrapper, this.props.className)}>

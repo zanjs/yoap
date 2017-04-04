@@ -85,6 +85,14 @@ class UserStore {
     this.subscribeToLocalStore();
   }
 
+  has = id => {
+    if (this._objects) {
+      return !!this._objects.find(item => item === id);
+    }
+
+    return null;
+  };
+
   checkStatus = (res) => {
     if (res.status >= 200 && res.status < 300) {
       return res

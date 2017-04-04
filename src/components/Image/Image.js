@@ -10,7 +10,7 @@ const mapStateToProps = ({device: {width}}) => ({
 
 @inject(mapStateToProps) @observer
 export default class Image extends Component {
-  isFaded = false;
+  isFaded = false; isMount = false;
   dur = config.dur; ease = config.ease();
 
   state = {isLoaded: false, mainImageLoaded: false};
@@ -56,19 +56,31 @@ export default class Image extends Component {
     return this.getPrevDeviceSize(sizes, currentDevice);
   };
 
+  componentWillMount() {
+    this.isMount = true;
+  }
+  componentWillUnmount() {
+    this.isMount = false;
+  }
+
   componentDidUpdate() {
-    if (!this.isFaded && this.state.mainImageLoaded) {
+    if (this.isMount && !this.isFaded && this.state.mainImageLoaded) {
       this.showImage();
     }
   }
 
   showImage = () => {
+    if (!this.isMount)
+      return;
     this.isFaded = true;
-    this.fadeInImage(() => this.setState({
+    this.fadeInImage(() => this.isMount && this.setState({
       isLoaded: true
     }))
   };
   fadeInImage = onComplete => {
+    if (!this.isMount)
+      return;
+
     const { dur, ease } = this;
     TweenMax.set(this.preview, {
       display: 'none'
@@ -124,7 +136,7 @@ export default class Image extends Component {
                            src={previewSrc} alt=""/>}
         <img className={classNames(s.img, className)}
              src={_src} style={{display: 'none'}} ref={this.getImageRef}
-             onLoad={() => this.setState({mainImageLoaded: true})}/>
+             onLoad={() => this.isMount && this.setState({mainImageLoaded: true})}/>
       </figure>
     )
   }

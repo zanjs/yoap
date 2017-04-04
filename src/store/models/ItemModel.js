@@ -17,7 +17,8 @@ import {
   categoryType, categoryTypes,
 
   furnitureType, furnitureTypes,
-  stateType, stateTypes
+  stateType, stateTypes,
+  statusTypes
 } from 'constants'
 
 
@@ -64,6 +65,21 @@ export default class ItemModel {
   @observable _link;
   @computed get link() {
     return `/y/${this._link}`;
+  }
+  /**
+   * Parse a status.
+   *
+   * @returns {string} '/y/some-title'
+   */
+  @observable status;
+  @computed get statusName() {
+    const status = statusTypes.types
+      .find(item => item.id === this.status);
+    if (status) {
+      return status.name;
+    }
+
+    return null;
   }
 
   /**
