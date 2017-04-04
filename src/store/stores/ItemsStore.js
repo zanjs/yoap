@@ -240,7 +240,8 @@ class ItemsStore {
   getAllManageItems = cb => {
     this.isFetching = true;
     const statuses = statusTypes.types
-      .map(item => item.id);
+      .map(item => item.id)
+      .filter((item, index) => index !== 1);
 
     getItems({statuses})
       .then(this.checkStatus)

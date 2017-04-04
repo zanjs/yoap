@@ -43,12 +43,17 @@ export default class ItemPagePriceEdit extends Component {
   componentWillMount() {
     this.importProps(this.props);
   }
-
+  componentDidMount() {
+    if (!this.state.chosen.length) {
+      this.togglePrices(this.types[2])
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (!this.props.data && !!nextProps.data) {
       this.importProps(nextProps);
     }
   }
+
 
   onChange = () => {
     if (this.props.onChange) {
@@ -103,7 +108,6 @@ export default class ItemPagePriceEdit extends Component {
   switchDeposit = () => {
     this.setState({deposit: true})
   };
-
   changePrice = (id, value) => {
     this.setState(({chosen}) => ({
       chosen: chosen.map(item => {

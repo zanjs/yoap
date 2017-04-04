@@ -17,19 +17,14 @@ const mapStateToProps = ({items, user}) => ({
 
 @inject(mapStateToProps) @observer
 export default class ManageItemsPage extends Component {
+  needResort;
   statuses = statusTypes.types;
-  state = {data: null, status: null};
+  state = {data: null, status: null, isPublished: false};
 
   componentWillMount() {
     this.props.items.getAllManageItems((items) => {
-      console.log('items to moderate loaded');
+      console.log('items to moderate loaded', items.length);
     })
-  }
-
-  componentDidUpdate() {
-    if (!this.state.status) {
-      this.sortStatusHandler(this.statuses[0].id);
-    }
   }
 
   update = () => {
@@ -127,33 +122,47 @@ export default class ManageItemsPage extends Component {
     this.changeStatus(id, status)
   };
 
+  switchPublished = e => {
+    if (e && e.preventDefault)
+      e.preventDefault();
+
+    this.setState(({isPublished}) => ({
+      isPublished: !isPublished
+    }));
+
+    return false;
+  };
+
   render() {
     const { manage, isFetching } = this.props.items;
-    const { data } = this.state;
+    const { data, isPublished } = this.state;
     const { isAdmin } = this.props.user;
     const {
       publish, decline,
       selectStatusHandler,
       sortStatusHandler,
       sortHandler,
+      switchPublished
     } = this;
 
     if (!isAdmin) {
       return <Redirect to="/y"/>
     }
 
-    const _data = data || manage;
+    const _data = isPublished
+      ? this.props.items.data
+      : (data || manage);
 
     return (
       <div className={s.wrapper}>
-        <Helmet title="Все объявления"/>
+        <Helmet title="Управление объявлениями"/>
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
             <Title nooffsets size="1">
-              На модерации {_data.length}
+              {isPublished ? 'Опубликованно' : 'На модерации'} {_data.length}
             </Title>
-            <LinkIcon className={s.link} to="/y" gray>
-              Опубликованные
+            <LinkIcon onClick={switchPublished} className={s.link} to="/manage" gray>
+              {isPublished ? 'На модерации' : 'Опубликованные'}
             </LinkIcon>
           </FlexGrid>
           <ManageItemsSort onSort={sortHandler}

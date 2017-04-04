@@ -57,6 +57,12 @@ const facilityTypeCommonData = [
   },
   {
     "ru":"Кондиционер"
+  },
+  {
+    "ru":"Климат-контроль"
+  },
+  {
+    "ru":"Теплый пол"
   }
 ];
 export const facilityTypesCommon = {

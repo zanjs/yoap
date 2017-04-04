@@ -367,7 +367,7 @@ export default class ItemPageEdit extends Component {
     } = this;
 
     if (saved) {
-      return <Redirect to="/you"/>
+      return <Redirect to={user.isAdmin ? '/manage' : "/you"}/>
     }
 
     if (isEmpty(params)) {
