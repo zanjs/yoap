@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   SortableContainer, SortableElement, arrayMove
 } from 'react-sortable-hoc'
-import { FlexGrid, Title, Svg, Image } from 'components'
+import { FlexGrid, Title, Svg, Image, Content } from 'components'
 import { classNames } from 'helpers'
 import s from './PhotoGallery.sass'
 
@@ -105,6 +105,17 @@ export default class PhotoGallery extends Component {
     )
   };
 
+  cleanAll = () => {
+    console.log('clicked');
+    this.setState({
+      isDragged: false,
+      toRemove: false,
+      data: []
+    });
+
+    this.props.onChange([]);
+  };
+
   onSortEnd = props => {
     const { oldIndex, newIndex } = props;
     const { toRemove, data } = this.state;
@@ -179,7 +190,8 @@ export default class PhotoGallery extends Component {
       onSortStart,
       mouseLeaveHandler,
       mouseEnterHandler,
-      itemClickHandler
+      itemClickHandler,
+      cleanAll
     } = this;
     return (
       <div className={s.wrapper}>
@@ -188,10 +200,15 @@ export default class PhotoGallery extends Component {
                   className={s.container}>
 
           <div className={s.gallery}>
-            <Title className={s.title} size="5"
-                   gray light>
-              Фото объекта
-            </Title>
+            <FlexGrid tag="header" className={s.header}
+                      justify="space-between" align="center">
+              <Title size="5" gray light
+                     nooffsets>
+                Фото объекта
+              </Title>
+              <Content onClick={cleanAll} className={s.clear}
+                       gray size="5" nooffsets>Удалить все</Content>
+            </FlexGrid>
             <Grid data={data} axis="xy"
                   distance={10}
                   onItemClick={itemClickHandler}
