@@ -5,7 +5,7 @@ import {
   Title
 } from 'components'
 import { termTypes } from 'constants'
-import { classNames, shallowEqual } from 'helpers'
+import { classNames } from 'helpers'
 import s from './ItemPagePriceEdit.sass'
 
 const types = termTypes.types;

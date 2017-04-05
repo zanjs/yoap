@@ -23,7 +23,7 @@ export default class ItemPageInfo extends Component {
   render() {
     const {
       title, description,
-      price, rating,
+      price, dewa, rating,
       category, type,
       id
     } = this.props.data;
@@ -42,7 +42,7 @@ export default class ItemPageInfo extends Component {
           {user.name}
         </ItemPageUser>
         <ItemPageType name={type.name}/>
-        <ItemPagePrice data={price} />
+        <ItemPagePrice data={price} dewa={dewa}/>
         <ItemPageContent>{description}</ItemPageContent>
         <ItemPageRating data={category} value={rating} />
       </div>
