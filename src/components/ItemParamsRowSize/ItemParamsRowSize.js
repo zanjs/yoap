@@ -70,7 +70,7 @@ export default class ItemParamsRowSize extends Component {
       bedrooms = 0, beds = 0, floor = 0, rooms,
       bathrooms = 0, squares = 0, floors = [0,0]
     } = this.props;
-    const splitter = readOnly || edit ? '' : '-';
+    const splitter = (readOnly || edit) ? '' : '+';
 
     return (
       <div className={s.wrapper}>

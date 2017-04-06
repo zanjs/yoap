@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { ProFilter } from 'components'
+import { ProFilter, ButtonsAction, Button } from 'components'
 
 
 const mapStateToProps = ({
@@ -102,6 +102,10 @@ export default class ProFilterContainer extends Component {
       <div>
         <ProFilter onChange={onChange} edit={edit}
                    readOnly={false} data={data} size={_size}/>
+        {!edit && <ButtonsAction>
+          <Button type="text">Отменить</Button>
+          <Button type="pink">Поиск</Button>
+        </ButtonsAction>}
       </div>
     )
   }
