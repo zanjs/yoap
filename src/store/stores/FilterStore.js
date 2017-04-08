@@ -38,10 +38,86 @@ class FilterStore {
     @observable beds: 0,
 
     @observable squares: [0, 100],
+    @observable squaresLimit: [0, 100]
   };
   @observable floor  = 0;
   @observable price  = [];
+  @observable priceLimit = [];
   @observable stations = [];
+
+  @action setSquares = data => {
+    let min;
+    let max;
+
+    data.forEach(item => {
+      const { squares } = item.size;
+
+      if (min && squares < min) {
+        min = squares;
+      }
+
+      if (max && squares > max) {
+        max = squares;
+      }
+
+      if (!min) {
+        min = squares;
+      }
+      if (!max) {
+        max = squares;
+      }
+    });
+
+    const _squares = [min, max];
+    const { squares, squaresLimit } = this.size;
+
+    if (squares[0] === squaresLimit[0] && squares[1] === squaresLimit[1]) {
+      this.size.squares.replace(_squares);
+    }
+
+    this.size.squaresLimit.replace(_squares);
+  };
+
+  @action setPrice = data => {
+    let min;
+    let max;
+
+    data.forEach(item => {
+      const { price } = item;
+
+      let _price = 0;
+
+      price.forEach(item => {
+        if (_price < item.value) {
+          _price = item.value;
+        }
+      });
+
+      if (min && _price < min) {
+        min = _price;
+      }
+
+      if (max && _price > max) {
+        max = _price;
+      }
+
+      if (!min) {
+        min = _price;
+      }
+      if (!max) {
+        max = _price;
+      }
+    });
+
+    const _price = [min, max];
+    const { price, priceLimit } = this;
+
+    if (price[0] === priceLimit[0] && price[1] === priceLimit[1]) {
+      this.price.replace(_price);
+    }
+    console.log(_price);
+    this.priceLimit.replace(_price);
+  };
 
   @action replaceStations = stations => {
     this.stations.replace(stations || []);
@@ -59,6 +135,10 @@ class FilterStore {
     return this.size.rooms.push(room);
   };
 
+  @action changePrice = price => {
+    this.price.replace(price);
+  };
+
   @action sizeChange = (prop, value) => {
     this.size[prop] = value;
   };
@@ -67,6 +147,24 @@ class FilterStore {
   };
   @action floorChange = value => {
     this.floor = value;
+  };
+
+  match = data => {
+    const {
+      price, size,
+      type, stations,
+      activeParams
+    } = this;
+
+    return data.filter(model => {
+      return model.match({
+        price,
+        size,
+        type,
+        stations,
+        params: activeParams
+      });
+    })
   };
 
   getActiveParametersFromData = params => {
@@ -159,12 +257,48 @@ class FilterStore {
         bathrooms: 0,
         squares: 0,
       },
-      floors: [3,9],
+      floors: [0,0],
     }
   }
 
+  @computed get activeParams() {
+    let params = [];
+
+    this.data.forEach(item => {
+      item.types.forEach(type => {
+        if (type.isActive)
+          params.push(type.id);
+
+      })
+    });
+
+    return params;
+  }
+
   @action setCategory = data => {
+    const ids = data.types.required.map(item => item.id);
+    const _data = this.data.map(item => {
+      const types = item.types.map(type => {
+        const isActive = !!ids.find(id => id === type.id);
+
+        return {
+          ...type,
+          isActive
+        }
+      });
+      return {
+        ...item,
+        types
+      }
+    });
+    console.log({
+      ids,
+      _data,
+      data
+    });
+
     this.category = data;
+    this.data.replace(_data)
   };
 
   fetchItems = cb => getItems().then(resp => cb(resp.json()));

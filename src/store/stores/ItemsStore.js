@@ -1,4 +1,7 @@
-import { observable, computed, reaction, action, observer } from 'mobx'
+import {
+  observable, computed, reaction,
+  action, observer, autorun
+} from 'mobx'
 import { localStore, noop } from 'helpers'
 import { store as config, statusTypes } from 'constants'
 import {
@@ -29,6 +32,7 @@ class ItemsStore {
     // }
     //
     this.fetchItems();
+    this.subscribeToPriceAndSquares();
     //
     // this.subscribeToLocalStorage();
   }
@@ -312,6 +316,21 @@ class ItemsStore {
 
     // save to the local store
     data => localStore.set(this.storeName, data)
+  );
+
+  subscribeToPriceAndSquares = () => reaction(
+    () => {
+      console.log('DATA CHECK');
+      return this.data.map(item => ({
+        price: item.price,
+        size: item.size
+      }))
+    },
+
+    data => {
+      store.filter.setPrice(data);
+      store.filter.setSquares(data);
+    }
   );
 }
 

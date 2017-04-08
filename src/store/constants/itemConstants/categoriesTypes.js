@@ -118,6 +118,7 @@ export const categoryTypesComfort = {
       facilityTypesCommon.types[0],
       facilityTypesCommon.types[1],
       facilityTypesCommon.types[2],
+      facilityTypesCommon.types[3],
     ],
     additional: [
       // Медиа

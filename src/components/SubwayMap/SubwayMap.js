@@ -8,7 +8,7 @@ import s from './SubwayMap.sass'
 
 
 const mapStateToProps = ({device: {support, height, navHeight}}) => ({
-  touchable: support.touch,
+  touchable: support && support.touch,
   height: `${height - navHeight}px`
 });
 

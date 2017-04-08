@@ -363,6 +363,91 @@ export default class ItemModel {
    */
   views;
 
+  match = props => {
+    let result = 0;
+    let shouldMatched = 0;
+
+    const {
+      price,
+      size,
+      type,
+      stations,
+      params
+    } = props;
+
+    const data = this.toJSON();
+
+    if (price && price.length && price[0] && price[1]) {
+      const [min, max] = price;
+      shouldMatched++;
+      // there should be an array of prices
+      result += data.price >= min && data.price <= max
+        ? 1 : 0;
+    }
+
+    if (size) {
+      let matched = 0;
+      let _shouldMatched = 0;
+      shouldMatched++;
+
+      if (size.rooms && size.rooms.length) {
+        _shouldMatched++;
+        matched += !!size.rooms.find(
+          rooms => rooms === data.size.rooms
+        ) ? 1 : 0;
+      }
+
+      if (size.bedrooms) {
+        _shouldMatched++;
+        matched += !!size.bedrooms.find(beds => beds <= data.size.bedrooms)
+          ? 1 : 0;
+      }
+
+      if (size.bathrooms) {
+        _shouldMatched++;
+        matched += !!size.bathrooms.find(baths => baths <= data.size.bathrooms)
+          ? 1 : 0;
+      }
+
+      if (size.beds) {
+        _shouldMatched++;
+        matched += !!size.beds.find(beds => beds <= data.size.beds)
+          ? 1 : 0;
+      }
+
+      if (size.squares && size.squares.length) {
+        _shouldMatched++;
+        const [min, max] = size.squares;
+        matched += data.size.squares >= min && data.size.squares <= max
+          ? 1 : 0;
+      }
+
+      console.log(_shouldMatched, matched);
+
+      result += _shouldMatched === matched
+        ? 1 : 0;
+    }
+
+    if (params) {
+      shouldMatched++;
+      let matched = 0;
+
+      params.forEach(item => {
+        const paramMatch = !!data.params.find(
+          param => param === item
+        );
+
+        if (paramMatch) {
+          matched++;
+        }
+      });
+
+      result += params.length <= matched
+        ? 1 : 0;
+    }
+
+    return result === shouldMatched
+  };
 
   /**
    * Pretty data of an object.
@@ -472,9 +557,6 @@ export default class ItemModel {
 
     const category = _category || this.category.id;
     const type = _type && _type.id ? _type.id : _type;
-    console.log('type', {
-      type, this
-    });
 
     return {
       id,
@@ -550,7 +632,8 @@ export default class ItemModel {
 
     // parse params
     params.forEach(item => {
-      const type = `${item.split(splitter)[0]}`;
+      const type = item && item.split
+        && `${item.split(splitter)[0]}`;
       /*
        * objectType, objectTypes,
        * facilityType, facilitiesTypes,

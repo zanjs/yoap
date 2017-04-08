@@ -8,7 +8,7 @@ export default class FilterSlider extends Component {
   static defaultProps = {
     min: 0, max: 100,
     minValue: 0, maxValue: 100
-  }
+  };
 
   letterWidth = 12;
   inputBar = this.letterWidth * 3;
@@ -126,13 +126,13 @@ export default class FilterSlider extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      this.props.minValue !== nextProps.minValue ||
-      this.props.maxValue !== nextProps.maxValue
+      this.props.min !== nextProps.min ||
+      this.props.max !== nextProps.max
     ) {
-      const { minValue, maxValue } = nextProps;
+      const { min, max } = nextProps;
 
       this.setMinMax({
-        min: minValue, max: maxValue
+        min: min, max: max
       }, null, nextProps)
     }
   }

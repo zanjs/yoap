@@ -68,7 +68,8 @@ export default class ItemParamsRowSize extends Component {
       title, readOnly, edit,
 
       bedrooms = 0, beds = 0, floor = 0, rooms,
-      bathrooms = 0, squares = 0, floors = [0,0]
+      bathrooms = 0, squares = [0, 100], floors = [0,0],
+      squaresLimit = [0, 100]
     } = this.props;
     const splitter = (readOnly || edit) ? '' : '+';
 
@@ -104,7 +105,11 @@ export default class ItemParamsRowSize extends Component {
               <span className={s.label_last}>кв. м</span>
             </FlexGrid>}
             {!edit && readOnly && <span>Общая площадь: {squares} кв. м</span>}
-            {!edit && !readOnly && <FilterSlider min={squares[0]} max={squares[1]}
+            {!edit && !readOnly &&
+            <FilterSlider minValue={squaresLimit[0]}
+                          maxValue={squaresLimit[1]}
+                          min={squares[0]}
+                          max={squares[1]}
                           onChange={this.onSquaresChange}/>}
           </Item>
         </ItemParamsRow>
