@@ -36,7 +36,7 @@ export default class ItemPageEdit extends Component {
 
   getData = () => {
     const { link } = this.props.match.params;
-    console.log(link);
+
     if (link !== 'create' && link !== 'add' && link !== 'new') {
       this.props.items.findByLink(link, 'users', data => {
         this.insertData(data);
@@ -71,8 +71,8 @@ export default class ItemPageEdit extends Component {
 
     return types.map(item => ({
       ...item,
-      types: item.types.map(type => {
-        const res = params.find(param => param.id === type.id);
+      types: item.types.filter(_item => !!_item && !!_item.id).map(type => {
+        const res = params.find(param => param && param.id === type.id);
         if (res) {
           return {
             ...type,
@@ -122,7 +122,6 @@ export default class ItemPageEdit extends Component {
   componentWillMount() {
     const isExist = this.getData();
 
-    console.log('isExist', isExist);
     if (isExist) {
       return;
     }
@@ -280,6 +279,7 @@ export default class ItemPageEdit extends Component {
     };
     let _params = [];
 
+    // get all active parameters
     params.forEach(item => {
       item.types.forEach(block => {
         if (block.isActive) {

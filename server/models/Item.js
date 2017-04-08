@@ -34,6 +34,10 @@ const itemSchema = new Schema({
     type: String,
     default: statusTypes.types[0].id
   },
+  justCreated: {
+    type: Boolean,
+    default: true
+  },
   description: {
     type: String,
     required: true

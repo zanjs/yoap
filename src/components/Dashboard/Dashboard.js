@@ -4,6 +4,7 @@ import {
 } from 'components'
 import s from './Dashboard.sass'
 
+
 export default class Dashboard extends Component {
   state = {color: '#448aff'};
 

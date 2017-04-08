@@ -32,6 +32,7 @@ const mapStateToProps = ({
   _objects: user._objects,
   _featured: user._featured,
   update: user.update,
+
   setTheme, currentThemeName,
 
   fetchUserItems, fetchUserFeatured
@@ -99,9 +100,9 @@ export default class UserPage extends Component {
     } = this.props;
     const object = data && data.length ? data[0] : null;
 
-    // if (!isAuthorized) {
-    //   return <Redirect to="/login"/>
-    // }
+    if (!isAuthorized) {
+      return <Redirect to="/login"/>
+    }
 
     return (
       <div>

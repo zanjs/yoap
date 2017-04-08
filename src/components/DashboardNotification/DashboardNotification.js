@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import {
-  Container, Title, Button,
-  FlexGrid
-} from 'components'
+import { inject, observer } from 'mobx-react'
+import { NotificationSlider } from 'components'
+import { statusTypes } from 'constants'
+import { shallowEqual } from 'helpers'
 import s from './DashboardNotification.sass'
 
 import coolIcon from 'images/emoji/1.png'
@@ -12,41 +12,91 @@ import spyIcon from 'images/emoji/4.png'
 import eyesIcon from 'images/emoji/5.png'
 import starsIcon from 'images/emoji/6.png'
 
-const Notification = ({children, onClick, getRef, title, icon, buttons}) => (
-  <div ref={getRef} onClick={onClick}
-       className={s.wrapper}>
-    {title && <FlexGrid justify="space-between" align="center"
-              className={s.content}>
-      <Title className={s.title} white size="1" nooffsets>
-        {title}
-      </Title>
-      <img className={s.icon} src={icon}/>
-    </FlexGrid>}
-    {children}
-    {buttons && <FlexGrid justify="start" align="center"
-              tag="footer" className={s.footer}>
-      {buttons.map(({children, ...rest}, key) => (
-        <Button className={s.btn} key={key} {...rest}>
-          {children}
-        </Button>
-      ))}
-    </FlexGrid>}
-  </div>
-);
+const mapStateToProps = ({items: {users}, user}) => {
+  const {
+    _objects,
+    banned,
+    verified,
+  } = user;
 
+  return {
+    data: [...users],
+    objects: _objects,
+    banned, verified
+  }
+};
+
+@inject(mapStateToProps) @observer
 export default class DashboardNotification extends Component {
-  dur = .35;
-  easeInOut = Power0.easeNone;
-  easeIn = Cubic.easeOut;
-  easeOut = Cubic.easeIn;
-  delay = 11;
-
-  current = -1;
   state = {
-    slide: {}
+    slides: []
   };
-  slides = [
-    {
+
+  slidesConstructors = {
+    banned: () => ({
+      color: '#37474f',
+      title: (
+        <span>
+          Мы подозреваем, что Вы агент. <br/>
+          Ваш аккаунт и объявления заблокированы.
+        </span>
+      ),
+      icon: spyIcon,
+      buttons: [
+        {
+          children: 'Связь с модератором',
+          type: 'gray'
+        },
+        {
+          children: 'Подробнее',
+          type: 'text'
+        }
+      ]
+    }),
+    restricted: link => ({
+      color: '#616161',
+      title: (
+        <span>
+          Объявление не прошло проверку. <br/>
+          Пожалуйста, исправьте ошибки, мы проверим все ещё раз.
+        </span>
+      ),
+      icon: eyesIcon,
+      buttons: [
+        {
+          children: 'Исправить',
+          type: 'blue',
+          to: `/manage/${link}`
+        },
+        {
+          children: 'Связь с модератором',
+          type: 'text'
+        }
+      ]
+    }),
+    justCreated: link => ({
+      color: '#1976d2',
+      title: (
+        <span>
+          Ваше объявление успешно добавлено.
+          Мы опубликуем его после проверки.
+        </span>
+      ),
+      icon: starsIcon,
+      buttons: [
+        {
+          children: 'Просмотр',
+          type: 'pink',
+          to: `/y/${link}`
+        },
+        {
+          children: 'Изменить',
+          type: 'text',
+          to: `/manage/${link}`
+        }
+      ]
+    }),
+    verified: () => ({
       color: '#448aff',
       title: (
         <span>
@@ -66,8 +116,8 @@ export default class DashboardNotification extends Component {
           type: 'text'
         }
       ]
-    },
-    {
+    }),
+    notVerified: () => ({
       color: '#ff8a80',
       title: (
         <span>
@@ -86,8 +136,8 @@ export default class DashboardNotification extends Component {
           type: 'text'
         }
       ]
-    },
-    {
+    }),
+    onModeration: link => ({
       color: '#42d08a',
       title: (
         <span>
@@ -99,193 +149,93 @@ export default class DashboardNotification extends Component {
       buttons: [
         {
           children: 'Просмотр',
-          type: 'blue'
+          type: 'blue',
+          to: `/y/${link}`
         },
         {
-          children: 'Подробнее',
-          type: 'text'
+          children: 'Изменить',
+          type: 'text',
+          to: `/manage/${link}`
         }
       ]
-    },
-    {
-      color: '#37474f',
-      title: (
-        <span>
-          Мы подозреваем, что Вы агент. <br/>
-          Ваш аккаунт и объявления заблокированы.
-        </span>
-      ),
-      icon: spyIcon,
-      buttons: [
-        {
-          children: 'Связь с модератором',
-          type: 'gray'
-        },
-        {
-          children: 'Подробнее',
-          type: 'text'
-        }
-      ]
-    },
-    {
-      color: '#616161',
-      title: (
-        <span>
-          Объявление не прошло проверку. <br/>
-          Пожалуйста, исправьте ошибки, мы проверим все ещё раз.
-        </span>
-      ),
-      icon: eyesIcon,
-      buttons: [
-        {
-          children: 'Связь с модератором',
-          type: 'blue'
-        },
-        {
-          children: 'Подробнее',
-          type: 'text'
-        }
-      ]
-    },
-    {
-      color: '#1976d2',
-      title: (
-        <span>
-          Ваше объявление успешно добавлено.
-          Мы опубликуем его после проверки.
-        </span>
-      ),
-      icon: starsIcon,
-      buttons: [
-        {
-          children: 'Просмотр',
-          type: 'pink'
-        },
-        {
-          children: 'Подробнее',
-          type: 'text'
-        }
-      ]
+    }),
+  };
+
+  updateSlides = props => {
+    const { data, verified, objects, banned } = props || this.props;
+    const { types } = statusTypes;
+    const create = this.slidesConstructors;
+    let slides = [];
+
+    // user has banned
+    if (banned) {
+      this.isChanged = true;
+      const slide = create.banned();
+      return this.setState({
+        slides: [slide]
+      })
     }
-  ];
 
-  isFocus = true;
+    if (verified && !objects.length) {
+      slides.push(create.verified())
+    }
 
-  nextSlide = () => {
-    if (!this.isFocus)
-      return this.startProgress();
+    if (!verified) {
+      slides.push(create.notVerified())
+    }
 
-    this.to(this.current + 1);
+    if (!data || !data.length)
+      return this.setState({slides});
+
+    // check restricted objects
+    const restricted = data.find(
+      item => item.status === types[2].id
+    );
+    if (restricted) {
+      slides.push(
+        create.restricted(restricted._link)
+      )
+    }
+
+    // check on moderation objects
+    const onModeration = data.find(
+      item => !item.justCreated && item.status === types[0].id
+    );
+    if (onModeration) {
+      slides.push(
+        create.onModeration(onModeration._link)
+      )
+    }
+
+    // check on just added objects
+    const justCreated = data.find(
+      item => item.justCreated
+    );
+    if (justCreated) {
+      slides.push(
+        create.justCreated(justCreated._link)
+      )
+    }
+
+    if (slides.length)
+      this.isChanged = true;
+
+    return this.setState({slides})
   };
 
-  to = num => {
-    this.fadeOut(() => {
-      // slide num can't be bigger than length
-      // and smaller than zero
-      const maxSlide = this.slides.length - 1;
-
-      let slideNum = num;
-      if (slideNum > maxSlide) {
-        slideNum = 0;
-      }
-
-      if (slideNum < 0) {
-        slideNum = maxSlide;
-      }
-
-      // set slide
-      const slide = this.slides[slideNum];
-      this.current = slideNum;
-      maxSlide && this.startProgress();
-      this.setState({slide}, this.fadeIn);
-
-      // change bg color
-      if (this.props.changeBackground)
-        this.props.changeBackground(slide.color);
-    })
-  };
-
-  fadeOut = onComplete => {
-    const { dur, easeOut } = this;
-
-    TweenMax.fromTo(this.wrapper, dur, {
-      opacity: 1,
-      y: 0
-    }, {
-      opacity: 0,
-      ease: easeOut,
-      onComplete
-    })
-  };
-  fadeIn = onComplete => {
-    const { dur, easeIn } = this;
-
-    TweenMax.fromTo(this.wrapper, dur, {
-      y: 20,
-      opacity: 0
-    }, {
-      y: 0,
-      opacity: 1,
-      ease: easeIn,
-      onComplete
-    })
-  };
-  startProgress = () => {
-    const { delay, easeInOut } = this;
-
-    TweenMax.fromTo(this.bar, delay, {
-      x: '0%'
-    }, {
-      x: '100%',
-      ease: easeInOut
-    })
-  };
-
-  startCycle = () => {
-    if (this.slides.length < 2)
-      return this.nextSlide();
-
-    this.nextSlide();
-    clearInterval(this.interval);
-    this.interval = setInterval(
-      this.nextSlide,
-
-      ((this.dur * 2) + this.delay) * 1000
-    )
-  };
-  stopCycle = () => {
-    this.clearInterval(this.interval);
-  };
-
-  componentDidMount() {
-    this.startCycle();
-    window.addEventListener('blur', this.blurPageHandler);
-    window.addEventListener('focus', this.focusPageHandler);
+  componentWillMount() {
+    this.updateSlides()
   }
-  componentWillUnmount() {
-    window.removeEventListener('blur', this.blurPageHandler);
-    window.removeEventListener('focus', this.focusPageHandler);
+  componentWillReceiveProps(nextProps, nextState) {
+    if (this.isChanged)
+      return this.isChanged = false;
+
+    this.updateSlides(nextProps);
   }
-  blurPageHandler = () => this.isFocus = false;
-  focusPageHandler = () => this.isFocus = true;
-
-  clickHandler = () => {
-    return this.startCycle();
-  };
-
-  getBarRef =     b => this.bar = b;
-  getWrapperRef = b => this.wrapper = b;
 
   render() {
-    return (
-      <Notification onClick={this.clickHandler}
-                    getRef={this.getWrapperRef}
-                    {...this.state.slide}>
-        <div className={s.progress}>
-          <div ref={this.getBarRef} className={s.bar} />
-        </div>
-      </Notification>
-    )
+    return <NotificationSlider slides={this.state.slides}
+                               changeBackground={this.props.changeBackground} />
   }
 }
 

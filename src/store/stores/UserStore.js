@@ -31,7 +31,11 @@ class UserStore {
   @observable lastVisit;
   @observable isDeleted;
   @observable createdAt;
+
   @observable verified;
+  @observable banned;
+
+  @observable notifications = [];
 
   @observable _objects;
   set objects(d) {
@@ -84,6 +88,10 @@ class UserStore {
     this.restoreValues();
     this.subscribeToLocalStore();
   }
+
+  notify = type => {
+
+  };
 
   has = id => {
     if (this._objects) {

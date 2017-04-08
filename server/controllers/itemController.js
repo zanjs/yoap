@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import { createItemUrl } from 'utils'
-import testData from '../testItemsData.json'
 import db from 'models'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
 const itemController = {};
@@ -11,7 +10,8 @@ itemController.itemHandler = (req, res) => {
     _creator, price, size, dewa,
     floors, location, category,
     type, params, rating,
-    images, id, _id
+    images, id, _id,
+    status
   } = req.body;
 
   if (id || _id) {
@@ -20,7 +20,9 @@ itemController.itemHandler = (req, res) => {
         title, description,
         price, dewa, size, floors,
         type, category, rating,
-        params, images, location
+        params, images, location,
+        editedAt: Date.now(),
+        status: status || statusTypes.types[0].id
       })
       .then(updatedData => {
         res.status(200).json({
@@ -29,7 +31,7 @@ itemController.itemHandler = (req, res) => {
         })
       }).catch(err => {
         res.status(500).json({
-          message: err.toString()
+          message: err
         })
     });
   }
@@ -187,7 +189,9 @@ itemController.update = (req, res) => {
     })
   }
 
-
+  if (update.status && update.status === statusTypes.types[1].id) {
+    update.justCreated = false;
+  }
 
   db.Item.findOneAndUpdate(query, update)
     .then(data => {

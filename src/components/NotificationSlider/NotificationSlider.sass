@@ -1,0 +1,39 @@
+@import ../../theme/index
+
+.wrapper
+  cursor: pointer
+
+.content
+  padding: 51.2px 0 48.6px
+
+.footer
+  padding-top: 41px
+
+.title
+  width: 75%
+
+.icon
+  width: 25%
+  padding: 0 75px
+  display: block
+
+.btn
+  color: #ffffff !important
+  &:last-child
+    opacity: .7
+    &:hover
+      opacity: 1
+
+.progress
+  height: 2px
+  width: 50%
+  background-color: rgba(#fff, .3)
+  position: relative
+  overflow: hidden
+
+.bar
+  @include absolute_init(full, 0)
+  left: -100%
+  transform: translateX(0%)
+  background-color: #fff
+
