@@ -196,9 +196,8 @@ export default class DashboardNotification extends Component {
       // set slide
       const slide = this.slides[slideNum];
       this.current = slideNum;
-      this.setState({slide});
-      this.fadeIn();
       maxSlide && this.startProgress();
+      this.setState({slide}, this.fadeIn);
 
       // change bg color
       if (this.props.changeBackground)
