@@ -15,7 +15,7 @@
 .btn
   @extend .reset
   border: 2px solid $black
-  padding: 17px 25px
+  padding: 10px 25px
   margin-top: 10px
   border-radius: 6px
   cursor: pointer
@@ -157,10 +157,12 @@
 .gray
   @extend .btn
   color: $gray9b
+  background-color: $gray9b
   border-color: $gray9b
   &:hover
-    color: #fff
+    color: $gray9b
     background-color: $gray9b
+    box-shadow: $shadow
   &[disabled]
     cursor: not-allowed !important
     color: $gray9b !important

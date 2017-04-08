@@ -75,11 +75,26 @@ export default class Nav extends Component {
     }
   };
 
+  getTheme = (full, theme) => {
+    if (full) {
+      return theme;
+    }
+
+    return {
+      ...theme,
+      backgroundColor: 'transparent'
+    }
+  };
+
   render() {
-    const { links, full, name, children, className } = this.props;
+    const { links, full, name, children, className, theme } = this.props;
     const isCustom = !!children;
+
+    const styles = this.getTheme(full, theme);
+
     return (
       <nav className={classNames(s.nav, className, full && s.nav_showed)}
+           style={styles}
            ref={this.getNavRef}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>

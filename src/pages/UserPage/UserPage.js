@@ -6,7 +6,8 @@ import {
   UserCustomAddress,
   Container, FlexGrid,
   LinkIcon, ItemTile,
-  Svg, Content, LoadingAnimation
+  Svg, Content, LoadingAnimation,
+  Dashboard
 } from 'components'
 import { classNames } from 'helpers'
 import s from './UserPage.sass'
@@ -18,7 +19,8 @@ const mapStateToProps = ({
       users, featured, isFetching,
       fetchUserItems, fetchUserFeatured,
     },
-    user
+    user,
+    theme: { setTheme, currentThemeName }
   }) => ({
   data: users,
   featured,
@@ -30,6 +32,7 @@ const mapStateToProps = ({
   _objects: user._objects,
   _featured: user._featured,
   update: user.update,
+  setTheme, currentThemeName,
 
   fetchUserItems, fetchUserFeatured
 });
@@ -42,7 +45,12 @@ export default class UserPage extends Component {
     this.props.update(() => {
       this.updateUserItems();
       this.updateUserFeatured();
-    })
+    });
+    this.prevTheme = this.props.currentThemeName + '';
+    this.props.setTheme('black');
+  }
+  componentWillUnmount() {
+    this.props.setTheme(this.prevTheme);
   }
   updateUserItems = (objects = this.props._objects) => {
     if (objects && objects.length) {
@@ -91,13 +99,13 @@ export default class UserPage extends Component {
     } = this.props;
     const object = data && data.length ? data[0] : null;
 
-    if (!isAuthorized) {
-      return <Redirect to="/login"/>
-    }
+    // if (!isAuthorized) {
+    //   return <Redirect to="/login"/>
+    // }
 
     return (
       <div>
-        <div className={s.dashboard} />
+        <Dashboard />
         {isFetching && <LoadingAnimation />}
 
         <Container className={s.content}>
