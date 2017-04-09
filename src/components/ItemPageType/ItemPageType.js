@@ -10,6 +10,11 @@ import s from './ItemPageType.sass'
 const { types } = objectTypes;
 
 const isActive = (item, name, id) => {
+  if (typeof item === 'string') {
+    const val = item.toLocaleLowerCase();
+
+    return val === id.toLowerCase() || val === name.toLowerCase();
+  }
   if (name) {
     return item.name.toLowerCase() === name.toLowerCase();
   }

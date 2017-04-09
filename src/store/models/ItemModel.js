@@ -552,6 +552,7 @@ export default class ItemModel {
       price,
 
       user = {},
+      _creator,
       views
     } = this;
 
@@ -586,7 +587,9 @@ export default class ItemModel {
       images,
       description,
 
-      _creator: user.id || user._id,
+      _creator: user.id || user._id || _creator.id || _creator._id,
+      _userData: _creator,
+
       views,
       rating: rating || 0
     };

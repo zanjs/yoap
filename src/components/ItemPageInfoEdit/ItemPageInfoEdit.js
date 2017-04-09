@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   ItemPageTitle, ItemPageContent,
   ItemPageUser, ItemPageType,
@@ -7,23 +8,18 @@ import {
 import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
-import userImage from 'images/user.jpg'
+const mapStateToProps = ({manage: {data, changeData}}) => ({
+  data, changeData
+});
 
+@inject(mapStateToProps) @observer
 export default class ItemPageInfoEdit extends Component {
-  state = {
-    title: '',
-    description: '',
-    type: {},
-    price: []
-  };
-
   componentWillMount() {
     normalizeScroll(true);
   }
   componentWillUnmount() {
     normalizeScroll(false);
   }
-
 
   onChangeTitle = ({target: {value}}) =>
     this.onChange({title: value});
@@ -36,13 +32,16 @@ export default class ItemPageInfoEdit extends Component {
   };
 
   onChange = props => {
-    if (this.props.onChange) {
-      this.props.onChange(props)
+    if (this.props.changeData) {
+      this.props.changeData(props)
     }
   };
 
   render() {
-    const { title, content, description, type, price, dewa } = this.props.data;
+    const {
+      title, content, description,
+      type, price, dewa
+    } = this.props.data;
     const { className, user } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>

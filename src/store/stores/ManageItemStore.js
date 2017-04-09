@@ -1,4 +1,5 @@
 import { observable } from 'mobx'
+import { extend } from 'helpers'
 
 class ManageItemStore {
   @observable errors = {};
@@ -13,6 +14,7 @@ class ManageItemStore {
     @observable rating: 0,
 
     @observable category: '',
+    @observable type: '',
     @observable status: '',
     @observable user: {},
 
@@ -33,9 +35,19 @@ class ManageItemStore {
     },
   };
 
+  changeData = change => {
+    if (typeof change === 'function') {
+      return change(this.data);
+    }
+
+    return extend(this.data, change);
+  };
+
   Import = __object => {
     const object = __object.toJSON
       ? __object.toJSON() : __object;
+
+    window.obj = object;
 
     // object title
     if (object.title)
@@ -64,6 +76,9 @@ class ManageItemStore {
     // object status
     if (object.status)
       this.data.status = object.status;
+    // object type
+    if (object.type)
+      this.data.type = object.type;
     // object dewa
     if (object.dewa)
       this.data.dewa = object.dewa;
@@ -89,8 +104,8 @@ class ManageItemStore {
     if (object.views)
       this.data.views = object.views;
     // object user
-    if (object.user || object._creator)
-      this.data.user = object.user || object._creator;
+    if (object._userData || object._creator)
+      this.data.user = object._creator;
     // object params
     if (object.params)
       this.data.params.replace([...object.params])

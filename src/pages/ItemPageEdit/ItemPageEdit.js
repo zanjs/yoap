@@ -20,8 +20,8 @@ import {
 } from 'constants'
 import s from './ItemPageEdit.sass'
 
-@inject(({filter, items, user}) => ({
-  filter, user, items
+@inject(({filter, items, user, manage}) => ({
+  filter, user, items, manage
 })) @observer
 export default class ItemPageEdit extends Component {
   isMount = false;
@@ -49,6 +49,8 @@ export default class ItemPageEdit extends Component {
   };
 
   insertData = data => {
+    this.props.manage.Import(data);
+
     let newData = {};
 
     newData.size = {
@@ -381,8 +383,7 @@ export default class ItemPageEdit extends Component {
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <ItemPageEditPhoto data={images} onChange={photosChangeHandler} />
         )}>
-          <ItemPageInfoEdit data={data} user={user} onChange={infoChangeHandler}
-                            className={s.info} />
+          <ItemPageInfoEdit user={user} className={s.info} />
         </ItemPageInfoScroller>
 
         <ItemPageLocationContainer edit onChange={locationChangeHandler}
