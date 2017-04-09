@@ -5,6 +5,7 @@ import UserStore from 'stores/UserStore'
 import ItemsStore from 'stores/ItemsStore'
 import FilterStore from 'stores/FilterStore'
 import ThemesStore from 'stores/ThemesStore'
+import ManageItemStore from 'stores/ManageItemStore'
 
 
 export const store = window.store = {
@@ -14,5 +15,6 @@ export const store = window.store = {
   user: UserStore,
   items: ItemsStore,
   filter: FilterStore,
-  theme: ThemesStore
+  theme: ThemesStore,
+  manage: ManageItemStore
 };

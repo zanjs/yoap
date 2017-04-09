@@ -539,7 +539,7 @@ export default class ItemModel {
   toJSON() {
     const {
       id, title, _link, _category,
-      _state, _furniture,
+      _state, _furniture, status,
 
       _type, dewa,
       size, location,
@@ -564,6 +564,7 @@ export default class ItemModel {
       link: _link,
       type,
       category,
+      status,
 
       price,
       dewa,
