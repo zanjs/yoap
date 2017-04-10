@@ -70,6 +70,8 @@ export ItemPageInfo from './ItemPageInfo/ItemPageInfo'
 export ItemPageInfoEdit from './ItemPageInfoEdit/ItemPageInfoEdit'
 export ItemPageParameters from './ItemPageParameters/ItemPageParameters'
 export ItemPageLocation from './ItemPageLocation/ItemPageLocation'
+export ItemLocationEdit from './ItemLocationEdit/ItemLocationEdit'
+export ItemParametersEdit from './ItemParametersEdit/ItemParametersEdit'
 /*----------- BaseFilter */
 export BaseFilter from './BaseFilter/BaseFilter'
 export BaseFilterItem from './BaseFilterItem/BaseFilterItem'

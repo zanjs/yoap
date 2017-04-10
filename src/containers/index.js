@@ -17,5 +17,6 @@ export SignupFormContainer from './SignupFormContainer/SignupFormContainer'
 export ItemPageParametersContainer from './ItemPageParametersContainer/ItemPageParametersContainer'
 export ItemPageLocationContainer from './ItemPageLocationContainer/ItemPageLocationContainer'
 export ItemPageInfoContainer from './ItemPageInfoContainer/ItemPageInfoContainer'
+export ItemPhotoEditContainer from './ItemPhotoEditContainer/ItemPhotoEditContainer'
 
 export MapContainer from './MapContainer/MapContainer'

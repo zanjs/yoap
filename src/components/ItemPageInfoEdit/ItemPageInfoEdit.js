@@ -35,6 +35,9 @@ export default class ItemPageInfoEdit extends Component {
     if (this.props.changeData) {
       this.props.changeData(props)
     }
+    if (this.props.onUpdate) {
+      this.props.onUpdate()
+    }
   };
 
   render() {

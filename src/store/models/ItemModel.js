@@ -572,7 +572,7 @@ export default class ItemModel {
 
       params: [
         category,
-        _type,
+        type,
         _state,
         _furniture,
         ..._amenities,
@@ -587,7 +587,27 @@ export default class ItemModel {
       images,
       description,
 
-      _creator: user.id || user._id || _creator.id || _creator._id,
+      _creator: (() => {
+        let id;
+        if (user) {
+          if (typeof user === 'string') {
+            id = user;
+          }
+          if (typeof user.id === 'string' || typeof user._id === 'string') {
+            id = user.id || user._id;
+          }
+        }
+        if (_creator) {
+          if (typeof _creator === 'string') {
+            id = _creator;
+          }
+          if (typeof _creator.id === 'string' || typeof _creator._id === 'string') {
+            id = _creator.id || _creator._id;
+          }
+        }
+
+        return id;
+      })(),
       _userData: _creator,
 
       views,
@@ -623,6 +643,7 @@ export default class ItemModel {
     } = object;
     let data = {
       ...rest,
+      _id: rest.id || rest._id,
 
       _link: link,
       _type: '',
@@ -648,7 +669,7 @@ export default class ItemModel {
        */
       switch (type) {
         case objectType:
-          return data._type = item;
+          return data._type = item.id ? item.id : item;
         case termType:
           return data._term = item;
         case facilityType:

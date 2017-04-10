@@ -4,70 +4,12 @@
  * @module itemValidation
  */
 import { isEmpty, keys } from 'helpers'
+import { messages } from './messages'
 import {
   objectTypes, categoryTypes,
   facilitiesTypes, amenitiesTypes,
   rulesTypes, termTypes
 } from 'constants'
-
-const messages = {
-  type: {
-    empty: 'Тип объекта не может быть пустым!',
-    wrong: 'Неправильный тип объекта: %',
-    success: ''
-  },
-  category: {
-    empty: 'Категория не может быть пустой.',
-    wrong: 'Такой категории не существует: %',
-    success: ''
-  },
-  size: {
-    wrong: 'Поле % неправильного формата. Это должно быть положительное число.',
-    empty: 'Вы не определили размер вашего объекта.',
-    null: 'Все поля обязательны для ввода. Одно из них заполнено неправильным. Это должно быть положительно число',
-    livingMoreThanTotal: 'Жилая площадь не может быть больше общей.',
-    success: ''
-  },
-  location: {
-    empty: 'Адрес не может быть пустым!',
-    success: ''
-  },
-  floors: {
-    empty: 'Этажность необходимо заполнить',
-    emptyAmount: 'Вы не ввели общее количество этажей.',
-    wrong: 'Ваш этаж не может быть больше общего количества этажей.',
-    success: ''
-  },
-
-  facilities: {
-    empty: 'Удобства не могут быть пустыми!',
-    wrong: 'Неправильный(-е) тип(-ы) удобств(-а): %',
-    success: ''
-  },
-  rules: {
-    empty: 'Правила дома не могут быть пустыми!',
-    wrong: 'Неправильный(-е) тип(-ы) правил(-а): %',
-    success: ''
-  },
-  amenities: {
-    empty: 'Помещения не могут быть пустыми!',
-    wrong: 'Неправильный(-е) тип(-ы) помещения(-й): %',
-    success: ''
-  },
-  term: {
-    empty: 'Срок сдачи не может быть пустыми!',
-    wrong: 'Неправильный тип срока: %',
-    success: ''
-  },
-
-  price: {
-    empty: 'Стоимость не может быть пустой!',
-    wrong: 'Вы ввели следующие поля неверно: %',
-    wrongInput: '% не может быть меньше 0',
-    wrongAmount: 'Стоимость объекта не может быть меньше 0 или 0',
-    success: ''
-  }
-};
 
 /**
 * Item type validation.
@@ -133,33 +75,38 @@ export const validateSize = data => {
     test(data.bedrooms) ||
     test(data.bathrooms) ||
     test(data.squares) ||
-    test(data.squares.living) ||
-    test(data.squares.total)
+    test(data.beds)
   ) {
     return {isError: true, message: messages.size.null}
   }
 
   // check fields on error
+  const isWrong = val => isEmpty(val) || parseFloat(val) < 0;
   const errors = keys(data, (item, prop, result = []) => {
-    let newItem = parseInt(item, 10);
-
     switch (prop) {
       case 'rooms':
-        if (newItem < 0) {
-          result.push(messages.size.wrong.replace('%', prop));
+        if (isWrong(item)) {
+          result.push('комнаты');
+        }
+        break;
+      case 'beds':
+        if (isWrong(item)) {
+          result.push('кровати');
+        }
+        break;
+      case 'bedrooms':
+        if (isWrong(item)) {
+          result.push('спальни');
+        }
+        break;
+      case 'bathrooms':
+        if (isWrong(item)) {
+          result.push('ванные');
         }
         break;
       case 'squares':
-        let { living, total } = item;
-        living = parseInt(living, 10);
-        total = parseInt(total, 10);
-
-        if (total <= 0 || living <= 0) {
-          result.push(messages.size.wrong.replace('%',
-            !total ? '"общая площадь"' : '"жилая площадь"'
-          ));
-        } else if (living > total) {
-          result.push(messages.size.livingMoreThanTotal);
+        if (isEmpty(item) || parseInt(item, 10) <= 0) {
+          result.push('площадь');
         }
 
         break;
@@ -171,7 +118,7 @@ export const validateSize = data => {
   if (errors.length > 0) {
     return {
       isError: true,
-      message: errors.toString().replace(',', '\n')
+      message: messages.size.wrong.replace('%', errors.join(', '))
     }
   }
 
@@ -189,31 +136,11 @@ export const validatePrice = data => {
     return {isError: true, message: messages.price.empty};
   }
 
-  const errors = keys(data, (item, prop, result = []) => {
-    switch (prop) {
-      case 'deposit':
-      case 'utilities':
-        if (item < 0) {
-          result.push(
-            messages.price.wrongInput.replace('%', prop)
-          )
-        }
-        break;
-      case 'amount':
-        if (item <= 0) {
-          result.push(
-            messages.price.wrongAmount.replace('%', prop)
-          )
-        }
-    }
 
-    return result;
-  });
-
-  if (errors.length) {
+  if (isEmpty(data[0].value)) {
     return {
       isError: true,
-      message: messages.price.wrong.replace('%', errors.toString())
+      message: messages.price.wrong
     }
   }
 
@@ -263,37 +190,6 @@ export const validateFacilities = (data) => {
   }
 
   return {isError: false, message: messages.facilities.success};
-};
-
-/**
- * Floors validation.
- *
- * @param {Array} data
- * @return {Object}
- */
-export const validateFloors = data => {
-  if (!data || !data.length) {
-    return {isError: true, message: messages.floors.empty};
-  }
-
-  // check fields on error
-  const [ current, amount ] = data;
-
-  if (!amount) {
-    return {
-      isError: true,
-      message: messages.floors.emptyAmount
-    }
-  }
-
-  if (amount < current) {
-    return {
-      isError: true,
-      message: messages.floors.wrong
-    }
-  }
-
-  return {isError: false, message: messages.floors.success};
 };
 
 /**
@@ -363,6 +259,37 @@ export const validateRules = ({types}) => {
 };
 
 /**
+ * Floors validation.
+ *
+ * @param {Array} data
+ * @return {Object}
+ */
+export const validateFloors = data => {
+  if (!data || !data.length) {
+    return {isError: true, message: messages.floors.empty};
+  }
+
+  // check fields on error
+  const [ current, amount ] = data;
+
+  if (!amount) {
+    return {
+      isError: true,
+      message: messages.floors.emptyAmount
+    }
+  }
+
+  if (amount < current) {
+    return {
+      isError: true,
+      message: messages.floors.wrong
+    }
+  }
+
+  return {isError: false, message: messages.floors.success};
+};
+
+/**
  * Term validation.
  *
  * @param {string|number} id
@@ -396,12 +323,46 @@ export const validateTerm = ({id, name}) => {
 export const validateUser = data => {};
 
 /**
+ * Title validation.
+ *
+ * @param {Object} data
+ * @return {Object}
+ */
+export const validateTitle = data => {
+  if (isEmpty(data)) {
+    return {isError: true, message: messages.title.empty};
+  }
+
+  return {isError: false, message: messages.title.success};
+};
+
+/**
+ * Description validation.
+ *
+ * @param {Object} data
+ * @return {Object}
+ */
+export const validateDescription = data => {
+  if (isEmpty(data)) {
+    return {isError: true, message: messages.description.empty};
+  }
+
+  return {isError: false, message: messages.description.success};
+};
+
+/**
  * Images validation. todo: images validation
  *
  * @param {Object} data
  * @return {Object}
  */
-export const validateImages = data => {};
+export const validateImages = data => {
+  if (isEmpty(data)) {
+    return {isError: true, message: messages.images.empty};
+  }
+
+  return {isError: false, message: messages.images.success};
+};
 
 /**
  * Location validation.
@@ -437,8 +398,8 @@ export const isValid = window.isValid = (name, value) => {
       return validateFacilities(value);
     case 'price':
       return validatePrice(value);
-    case 'category':
-      return validateCategory(value);
+    //case 'category':
+    //  return validateCategory(value);
     case 'floors':
       return validateFloors(value);
     case 'amenities':

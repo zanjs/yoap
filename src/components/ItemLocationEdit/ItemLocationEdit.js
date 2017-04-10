@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   ItemPageInfoScroller,
   ItemPageLocation
@@ -6,13 +7,32 @@ import {
 import { MapContainer } from 'containers'
 import { isEmpty } from 'helpers'
 
+const mapStateToProps = ({manage: {data, changeData}}) => ({
+  data: data.location,
+  changeData
+});
 
-export default class ItemPageLocationContainer extends Component {
+@inject(mapStateToProps) @observer
+export default class ItemLocationEdit extends Component {
   state = {
     address: null,
     direction: null,
     subway: null
   };
+
+  componentWillMount() {
+    const { data } = this.props;
+
+    if (data && data.location && data.location[0]) {
+      // this.setState({
+      //   address: {
+      //     position: [...data.location],
+      //     props: null
+      //   },
+      //   subway: data.subway
+      // })
+    }
+  }
 
   setPoint = address =>
     this.setState({address}, this.onChange);
@@ -28,21 +48,27 @@ export default class ItemPageLocationContainer extends Component {
       subway
     }, this.onChange)
   };
+  changeData = location => {
+    if (this.props.changeData) {
+      this.props.changeData({location});
+    }
+  };
   onChange = () => {
-    if (!this.props.onChange)
-      return null;
-
     const { state } = this;
     const _address = state.address;
     const address = _address && _address.name;
     const location = _address && _address.position;
     const { subway } = state;
 
-    this.props.onChange({
+    this.changeData({
       address,
       location,
       subway
-    })
+    });
+
+    if (this.props.onUpdate) {
+      this.props.onUpdate();
+    }
   };
 
   getPointData = data => {
@@ -61,7 +87,6 @@ export default class ItemPageLocationContainer extends Component {
       props: {}
     }
   };
-
   getLocationData = () => {
     const { location, data } = this.props;
 
@@ -103,7 +128,7 @@ export default class ItemPageLocationContainer extends Component {
         <ItemPageLocation setPoint={setPoint} point={pointData}
                           onStationChange={metroChangeHandler} direction={direction}
                           setDirection={setDirection}
-                          data={locationData} />
+                          edit data={locationData} />
       </ItemPageInfoScroller>
     )
   }

@@ -19,10 +19,11 @@ const getCategoryName = category => {
 };
 
 const translit = string => {
+  console.log('to translit', string);
   const formattedString = string
     .toLowerCase()
     .replace(/\s/gi, '-')
-    .match(/[а-я0-9\-]/gi)
+    .match(/[а-яa-z0-9\-]/gi)
     .join('');
 
   return cyrillicToTranslit()
