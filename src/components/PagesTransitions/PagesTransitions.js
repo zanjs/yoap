@@ -39,6 +39,7 @@ export default class PagesTransitions extends Component {
 
   update() {
     this.animation();
+    console.log('is it new page?..')
   }
 
   animation() {
@@ -48,16 +49,14 @@ export default class PagesTransitions extends Component {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
 
-    console.log('scrolled to top');
-
-    TweenMax.fromTo(this.wrapper, dur, {
-      opacity: 0,
-      //y: 200
-    }, {
-      opacity: 1,
-      //y: 0,
-      ease
-    })
+    // TweenMax.fromTo(this.wrapper, dur, {
+    //   opacity: 0,
+    //   //y: 200
+    // }, {
+    //   opacity: 1,
+    //   //y: 0,
+    //   ease
+    // })
   }
 
   getRef = b => {

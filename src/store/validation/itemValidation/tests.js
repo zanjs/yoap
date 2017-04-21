@@ -388,6 +388,10 @@ export const validateLocation = ({address}) => {
  */
 export const isValid = window.isValid = (name, value) => {
   switch(name) {
+    case 'title':
+      return validateTitle(value);
+    case 'description':
+      return validateDescription(value);
     case 'type':
       return validateType(value);
     case 'size':

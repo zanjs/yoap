@@ -101,7 +101,8 @@ export default class SliderImages extends Component {
   };
 
   parseData = data => data && data.map((item, key) => (
-    <Image getRef={this.getImageRef(key)} className={s.image} src={item}/>
+    item && <Image getRef={this.getImageRef(key)}
+                   className={s.image} src={item}/>
   ));
 
   render() {

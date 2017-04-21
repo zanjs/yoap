@@ -31,7 +31,7 @@ export default class ItemPageEdit extends Component {
   getData = () => {
     const { link } = this.props.match.params;
 
-    if (link !== 'create' && link !== 'add' && link !== 'new') {
+    if (!this.isBlank(link)) {
       this.props.items.findByLink(link, 'users', data => {
         this.props.manage.Import(data);
         this.setState({isEmpty: false})
@@ -42,7 +42,21 @@ export default class ItemPageEdit extends Component {
 
     return false;
   };
+  isBlank = _link => {
+    const link = _link || this.props.match.params.link;
 
+    return link === 'create' || link === 'add' || link === 'new';
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { link } = this.props.match.params;
+    const newLink = nextProps.match.params;
+
+    if (link !== newLink && this.isBlank(newLink)) {
+      this.props.manage.CreateNew();
+      this.setState({isEmpty: false})
+    }
+  }
   // entry point of initialize page
   // if this page exist at db -> insert that data
   // if not -> generate clean params

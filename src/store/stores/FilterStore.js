@@ -6,7 +6,8 @@ import {
   objectTypes, facilitiesTypes,
   amenitiesTypes, rulesTypes,
   termTypes, categoryTypes,
-  stateTypes, furnitureTypes
+  stateTypes, furnitureTypes,
+  facilityTypeCommon
 } from 'constants'
 
 console.log({
@@ -241,10 +242,20 @@ class FilterStore {
 
     return data.map(item => ({
       ...item,
-      types: item.types.map(_item => ({
-        ..._item,
-        isActive: false
-      }))
+      types: item.types.map(_item => {
+        const isCommon = _item.id.indexOf(facilityTypeCommon) !== -1;
+        let index;
+
+        if (isCommon) {
+          const _index = _item.id[_item.id.length - 1];
+          index = parseInt(_index, 10);
+        }
+
+        return {
+          ..._item,
+          isActive: isCommon && index < 5
+        }
+      })
     }));
   }
 

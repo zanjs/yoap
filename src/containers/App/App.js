@@ -9,7 +9,7 @@ import {
 } from 'pages'
 import {
   BrowserRouter as Router,
-  Route, Switch
+  Route
 } from 'react-router-dom'
 import {
   PagesTransitions, Overlay,
@@ -66,18 +66,16 @@ export default class App extends Component {
 
           {/* Routes */}
           <PagesTransitions>
-            <Switch>
-              <Route path="/" exact component={HomePage}/>
-              <Route path="/login" component={LoginPage}/>
-              <Route path="/signup" component={SignupPage} />
-              <Route path="/y" exact component={ItemsListPage}/>
-              <Route path="/y/:link" exact component={ItemPage}/>
-              <Route path="/you" exact component={UserPage}/>
-              <Route path="/you/yours" exact component={UserItemsPage} />
-              <Route path="/you/featured" exact component={UserFeaturedPage} />
-              <Route path="/manage" exact component={ManageItemsPage}/>
-              <Route path="/manage/:link" component={ItemPageEdit}/>
-            </Switch>
+            <Route path="/" exact component={HomePage}/>
+            <Route path="/login" component={LoginPage}/>
+            <Route path="/signup" component={SignupPage} />
+            <Route path="/y" exact component={ItemsListPage}/>
+            <Route path="/y/:link" exact component={ItemPage}/>
+            <Route path="/you" exact component={UserPage}/>
+            <Route path="/you/yours" exact component={UserItemsPage} />
+            <Route path="/you/featured" exact component={UserFeaturedPage} />
+            <Route path="/manage" exact component={ManageItemsPage}/>
+            <Route path="/manage/:link" component={ItemPageEdit}/>
           </PagesTransitions>
           {/*<PagesTransitions className={s.content}>*/}
             {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}
@@ -94,7 +92,7 @@ export default class App extends Component {
           <Overlay />
 
           {/* MobX Devtools */}
-          <DevTools />
+          {/*<DevTools />*/}
         </div>
       </Router>
     )

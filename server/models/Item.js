@@ -133,14 +133,6 @@ const itemSchema = new Schema({
     ref: 'User',
     required: true
   },
-  // images: {
-  //   thumbnail: {
-  //     preview: String,
-  //     full: String
-  //   },
-  //   gallery: [String]
-  // },
-
 });
 
 const populate = function(next) {

@@ -31,7 +31,12 @@ export const messages = {
     success: ''
   },
   title: {
-    empty: 'Заголовок не может быть пустым'
+    empty: 'Заголовок не может быть пустым',
+    success: ''
+  },
+  description: {
+    empty: 'Описание не может быть пустым',
+    success: ''
   },
 
   facilities: {
