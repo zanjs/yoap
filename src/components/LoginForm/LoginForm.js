@@ -8,12 +8,12 @@ import s from './LoginForm.sass'
 
 export default class LoginForm extends Component {
   placeholders = {
-    email: 'Email',
+    login: 'Phone/Email',
     password: 'Password'
   };
 
   initialState = {
-    email: '',
+    login: '',
     password: '',
 
     errors: {},
@@ -61,7 +61,7 @@ export default class LoginForm extends Component {
     e.preventDefault();
 
     if (this.isValid()) {
-      this.props.login();
+      this.props.loginUser();
     }
 
     return false;
@@ -93,7 +93,7 @@ export default class LoginForm extends Component {
     return (
       <form onSubmit={this.submitHandler} className={classNames(s.wrapper, className, isFetching && s.wrapper_disabled)}>
         <Title size="2" light>Вход в личный <br/>кабинет</Title>
-        <FormGroup {...this.extendInputProps('email')} getRef={this.getEmailInputRef}/>
+        <FormGroup {...this.extendInputProps('login')} getRef={this.getEmailInputRef}/>
         <FormGroup {...this.extendInputProps('password')} getRef={this.getPasswordInputRef}/>
         {isDuplicated && <Content>Мы сохранили ваши данные, нажмите "Готово"</Content>}
         {!isDuplicated && isError && <Content>{isError.message || isError.text || isError}</Content>}

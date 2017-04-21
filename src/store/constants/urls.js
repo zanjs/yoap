@@ -19,6 +19,8 @@ export const signup = `/signup`;
 export const signupApi = apiOrigin + api + signup;
 export const login = `/login`;
 export const loginApi = apiOrigin + api + login;
+export const updateUserData = `/update`;
+export const updateUserDataApi = apiOrigin + api + updateUserData;
 
 // items api
 export const items = '/items';

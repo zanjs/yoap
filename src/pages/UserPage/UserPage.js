@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link as RouterLink, Redirect } from 'react-router-dom'
 import {
-  ItemPageUser, ItemPageInfoTitle,
+  ItemPageInfoTitle,
   UserCustomAddress,
   Container, FlexGrid,
   LinkIcon, ItemTile,
   Svg, Content, LoadingAnimation,
   Dashboard
 } from 'components'
+import { UserDataEditContainer } from 'containers'
 import { classNames } from 'helpers'
 import s from './UserPage.sass'
 
@@ -113,10 +114,11 @@ export default class UserPage extends Component {
           <FlexGrid justify="space-between" align="start">
 
             <div className={s.info}>
-              <ItemPageUser title="Мой профиль" phone={phone}
-                            email={email} link="/y" isVerified>
-                {name}
-              </ItemPageUser>
+              {/*<ItemPageUser title="Мой профиль" phone={phone}*/}
+                            {/*email={email} link="/y" isVerified>*/}
+                {/*{name}*/}
+              {/*</ItemPageUser>*/}
+              <UserDataEditContainer />
 
               <UserCustomAddress />
               <div className={s.item}>

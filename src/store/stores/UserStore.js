@@ -4,7 +4,11 @@
  * @see store
  */
 import { observable, reaction, computed } from 'mobx'
-import { login as serverLogin, signup as serverSignup } from 'api'
+import {
+  login as serverLogin,
+  signup as serverSignup,
+  updateUserData as serverUpdateUserData
+} from 'api'
 import { extend, localStore, noop } from 'helpers'
 import { store as config } from 'constants'
 import { store } from 'store'
@@ -20,7 +24,14 @@ class UserStore {
 
   // user data
   @observable _id;
+  get id() {
+    return this._id;
+  }
+  set id(id) {
+    this._id = id;
+  }
   @observable name;
+  @observable login;
   @observable email;
   @observable phone;
   @observable password;
@@ -81,7 +92,7 @@ class UserStore {
   @observable isFetching = false;
   @observable isError = false;
   get isAuthorized() {
-    return !!(this._id || this.id)
+    return !!this.id
   }
 
   constructor() {
@@ -146,7 +157,7 @@ class UserStore {
     this.isFetching = false;
   };
 
-  login = (cb = noop) => {
+  loginUser = (cb = noop) => {
     this.isFetching = true;
     const { email, phone, password } = this.toJSON();
     const data = {
@@ -171,10 +182,28 @@ class UserStore {
       .then(this.responseHandler)
       .catch(this.errorHandler);
   };
+  updateUserData = (data, cb = noop) => {
+    if (!this.id)
+      return null;
+
+    extend(this, data);
+
+    let newData = {
+      data,
+      id: this.id
+    };
+
+    return serverUpdateUserData(newData)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.responseHandler)
+      .then(cb)
+      .catch(this.errorHandler);
+  }
 
   update = cb => {
     if ((this.email || this.phone) && this.password) {
-      return this.login(cb);
+      return this.loginUser(cb);
     }
   };
 
@@ -193,7 +222,27 @@ class UserStore {
   *
   * @param {Object} values
   */
-  saveValues = values => {
+  saveValues = _values => {
+    let values = {..._values};
+    if (values.login) {
+      const { login } = values;
+      if (login.indexOf('@') !== -1) {
+        values.email = login;
+      } else {
+        const newLogin = login.replace(new RegExp(' ', 'gi'), '');
+        let firstSymbol = login[0] === '+' ? '+' : ''
+        let phone = firstSymbol + login.replace(/\D+/g,"");
+
+        if (newLogin.length === phone.length) {
+          values.phone = phone;
+        } else {
+          delete values.phone;
+        }
+      }
+    }
+
+    console.log(values);
+
     extend(this, values);
   };
 
@@ -212,7 +261,7 @@ class UserStore {
   * @return {Object}
   */
   toJSON = () => ({
-    id: this.id || this._id || '',
+    id: this.id || '',
     name: this.name,
     email: this.email,
     phone: this.phone,

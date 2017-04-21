@@ -6,24 +6,34 @@ import s from './Dashboard.sass'
 
 
 export default class Dashboard extends Component {
-  state = {color: '#448aff'};
+  state = {color: '#448aff', isEmpty: true};
 
   changeBackground = color => this.setState({
     color
   });
 
+  isEmpty = (cond) => {
+    this.setState({
+      isEmpty: cond
+    })
+  }
+
   render() {
     const {
-      state: {color},
+      state: {color, isEmpty},
       changeBackground
     } = this;
+
+    const display = isEmpty ? 'none' : 'block';
+
     return (
-      <div style={{backgroundColor: color}} className={s.wrapper}>
+      <div style={{backgroundColor: color, display}} className={s.wrapper}>
         <Container>
           <span className={s.subtitle}>
             Уведомления
           </span>
-          <DashboardNotification changeBackground={changeBackground} />
+          <DashboardNotification isEmpty={this.isEmpty}
+                                 changeBackground={changeBackground} />
         </Container>
       </div>
     )

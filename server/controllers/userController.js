@@ -52,13 +52,28 @@ userController.signup = (req, res) => {
     })
   }).catch(err => {
     res.status(500).json({
-      message: err.toString()
+      message: err
     })
   })
 };
 
 userController.update = (req, res) => {
+  const { data, id } = req.body;
 
+  console.log(data, id);
+
+  db.User
+    .findByIdAndUpdate(id, { $set: data }, { new: true })
+    .then(data => {
+      res.status(200).json({
+        success: true,
+        data
+      })
+    }).catch(err => {
+    res.status(500).json({
+      message: err
+    })
+  })
 };
 
 userController.delete = (req, res) => {

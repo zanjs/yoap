@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   Title, Button, FlexGrid
 } from 'components'
-import { shallowEqual } from 'helpers'
+import { shallowEqual, isEmpty as isEmptyData } from 'helpers'
 import s from './NotificationSlider.sass'
 
 const Notification = ({children, onClick, getRef, title, icon, buttons}) => (
@@ -192,7 +192,7 @@ export default class NotificationSlider extends Component {
   getWrapperRef = b => this.wrapper = b;
 
   render() {
-    if (this.isEmpty() || !this.state.slide)
+    if (this.isEmpty() || isEmptyData(this.state.slide))
       return null;
 
     return (

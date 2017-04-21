@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { NotificationSlider } from 'components'
 import { statusTypes } from 'constants'
-import { shallowEqual } from 'helpers'
+import { shallowEqual, isEmpty } from 'helpers'
 import s from './DashboardNotification.sass'
 
 import coolIcon from 'images/emoji/1.png'
@@ -222,9 +222,19 @@ export default class DashboardNotification extends Component {
 
     return this.setState({slides})
   };
-
+  checkNull = (props = this.props, state = this.state) => {
+    if (props.isEmpty) {
+      props.isEmpty(isEmpty(state.slides))
+    }
+  };
   componentWillMount() {
     this.updateSlides()
+  }
+  componentDidMount() {
+    this.checkNull();
+  }
+  componentWillUpdate(nextProps, nextState) {
+    this.checkNull(nextProps, nextState);
   }
   componentWillReceiveProps(nextProps, nextState) {
     if (this.isChanged)

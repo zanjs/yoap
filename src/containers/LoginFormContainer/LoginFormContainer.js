@@ -5,14 +5,14 @@ import { LoginForm } from 'components'
 
 const mapStateToProps = ({
   user: {
-    saveValues, login,
+    saveValues, loginUser,
 
     email, password,
 
     isFetching, isError, isAuthorized,
   }
 }) => ({
-  saveValues, login,
+  saveValues, loginUser,
 
   initialValues: {
     email, password
@@ -25,7 +25,7 @@ const mapStateToProps = ({
 export default class LoginFormContainer extends Component {
   render() {
     const {
-      saveValues, login,
+      saveValues, loginUser,
 
       initialValues: {
         email, password
@@ -39,7 +39,7 @@ export default class LoginFormContainer extends Component {
     }
 
     const props = {
-      saveValues, login,
+      saveValues, loginUser,
 
       initialValues: {
         email, password

@@ -18,5 +18,6 @@ export ItemPageParametersContainer from './ItemPageParametersContainer/ItemPageP
 export ItemPageLocationContainer from './ItemPageLocationContainer/ItemPageLocationContainer'
 export ItemPageInfoContainer from './ItemPageInfoContainer/ItemPageInfoContainer'
 export ItemPhotoEditContainer from './ItemPhotoEditContainer/ItemPhotoEditContainer'
+export UserDataEditContainer from './UserDataEditContainer/UserDataEditContainer'
 
 export MapContainer from './MapContainer/MapContainer'

@@ -92,7 +92,7 @@ export default class App extends Component {
           <Overlay />
 
           {/* MobX Devtools */}
-          {/*<DevTools />*/}
+          <DevTools />
         </div>
       </Router>
     )

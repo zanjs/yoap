@@ -2,6 +2,7 @@ import { fetch } from 'helpers'
 import {
   signupApi as signupUrl,
   loginApi as loginUrl,
+  updateUserDataApi as updateUserDataUrl,
 
   JSONHeaders as headers
 } from 'constants'
@@ -23,3 +24,11 @@ export const signup = data => {
     })
   })
 };
+
+export const updateUserData = data => {
+  return fetch(updateUserDataUrl, {
+    ...headers,
+    method: 'post',
+    body: JSON.stringify(data)
+  })
+}

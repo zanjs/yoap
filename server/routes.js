@@ -5,7 +5,8 @@ import {
 import {
   signup, login, items,
   item, image, itemFind,
-  itemUpdate, itemToggleFeatured
+  itemUpdate, itemToggleFeatured,
+  updateUserData
 } from 'constants/urls'
 
 const routes = express();
@@ -21,6 +22,11 @@ routes.post(
   login,
 
   userController.login
+);
+routes.post(
+  updateUserData,
+
+  userController.update
 );
 
 // Item routes

@@ -65,6 +65,7 @@ export ItemPagePrice from './ItemPagePrice/ItemPagePrice'
 export ItemPagePriceEdit from './ItemPagePriceEdit/ItemPagePriceEdit'
 export ItemPageRating from './ItemPageRating/ItemPageRating'
 export ItemPageInfoEditIcon from './ItemPageInfoEditIcon/ItemPageInfoEditIcon'
+export UserDataEdit from './UserDataEdit/UserDataEdit'
 
 export ItemPageInfo from './ItemPageInfo/ItemPageInfo'
 export ItemPageInfoEdit from './ItemPageInfoEdit/ItemPageInfoEdit'
