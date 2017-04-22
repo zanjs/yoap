@@ -87,7 +87,7 @@ export default class Nav extends Component {
   };
 
   render() {
-    const { links, full, name, children, className, theme } = this.props;
+    const { links, full, name, children, className, theme, isLogout } = this.props;
     const isCustom = !!children;
 
     const styles = this.getTheme(full, theme);
@@ -107,11 +107,14 @@ export default class Nav extends Component {
                 </Link>
               ))}
             </div>}
-            {!isCustom && <Button to={name ? '/you' : '/login'} type="light"
+            {!isLogout && !isCustom && <Button to={name ? '/you' : '/login'} type="light"
                     className={s.button} rounded
                     smallPadding>
               {name || 'Войти'}
             </Button>}
+            {isLogout && <Button to="/logout" type="light"
+                                   className={s.button} rounded
+                                   smallPadding>Выйти</Button>}
             {children}
           </div>
         </FlexGrid>

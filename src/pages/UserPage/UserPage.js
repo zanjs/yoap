@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link as RouterLink, Redirect } from 'react-router-dom'
 import {
@@ -33,6 +33,9 @@ const mapStateToProps = ({
   _objects: user._objects,
   _featured: user._featured,
   update: user.update,
+  saveValues: user.saveValues,
+  clearRedirect: () => user.redirectWhenLogin(null),
+  redirect: user.redirect,
 
   setTheme, currentThemeName,
 
@@ -41,18 +44,38 @@ const mapStateToProps = ({
 
 @inject(mapStateToProps) @observer
 export default class UserPage extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
   isLoading = true;
 
   componentWillMount() {
+    if (!this.props.isAuthorized)
+      return;
+
     this.props.update(() => {
       this.updateUserItems();
       this.updateUserFeatured();
     });
     this.prevTheme = this.props.currentThemeName + '';
     this.props.setTheme('black');
+    this.props.saveValues({
+      isUserPage: true
+    })
+
+    if (this.props.redirect) {
+      this.context.router.history.push(
+        this.props.redirect + ''
+      )
+      console.log('redirect from UserPage to', this.props.redirect + '');
+      this.props.clearRedirect();
+    }
   }
   componentWillUnmount() {
     this.props.setTheme(this.prevTheme);
+    this.props.saveValues({
+      isUserPage: false
+    })
   }
   updateUserItems = (objects = this.props._objects) => {
     if (objects && objects.length) {

@@ -3,13 +3,13 @@
  * @module stores/UserStore
  * @see store
  */
-import { observable, reaction, computed } from 'mobx'
+import { observable, reaction, action, computed } from 'mobx'
 import {
   login as serverLogin,
   signup as serverSignup,
   updateUserData as serverUpdateUserData
 } from 'api'
-import { extend, localStore, noop } from 'helpers'
+import { extend, localStore, noop, isEmpty } from 'helpers'
 import { store as config } from 'constants'
 import { store } from 'store'
 
@@ -47,6 +47,8 @@ class UserStore {
   @observable banned;
 
   @observable notifications = [];
+  @observable isUserPage = false;
+  @observable redirect = null;
 
   @observable _objects;
   set objects(d) {
@@ -98,6 +100,10 @@ class UserStore {
   constructor() {
     this.restoreValues();
     this.subscribeToLocalStore();
+  }
+
+  @action redirectWhenLogin = path => {
+    this.redirect = path;
   }
 
   notify = type => {
@@ -172,7 +178,24 @@ class UserStore {
       .then(cb)
       .catch(this.errorHandler);
   };
-
+  logout = (cb = noop) => {
+    this.isLogout = true;
+    extend(this, {
+      name: '',
+      login: '',
+      password: '',
+      phone: '',
+      id: '',
+      isAdmin: '',
+      verified: false,
+      banned: this.banned,
+      createdAt: '',
+      isDeleted: '',
+      lastVisit: '',
+      visits: '',
+      image: ''
+    })
+  }
   signup = () => {
     this.isFetching = true;
 
@@ -183,7 +206,7 @@ class UserStore {
       .catch(this.errorHandler);
   };
   updateUserData = (data, cb = noop) => {
-    if (!this.id)
+    if (!this.id || isEmpty(data))
       return null;
 
     extend(this, data);
@@ -200,7 +223,6 @@ class UserStore {
       .then(cb)
       .catch(this.errorHandler);
   }
-
   update = cb => {
     if ((this.email || this.phone) && this.password) {
       return this.loginUser(cb);
@@ -240,8 +262,6 @@ class UserStore {
         }
       }
     }
-
-    console.log(values);
 
     extend(this, values);
   };

@@ -4,13 +4,13 @@ import { Nav } from 'components'
 
 const mapStateToProps = ({
   device: {saveValues, scrollY, width},
-  user: {isAuthorized, isAdmin, name},
+  user: {isAuthorized, isAdmin, name, isUserPage},
   theme: {current}
 }) => ({
   navResize: h => saveValues({navHeight: h}),
   scrollY, width, theme: current,
 
-  isAuthorized, isAdmin, name
+  isAuthorized, isAdmin, name, isUserPage
 });
 @inject(mapStateToProps) @observer
 export default class NavContainer extends Component {
@@ -112,13 +112,12 @@ export default class NavContainer extends Component {
     setTimeout(this.resize, 300);
   }
 
-
   render() {
     const { navHidden, navFull, links } = this.state;
-    const { width, children, className, name, theme } = this.props;
+    const { width, children, className, name, theme, isUserPage } = this.props;
 
     return (
-      <Nav hidden={navHidden} name={name} theme={theme}
+      <Nav hidden={navHidden} name={name} theme={theme} isLogout={isUserPage}
            full={navFull} width={width} className={className}
            getRef={this.getNavRef} links={links}>
         {children}

@@ -14,9 +14,10 @@ import arrowIcon from 'icons/ui/arrow-right.svg'
 import favoriteIcon from 'icons/ui/favorite.svg'
 import editIcon from 'icons/ui/edit.svg'
 
-const mapStatToProps = ({user: { isAdmin, _objects, isAuthorized, _featured }, items: {toggleFeaturedItem}}) => ({
+const mapStatToProps = ({user: { isAdmin, _objects, isAuthorized, redirectWhenLogin, _featured }, items: {toggleFeaturedItem}}) => ({
   isAdmin, objects: _objects, featured: _featured,
-  isAuthorized, toggleFeaturedItem
+  isAuthorized, toggleFeaturedItem,
+  redirectWhenLogin
 });
 
 @inject(mapStatToProps) @observer
@@ -109,10 +110,18 @@ export default class ItemTile extends Component {
       item => item === this.props.data.id
     );
   };
-
+  redirectWhenLogin = (clear) => {
+    this.props.redirectWhenLogin(
+      clear
+        ? null
+        : this.context.router.route.match.url
+    );
+  };
   favoriteClickHandler = () => {
-    if (!this.props.isAuthorized)
-      return;
+    if (!this.props.isAuthorized) {
+      this.redirectWhenLogin();
+      return this.context.router.history.push('/login');
+    }
 
     const fav = this.isFeatured();
     this.setState({
@@ -136,6 +145,10 @@ export default class ItemTile extends Component {
 
     return false;
   };
+
+  componentDidMount() {
+    this.redirectWhenLogin(true);
+  }
 
   render() {
     const {
