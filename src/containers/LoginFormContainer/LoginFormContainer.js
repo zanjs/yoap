@@ -42,7 +42,7 @@ export default class LoginFormContainer extends Component {
       saveValues, loginUser,
 
       initialValues: {
-        login: (phone || email),
+        identifier: (phone || email),
         password
       },
       className,

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
 import { SignupForm } from 'components'
-import s from './SignupFormContainer.sass'
 
 const mapStateToProps = ({
   user: {

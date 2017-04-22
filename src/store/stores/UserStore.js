@@ -11,7 +11,9 @@ import {
 } from 'api'
 import { extend, localStore, noop, isEmpty } from 'helpers'
 import { store as config } from 'constants'
+import { jwtStorageName } from 'config'
 import { store } from 'store'
+import jwt from 'jsonwebtoken'
 
 /**
  * UserStore class.
@@ -30,8 +32,26 @@ class UserStore {
   set id(id) {
     this._id = id;
   }
+
+  @observable _token;
+  set token(token) {
+    if (!token) {
+      localStore.set(jwtStorageName, null);
+      return this._token = null;
+    }
+    const data = jwt.decode(token)
+
+    extend(this, data);
+
+    localStore.set(jwtStorageName, token);
+    this._token = token;
+  }
+  get token() {
+    return this._token;
+  }
+
   @observable name;
-  @observable login;
+  @observable identifier;
   @observable email;
   @observable phone;
   @observable password;
@@ -94,7 +114,7 @@ class UserStore {
   @observable isFetching = false;
   @observable isError = false;
   get isAuthorized() {
-    return !!this.id
+    return !!this.id && !!this._token;
   }
 
   constructor() {
@@ -161,7 +181,7 @@ class UserStore {
     this.isFetching = false;
   };
 
-  loginUser = (cb = noop) => {
+  login = (cb = noop) => {
     this.isFetching = true;
     const { email, phone, password } = this.toJSON();
     const data = {
@@ -180,7 +200,7 @@ class UserStore {
     this.isLogout = true;
     extend(this, {
       name: '',
-      login: '',
+      identifier: '',
       password: '',
       phone: '',
       id: '',
@@ -191,7 +211,10 @@ class UserStore {
       isDeleted: '',
       lastVisit: '',
       visits: '',
-      image: ''
+      image: '',
+      objects: [],
+      featured: [],
+      token: null
     })
   }
   signup = () => {
@@ -223,7 +246,7 @@ class UserStore {
   }
   update = cb => {
     if ((this.email || this.phone) && this.password) {
-      return this.loginUser(cb);
+      return this.login(cb);
     }
   };
 
@@ -244,16 +267,16 @@ class UserStore {
   */
   saveValues = _values => {
     let values = {..._values};
-    if (values.login) {
-      const { login } = values;
-      if (login.indexOf('@') !== -1) {
-        values.email = login;
+    if (values.identifier) {
+      const { identifier } = values;
+      if (identifier.indexOf('@') !== -1) {
+        values.email = identifier;
       } else {
-        const newLogin = login.replace(new RegExp(' ', 'gi'), '');
-        let firstSymbol = login[0] === '+' ? '+' : ''
-        let phone = firstSymbol + login.replace(/\D+/g,"");
+        const newIdentifier = identifier.replace(new RegExp(' ', 'gi'), '');
+        let firstSymbol = identifier[0] === '+' ? '+' : ''
+        let phone = firstSymbol + identifier.replace(/\D+/g,"");
 
-        if (newLogin.length === phone.length) {
+        if (newIdentifier.length === phone.length) {
           values.phone = phone;
         } else {
           delete values.phone;

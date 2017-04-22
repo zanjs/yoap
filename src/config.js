@@ -3,12 +3,8 @@ export const ___PW = 'us--exp';
 
 export const divider = '-';
 export const splitter = '@';
-
-
-
-
-
-
+export const jwtSecret = 'you-probably-think-it-will-be-simple?'
+export const jwtStorageName = 'JWT_TOKEN';
 
 
 // ========================================================### DEVICE BREAKPOINTS ###
@@ -40,31 +36,6 @@ export const ease = {
 };
 
 
-// ========================================================### INTRO SLIDER CONFIG ###
-export const introSlider = {
-  // remember that animationDuration will be multiplied by 2,
-  // because we have to hide and show slide.
-  animationDuration: .9,
-  get slidesDuration() {
-    return 10 + (this.animationDuration * 2)
-  },
-
-  elementsGap: 300,
-  contentGap: 100,
-
-  easeIn: ease.in,
-  easeOut: ease.out
-};
-
-// ========================================================### NAVIGATION CONFIG ###
-export const navigation = {
-  overlayOpacity: .85,
-  duration: dur,
-  ease: ease.out,
-  gap: 30
-};
-
-
 // ========================================================### MOBILE NAVIGATION CONFIG ###
 const navMobileDuration = bigDur;
 const navMobileWrapperDelay = navMobileDuration / 3;
@@ -80,25 +51,6 @@ export const navMobile = {
   easeOut: ease.out
 };
 
-
-// ========================================================### CART CONFIG ###
-export const cart = {
-  duration: bigDur,
-  easeIn: ease.inOut,
-  easeOut: ease.out,
-
-  inStore: '__CART_DATA__'
-};
-
-// ========================================================### PRELOADER CONFIG ###
-export const preloader = {
-  spinDuration: bigDur,
-  fadeDuration: dur,
-  easeIn: ease.inOut,
-  easeOut: ease.out,
-  easeSpin: ease.inOut
-};
-
 // ========================================================### IMAGE COMPONENT CONFIG ###
 export const image = {
   dur: bigDur,
@@ -107,11 +59,9 @@ export const image = {
   blur_radius: 20
 };
 
-
 // AboutPage Header & ContactPage Header config
 export const MobileHeaderRatio = .4;
 export const DesktopHeaderRatio = .2;
-
 
 // ========================================================### TITLES OF PAGES ###
 export const pagesTitles = {

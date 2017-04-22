@@ -122,4 +122,8 @@ module.exports = {
       favicon: '../src/data/images/favicon/favicon.ico'
     }),
   ],
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  }
 };

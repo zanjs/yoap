@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import { Button, FormGroup, Title, FlexGrid, Content } from 'components'
 import { Link as RouterLink } from 'react-router-dom'
 import { createHandleChange, createHandleBlur  } from 'validation/userValidation'
 import { classNames, isEmpty } from 'helpers'
 import s from './LoginForm.sass'
 
-
+@observer
 export default class LoginForm extends Component {
   placeholders = {
-    login: 'Phone/Email',
+    identifier: 'Phone/Email',
     password: 'Password'
   };
 
   initialState = {
-    login: '',
+    identifier: '',
     password: '',
 
     errors: {},
@@ -61,7 +62,7 @@ export default class LoginForm extends Component {
     e.preventDefault();
 
     if (this.isValid()) {
-      this.props.loginUser();
+      this.props.login();
     }
 
     return false;
@@ -75,10 +76,17 @@ export default class LoginForm extends Component {
     this.saveValues(nextState);
   }
   componentDidMount() {
-    this.emailInput && this.emailInput.focus();
+    this.identifierInput && this.identifierInput.focus();
+  }
+  componentWillReceiveProps(nextProps) {
+    const { isError } = nextProps;
+
+    if (!isEmpty(isError.errors)) {
+      this.setState({errors: isError.errors});
+    }
   }
 
-  getEmailInputRef = b => this.emailInput = b;
+  getIdentifierInputRef = b => this.identifierInput = b;
   getPasswordInputRef = b => this.passwordInput = b;
 
   isDuplicated(data) {
@@ -93,7 +101,7 @@ export default class LoginForm extends Component {
     return (
       <form onSubmit={this.submitHandler} className={classNames(s.wrapper, className, isFetching && s.wrapper_disabled)}>
         <Title size="2" light>Вход в личный <br/>кабинет</Title>
-        <FormGroup {...this.extendInputProps('login')} getRef={this.getEmailInputRef}/>
+        <FormGroup {...this.extendInputProps('identifier')} getRef={this.getIdentifierInputRef}/>
         <FormGroup {...this.extendInputProps('password')} getRef={this.getPasswordInputRef}/>
         {isDuplicated && <Content>Мы сохранили ваши данные, нажмите "Готово"</Content>}
         {!isDuplicated && isError && <Content>{isError.message || isError.text || isError}</Content>}

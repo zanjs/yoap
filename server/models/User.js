@@ -9,10 +9,7 @@ const userSchema = new Schema({
     required: true,
     minLength: [2, 'Имя должно быть не менее двух символов']
   },
-  password: {
-    type: String,
-  },
-  passwordDigest: {
+  password_digest: {
     type: String,
     required: true
   },
@@ -82,6 +79,10 @@ const userSchema = new Schema({
   isDeleted: {
     type: Boolean,
     default: false
+  },
+  token: {
+    type: String,
+    required: false
   }
 });
 

@@ -14,6 +14,12 @@ itemController.itemHandler = (req, res) => {
     status
   } = req.body;
 
+  if (!req.user.isAdmin || _creator !== (req.user.id || req.user._id)) {
+    return res.status(403).json({
+      message: 'У вас нет прав редактировать или создавать объявления'
+    })
+  }
+
   if (id || _id) {
     return db.Item
       .update({'_id': id || _id}, {
@@ -22,7 +28,8 @@ itemController.itemHandler = (req, res) => {
         type, category, rating,
         params, images, location,
         editedAt: Date.now(),
-        status: status || statusTypes.types[0].id
+        status: req.user.isAdmin
+          ? status : statusTypes.types[0].id
       })
       .then(updatedData => {
         res.status(200).json({
@@ -69,12 +76,12 @@ itemController.itemHandler = (req, res) => {
       })
     }).catch(err => {
       res.status(500).json({
-        message: err.toString()
+        message: err
       })
     });
   }).catch(err => {
     res.status(500).json({
-      message: err.toString()
+      message: err
     })
   })
 };
@@ -160,7 +167,17 @@ itemController.getAll = (req, res) => {
 
 itemController.update = (req, res) => {
   let query;
-  let { id, _id, link, _link, update } = req.body;
+  let {
+    id, _id, link,
+    _link, update,
+    _creator
+  } = req.body;
+
+  if (!req.user.isAdmin || _creator !== (req.user.id || req.user._id)) {
+    return res.status(403).json({
+      message: 'У вас нет прав редактировать или создавать объявления'
+    })
+  }
 
   if (id || _id) {
     query = {
@@ -209,10 +226,17 @@ itemController.update = (req, res) => {
 itemController.featured = (req, res) => {
   const { id, user } = req.body;
 
-  if (!id || !user) {
-    return res.status(500).json({
+  if (!req.user.isAdmin || !(req.user.id || req.user._id)) {
+    return res.status(403).json({
+      message: 'Зарегистрируйтесь или войдите ' +
+      'чтобы добавлять объекты в избранное.'
+    })
+  }
+
+  if (!id) {
+    return res.status(403).json({
       message: 'Невозможно добавить в избранное объект ' +
-                'не предоставив object id и user id.'
+                'не предоставив object id'
     })
   }
 
