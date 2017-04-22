@@ -11,8 +11,10 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
-    minLength: [4, 'Пароль не может быть короче 4-ех символов']
+  },
+  passwordDigest: {
+    type: String,
+    required: true
   },
   phone: {
     type: String,

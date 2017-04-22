@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import { Link as RouterLink } from 'react-router-dom'
 import { Button, FormGroup, Title, FlexGrid, Content, Link } from 'components'
-import { classNames, isEmpty } from 'helpers'
+import { extend, isEmpty } from 'helpers'
 import { createHandleChange, createHandleBlur } from 'validation/userValidation'
 import s from './SignupForm.sass'
 
-
+@observer
 export default class SignupForm extends Component {
   placeholders = {
     name: 'Name',
@@ -36,6 +37,7 @@ export default class SignupForm extends Component {
   extendInputProps = name => {
     const { isFetching, isError } = this.props;
     const { success, errors, normal } = this.state;
+
     return {
       name,
       ph: this.placeholders[name],
@@ -85,12 +87,23 @@ export default class SignupForm extends Component {
   componentWillUpdate(nextProps, nextState) {
     this.saveValues(nextState);
   }
+  componentWillReceiveProps(nextProps) {
+    const { isError } = nextProps;
+
+    if (isError && isError.formImport) {
+      let errors = {};
+      extend(errors, isError);
+      delete errors.formImport;
+
+      this.setState({errors});
+    }
+  }
   componentDidMount() {
     this.nameInput && this.nameInput.focus();
   }
 
-  isDuplicated({message}) {
-    return message.toLowerCase().indexOf('duplicate') !== -1;
+  isDuplicated(data) {
+    return data && data.notUnique;
   }
 
   render() {
@@ -98,7 +111,7 @@ export default class SignupForm extends Component {
       isFetching, isAuthorized, isError
     } = this.props;
 
-    const isDuplicated = isError && this.isDuplicated(isError);
+    const isDuplicated = this.isDuplicated(isError);
 
     return (
       <form onSubmit={this.submitHandler} className={s.wrapper}>
@@ -107,8 +120,10 @@ export default class SignupForm extends Component {
         <FormGroup {...this.extendInputProps('email')} getRef={b => this.emailInput = b}/>
         <FormGroup {...this.extendInputProps('phone')} getRef={b => this.phoneInput = b}/>
         <FormGroup {...this.extendInputProps('password')} getRef={b => this.passwordInput = b}/>
-        {isDuplicated && <Content>Кажется, вы уже зарегистрированы у нас. <Link to="/login" type="underline">Войти</Link></Content>}
-        {!isDuplicated && isError && <Content>{isError.message || isError.text || isError}</Content>}
+        {isDuplicated &&
+        <Content>Кажется, вы уже зарегистрированы у нас. <Link to="/login" type="underline">Войти</Link></Content>}
+        {!isDuplicated && isError && !isError.formImport &&
+          <Content>{isError.message || isError.text || isError}</Content>}
         <FlexGrid align="center" className={s.buttons}>
           <Button disabled={isFetching} buttonType='submit' type="pink"
                   className={s.button}>

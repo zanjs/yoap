@@ -28,7 +28,7 @@ export default class LoginFormContainer extends Component {
       saveValues, loginUser,
 
       initialValues: {
-        email, password
+        email, phone, password
       },
       className,
       isFetching, isError, isAuthorized
@@ -42,7 +42,8 @@ export default class LoginFormContainer extends Component {
       saveValues, loginUser,
 
       initialValues: {
-        email, password
+        login: (phone || email),
+        password
       },
       className,
 

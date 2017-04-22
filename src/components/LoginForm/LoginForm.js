@@ -81,14 +81,14 @@ export default class LoginForm extends Component {
   getEmailInputRef = b => this.emailInput = b;
   getPasswordInputRef = b => this.passwordInput = b;
 
-  isDuplicated({message}) {
-    return message.toLowerCase().indexOf('duplicate') !== -1;
+  isDuplicated(data) {
+    return data && data.notUnique;
   }
 
   render() {
     const { isFetching, isError, isAuthorized, className } = this.props;
 
-    const isDuplicated = isError && this.isDuplicated(isError);
+    const isDuplicated = this.isDuplicated(isError);
 
     return (
       <form onSubmit={this.submitHandler} className={classNames(s.wrapper, className, isFetching && s.wrapper_disabled)}>

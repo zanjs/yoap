@@ -3,8 +3,8 @@
  *
  * @module userValidation
  */
-import { userValidation as messages } from 'config'
-import { isEmpty } from 'helpers'
+import messages from './messages'
+import isEmpty from 'helpers/app/isEmpty'
 
 
 /**
@@ -137,13 +137,13 @@ export const validateMessage = (string = '') => {
 
 
 /**
- * Entry point of validation.
+ * Validation fn.
  *
  * @param {string} name
  * @param {string|number} value
  * @return {Object}
  */
-export const isValid = (name, value) => {
+export const validate = (name, value) => {
   switch(name) {
     case 'email':
       return validateEmail(value);
@@ -158,4 +158,33 @@ export const isValid = (name, value) => {
     default:
       return {}
   }
+};
+/**
+ * Entry point of validation.
+ *
+ * @param {string|object} name
+ * @param {string|number} value
+ * @return {Object}
+ */
+export const isValid = (name, value) => {
+  if (typeof name === 'string') {
+    return validate(name, value);
+  }
+
+  let errors = {};
+
+  Object.keys(name).forEach(__name => {
+    const __value = name[__name];
+    const valid = validate(__name, __value);
+
+    if (valid.isError) {
+      errors[__name] = valid.message;
+    }
+  });
+
+  if (isEmpty(errors)) {
+    return false;
+  }
+
+  return errors;
 };

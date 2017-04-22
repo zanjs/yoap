@@ -1,4 +1,6 @@
 import db from 'models'
+import { hashSync } from 'bcrypt'
+import { userValidation } from 'utils'
 
 const userController = {};
 
@@ -8,9 +10,6 @@ userController.login = (req, res) => {
     ...(email ? {email} : {phone}),
     password
   };
-
-  console.log(query);
-
 
   db.User.findOne(query, (err, data) => {
     if (err) {
@@ -37,24 +36,34 @@ userController.signup = (req, res) => {
     password
   } = req.body;
 
+  userValidation({name, phone, email, password})
+    .then(({isValid, errors}) => {
+      if (!isValid) {
+        return res.status(400).json({
+          errors: {
+            ...errors,
+            formImport: true
+          }
+        })
+      }
 
-  // Validation
-  const user = new db.User({
-    name, phone, email, password
-  });
+      // Validation
+      const user = new db.User({
+        name, phone, email,
+        passwordDigest: hashSync(password, 10)
+      });
 
-  console.log('user', user);
-
-  user.save().then(data => {
-    res.status(200).json({
-      success: true,
-      data
+      user.save().then(data => {
+        res.status(200).json({
+          success: true,
+          data
+        })
+      }).catch(err => {
+        res.status(500).json({
+          message: err
+        })
+      })
     })
-  }).catch(err => {
-    res.status(500).json({
-      message: err
-    })
-  })
 };
 
 userController.update = (req, res) => {

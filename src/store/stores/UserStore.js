@@ -122,7 +122,7 @@ class UserStore {
     if (res.status >= 200 && res.status < 300) {
       return res
     } else {
-      const error = new Error(res.statusText);
+      const error = new Error(res);
       error.response = res;
       throw error
     }
@@ -146,15 +146,13 @@ class UserStore {
     const data = response.response || response;
 
     if (data.json) {
-      return data.json().then(data => {
-        if (data.message.errmsg) {
-          data = {message: data.message.errmsg}
+      return data.json().then(__data => {
+        let newData = {...__data};
+        if (newData.errors) {
+          newData = __data.errors;
         }
 
-        this.isError = {
-          ...data,
-          text: data.message
-        };
+        this.isError = newData;
         this.isFetching = false;
       })
     }
