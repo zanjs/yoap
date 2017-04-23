@@ -1,3 +1,5 @@
+import getToken from 'helpers/app/getToken'
+
 export const hostname = (() => {
   if (typeof window !== 'object') {
     return 'localhost'
@@ -10,7 +12,7 @@ export const apiOrigin = `http://${hostname}:5000`;
 export const api = '/api';
 export const JSONHeaders = {
   headers: {
-    "Content-type": 'application/json'
+    "Content-type": 'application/json',
   }
 };
 

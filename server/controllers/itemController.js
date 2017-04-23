@@ -225,11 +225,17 @@ itemController.update = (req, res) => {
 };
 itemController.featured = (req, res) => {
   const { id, user } = req.body;
+  const userId = (req.user.id || req.user._id);
+  console.log({userId, authUser: user})
 
-  if (!req.user.isAdmin || !(req.user.id || req.user._id)) {
-    return res.status(403).json({
+  if (userId !== user) {
+    return res.status(401).json({
       message: 'Зарегистрируйтесь или войдите ' +
-      'чтобы добавлять объекты в избранное.'
+      'чтобы добавлять объекты в избранное.',
+      data: {
+        userId, user,
+        cond: userId !== user
+      }
     })
   }
 

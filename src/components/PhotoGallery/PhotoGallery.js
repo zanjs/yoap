@@ -70,7 +70,7 @@ export default class PhotoGallery extends Component {
 
     this.setState({
       data: filteredData && filteredData.map((item, index) => ({
-        src: item.file && item.file.preview || item.preview || item,
+        src: item.file && item.file.preview || item.mobile || item.preview || item,
         ...(typeof item === 'string' ? {} : item),
         isActive: index === 0
       })) || []

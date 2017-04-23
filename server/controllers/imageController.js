@@ -2,6 +2,7 @@ import Jimp from 'jimp'
 import formidable from 'formidable'
 import { createId } from 'utils'
 import { devicesBreakpoints } from 'config'
+import { images as config } from 'serverConfig'
 const fs = require('fs');
 const path = require('path');
 const __FOLDER = path.resolve(__dirname, '../../dist');
@@ -22,71 +23,71 @@ class imageController {
       }
     }
 
+    res.push({
+      type: 'preview',
+      width: config.previewSize
+    })
+
     return res;
   };
 
-  resize = (path, callback) => {
-    Jimp.read(path).then((image) => {
-      const [_path, ext] = path.split('.');
-      const newPath = `${_path}-preview.${ext}`;
-      console.log(newPath);
+  resize = path => {
+    return new Promise((resolve, reject) => {
+      Jimp.read(path).then((image) => {
+        const { width } = image.bitmap;
+        const sizes = this.getSize(width);
+        const max = sizes.length - 1;
+        const images = {
+          origin: path
+        };
 
-      image
-        .resize(200, Jimp.AUTO)
-        .quality(60)
-        .write(newPath, () => {
-          callback({
-            preview: newPath,
-            full: path
-          })
+        sizes.forEach((size, index) => {
+          const [_path, ext] = path.split('.');
+          const newPath = `${_path}-${size.width}.${ext}`;
+
+          image
+            .clone()
+            .resize(size.width, Jimp.AUTO)
+            .quality(config.quality)
+            .write(newPath, () => {
+              images[size.type] = newPath;
+
+              if (index === max) {
+                resolve(images);
+              }
+            })
         })
-    })
-    // Jimp.read(path).then((image) => {
-    //   const { width } = image.bitmap;
-    //   const sizes = this.getSize(width);
-    //   const max = sizes.length - 1;
-    //   const images = {};
-    //
-    //   sizes.forEach((size, index) => {
-    //     const __image = image.clone();
-    //     const [_path, ext] = path.split('.');
-    //     const newPath = `${_path}-${size.width}.${ext}`;
-    //     console.log(newPath);
-    //
-    //     __image
-    //       .resize(size.width, Jimp.AUTO)
-    //       .quality(70)
-    //       .write(newPath, () => {
-    //         images[size.type] = newPath;
-    //
-    //         if (index === max) {
-    //           callback(images);
-    //           console.log(images)
-    //         }
-    //
-    //       })
-    //   })
-    // })
-  };
-
-  saveImage = (path, newPath, data, callback, setError) => {
-    return fs.readFile(path, (err, data) => {
-      return fs.writeFile(newPath, data, () => {
-        fs.unlink(path, function(err) {
-          if (err) {
-            if (setError)
-              return setError(`Не удалось записать файл, ${err}`);
-          } else {
-            return callback(newPath);
-          }
-        });
+      }).catch(err => {
+        reject(err);
       })
     })
   };
 
-  process = (req, res, last, response) => (image, index) => {
-    const
+  saveImage = (path, newPath, __data) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(path, (err, data) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(data || __data);
+      })
+    }).then(data => {
+      return new Promise((resolve, reject) => {
+        fs.writeFile(newPath, data, () => {
+          fs.unlink(path, (err) => {
+            if (err) {
+              return reject(err);
+            }
 
+            return resolve(newPath);
+          });
+        })
+      })
+    })
+  };
+
+  process = image => {
+    const
       path = image.path,
       size = image.size,
       fileExt = image.name.split('.').pop(),
@@ -94,42 +95,17 @@ class imageController {
       newPath = `${__FOLDER}/images/${fileName}.${fileExt}`;
 
 
-    this.saveImage(path, newPath, image, () => {
-      this.resize(newPath, newImages => {
-        response.push(newImages);
-
-        if (index === last) {
-          console.log('response');
-          this.response(req, res, response);
-        }
-      });
+    return this.saveImage(path, newPath, image).then(__path => {
+      return this.resize(__path);
     })
-  };
-
-  response = (req, res, data) => {
-    if (typeof req === 'string') {
-      return res.status(500).json({
-        message: req
-      })
-    }
-
-    if (data) {
-      const replacedData = data.map(({full, preview}) => ({
-        full: full.replace(__FOLDER, ''),
-        preview: preview.replace(__FOLDER, '')
-      }));
-
-      console.log(replacedData.length);
-
-      res.status(200).json({
-        success: true,
-        data: replacedData
-      })
-    } else {
-      res.status(500).json({
-        message: 'Что-то пошло не так!'
-      })
-    }
+    // this.resize(newPath, newImages => {
+    //   response.push(newImages);
+    //
+    //   if (index === last) {
+    //     console.log('response');
+    //     this.response(req, res, response);
+    //   }
+    // });
   };
 
   upload = (req, res) => {
@@ -137,16 +113,33 @@ class imageController {
 
     form.parse(req, (err, fields, files) => {
       let images   = [];
-      let response = [];
 
       for (let prop in files) {
         images.push(files[prop]);
       }
 
-      const lastImage = images.length - 1;
-      images.forEach(this.process(
-        req, res, lastImage, response
-      ));
+      return Promise.all(images.map(image => this.process(image)))
+        .then(data => {
+          res.status(200).json({
+            success: true,
+            data: data.map(item => {
+              let newImage = {};
+
+              Object.keys(item).forEach(prop => {
+                const value = item[prop];
+                newImage[prop] = value.replace(__FOLDER, '');
+              })
+
+              return newImage;
+            })
+          })
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: err
+          });
+          console.log('images error', err);
+        })
     });
   }
 }

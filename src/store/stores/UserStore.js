@@ -7,9 +7,11 @@ import { observable, reaction, action, computed } from 'mobx'
 import {
   login as serverLogin,
   signup as serverSignup,
-  updateUserData as serverUpdateUserData
+  updateUserData as serverUpdateUserData,
+  checkAuth as serverCheckAuth,
+  logout as serverLogout,
 } from 'api'
-import { extend, localStore, noop, isEmpty } from 'helpers'
+import { extend, localStore, noop, isEmpty, getToken } from 'helpers'
 import { store as config } from 'constants'
 import { jwtStorageName } from 'config'
 import { store } from 'store'
@@ -47,7 +49,11 @@ class UserStore {
     this._token = token;
   }
   get token() {
-    return this._token;
+    if (this._token) {
+      return this._token;
+    }
+
+    return getToken();
   }
 
   @observable name;
@@ -114,7 +120,7 @@ class UserStore {
   @observable isFetching = false;
   @observable isError = false;
   get isAuthorized() {
-    return !!this.id && !!this._token;
+    return !!this.id && !!this.token;
   }
 
   constructor() {
@@ -198,7 +204,7 @@ class UserStore {
   };
   logout = (cb = noop) => {
     this.isLogout = true;
-    extend(this, {
+    const deleteData = () => extend(this, {
       name: '',
       identifier: '',
       password: '',
@@ -215,7 +221,13 @@ class UserStore {
       objects: [],
       featured: [],
       token: null
-    })
+    });
+
+    serverLogout()
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(deleteData)
+      .catch(deleteData)
   }
   signup = () => {
     this.isFetching = true;
@@ -245,9 +257,28 @@ class UserStore {
       .catch(this.errorHandler);
   }
   update = cb => {
-    if ((this.email || this.phone) && this.password) {
-      return this.login(cb);
-    }
+    if (!this.isAuthorized)
+      return;
+
+    return serverCheckAuth()
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(res => {
+        if (!res.success) {
+          this.logout();
+        }
+        if (res.data.token) {
+          this.token = res.data.token;
+        }
+
+        return res;
+      })
+      .then(cb)
+      .catch(err => {
+        this.logout();
+
+        return err;
+      })
   };
 
   subscribeToLocalStore = () => reaction(
@@ -291,6 +322,7 @@ class UserStore {
     const data = localStore.get(this.storeName);
 
     if (data) {
+      console.log('found data in localstorage');
       extend(this, data);
       this.update();
     }
@@ -306,7 +338,7 @@ class UserStore {
     name: this.name,
     email: this.email,
     phone: this.phone,
-    password: this.password,
+    password: this.password
     // _featured: this._featured,
     // _objects: this._objects
   })

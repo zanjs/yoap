@@ -6,12 +6,13 @@ export default function userValidation(data) {
   const {
     phone, email,
   } = data;
-  let errors = isValid(data) || {};
+  let errors = isValid(data);
 
   return db.User.findOne({$or: [
     {email},
     {phone}
-  ]}).then((user = {}) => {
+  ]}).then(__user => {
+    let user = __user || {};
     if (user.email) {
       errors.email = 'Почта найдена в базе данных';
       errors.notUnique = true;

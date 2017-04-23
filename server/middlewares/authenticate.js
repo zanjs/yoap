@@ -4,12 +4,12 @@ import { jwtSecret } from 'serverConfig'
 
 export default function authenticate(req, res, next) {
   const token = req.headers['X-AUTH'] || req.headers['x-auth'];
-  console.log('token', token);
+  console.log(`token ${token ? 'is exist' : 'not exist'}.`);
 
   if (token) {
     return jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
-        return res.status(403).json({
+        return res.status(401).json({
           message: 'У вас нет прав. ' +
           'Зайдите в систему снова или обратитесь к администратору.'
         });
@@ -35,7 +35,7 @@ export default function authenticate(req, res, next) {
     })
   }
 
-  return res.status(403).json({
+  return res.status(401).json({
     message: 'У вас нет прав. Обратитесь к администратору.'
   });
 }

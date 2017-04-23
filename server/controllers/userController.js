@@ -49,23 +49,20 @@ userController.login = (req, res) => {
     })
 };
 userController.checkAuth = (req, res) => {
+  const { user } = req;
   if (!req.user) {
-    return res.status(403).json({
+    return res.status(401).json({
       success: false
     })
   }
 
-  return res.status(200).json({
-    success: true
-  })
-};
-userController.logout = (req, res) => {
-  const { user } = req;
-  const query = {_id: user.id || user._id};
-  const update = {token: ''};
-  db.User.findOneAndUpdate(query, update)
+  const token = createToken(user);
+  db.User.findOneAndUpdate({token: user.token}, {token})
     .then(() => {
-      res.status(200).json({success: true})
+      res.status(200).json({
+        success: true,
+        data: {token}
+      })
     })
     .catch(err => {
       res.status(500).json({
@@ -73,7 +70,22 @@ userController.logout = (req, res) => {
       })
     })
 };
-
+userController.logout = (req, res) => {
+  const { user } = req;
+  const query = {_id: user.id || user._id};
+  const update = {token: ''};
+  db.User.findOneAndUpdate(query, update)
+    .then(() => {
+      res.status(200).json({
+        success: true, token: null
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
+      })
+    })
+};
 userController.signup = (req, res) => {
   const {
     name, phone, email,
@@ -94,14 +106,23 @@ userController.signup = (req, res) => {
       // Validation
       const user = new db.User({
         name, phone, email,
-        passwordDigest: hashSync(password, 10)
+        password_digest: hashSync(password, 10)
       });
 
       user.save().then(data => {
-        res.status(200).json({
-          success: true,
-          data
-        })
+        const token = createToken(data);
+        return db.User.findByIdAndUpdate((data.id || data._id), {token})
+          .then(() => {
+            res.status(200).json({
+              success: true,
+              data: {token}
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              message: err
+            })
+          })
       }).catch(err => {
         res.status(500).json({
           message: err

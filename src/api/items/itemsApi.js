@@ -8,6 +8,7 @@ import {
 
   JSONHeaders as headers
 } from 'constants'
+import { getHeaders } from 'helpers'
 
 
 export const getItems = body => fetch(itemsUrl, {
@@ -23,19 +24,19 @@ export const getItem = body => fetch(itemFindUrl, {
 });
 
 export const saveItem = body => fetch(itemUrl, {
-  ...headers,
+  ...getHeaders(),
   method: 'post',
   body: JSON.stringify(body)
 });
 
 export const updateItem = body => fetch(itemUpdateUrl, {
-  ...headers,
+  ...getHeaders(),
   method: 'post',
   body: JSON.stringify(body)
 });
 
 export const toggleFeaturedItem = data => fetch(itemToggleFeaturedUrl, {
-  ...headers,
+  ...getHeaders(),
   method: 'post',
   body: JSON.stringify(data)
 });

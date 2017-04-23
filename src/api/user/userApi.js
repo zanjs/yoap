@@ -2,16 +2,25 @@ import { fetch } from 'helpers'
 import {
   signupApi as signupUrl,
   loginApi as loginUrl,
+  logoutApi as logoutUrl,
   updateUserDataApi as updateUserDataUrl,
-
-  JSONHeaders as headers
+  checkUserApi as checkUserUrl,
+  JSONHeaders as headers,
 } from 'constants'
+import { getHeaders } from 'helpers'
 
 export const login = data => fetch(loginUrl, {
   ...headers,
   method: 'post',
   body: JSON.stringify(data)
 });
+
+export const logout = () => {
+  return fetch(logoutUrl, {
+    ...getHeaders(),
+    method: 'post'
+  })
+}
 
 export const signup = data => {
   const {name, email, phone, password} = data;
@@ -27,8 +36,15 @@ export const signup = data => {
 
 export const updateUserData = data => {
   return fetch(updateUserDataUrl, {
-    ...headers,
+    ...getHeaders(),
     method: 'post',
     body: JSON.stringify(data)
+  })
+}
+
+export const checkAuth = () => {
+  return fetch(checkUserUrl, {
+    ...getHeaders(),
+    method: 'post'
   })
 }

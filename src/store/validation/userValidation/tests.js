@@ -183,7 +183,7 @@ export const isValid = (name, value) => {
   });
 
   if (isEmpty(errors)) {
-    return false;
+    return {};
   }
 
   return errors;

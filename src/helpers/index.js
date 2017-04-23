@@ -24,6 +24,8 @@ export JSONToQuery from './app/JSONToQuery'
 export queryToJSON from './app/queryToJSON'
 export Predictions from './app/Predictions'
 export NearestTransport from './app/NearestTransport'
+export getToken from './app/getToken'
+export getHeaders from './app/getHeaders'
 export noop from './app/noop'
 
 // animation helpers
