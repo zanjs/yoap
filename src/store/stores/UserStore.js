@@ -322,7 +322,6 @@ class UserStore {
     const data = localStore.get(this.storeName);
 
     if (data) {
-      console.log('found data in localstorage');
       extend(this, data);
       this.update();
     }
@@ -338,7 +337,8 @@ class UserStore {
     name: this.name,
     email: this.email,
     phone: this.phone,
-    password: this.password
+    password: this.password,
+    token: this.token
     // _featured: this._featured,
     // _objects: this._objects
   })

@@ -2,6 +2,7 @@ import { observable } from 'mobx'
 import { extend, isEmpty, keys } from 'helpers'
 import { store } from 'store'
 import { isValid } from 'validation/itemValidation'
+import { objectTypes } from 'constants'
 
 
 class ManageItemStore {
@@ -86,8 +87,12 @@ class ManageItemStore {
     if (object.status)
       this.data.status = object.status;
     // object type
-    if (object.type)
-      this.data.type = object.type;
+    if (object.type) {
+      const type = typeof object.type === 'string'
+        ? objectTypes.types.find(item => item.id === object.type)
+        : object.type
+      this.data.type = type;
+    }
     // object dewa
     if (object.dewa)
       this.data.dewa = object.dewa;
@@ -126,7 +131,6 @@ class ManageItemStore {
     const errors = keys(this.data, (value, prop, result) => {
       const validation = isValid(prop, value) || {};
       let error = {};
-
       console.log(`validation ${prop}`, validation);
 
       if (validation.isError) {

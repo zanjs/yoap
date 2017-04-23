@@ -38,7 +38,7 @@ class imageController {
         const sizes = this.getSize(width);
         const max = sizes.length - 1;
         const images = {
-          origin: path
+          full: path
         };
 
         sizes.forEach((size, index) => {

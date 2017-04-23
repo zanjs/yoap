@@ -4,7 +4,6 @@ const SCRIPT_LOADING_STATUS = 'LOADING';
 const SCRIPT_LOADED_STATUS = 'LOADED';
 
 
-
 const callFunctions = (arr) => {
   loop(arr, (item) => item())
 };
@@ -25,7 +24,7 @@ export default (url, cb, id, tag) => {
   if (data[loadedId] === SCRIPT_LOADED_STATUS) {
     return cb();
   } else if (data[loadedId] === SCRIPT_LOADING_STATUS) {
-    return data[fns].push(cb);
+    return data[fns] && data[fns].push && data[fns].push(cb);
   }
 
   data[loadedId] = SCRIPT_LOADING_STATUS;

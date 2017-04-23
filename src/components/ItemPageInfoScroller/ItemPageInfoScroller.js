@@ -19,6 +19,9 @@ export default class ItemPageInfoScroller extends Component {
   }
 
   resize = cb => {
+    if (!this.wrapper || !this.footer)
+      return false;
+
     const { height } = this.props;
     const footerOffset = parseInt(this.footer.offsetTop, 10) - height;
     let { offsetTop, clientHeight } = this.wrapper;

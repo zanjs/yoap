@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom'
 import {
@@ -22,17 +22,54 @@ import s from './ItemPageEdit.sass'
   user, items
 })) @observer
 export default class ItemPageEdit extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
   isMount = false;
   state = {
     saved: false,
     isEmpty: true
   };
+  redirect = () => {
+    return this.context.router.history.push('/');
+  }
+  checkRules = (link, id, props = this.props) => {
+    if (!props.user.isAuthorized) {
+      return false;
+    }
+    if (!link || props.user.isAdmin) {
+      return true;
+    }
+    if (!!id && props.user._objects.length) {
+      return !!props.user._objects.find(objId => objId === id);
+    } else if (!!id) {
+      return false;
+    }
 
+    if (props.user._objects.length && !id) {
+      return this.checkRules.bind(this, link);
+    }
+
+    return false;
+  }
   getData = () => {
     const { link } = this.props.match.params;
+    const isBlank = this.isBlank(link);
+    const isAuthorized = this.checkRules(!isBlank && link);
 
-    if (!this.isBlank(link)) {
+    if (!isAuthorized) {
+      return this.redirect();
+    }
+
+    if (!isBlank) {
       this.props.items.findByLink(link, 'users', data => {
+        const objId = data.id || data._id;
+        console.log(objId);
+        if (typeof isAuthorized === 'function' && !isAuthorized(objId)) {
+          return this.redirect();
+        }
+
         this.props.manage.Import(data);
         this.setState({isEmpty: false})
       });
