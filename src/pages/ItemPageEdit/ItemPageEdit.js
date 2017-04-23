@@ -65,7 +65,6 @@ export default class ItemPageEdit extends Component {
     if (!isBlank) {
       this.props.items.findByLink(link, 'users', data => {
         const objId = data.id || data._id;
-        console.log(objId);
         if (typeof isAuthorized === 'function' && !isAuthorized(objId)) {
           return this.redirect();
         }

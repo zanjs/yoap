@@ -42,10 +42,11 @@ export default class ManageItemsPage extends Component {
   };
   changeStatus = (_id, status) => {
     const id = this.getObjectId(_id);
+    if (!status) {
+      return null;
+    }
 
-    this.props.items.updateItem(id, {status}, data => {
-      console.log('STATUS WAS CHANGED TO', data.status);
-      //setTimeout(this.update, 300);
+    this.props.items.updateItem(id, {status}, () => {
       this.update();
     });
   };
