@@ -3,14 +3,14 @@
 import { divider, splitter } from 'config'
 import getTypes from 'helpers/app/generateItemTypes'
 import getOrderId from 'helpers/app/getOrderId'
+import { amenitiesTypes } from 'constants/itemConstants/amenitiesTypes'
+import { stateTypes } from 'constants/itemConstants/stateTypes'
+import { furnitureTypes } from 'constants/itemConstants/furnitureTypes'
 import {
-  amenitiesTypes, stateTypes,
-  furnitureTypes,
-
   facilityTypesMedia, facilityTypesCommon,
   facilityTypesAppliances, facilityTypesSafety,
   facilityTypesStuff, facilityTypesAdditional
-} from 'constants/itemConstants'
+} from 'constants/itemConstants/facilitiesTypes'
 
 //import
 

@@ -5,6 +5,7 @@ import {
   itemFindApi as itemFindUrl,
   itemUpdateApi as itemUpdateUrl,
   itemToggleFeaturedApi as itemToggleFeaturedUrl,
+  filterItemsApi as filterItemsUrl,
 
   JSONHeaders as headers
 } from 'constants'
@@ -40,3 +41,9 @@ export const toggleFeaturedItem = data => fetch(itemToggleFeaturedUrl, {
   method: 'post',
   body: JSON.stringify(data)
 });
+
+export const fetchFilteredItems = data => fetch(filterItemsUrl, {
+  ...headers,
+  method: 'post',
+  body: JSON.stringify(data)
+})

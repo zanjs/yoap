@@ -2,11 +2,12 @@ import {
   observable, computed, reaction,
   action, observer, autorun
 } from 'mobx'
-import { localStore, noop } from 'helpers'
+import { localStore, noop, isEmpty } from 'helpers'
 import { store as config, statusTypes } from 'constants'
 import {
   getItems, saveItem, getItem,
   updateItem as updateItemApi,
+  fetchFilteredItems as fetchFilteredItemsApi,
   toggleFeaturedItem as toggleFeaturedItemApi
 } from 'api'
 import { ItemModel } from 'models'
@@ -18,6 +19,7 @@ class ItemsStore {
   @observable manage = [];
   @observable users = [];
   @observable featured = [];
+  @observable filtered = [];
 
   @observable isError = false;
   @observable isFetching = false;
@@ -32,7 +34,6 @@ class ItemsStore {
     // }
     //
     this.fetchItems();
-    this.subscribeToPriceAndSquares();
     //
     // this.subscribeToLocalStorage();
   }
@@ -49,30 +50,42 @@ class ItemsStore {
 
   // responses handlers
   responseHandler = response => {
-    this.fromJSON(response.data);
+    const { objects, price, squares } = response;
+    this.fromJSON(objects);
+    price && store.filter.setPrice(price);
+    squares && store.filter.setSquares(squares);
     this.isFetching = false;
-
     return response.data;
   };
   userItemsResponse = response => {
-    this.fromJSON(response.data, 'users');
+    this.fromJSON(response.objects, 'users');
     this.isFetching = false;
 
-    return response.data;
+    return response.objects;
   };
   userFeaturedResponse = response => {
-    if (response.data && response.data.length) {
-      this.fromJSON(response.data, 'featured', true);
+    const { objects } = data;
+    if (objects && objects.length) {
+      this.fromJSON(objects, 'featured', true);
     }
     this.isFetching = false;
 
     return response.data;
   };
   manageItemsResponse = response => {
-    this.fromJSON(response.data, 'manage');
+    this.fromJSON(response.objects, 'manage');
     this.isFetching = false;
 
     return response.data;
+  };
+  filterItemsResponse = response => {
+    const { objects, price, squares } = response;
+    this.fromJSON(objects, 'filtered', true);
+    this.fromJSON(objects, 'data', true);
+    price && store.filter.setPrice(price);
+    squares && store.filter.setSquares(squares);
+    this.isFetching = false;
+    return response.objects;
   };
   createItemResponse = response => {
     let item;
@@ -150,6 +163,18 @@ class ItemsStore {
       .then(cb)
       .catch(this.errorHandler);
   };
+  fetchFilteredItems = (filters, cb = noop) => {
+    if (isEmpty(filters))
+      return null;
+
+    this.isFetching = true;
+    return fetchFilteredItemsApi(filters)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.filterItemsResponse)
+      .then(cb)
+      .catch(this.errorHandler);
+  }
   fetchUserItems = (ids, cb = noop) => {
     if (!ids || !ids.length)
       return;
@@ -316,21 +341,6 @@ class ItemsStore {
 
     // save to the local store
     data => localStore.set(this.storeName, data)
-  );
-
-  subscribeToPriceAndSquares = () => reaction(
-    () => {
-      console.log('DATA CHECK');
-      return this.data.map(item => ({
-        price: item.price,
-        size: item.size
-      }))
-    },
-
-    data => {
-      store.filter.setPrice(data);
-      store.filter.setSquares(data);
-    }
   );
 }
 

@@ -15,7 +15,7 @@ import refreshIcon from 'icons/ui/refresh.svg'
 
 export default class BaseFilter extends Component {
   render() {
-    const { children, onMoreButtonClick, isFull, refresh } = this.props;
+    const { onSearchClick, onMoreButtonClick, isFull, refresh } = this.props;
     return (
       <div className={s.container}>
         <FlexGrid justify="space-between" wrap="true" className={s.wrapper}>
@@ -25,6 +25,7 @@ export default class BaseFilter extends Component {
           <BaseFilterPriceContainer />
 
           <BaseFilterItem className={s.icon__wrapper}
+                          onClick={onSearchClick}
                           tag={Link} to="/y" render={(
             <Svg className={s.icon} src={refresh ? refreshIcon : arrowIcon}/>
           )} />

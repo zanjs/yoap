@@ -9,6 +9,7 @@ import {
   stateTypes, furnitureTypes,
   facilityTypeCommon
 } from 'constants'
+import { store } from 'store'
 
 console.log({
   objectTypes,
@@ -47,77 +48,11 @@ class FilterStore {
   @observable stations = [];
 
   @action setSquares = data => {
-    let min;
-    let max;
-
-    data.forEach(item => {
-      const { squares } = item.size;
-
-      if (min && squares < min) {
-        min = squares;
-      }
-
-      if (max && squares > max) {
-        max = squares;
-      }
-
-      if (!min) {
-        min = squares;
-      }
-      if (!max) {
-        max = squares;
-      }
-    });
-
-    const _squares = [min, max];
-    const { squares, squaresLimit } = this.size;
-
-    if (squares[0] === squaresLimit[0] && squares[1] === squaresLimit[1]) {
-      this.size.squares.replace(_squares);
-    }
-
-    this.size.squaresLimit.replace(_squares);
+    this.size.squaresLimit.replace(data);
   };
 
   @action setPrice = data => {
-    let min;
-    let max;
-
-    data.forEach(item => {
-      const { price } = item;
-
-      let _price = 0;
-
-      price.forEach(item => {
-        if (_price < item.value) {
-          _price = item.value;
-        }
-      });
-
-      if (min && _price < min) {
-        min = _price;
-      }
-
-      if (max && _price > max) {
-        max = _price;
-      }
-
-      if (!min) {
-        min = _price;
-      }
-      if (!max) {
-        max = _price;
-      }
-    });
-
-    const _price = [min, max];
-    const { price, priceLimit } = this;
-
-    if (price[0] === priceLimit[0] && price[1] === priceLimit[1]) {
-      this.price.replace(_price);
-    }
-    console.log(_price);
-    this.priceLimit.replace(_price);
+    this.priceLimit.replace(data);
   };
 
   @action replaceStations = stations => {
@@ -312,7 +247,32 @@ class FilterStore {
     this.data.replace(_data)
   };
 
-  fetchItems = cb => getItems().then(resp => cb(resp.json()));
+  @computed get filters() {
+    const params = this.activeParams;
+    const type = params.find(
+      param => param.indexOf(objectTypes.id) !== -1
+    );
+    const termType = params.find(
+      param => param.indexOf(termType) !== -1
+    );
+
+    return {
+      price: this.price,
+      termType, type,
+      stations: this.stations.map(it => it.id),
+      size: this.size,
+      params: this.activeParams
+    }
+  };
+  @action find = () => {
+    store.items.fetchFilteredItems(this.filters, () => {
+      console.log('loaded!');
+    });
+  }
+
+  fetchItems = cb => {
+    //store.items.fetchFilteredItems()
+  }
 
   createNew = data => {
     const validatedData = this.validate(data);

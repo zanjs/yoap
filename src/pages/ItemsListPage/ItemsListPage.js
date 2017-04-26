@@ -8,8 +8,9 @@ import {
 import { FilterContainer } from 'containers'
 import s from './ItemsListPage.sass'
 
-const mapStateToProps = ({items: {isFetching, fetchItems}}) => ({
-  isFetching, update: fetchItems
+const mapStateToProps = ({items: {isFetching, fetchItems, filtered, data}}) => ({
+  isFetching, update: fetchItems,
+  data: filtered
 });
 
 @inject(mapStateToProps) @observer
@@ -20,7 +21,7 @@ export default class ItemsListPage extends Component {
   }
 
   render() {
-    const { isFetching } = this.props;
+    const { isFetching, data } = this.props;
     return (
       <div className={s.wrapper}>
         <Helmet title="Все объявления"/>
@@ -31,7 +32,7 @@ export default class ItemsListPage extends Component {
             <LinkIcon className={s.link} to="/y" gray>Посмотреть на карте</LinkIcon>
           </FlexGrid>
           <FilterContainer/>
-          <ItemTilesGrid />
+          <ItemTilesGrid data={data} />
         </Container>
       </div>
     )

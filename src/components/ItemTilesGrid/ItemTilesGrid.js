@@ -15,7 +15,7 @@ export default class ItemTilesGrid extends Component {
   }
   render() {
     const {
-      items: { data },
+      data,
       getRef, limit = false,
       className, itemClassName
     } = this.props;

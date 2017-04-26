@@ -32,6 +32,7 @@ export const updateUserDataApi = apiOrigin + api + updateUserData;
 export const items = '/items';
 export const itemsApi = apiOrigin + api + items;
 export const filterItems = '/items-filtered'
+export const filterItemsApi = apiOrigin + api + filterItems;
 
 // item api
 export const item = '/item';
