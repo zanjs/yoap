@@ -31,7 +31,9 @@ export default class NavContainer extends Component {
     if (next < limit && navHidden) {
       return this.setState({navHidden: false, navFull: false})
     } else if (next < limit) {
-      if (navFull) return this.setState({navFull: false});
+      if (navFull)
+        this.setState({navFull: false});
+
       return;
     }
 

@@ -159,7 +159,7 @@ export default class ItemPageEditPhoto extends Component {
       return null;
 
     const {
-      state: {Dropzone, toDrop, selected, data},
+      state: {Dropzone, toDrop, selected, data, isFetching},
       onDrop,
       onDragLeave,
       onDragOver,
@@ -182,8 +182,8 @@ export default class ItemPageEditPhoto extends Component {
         {isSelected && <PhotoEdit data={data[selected]} onClose={closeSelected}/>}
         {(toDrop || isEmpty) && <PhotoEmpty onClick={openUpload} isActive={toDrop} />}
         {!isSelected && !isEmpty && <PhotoGallery onChange={onGalleryChange}
-                                   onClick={onItemClickHandler}
-                                   data={data} />}
+                                                  onClick={onItemClickHandler}
+                                                  isFetching={isFetching} data={data} />}
       </Dropzone>
     )
   }

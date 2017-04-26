@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
-import { ItemTile } from 'components'
+import { ItemTileContainer } from 'containers'
 import s from './MapMarker.sass'
 
 
 export default class MapMarker extends Component {
-
   componentDidMount() {
     this.removeWrapperChunks();
   }
@@ -38,10 +37,11 @@ export default class MapMarker extends Component {
 
   render() {
     return (
-      <ItemTile className={s.item}
+      <ItemTileContainer
+                className={s.item}
                 contentClassName={s.item__content}
                 imageClassName={s.item__image}
-                getRef={this.getRef} link="/"
+                getRef={this.getRef}
                 data={this.props.data}/>
     )
   }

@@ -64,7 +64,7 @@ export default class Image extends Component {
   }
 
   componentDidUpdate() {
-    if (this.isMount && !this.isFaded && this.state.mainImageLoaded) {
+    if (!this.isFaded && this.state.mainImageLoaded) {
       this.showImage();
     }
   }
@@ -73,12 +73,14 @@ export default class Image extends Component {
     if (!this.isMount)
       return;
     this.isFaded = true;
-    this.fadeInImage(() => this.isMount && this.setState({
-      isLoaded: true
-    }))
+    this.fadeInImage(() => {
+      this.isMount && this.setState({
+        isLoaded: true
+      })
+    })
   };
   fadeInImage = onComplete => {
-    if (!this.isMount)
+    if (!this.preview || !this.image)
       return;
 
     const { dur, ease } = this;
@@ -102,6 +104,12 @@ export default class Image extends Component {
   getPreviewRef = b => this.preview = b;
   getImageRef = b => this.image = b;
 
+  onImageLoad = () => {
+    this.isMount && this.setState({mainImageLoaded: true});
+  }
+
+  imageStyles = {display: 'none'}
+
   render() {
     const {
       className, withLoading,
@@ -121,7 +129,9 @@ export default class Image extends Component {
       })
     }
 
-    const _src = src.full ? src.full : this.getSrc(src);
+    const _src = typeof src === 'string' ? src
+      : src.full
+        ? src.full : this.getSrc(src);
 
     if (isLoaded) {
       return this.renderImage({
@@ -135,8 +145,8 @@ export default class Image extends Component {
                            ref={this.getPreviewRef}
                            src={previewSrc} alt=""/>}
         <img className={classNames(s.img, className)}
-             src={_src} style={{display: 'none'}} ref={this.getImageRef}
-             onLoad={() => this.isMount && this.setState({mainImageLoaded: true})}/>
+             src={_src} style={this.imageStyles} ref={this.getImageRef}
+             onLoad={this.onImageLoad} onError={(e) => console.log('load image error', e)}/>
       </figure>
     )
   }

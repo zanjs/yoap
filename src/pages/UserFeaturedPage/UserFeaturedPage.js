@@ -3,8 +3,9 @@ import { inject, observer } from 'mobx-react'
 import Helmet from 'react-helmet'
 import {
   Container, FlexGrid, Title, LinkIcon,
-  ItemTile, LoadingAnimation
+  LoadingAnimation
 } from 'components'
+import { ItemTileContainer } from 'containers'
 import s from './UserFeaturedPage.sass'
 
 const mapStateToProps =
@@ -38,7 +39,7 @@ export default class UserFeaturedPage extends Component {
           <FlexGrid onClick={this.clickHandler} wrap="true" justify="start"
                     align="start">
             {data && data.map((item, key) => (
-              <ItemTile data={item} key={key} />
+              <ItemTileContainer data={item} key={key} />
             ))}
           </FlexGrid>
         </Container>

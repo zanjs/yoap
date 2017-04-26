@@ -10,6 +10,7 @@ const mapStateToProps = ({manage: {data, changeData}}) => ({
 @inject(mapStateToProps) @observer
 export default class ItemPhotoEditContainer extends Component {
   onChange = images => {
+    console.log('change images', images);
     this.props.changeData({images});
   };
 

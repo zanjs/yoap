@@ -116,6 +116,9 @@ export default class PhotoGallery extends Component {
   };
 
   onSortEnd = props => {
+    if (this.props.isFetching)
+      return null;
+
     const { oldIndex, newIndex } = props;
     const { toRemove, data } = this.state;
 

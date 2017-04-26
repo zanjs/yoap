@@ -48,6 +48,13 @@ export default class BaseFilterSlider extends Component {
   getWrapperRef = b => this.wrapper = b;
   getScrollerRef = b => this.scroller = b;
 
+  __scroll = x => {
+    TweenMax.to(this.scroller, .3, {
+      x,
+      ease: Cubic.easeOut
+    })
+  }
+
   scroll = (_percent, noOffset) => {
     let percent = _percent;
 
@@ -67,10 +74,7 @@ export default class BaseFilterSlider extends Component {
 
     this.position = percent;
 
-    TweenMax.to(this.scroller, .3, {
-      x: `-${percent -  20}%`,
-      ease: Cubic.easeOut
-    })
+    this.__scroll(- ((this.scrollerWidth * (percent / 100))));
   };
 
   mouseMoveHandler = e => {
@@ -104,13 +108,28 @@ export default class BaseFilterSlider extends Component {
 
     return false;
   };
+  clickHandler = e => {
+    if (!this.props.snap)
+      return;
+    const { target } = e;
+    const { className } = target;
+    if (className.indexOf(s.wrapper) === -1 && className.indexOf(s.scroller) === -1) {
+      this.snap = -(target.offsetLeft + 5)
+    }
+  };
+  mouseLeaveHandler = () => {
+    if (this.snap != null) {
+      this.__scroll(this.snap);
+    }
+  }
 
   render() {
     const { className, children } = this.props;
 
     return (
       <div ref={this.getWrapperRef} onMouseMove={this.mouseMoveHandler}
-           onWheel={this.wheelHandler}
+           onWheel={this.wheelHandler} onClick={this.clickHandler}
+           onMouseLeave={this.mouseLeaveHandler}
            className={classNames(s.wrapper, className)}>
         <div ref={this.getScrollerRef} className={s.scroller}>
           {children}

@@ -31,7 +31,7 @@ export default class BaseFilterCategory extends Component {
 
     return (
       <BaseFilterItem className={s.container} title="Категория объекта" icon={houseIcon}>
-        <BaseFilterSlider defaultValue={40} className={wrapperClassName}>
+        <BaseFilterSlider snap defaultValue={40} className={wrapperClassName}>
           {data.map((item, key) => {
             const className = !hasActive && key === 2 && s.item_active || null;
             return (

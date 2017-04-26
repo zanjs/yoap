@@ -4,7 +4,6 @@ import { jwtSecret } from 'serverConfig'
 
 export default function authenticate(req, res, next) {
   const token = req.headers['X-AUTH'] || req.headers['x-auth'];
-  console.log(`token ${token ? 'is exist' : 'not exist'}.`);
 
   if (token) {
     return jwt.verify(token, jwtSecret, (err, decoded) => {
@@ -15,7 +14,7 @@ export default function authenticate(req, res, next) {
         });
       }
 
-      db.User.findOne({token})
+      db.User.findById((decoded.id || decoded._id))
         .then(user => {
           if (!user) {
             return res.status(404).json({

@@ -5,11 +5,13 @@ import {
   ItemPageInfoTitle,
   UserCustomAddress,
   Container, FlexGrid,
-  LinkIcon, ItemTile,
+  LinkIcon,
   Svg, Content, LoadingAnimation,
   Dashboard
 } from 'components'
-import { UserDataEditContainer } from 'containers'
+import {
+  UserDataEditContainer, ItemTileContainer
+} from 'containers'
 import { classNames } from 'helpers'
 import s from './UserPage.sass'
 
@@ -161,7 +163,7 @@ export default class UserPage extends Component {
                 </ItemPageInfoTitle>
                 <FlexGrid className={s.items__wrapper} justify="start"
                           align="start" wrap="false">
-                  {object && <ItemTile edit data={object}/>}
+                  {object && <ItemTileContainer edit data={object}/>}
                   <RouterLink to="/manage/create">
                     <Svg className={classNames(s.add, !!object && s.add_last)}
                          src={addIcon} />
@@ -176,7 +178,7 @@ export default class UserPage extends Component {
                 </ItemPageInfoTitle>
                 {featured && <FlexGrid justify="start" align="start">
                   {featured.map((item, key) => (
-                    <ItemTile key={key} data={item}/>
+                    <ItemTileContainer key={key} data={item}/>
                   ))}
                 </FlexGrid>}
               </div>

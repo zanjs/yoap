@@ -9,6 +9,7 @@ export BaseFilterCategoryContainer from './BaseFilterCategoryContainer/BaseFilte
 export BaseFilterRoomsContainer from './BaseFilterRoomsContainer/BaseFilterRoomsContainer'
 export BaseFilterPriceContainer from './BaseFilterPriceContainer/BaseFilterPriceContainer'
 export BaseFilterSubwayContainer from './BaseFilterSubwayContainer/BaseFilterSubwayContainer'
+export FilterContainer from './FilterContainer/FilterContainer'
 
 export ProFilterContainer from './ProFilterContainer/ProFilterContainer'
 export LoginFormContainer from './LoginFormContainer/LoginFormContainer'
@@ -21,3 +22,4 @@ export ItemPhotoEditContainer from './ItemPhotoEditContainer/ItemPhotoEditContai
 export UserDataEditContainer from './UserDataEditContainer/UserDataEditContainer'
 
 export MapContainer from './MapContainer/MapContainer'
+export ItemTileContainer from './ItemTileContainer/ItemTileContainer'
