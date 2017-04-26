@@ -4,6 +4,7 @@
  * @see store
  */
 import { observable, reaction, action, computed } from 'mobx'
+import jwtDecode from 'jwt-decode'
 import {
   login as serverLogin,
   signup as serverSignup,
@@ -15,7 +16,6 @@ import { extend, localStore, noop, isEmpty, getToken } from 'helpers'
 import { store as config } from 'constants'
 import { jwtStorageName } from 'config'
 import { store } from 'store'
-import jwt from 'jsonwebtoken'
 
 /**
  * UserStore class.
@@ -41,8 +41,7 @@ class UserStore {
       localStore.set(jwtStorageName, null);
       return this._token = null;
     }
-    const data = jwt.decode(token)
-
+    const data = jwtDecode(token)
     extend(this, data);
 
     localStore.set(jwtStorageName, token);
