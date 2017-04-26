@@ -1,4 +1,4 @@
-import { generateItemTypes as getTypes } from 'helpers'
+import getTypes from 'helpers/app/generateItemTypes'
 import { splitter } from 'config'
 
 const furnitureTypeData = [

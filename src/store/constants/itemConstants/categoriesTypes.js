@@ -1,7 +1,8 @@
 // TODO: Complete categoriesTypes
 // TODO: добавить состояние квартир
 import { divider, splitter } from 'config'
-import { generateItemTypes as getTypes, getOrderId } from 'helpers'
+import getTypes from 'helpers/app/generateItemTypes'
+import getOrderId from 'helpers/app/getOrderId'
 import {
   amenitiesTypes, stateTypes,
   furnitureTypes,

@@ -1,5 +1,6 @@
 import { splitter } from 'config'
-import { generateItemTypes as getTypes, getOrderId } from 'helpers'
+import getTypes from 'helpers/app/generateItemTypes'
+import getOrderId from 'helpers/app/getOrderId'
 
 
 // ======================================== FACILITY TYPES

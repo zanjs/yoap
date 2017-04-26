@@ -1,4 +1,4 @@
-import db from 'models'
+import { User } from 'models'
 import jwt from 'jsonwebtoken'
 import { jwtSecret } from 'serverConfig'
 
@@ -14,7 +14,7 @@ export default function authenticate(req, res, next) {
         });
       }
 
-      db.User.findById((decoded.id || decoded._id))
+      User.findById((decoded.id || decoded._id))
         .then(user => {
           if (!user) {
             return res.status(404).json({

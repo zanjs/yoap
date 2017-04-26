@@ -1,4 +1,5 @@
-import { generateItemTypes as getTypes } from 'helpers'
+import getTypes from 'helpers/app/generateItemTypes'
+import getOrderId from 'helpers/app/getOrderId'
 import { splitter } from 'config'
 
 const stateTypeData = [

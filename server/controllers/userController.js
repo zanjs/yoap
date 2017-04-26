@@ -1,4 +1,4 @@
-import db from 'models'
+import { User } from 'models'
 import { hashSync, compareSync } from 'bcrypt'
 import { userValidation, createToken } from 'utils'
 
@@ -10,7 +10,7 @@ userController.login = (req, res) => {
     ...(email ? {email} : {phone})
   };
 
-  db.User.findOne(query)
+  User.findOne(query)
     .then(user => {
       if (!user) {
         return res.status(404).json({
@@ -21,7 +21,7 @@ userController.login = (req, res) => {
       if (compareSync(password, user.password_digest)) {
         const token = createToken(user);
 
-        return db.User.findOneAndUpdate(query, {token})
+        return User.findOneAndUpdate(query, {token})
           .then(() => {
             return res.status(200).json({
               success: true,
@@ -57,7 +57,7 @@ userController.checkAuth = (req, res) => {
   }
 
   const token = createToken(user);
-  db.User.findOneAndUpdate({token: user.token}, {token})
+  User.findOneAndUpdate({token: user.token}, {token})
     .then(() => {
       res.status(200).json({
         success: true,
@@ -74,7 +74,7 @@ userController.logout = (req, res) => {
   const { user } = req;
   const query = {_id: user.id || user._id};
   const update = {token: ''};
-  db.User.findOneAndUpdate(query, update)
+  User.findOneAndUpdate(query, update)
     .then(() => {
       res.status(200).json({
         success: true, token: null
@@ -104,14 +104,14 @@ userController.signup = (req, res) => {
       }
 
       // Validation
-      const user = new db.User({
+      const user = new User({
         name, phone, email,
         password_digest: hashSync(password, 10)
       });
 
       user.save().then(data => {
         const token = createToken(data);
-        return db.User.findByIdAndUpdate((data.id || data._id), {token})
+        return User.findByIdAndUpdate((data.id || data._id), {token})
           .then(() => {
             res.status(200).json({
               success: true,
@@ -136,7 +136,7 @@ userController.update = (req, res) => {
 
   console.log(data, id);
 
-  db.User
+  User
     .findByIdAndUpdate(id, { $set: data }, { new: true })
     .then(data => {
       res.status(200).json({

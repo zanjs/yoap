@@ -1,3 +1,4 @@
+import { User } from 'models'
 import { isValid } from 'validation/userValidation/tests'
 import isEmpty from 'helpers/app/isEmpty'
 import db from 'models'
@@ -8,7 +9,7 @@ export default function userValidation(data) {
   } = data;
   let errors = isValid(data);
 
-  return db.User.findOne({$or: [
+  return User.findOne({$or: [
     {email},
     {phone}
   ]}).then(__user => {

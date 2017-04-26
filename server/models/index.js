@@ -6,9 +6,5 @@
  * @return {Object}
  */
 
-import User from './User'
-import Item from './Item'
-
-export default {
-  User, Item
-}
+export User from './User'
+export Item from './Item'

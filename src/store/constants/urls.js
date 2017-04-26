@@ -31,6 +31,7 @@ export const updateUserDataApi = apiOrigin + api + updateUserData;
 // items api
 export const items = '/items';
 export const itemsApi = apiOrigin + api + items;
+export const filterItems = '/items-filtered'
 
 // item api
 export const item = '/item';
