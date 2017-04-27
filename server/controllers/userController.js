@@ -132,9 +132,12 @@ userController.signup = (req, res) => {
 };
 
 userController.update = (req, res) => {
-  const { data, id } = req.body;
+  let { data, id } = req.body;
 
-  console.log(data, id);
+  // only admins can set admin state
+  if (!req.user.isAdmin) {
+    delete data.isAdmin;
+  }
 
   User
     .findByIdAndUpdate(id, { $set: data }, { new: true })

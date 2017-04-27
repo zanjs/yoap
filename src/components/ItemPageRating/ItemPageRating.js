@@ -3,10 +3,11 @@ import {
   ItemPageInfoTitle, Content,
   StarsRating, FlexGrid
 } from 'components'
+import { StarsRatingContainer } from 'containers'
 import s from './ItemPageRating.sass'
 
 
-const ItemPageRating = ({value, data}) => {
+const ItemPageRating = ({value, edit, data}) => {
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title="Рейтинг объекта"/>
@@ -14,7 +15,8 @@ const ItemPageRating = ({value, data}) => {
         <Content lightColor light size="2">
           {data.name}
         </Content>
-        {value && <StarsRating value={value} className={s.stars}/>}
+        {edit && <StarsRatingContainer className={s.stars}/>}
+        {!edit && value != null && <StarsRating value={value} className={s.stars}/>}
       </FlexGrid>
     </div>
   )

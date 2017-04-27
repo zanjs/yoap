@@ -2,6 +2,8 @@ import { Types } from 'mongoose'
 import { Item } from 'models'
 import { formatItemsResponse } from 'utils'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
+import { sortConfig } from 'serverConfig'
+
 // todo: сделать верификацию если юзер фильтрует по статусам
 export default (req, res) => {
   const { status, statuses, noStatus, ids } = req.body;
@@ -32,7 +34,7 @@ export default (req, res) => {
   }
 
   Item.find(query)
-    .sort({editedAt: -1})
+    .sort(sortConfig)
     .then(data => {
       res.status(200).json(formatItemsResponse(data))
     })

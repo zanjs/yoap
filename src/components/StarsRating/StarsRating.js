@@ -14,6 +14,8 @@ export default class StarsRating extends Component {
   activeColor = '#FF5388';
   inactiveColor = '#dddddd';
   blocks = [];
+  stars = [1,2,3,4,5];
+  rating = 0;
 
   componentDidMount() {
     this.setActive(this.props.value);
@@ -25,7 +27,7 @@ export default class StarsRating extends Component {
       activeColor, inactiveColor
     } = this;
     const index = value - 1;
-
+    this.currentValue = value;
     this.blocks.forEach((block, key) => {
       const isActive = key <= index;
 
@@ -36,23 +38,63 @@ export default class StarsRating extends Component {
     })
   };
 
+  getRating = block => {
+    if (!block)
+      return null;
+
+    const rating = parseInt(block.getAttribute('data-rating'), 10);
+
+    if (isNaN(rating) || rating == null)
+      return null;
+
+    return rating;
+  }
+
+  mouseEnterHandler = ({target}) => {
+    const rating = this.getRating(target);
+
+    if (rating == null)
+      return;
+
+    this.setActive(rating);
+  };
+  mouseLeaveHandler = () => {
+    this.setActive(this.props.value);
+  };
+  clickHandler = () => {
+    const rating = this.currentValue;
+    if (rating === this.props.value) {
+      return null;
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(rating);
+    }
+  };
+
   render() {
     const {
-      className, itemClassName, tag
-    } = this.props;
+      props: { className, itemClassName, tag, edit },
+      stars, clickHandler, mouseEnterHandler, mouseLeaveHandler
+    } = this;
+    const _itemClassName = classNames(
+      s.item, edit && s.item_edit,
+
+      itemClassName
+    );
+
     return (
       <FlexGrid tag={tag} justify="start" align="center"
-                className={className}>
-        <Svg getRef={b => this.blocks[0] = b}
-             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
-        <Svg getRef={b => this.blocks[1] = b}
-             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
-        <Svg getRef={b => this.blocks[2] = b}
-             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
-        <Svg getRef={b => this.blocks[3] = b}
-             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
-        <Svg getRef={b => this.blocks[4] = b}
-             src={starIcon} className={classNames(s.item, itemClassName)} tag="span"/>
+                onMouseLeave={edit && mouseLeaveHandler}
+                className={classNames(edit && s.edit, className)}>
+        {stars.map((star, index) => (
+          <Svg getRef={b => this.blocks[index] = b}
+               data-rating={star} key={index}
+               onMouseEnter={edit && mouseEnterHandler}
+               onClick={edit && clickHandler}
+               src={starIcon} className={_itemClassName}
+               tag="span"/>
+        ))}
       </FlexGrid>
     )
   }

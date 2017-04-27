@@ -66,7 +66,7 @@ export default class ItemPageInfoEdit extends Component {
         </ItemPageUser>
         <ItemPageType id={type && type.id || type || ''} edit onChange={this.onTypeChange}/>
         <ItemPagePriceEdit data={price} dewa={dewa} onChange={this.onPriceChange} />
-        <ItemPageRating data={category}/>
+        <ItemPageRating edit={user.isAdmin} data={category}/>
       </div>
     )
   }

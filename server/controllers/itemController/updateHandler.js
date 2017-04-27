@@ -44,6 +44,9 @@ export default (req, res) => {
   if (update.status && !isAdmin) {
     update.status = statusTypes.types[0].id;
   }
+  if (update.rating && !isAdmin) {
+    delete update.rating;
+  }
 
   if (update.status && update.status === statusTypes.types[1].id) {
     update.justCreated = false;

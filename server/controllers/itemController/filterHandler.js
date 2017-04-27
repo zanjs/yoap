@@ -4,6 +4,7 @@ import { termTypes } from 'constants/itemConstants/termTypes'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
 import { objectType } from 'constants/itemConstants/objectTypes'
 import { categoryType } from 'constants/itemConstants/categoriesTypes'
+import { sortConfig } from 'serverConfig'
 
 const filterByPrice = (price, item, termType = termTypes.types[2].id) => {
   if (isEmpty(price))
@@ -190,7 +191,7 @@ export default (req, res) => {
   }
 
   Item.find(query)
-    .sort({editedAt: -1})
+    .sort(sortConfig)
     .then(pureData => {
       const data = filterData(req.body, pureData);
 
