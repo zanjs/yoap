@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import { ItemTile } from 'components'
 import { objectTypes, termTypes, subwaySpb } from 'constants'

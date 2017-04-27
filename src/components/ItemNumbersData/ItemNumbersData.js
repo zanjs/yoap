@@ -20,7 +20,7 @@ const ItemNumbersData = ({date, views, featured, isFeaturedActive, onFeaturedCli
     </Content>
     <FlexGrid className={s.item}>
       <Svg src={viewsIcon} className={s.icon}/>
-      <Content size="4" gray nooffsets>{views}</Content>
+      <Content size="4" gray nooffsets>{views + 1}</Content>
     </FlexGrid>
     <FlexGrid className={getFeaturedClassName(isFeaturedActive)}
               onClick={onFeaturedClick}>

@@ -7,7 +7,7 @@ import { categoryType } from 'constants/itemConstants/categoriesTypes'
 import { sortConfig } from 'serverConfig'
 
 const filterByPrice = (price, item, termType = termTypes.types[2].id) => {
-  if (isEmpty(price))
+  if (isEmpty(price) || price[0] === price[1])
     return true;
 
   let result = false;
@@ -66,10 +66,12 @@ const filterBySize = (size, item) => {
     const [min, max] = squares;
     const itemSquares = itemSize.squares;
 
-    if (min && itemSquares < min) {
-      return false;
-    } else if (max && itemSquares > max) {
-      return false;
+    if (min !== max) {
+      if (min && itemSquares < min) {
+        return false;
+      } else if (max && itemSquares > max) {
+        return false;
+      }
     }
   }
 

@@ -34,7 +34,7 @@ class FilterStore {
   @action setSquares = data => {
     const { squaresLimit } = this.size;
     if (squaresLimit[0] > data[0] || squaresLimit[1] > data[1]) {
-      return this.size.squares.replace(data);
+      return false;
     }
 
     this.size.squaresLimit.replace(data);
@@ -43,7 +43,7 @@ class FilterStore {
   @action setPrice = data => {
     const { priceLimit } = this;
     if (priceLimit[0] > data[0] || priceLimit[1] > data[1]) {
-      return this.price.replace(data);
+      return false;
     }
 
     this.priceLimit.replace(data);

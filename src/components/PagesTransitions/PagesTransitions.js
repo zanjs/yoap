@@ -39,12 +39,11 @@ export default class PagesTransitions extends Component {
 
   update() {
     this.animation();
-    console.log('is it new page?..')
   }
 
   animation() {
-    if (!this.wrapper) return;
-    const { dur, ease } = this;
+    //if (!this.wrapper) return;
+    //const { dur, ease } = this;
 
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
