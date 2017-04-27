@@ -30,6 +30,7 @@ class FilterStore {
   @observable price  = [];
   @observable priceLimit = [];
   @observable stations = [];
+  @observable hasSearched = false;
 
   @action setSquares = data => {
     const { squaresLimit } = this.size;
@@ -222,6 +223,8 @@ class FilterStore {
   };
 
   @computed get filters() {
+    let filters = {};
+
     const params = this.activeParams;
     const type = params.find(
       param => param.indexOf(objectTypes.id) !== -1
@@ -230,15 +233,42 @@ class FilterStore {
       param => param.indexOf(termType) !== -1
     );
 
-    return {
-      price: this.price,
-      termType, type,
-      stations: this.stations.map(it => it.id),
-      size: this.size,
-      params: this.activeParams
+    const { price, size, activeParams, stations } = this;
+    if (!isEmpty(type)) {
+      filters.type = type;
     }
+    if (!isEmpty(termType)) {
+      filters.termType = termType;
+    }
+    if (!isEmpty(price) && price[0] !== price[1]) {
+      filters.price = price;
+    }
+    if (!isEmpty(stations)) {
+      filters.stations = stations;
+    }
+    if (!isEmpty(activeParams)) {
+      filters.params = activeParams.filter(
+        it => it !== type && it !== termType
+      )
+    }
+    if (!isEmpty(size)) {
+      const squares = {...size.squares};
+      filters.size = {
+        beds: size.beds,
+        bathrooms: size.bathrooms,
+        bedrooms: size.bedrooms,
+        rooms: size.rooms
+      };
+
+      if (!isEmpty(squares) && squares[0] !== squares[1]) {
+        filters.size.squares = squares;
+      }
+    }
+
+    return filters;
   };
   @action find = () => {
+    this.hasSearched = true;
     store.items.fetchFilteredItems(this.filters, () => {
       console.log('loaded!');
     });

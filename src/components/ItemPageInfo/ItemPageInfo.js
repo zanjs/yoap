@@ -8,14 +8,24 @@ import {
 } from 'components'
 import { ItemNumbersDataContainer } from 'containers'
 import { classNames } from 'helpers'
+import { statusTypes, GREEN_COLOR } from 'constants'
 import s from './ItemPageInfo.sass'
 
+const mapStateToProps = ({user, }) => ({
+  user
+})
 
-@inject('user') @observer
+@inject(mapStateToProps) @observer
 export default class ItemPageInfo extends Component {
   getStatus = id => {
     if (this.props.user.isAdmin || this.props.user.has(id)) {
       return this.props.data.statusName;
+    }
+    if (this.props.data.status === statusTypes.types[1].id) {
+      return {
+        name: 'Проверено',
+        color: GREEN_COLOR
+      }
     }
 
     return null;

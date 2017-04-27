@@ -8,7 +8,7 @@ import { statusTypes } from 'constants'
 import { classNames } from 'helpers'
 import s from './ItemPageTitle.sass'
 
-const ItemPageTitle = ({edit, children, id, statusContent, onChange}) => {
+const ItemPageTitle = ({edit, children, id, status, statusContent, onChange}) => {
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title={id != null && `Объявление №${id}`}>
@@ -16,6 +16,11 @@ const ItemPageTitle = ({edit, children, id, statusContent, onChange}) => {
           <Content nooffsets className={s.status}>
             {statusContent}
           </Content>
+        }
+        {!statusContent && status &&
+         <Content nooffsets style={status.color && {color: status.color}}>
+           {status.name || status}
+         </Content>
         }
       </ItemPageInfoTitle>
       <Title size="3" light

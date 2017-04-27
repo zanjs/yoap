@@ -8,9 +8,9 @@ import {
 import { FilterContainer } from 'containers'
 import s from './ItemsListPage.sass'
 
-const mapStateToProps = ({items: {isFetching, fetchItems, filtered, data}}) => ({
+const mapStateToProps = ({items: {isFetching, fetchItems, filtered, data}, filter: {hasSearched}}) => ({
   isFetching, update: fetchItems,
-  data: filtered
+  data: hasSearched ? filtered : data
 });
 
 @inject(mapStateToProps) @observer
