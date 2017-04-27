@@ -9,6 +9,7 @@ const port = process.env.YOUR_PORT || process.env.PORT || 5000;
 
 app.use(express.static(__DIST));
 
+
 app.get('*', (req, res) => {
   res.sendFile(`${__DIST}/index.html`)
 });

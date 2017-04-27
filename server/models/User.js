@@ -80,10 +80,12 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
+
   token: {
     type: String,
     required: false
-  }
+  },
+  verifyToken: String
 });
 
 const User = mongoose.model('User', userSchema);

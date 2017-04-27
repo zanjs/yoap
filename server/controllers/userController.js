@@ -1,6 +1,10 @@
 import { User } from 'models'
 import { hashSync, compareSync } from 'bcrypt'
-import { userValidation, createToken } from 'utils'
+import {
+  userValidation, createToken,
+  createId, sendSignUpEmail
+} from 'utils'
+import { appDomainName } from 'serverConfig'
 
 const userController = {};
 
@@ -104,9 +108,11 @@ userController.signup = (req, res) => {
       }
 
       // Validation
+      const verifyToken = createId();
       const user = new User({
         name, phone, email,
-        password_digest: hashSync(password, 10)
+        password_digest: hashSync(password, 10),
+        verifyToken
       });
 
       user.save().then(data => {
@@ -116,6 +122,11 @@ userController.signup = (req, res) => {
             res.status(200).json({
               success: true,
               data: {token}
+            })
+            sendSignUpEmail({
+              id: verifyToken,
+              email,
+              name
             })
           })
           .catch(err => {
@@ -129,6 +140,47 @@ userController.signup = (req, res) => {
         })
       })
     })
+};
+userController.verifyUser = (req, res) => {
+  const token = req.params.token;
+  const query = {verifyToken: token};
+
+  User.findOne(query)
+    .then(user => {
+      if (!user) {
+        return res.send(
+          `<script>alert('Ваша ссылка устарела и аккаунт не был подтвержден!')</script>`
+        )
+      }
+      if (!user._id || user.verified || user.banned) {
+        if (user.banned) {
+          return res.send(
+            `<script>alert('Нас не проведешь - мы знам что вы агент!')</script>`
+          )
+        }
+        if (user.verified) {
+          return res.redirect(`${appDomainName}/you`)
+        }
+      }
+
+      return User.findOneAndUpdate(query, {
+        verifyToken: '',
+        verified: true
+      }).then(() => {
+        res.redirect(`${appDomainName}/you`)
+      }).catch(err => {
+        res.status(500).send(
+          `<h1>Произошла ошибка 500</h1>
+           <p>${err.toString()}</p>`
+        )
+      })
+    })
+    .catch(err => {
+      res.status(500).send(
+        `<h1>Произошла ошибка 500</h1>
+         <p>${err.toString()}</p>`
+      )
+  })
 };
 
 userController.update = (req, res) => {

@@ -11,6 +11,7 @@ import {
   logout, filterItems,
   itemView
 } from 'constants/urls'
+import { routes as hiddenRoutes } from 'serverConfig'
 
 const routes = express();
 
@@ -44,6 +45,13 @@ routes.post(
 
   userController.logout
 );
+
+// hidden user routes
+routes.get(
+  hiddenRoutes.verifyUser,
+
+  userController.verifyUser
+)
 
 // Item routes
 routes.post(
