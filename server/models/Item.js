@@ -141,7 +141,7 @@ const itemSchema = new Schema({
 const populate = function(next) {
   this.populate({
     path: '_creator',
-    select: 'name image _id'
+    select: 'name image _id verified'
   });
 
   next();
