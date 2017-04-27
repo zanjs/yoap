@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
+import compression from 'compression'
 import routes from './routes'
 import { api as apiLink } from 'constants/urls'
 
@@ -12,6 +13,7 @@ mongoose.connect('mongodb://localhost:27017/yoap', () => {
 const app = express();
 
 // middlewares
+app.use(compression({level: 3}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {

@@ -6,6 +6,7 @@ import {
   ItemPageInfoContainer,
   ItemPageLocationContainer
 } from 'containers'
+import { updateItemViews } from 'api'
 import { randomNumber, normalizeScroll, isEmpty } from 'helpers'
 import s from './ItemPage.sass'
 
@@ -43,7 +44,7 @@ export default class ItemPage extends Component {
       return;
 
     this.props.items.findByLink(params.link, 'data', data => {
-      this.setState({data})
+      this.setState({data}, this.updateViews)
     });
   };
 
@@ -53,6 +54,20 @@ export default class ItemPage extends Component {
   }
   componentWillUnmount() {
     normalizeScroll(false);
+  }
+
+  updateViews = () => {
+    const { id } = this.state.data;
+    if (isEmpty(id))
+      return null;
+
+    updateItemViews(id).then(() => {
+      const views = this.state.data.views;
+      let data = {...this.state.data};
+      data.views = views + 1;
+
+      this.setState(data);
+    })
   }
 
   render() {

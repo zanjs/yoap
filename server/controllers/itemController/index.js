@@ -4,6 +4,7 @@ import filterHandler from './filterHandler'
 import findOneHandler from './findOneHandler'
 import updateHandler from './updateHandler'
 import getAllHandler from './getAllHandler'
+import updateViews from './updateViews'
 
 export default {
   createHandler,
@@ -11,5 +12,6 @@ export default {
   filterHandler,
   findOneHandler,
   updateHandler,
-  getAllHandler
+  getAllHandler,
+  updateViews
 }

@@ -84,6 +84,7 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
+    "compression": "^1.6.2",
     "cyrillic-to-translit-js": "^1.0.2",
     "express": "^4.14.1",
     "formidable": "^1.1.1",

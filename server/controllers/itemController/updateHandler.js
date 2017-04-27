@@ -47,12 +47,18 @@ export default (req, res) => {
   if (update.rating && !isAdmin) {
     delete update.rating;
   }
+  if (update.statistics) {
+    delete update.statistics;
+  }
+  if (update.views) {
+    delete update.views;
+  }
 
   if (update.status && update.status === statusTypes.types[1].id) {
     update.justCreated = false;
   }
 
-  Item.findOneAndUpdate(query, update)
+  Item.findOneAndUpdate(id, { $set: update }, { new: true })
     .then(data => {
       res.status(200).json({
         success: true,

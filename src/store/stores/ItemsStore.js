@@ -8,7 +8,8 @@ import {
   getItems, saveItem, getItem,
   updateItem as updateItemApi,
   fetchFilteredItems as fetchFilteredItemsApi,
-  toggleFeaturedItem as toggleFeaturedItemApi
+  toggleFeaturedItem as toggleFeaturedItemApi,
+  updateItemViews as updateItemViewsApi
 } from 'api'
 import { ItemModel } from 'models'
 import { store } from 'store'
@@ -222,6 +223,24 @@ class ItemsStore {
       .then(cb)
       .catch(this.errorHandler);
   };
+  updateItemViews = (id, cb = noop) => {
+    if (isEmpty(id))
+      return null;
+
+    updateItemViewsApi(id)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(({data}) => {
+        if (isEmpty(data))
+          return null;
+
+        const __data = data.length ? data : [data];
+        this.fromJSON(__data)
+
+        return __data;
+      })
+      .then(cb)
+  }
   toggleFeaturedItem = (id, cb = noop) => {
     const userId = store.user.id || store.user._id;
 

@@ -25,7 +25,7 @@ export default class ItemPageInfo extends Component {
       title, description,
       price, dewa, rating,
       category, type,
-      id
+      id, order
     } = this.props.data;
 
     const user = this.props.data.user || this.props.data._creator;
@@ -34,7 +34,7 @@ export default class ItemPageInfo extends Component {
     return (
       <div className={classNames(s.wrapper, this.props.className)}>
         <Helmet title={title}/>
-        <ItemPageTitle id="021" status={status}>{title}</ItemPageTitle>
+        <ItemPageTitle id={order} status={status}>{title}</ItemPageTitle>
         {user && <ItemPageUser phone={user.phone}
                       email={user.email}
                       link={user.link || '/y'}

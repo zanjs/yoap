@@ -42,11 +42,15 @@ export const itemApi = apiOrigin + api + item;
 export const itemFind = '/item/find';
 export const itemFindApi = apiOrigin + api + itemFind;
 
-// item find api
+// item update api
 export const itemUpdate = '/item/update';
 export const itemUpdateApi = apiOrigin + api + itemUpdate;
 
-// item find api
+// item views api
+export const itemView = '/item/view';
+export const itemViewApi = apiOrigin + api + itemView;
+
+// item featured api
 export const itemToggleFeatured = '/item/featured';
 export const itemToggleFeaturedApi = apiOrigin + api + itemToggleFeatured;
 

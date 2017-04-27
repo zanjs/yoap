@@ -8,7 +8,8 @@ import {
   item, image, itemFind,
   itemUpdate, itemToggleFeatured,
   updateUserData, checkUser,
-  logout, filterItems
+  logout, filterItems,
+  itemView
 } from 'constants/urls'
 
 const routes = express();
@@ -68,11 +69,11 @@ routes.post(
 
   itemController.featuredHandler
 );
-routes.post(
-  filterItems,
+routes.put(
+  itemView,
 
-  itemController.filterHandler
-)
+  itemController.updateViews
+);
 
 // Items routes
 routes.post(
@@ -80,6 +81,11 @@ routes.post(
 
   itemController.getAllHandler
 );
+routes.post(
+  filterItems,
+
+  itemController.filterHandler
+)
 
 // Image routes
 routes.post(image, imageController.upload);

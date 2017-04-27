@@ -99,7 +99,7 @@ export default class ItemModel {
     }
 
     // test category if it's not defined
-    const category = ItemModel.testCategory();
+    const category = ItemModel.testCategory(this.types);
     this._category = category.id;
 
     return {id: category.id, name: category.name};
@@ -186,6 +186,7 @@ export default class ItemModel {
    */
   location;
 
+  order;
   /**
    * Parse facilities to pretty view.
    * Contains names and ids of values;
@@ -458,6 +459,7 @@ export default class ItemModel {
       _type, dewa,
       size, location,
       floors, rating,
+      order,
 
       _facilities, _amenities,
       _rules,
@@ -480,6 +482,7 @@ export default class ItemModel {
       type,
       category,
       status,
+      order,
 
       price,
       dewa,
@@ -697,7 +700,10 @@ export default class ItemModel {
    * @param {Array} params Array of object parameters.
    * @return {object} Matched object category.
    */
-  static testCategory = (params = this.types) => {
+  static testCategory = (params) => {
+    if (!params)
+      return null;
+
     let result;
     const data = ItemModel.filterParams(params);
     const formattedParams = JSON.stringify(params);
@@ -714,15 +720,3 @@ export default class ItemModel {
   };
 
 }
-
-// just for debug, todo: remove types debug
-window.types = {
-  objectTypes,
-  facilitiesTypes,
-  amenitiesTypes,
-  rulesTypes,
-  termTypes,
-  categoryTypes,
-  stateTypes,
-  furnitureTypes
-};

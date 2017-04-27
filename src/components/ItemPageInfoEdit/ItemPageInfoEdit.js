@@ -45,12 +45,12 @@ export default class ItemPageInfoEdit extends Component {
   render() {
     const {
       title, content, description,
-      type, price, dewa
+      type, price, dewa, order
     } = this.props.data;
     const { className, user, category } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
-        <ItemPageTitle edit id="021"
+        <ItemPageTitle edit id={order}
                        statusContent={<StatusChangeContainer/>}
                        onChange={this.onChangeTitle}>
           {title}

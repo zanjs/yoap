@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
+import { getToday } from 'utils'
 const { Schema } = mongoose;
 
 mongoose.Promise = global.Promise;
-const imageSchema = {
+export const imageSchema = {
   preview: {
     type: String,
     required: true
@@ -24,6 +25,10 @@ const itemSchema = new Schema({
     type: String,
     required: [true, 'Без заголовка никак!'],
     minLength: [5, 'Заголовок не может быть меньше 5-ти символов']
+  },
+  order: {
+    type: Number,
+    unique: true
   },
   link: {
     type: String,
@@ -110,6 +115,10 @@ const itemSchema = new Schema({
     type: Number,
     default: 0
   },
+
+  statistics: [
+    Date
+  ],
 
   isDeleted: {
     type: Boolean,

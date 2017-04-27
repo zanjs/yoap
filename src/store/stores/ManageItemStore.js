@@ -23,6 +23,7 @@ class ManageItemStore {
 
       @observable views: 0,
       @observable rating: 0,
+      @observable order: null,
 
       @observable category: '',
       @observable type: '',
@@ -126,6 +127,13 @@ class ManageItemStore {
       this.data.params.replace(
         this.parseParams(object.params)
       )
+    }
+    console.log(window.order = {
+      order: object.order,
+      object,
+    })
+    if (object.order != null) {
+      this.data.order = object.order;
     }
   };
   @action Validate = () => {
