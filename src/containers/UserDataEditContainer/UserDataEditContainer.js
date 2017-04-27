@@ -3,8 +3,8 @@ import { inject, observer } from 'mobx-react'
 import { UserDataEdit } from 'components'
 import { isEmpty } from 'helpers'
 
-const mapStateToProps = ({user: {name, image, phone, email, isVerified, updateUserData, password}}) => ({
-  user: {name, image, email, phone, isVerified, password},
+const mapStateToProps = ({user: {name, image, phone, email, verified, updateUserData, password}}) => ({
+  user: {name, image, email, phone, verified, password},
   updateUserData
 })
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import {
   ItemPageInfoTitle, Content, FlexGrid,
   Image, Svg, Title, InputClean,
@@ -6,9 +7,9 @@ import {
 import { createHandleChange, createHandleBlur } from 'validation/userValidation'
 import { isEmpty, classNames } from 'helpers'
 import s from './UserDataEdit.sass'
-
 import verifiedIcon from 'icons/ui/verifed.svg'
 
+@observer
 export default class UserDataEdit extends Component {
   placeholders = {
     name: 'Name',
@@ -31,6 +32,12 @@ export default class UserDataEdit extends Component {
 
   onBlur = createHandleBlur(this);
   onChange = createHandleChange(this);
+
+  componentWillReact() {
+    this.setState({
+
+    })
+  }
 
   extendInputProps = name => {
     const { isFetching, isError } = this.props;
@@ -101,7 +108,7 @@ export default class UserDataEdit extends Component {
       extendInputProps,
       Input,
       state: { edit },
-      props: { image, phone, email, name, isVerified }
+      props: { image, phone, email, name, verified }
     } = this;
     return (
       <div className={s.wrapper}>
@@ -118,11 +125,12 @@ export default class UserDataEdit extends Component {
           </div>
           <div className={s.content}>
             <FlexGrid justify="start" align="center" className={s.title}>
-              <Title className={s.item} light nooffsets size="6">
+              <Title className={classNames(s.title__item, edit && s.title_edit)}
+                     light nooffsets size="6">
                 {!edit && name}
                 {edit && <Input {...extendInputProps('name')}/>}
               </Title>
-              {isVerified && <Svg className={s.icon}
+              {!edit && verified && <Svg className={s.icon}
                                   src={verifiedIcon}/>}
             </FlexGrid>
             <Content className={s.item} tag="div" gray size="5">

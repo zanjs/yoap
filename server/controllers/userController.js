@@ -193,16 +193,26 @@ userController.update = (req, res) => {
 
   User
     .findByIdAndUpdate(id, { $set: data }, { new: true })
-    .then(data => {
-      res.status(200).json({
-        success: true,
-        data
+    .then(__data => {
+      // update user token with new data
+      const token = createToken(__data);
+
+      User.findByIdAndUpdate(id, {token})
+        .then(() => {
+          res.status(200).json({
+            success: true,
+            data: {token}
+          })
+        }).catch(err => {
+          res.status(500).json({
+            message: err
+          })
       })
     }).catch(err => {
-    res.status(500).json({
-      message: err
+      res.status(500).json({
+        message: err
+      })
     })
-  })
 };
 
 userController.delete = (req, res) => {

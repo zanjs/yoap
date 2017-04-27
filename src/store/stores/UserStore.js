@@ -163,6 +163,7 @@ class UserStore {
   responseHandler = response => {
     this.isError = false;
     this.isFetching = false;
+    console.log(response.data);
 
     extend(this, response.data);
   };
