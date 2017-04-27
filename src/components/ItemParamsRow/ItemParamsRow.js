@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import { Title, Content, FlexGrid, Link, Svg } from 'components'
 import { classNames } from 'helpers'
 import s from './ItemParamsRow.sass'
 
 import arrowIcon from 'icons/ui/arrow-small.svg'
 
+@observer
 export default class ItemParamsRow extends Component {
   static itemClassName = s.item;
   static activeItemClassName = s.item_active;

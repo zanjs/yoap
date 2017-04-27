@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import { ItemParamsRow } from 'components'
 import s from './ItemParams.sass'
 
+@observer
 export default class ItemParams extends Component {
   clearCategory = data => {
     data.forEach(item => item.isActive = false);
