@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
-import { getToday } from 'utils'
 const { Schema } = mongoose;
 
 mongoose.Promise = global.Promise;

@@ -6,6 +6,7 @@ import {
   ItemPageUser, ItemPageType,
   ItemPagePrice, ItemPageRating
 } from 'components'
+import { ItemNumbersDataContainer } from 'containers'
 import { classNames } from 'helpers'
 import s from './ItemPageInfo.sass'
 
@@ -34,6 +35,7 @@ export default class ItemPageInfo extends Component {
     return (
       <div className={classNames(s.wrapper, this.props.className)}>
         <Helmet title={title}/>
+        <ItemNumbersDataContainer data={this.props.data}/>
         <ItemPageTitle id={order} status={status}>{title}</ItemPageTitle>
         {user && <ItemPageUser phone={user.phone}
                       email={user.email}

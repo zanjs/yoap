@@ -6,7 +6,6 @@ import {
   ItemPageInfoContainer,
   ItemPageLocationContainer
 } from 'containers'
-import { updateItemViews } from 'api'
 import { randomNumber, normalizeScroll, isEmpty } from 'helpers'
 import s from './ItemPage.sass'
 
@@ -61,13 +60,13 @@ export default class ItemPage extends Component {
     if (isEmpty(id))
       return null;
 
-    updateItemViews(id).then(() => {
+    this.props.items.updateItemViews(id, () => {
       const views = this.state.data.views;
       let data = {...this.state.data};
       data.views = views + 1;
 
       this.setState(data);
-    })
+    });
   }
 
   render() {

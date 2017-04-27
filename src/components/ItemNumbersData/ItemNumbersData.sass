@@ -1,0 +1,24 @@
+@import ../../theme/index
+
+.item
+  margin: 0 20px 0 0
+  padding: 0
+.icon
+  @include size(20px)
+  margin-right: 5px
+  position: relative
+  top: 2px
+  fill: $gray9b
+
+.featured
+  transition: opacity $animParams, fill $animParams
+  cursor: pointer
+  user-select: none
+  fill: $gray9b
+  &:hover
+    opacity: .7
+  &_active
+    fill: $pink
+
+  .icon
+    fill: inherit !important
