@@ -9,8 +9,9 @@ import { StatusChangeContainer } from 'containers'
 import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
-const mapStateToProps = ({manage: {data, changeData}}) => ({
-  data, changeData
+const mapStateToProps = ({manage: {data, category, changeData}}) => ({
+  data, changeData,
+  category
 });
 
 @inject(mapStateToProps) @observer
@@ -46,7 +47,7 @@ export default class ItemPageInfoEdit extends Component {
       title, content, description,
       type, price, dewa
     } = this.props.data;
-    const { className, user } = this.props;
+    const { className, user, category } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
         <ItemPageTitle edit id="021"
@@ -65,7 +66,7 @@ export default class ItemPageInfoEdit extends Component {
         </ItemPageUser>
         <ItemPageType id={type && type.id || type || ''} edit onChange={this.onTypeChange}/>
         <ItemPagePriceEdit data={price} dewa={dewa} onChange={this.onPriceChange} />
-        <ItemPageRating data={{name: 'Комфорт', value: 5}}/>
+        <ItemPageRating data={category}/>
       </div>
     )
   }

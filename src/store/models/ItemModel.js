@@ -99,7 +99,7 @@ export default class ItemModel {
     }
 
     // test category if it's not defined
-    const category = this.testCategory();
+    const category = ItemModel.testCategory();
     this._category = category.id;
 
     return {id: category.id, name: category.name};
@@ -363,92 +363,6 @@ export default class ItemModel {
    */
   views;
 
-  match = props => {
-    let result = 0;
-    let shouldMatched = 0;
-
-    const {
-      price,
-      size,
-      type,
-      stations,
-      params
-    } = props;
-
-    const data = this.toJSON();
-
-    if (price && price.length && price[0] && price[1]) {
-      const [min, max] = price;
-      shouldMatched++;
-      // there should be an array of prices
-      result += data.price >= min && data.price <= max
-        ? 1 : 0;
-    }
-
-    if (size) {
-      let matched = 0;
-      let _shouldMatched = 0;
-      shouldMatched++;
-
-      if (size.rooms && size.rooms.length) {
-        _shouldMatched++;
-        matched += !!size.rooms.find(
-          rooms => rooms === data.size.rooms
-        ) ? 1 : 0;
-      }
-
-      if (size.bedrooms) {
-        _shouldMatched++;
-        matched += !!size.bedrooms.find(beds => beds <= data.size.bedrooms)
-          ? 1 : 0;
-      }
-
-      if (size.bathrooms) {
-        _shouldMatched++;
-        matched += !!size.bathrooms.find(baths => baths <= data.size.bathrooms)
-          ? 1 : 0;
-      }
-
-      if (size.beds) {
-        _shouldMatched++;
-        matched += !!size.beds.find(beds => beds <= data.size.beds)
-          ? 1 : 0;
-      }
-
-      if (size.squares && size.squares.length) {
-        _shouldMatched++;
-        const [min, max] = size.squares;
-        matched += data.size.squares >= min && data.size.squares <= max
-          ? 1 : 0;
-      }
-
-      console.log(_shouldMatched, matched);
-
-      result += _shouldMatched === matched
-        ? 1 : 0;
-    }
-
-    if (params) {
-      shouldMatched++;
-      let matched = 0;
-
-      params.forEach(item => {
-        const paramMatch = !!data.params.find(
-          param => param === item
-        );
-
-        if (paramMatch) {
-          matched++;
-        }
-      });
-
-      result += params.length <= matched
-        ? 1 : 0;
-    }
-
-    return result === shouldMatched
-  };
-
   /**
    * Pretty data of an object.
    * todo: returns object
@@ -704,7 +618,7 @@ export default class ItemModel {
    * @param {Array} params Array of object parameters.
    * @return {boolean}
    */
-  _filterParams = params => params.filter(param => {
+  static filterParams = params => params.filter(param => {
     const test = testing => testing.indexOf(param) !== -1;
     // the exceptions
     return !(
@@ -726,7 +640,7 @@ export default class ItemModel {
    *
    * @return {Array} Matched values
    */
-  _match = (params, data, _formattedParams) => {
+  static match = (params, data, _formattedParams) => {
     let result = [];
     let formattedParams = _formattedParams || JSON.stringify(params);
 
@@ -750,14 +664,14 @@ export default class ItemModel {
    *
    * @return {boolean} Matched values
    */
-  _test = (params, {required, additional}, result, formattedParams) => {
+  static test = (params, {required, additional}, result, formattedParams) => {
     // if we have no
     if (required == null) {
       return !result;
     }
 
     // test required params
-    const requiredTest = this._match(params, required, formattedParams);
+    const requiredTest = ItemModel.match(params, required, formattedParams);
     if (requiredTest.length !== required.length) return false;
 
     // test additional parameters
@@ -773,7 +687,7 @@ export default class ItemModel {
 
     // we should be sure that additional parameters
     // of the object does not exceed a limit of current category
-    const additionalTest = this._match(additionalParams, additional, formattedParams);
+    const additionalTest = ItemModel.match(additionalParams, additional, formattedParams);
     return additionalTest.length <= additional.length;
   };
 
@@ -783,22 +697,19 @@ export default class ItemModel {
    * @param {Array} params Array of object parameters.
    * @return {object} Matched object category.
    */
-  testCategory = window.testCategory = (params = this.types) => {
-    console.time('testCategory');
+  static testCategory = (params = this.types) => {
     let result;
-    const data = this._filterParams(params);
+    const data = ItemModel.filterParams(params);
     const formattedParams = JSON.stringify(params);
 
     categoryTypes.forEach(item => {
-      const value = this._test(data, item.types, result, formattedParams);
+      const value = ItemModel.test(data, item.types, result, formattedParams);
 
       if (value) {
         result = item;
       }
     });
 
-    console.timeEnd('testCategory');
-    console.log('tested', result);
     return result;
   };
 

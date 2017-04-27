@@ -1,5 +1,6 @@
-import { observable } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import { extend, isEmpty, keys } from 'helpers'
+import { ItemModel } from 'models'
 import { store } from 'store'
 import { isValid } from 'validation/itemValidation'
 import { objectTypes } from 'constants'
@@ -52,7 +53,7 @@ class ManageItemStore {
       },
     };
   };
-  Import = __object => {
+  @action Import = __object => {
     const object = __object.toJSON
       ? __object.toJSON() : __object;
 
@@ -127,7 +128,7 @@ class ManageItemStore {
       )
     }
   };
-  Validate = () => {
+  @action Validate = () => {
     const errors = keys(this.data, (value, prop, result) => {
       const validation = isValid(prop, value) || {};
       let error = {};
@@ -151,7 +152,7 @@ class ManageItemStore {
 
     return errors;
   };
-  Send = cb => {
+  @action Send = cb => {
     this.Validate();
 
     if (!isEmpty(this.errors)) {
@@ -171,17 +172,27 @@ class ManageItemStore {
 
     data.images = {
       thumbnail: data.images[0],
-      gallery: data.images
+      gallery: data.images.filter(it => !!it)
     };
 
-    data.params = this.getParams();
+    data.params = this.params;
 
-    window.testData = data;
     store.items.createItem(data, cb);
   };
 
+  @computed get category() {
+    const params = this.params;
+
+    if (params.length < 13) {
+      return {name: 'Добавьте больше параметров, чтобы мы могли определить категорию вашего объекта.'}
+    }
+
+    const category = ItemModel.testCategory(params);
+    return category;
+  }
+
   // helpers
-  getParams = () => {
+  @computed get params() {
     let params = [];
 
     this.data.params.forEach(item => {
