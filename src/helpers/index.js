@@ -26,6 +26,8 @@ export Predictions from './app/Predictions'
 export NearestTransport from './app/NearestTransport'
 export getToken from './app/getToken'
 export getHeaders from './app/getHeaders'
+export declination from './app/declination'
+export getDateDifference from './app/getDateDifference'
 export noop from './app/noop'
 
 // animation helpers

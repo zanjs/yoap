@@ -3,13 +3,13 @@ import { inject, observer } from 'mobx-react'
 import { ItemTile } from 'components'
 import { objectTypes, termTypes, subwaySpb } from 'constants'
 
-const mapStatToProps = ({user: { isAdmin, _objects, isAuthorized, redirectWhenLogin, _featured }, items: {toggleFeaturedItem}}) => ({
+const mapStateToProps = ({user: { isAdmin, _objects, isAuthorized, redirectWhenLogin, _featured }, items: {toggleFeaturedItem}}) => ({
   isAdmin, objects: _objects, featured: _featured,
   isAuthorized, toggleFeaturedItem,
   redirectWhenLogin
 });
 
-@inject(mapStatToProps) @observer
+@inject(mapStateToProps) @observer
 export default class ItemTileContainer extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired

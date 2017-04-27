@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { User, Item } from 'models'
 
 export default (req, res) => {
@@ -107,7 +108,7 @@ export default (req, res) => {
     })
     .catch(err => {
       res.status(500).json({
-        message: err
+        message: err.toString()
       })
     })
 };
