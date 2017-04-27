@@ -54,6 +54,7 @@ export ItemTileManage from './ItemTileManage/ItemTileManage'
 export ItemTilesGrid from './ItemTilesGrid/ItemTilesGrid'
 export ItemTilesBanner from './ItemTilesBanner/ItemTilesBanner'
 export ManageItemsSort from './ManageItemsSort/ManageItemsSort'
+export StatusChange from './StatusChange/StatusChange'
 
 export ItemPageInfoScroller from './ItemPageInfoScroller/ItemPageInfoScroller'
 export ItemPageInfoTitle from './ItemPageInfoTitle/ItemPageInfoTitle'

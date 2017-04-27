@@ -8,20 +8,14 @@ import { statusTypes } from 'constants'
 import { classNames } from 'helpers'
 import s from './ItemPageTitle.sass'
 
-const types = statusTypes.types.map(
-  item => item.name
-);
-
-const ItemPageTitle = ({edit, children, id, status, onChange}) => {
+const ItemPageTitle = ({edit, children, id, status, statusContent, onChange}) => {
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title={`Объявление №${id}`}>
 
-        {(edit || status) &&
+        {statusContent &&
           <Content nooffsets className={s.status}>
-            {!edit ? status :
-              <Select inherit values={types}/>
-            }
+            {statusContent}
           </Content>
         }
       </ItemPageInfoTitle>

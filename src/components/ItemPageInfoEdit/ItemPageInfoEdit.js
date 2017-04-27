@@ -5,6 +5,7 @@ import {
   ItemPageUser, ItemPageType,
   ItemPagePriceEdit, ItemPageRating
 } from 'components'
+import { StatusChangeContainer } from 'containers'
 import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
@@ -48,7 +49,8 @@ export default class ItemPageInfoEdit extends Component {
     const { className, user } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
-        <ItemPageTitle edit id="021" status="Модерация"
+        <ItemPageTitle edit id="021"
+                       statusContent={<StatusChangeContainer/>}
                        onChange={this.onChangeTitle}>
           {title}
         </ItemPageTitle>
