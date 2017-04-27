@@ -1,6 +1,6 @@
 @import ../../theme/index
 
-$sliderSize: 5px
+$sliderSize: 25px
 
 .wrapper
   min-width: 260px
@@ -15,65 +15,41 @@ $sliderSize: 5px
   position: relative
 
 .handle
-  $size: 14px
-  $offsetX: 2px
-  width: $size
+  $size: $sliderSize
+  width: $size / 10
   height: $size
   background-color: $pink
-  border-radius: 50%
   display: block
   position: absolute
-  top: -$size * .35
-  &:nth-child(4)
-    transform: translateX(-$offsetX)
-  &:nth-child(5)
-    transform: translateX($offsetX)
+  top: 0
 
-$barGray: #979797
+$barBg: transparent
 .bar
-  $size: 3px
+  $size: $sliderSize
   display: block
-  height: $size * 2
+  height: $size
   background-color: transparent
-  $offsetY: 50%
+  top: 0
+  $offsetY: 0
   $offsetX: 1px
   // main bar
   &-1
     @extend .bar
     z-index: 10
-    height: $size * 2
+    height: $size
     background-color: $pink
     // left bar
   &-0
     @extend .bar
     height: $size
-    background-color: $barGray
-    top: $size / 2
-    border-radius: 4px
-    &:after
-      @extend .handle
-      content: ''
-      height: $size * 2
-      width: $size * 2
-      position: absolute
-      top: $offsetY
-      transform: translateY(-$offsetY) !important
-      background-color: $barGray
+    background-color: $barBg
+    border: 1px solid $gray9b
   // right bar
   &-2
     @extend .bar
     height: $size
-    background-color: $barGray
-    top: $size / 2
-    &:after
-      @extend .handle
-      content: ''
-      height: $size * 2
-      width: $size * 2
-      position: absolute
-      top: $offsetY
-      transform: translateY(-$offsetY) !important
-      background-color: $barGray
+    background-color: $barBg
+    border: 1px solid $gray9b
 
 .title
   font-size: inherit
