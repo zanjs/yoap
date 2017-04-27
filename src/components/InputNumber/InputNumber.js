@@ -3,8 +3,8 @@ import { FlexGrid, Button } from 'components'
 import { classNames } from 'helpers'
 import s from './InputNumber.sass'
 
-const CircleButton = ({className, onClick}) => (
-  <button onClick={onClick} className={classNames(Button.resetClassName, s.btn, className)}/>
+const CircleButton = ({className, ...rest}) => (
+  <button className={classNames(Button.resetClassName, s.btn, className)} {...rest}/>
 )
 
 export default class InputNumber extends Component {
@@ -13,10 +13,15 @@ export default class InputNumber extends Component {
   };
 
   state = {value: this.props.defaultValue};
+  timoutTime = 450;
+  intervalTime = 100;
+  timeoutId;
+  intervalId;
+  isHolding = true;
 
-  checkLimit = value => {
-    if (value < this.props.minValue) return this.props.minValue;
-    if (value > this.props.maxValue) return this.props.maxValue;
+  checkLimit = (value, props = this.props) => {
+    if (value < props.minValue) return props.minValue;
+    if (value > props.maxValue) return props.maxValue;
 
     return value;
   };
@@ -28,10 +33,53 @@ export default class InputNumber extends Component {
     value: this.checkLimit(value - this.props.step)
   }))
 
+  clearTimeouts = () => {
+    this.isHolding = false;
+    clearTimeout(this.timeoutId);
+    clearInterval(this.intervalId);
+  };
+
+  setHold = cb => {
+    cb();
+    this.isHolding = true;
+    this.timeoutId = setTimeout(() => {
+      if (this.isHolding) {
+        this.intervalId = setInterval(() => {
+          cb();
+        }, this.intervalTime);
+      }
+    }, this.timoutTime);
+  };
+
+  increaseMouseDownHandler = () => {
+    this.setHold(this.increase);
+  };
+  increaseMouseUpHandler = () => {
+    this.clearTimeouts();
+  };
+  decreaseMouseDownHandler = () => {
+    this.setHold(this.decrease);
+  };
+  decreaseMouseUpHandler = () => {
+    this.clearTimeouts();
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { minValue, maxValue } = this.props;
+    if (minValue !== nextProps.minValue || maxValue !== nextProps.maxValue) {
+      this.setState(state => ({
+        value: this.checkLimit(state.value, nextProps)
+      }))
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if (this.props.onChange && this.state.value !== nextState.value) {
       this.props.onChange(nextState.value);
     }
+  }
+  componentWillUnmount() {
+    this.clearTimeouts();
   }
 
   render() {
@@ -39,15 +87,25 @@ export default class InputNumber extends Component {
       className, buttonsClassName, children, title,
       minValue, maxValue, step, ...rest
     } = this.props;
+    const {
+      increaseMouseDownHandler,
+      increaseMouseUpHandler,
+      decreaseMouseDownHandler,
+      decreaseMouseUpHandler
+    } = this;
     return (
       <FlexGrid tag="span" justify="stretch" align="center"
                 className={classNames(s.wrapper, className)} {...rest}>
         {children}
         <FlexGrid tag="span" justify="stretch" align="center"
                   className={classNames(buttonsClassName, s.buttons)}>
-          <CircleButton onClick={this.decrease} className={s.minus} />
+          <CircleButton onMouseDown={decreaseMouseDownHandler}
+                        onMouseUp={decreaseMouseUpHandler}
+                        className={s.minus} />
           {title}
-          <CircleButton onClick={this.increase} className={s.plus} />
+          <CircleButton onMouseDown={increaseMouseDownHandler}
+                        onMouseUp={increaseMouseUpHandler}
+                        className={s.plus} />
         </FlexGrid>
       </FlexGrid>
     )

@@ -76,23 +76,25 @@ export default class ItemParamsRowSize extends Component {
     return (
       <div className={s.wrapper}>
         <ItemParamsRow title={title}>
-          <Item noinput={readOnly} onChange={this.onBedRoomsChange}>
+          <Item defaultValue={bedrooms} noinput={readOnly} onChange={this.onBedRoomsChange}>
             {`${bedrooms}${splitter} спален`}
           </Item>
-          <Item noinput={readOnly} onChange={this.onBedsChange}>
+          <Item defaultValue={beds} noinput={readOnly} onChange={this.onBedsChange}>
             {`${beds}${splitter} кроватей`}
           </Item>
-          <Item noinput={readOnly} onChange={this.onBathRoomsChange} step={0.5}>
+          <Item defaultValue={bathrooms} noinput={readOnly} onChange={this.onBathRoomsChange} step={0.5}>
             {`${bathrooms}${splitter} ванных`}
           </Item>
-          <Item noinput={readOnly}
+          <Item noinput={readOnly} defaultValue={floors[0] || floor}
                 onChange={edit ? this.onFloorChangeAmount : this.onFloorChange}>
             {readOnly ? `${floors[0]}/${floors[1]} этаж` : `${floors[0] || floor}${splitter} этаж`}
           </Item>
-          {edit && <Item onChange={this.onFloorChangeSum}>
+          {edit && <Item defaultValue={floors[1] || floor}
+                         minValue={floors[0] || floor}
+                         onChange={this.onFloorChangeSum}>
             {`${floors[1] || floor} этажей`}
           </Item>}
-          {edit && <Item className={s.item_big} onChange={this.onRoomsChange}>
+          {edit && <Item defaultValue={rooms} className={s.item_big} onChange={this.onRoomsChange}>
             {`${rooms} общее кол. комнат`}
           </Item>}
 

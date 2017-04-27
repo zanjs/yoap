@@ -36,14 +36,14 @@ class ManageItemStore {
         subway: []
       },
       @observable size: {
-        @observable rooms: 0,
-        @observable bathrooms: 0,
-        @observable bedrooms: 0,
-        @observable beds: 0,
+        @observable rooms: 1,
+        @observable bathrooms: 1,
+        @observable bedrooms: 1,
+        @observable beds: 1,
 
-        @observable squares: 0,
+        @observable squares: 10,
       },
-      @observable floors: [],
+      @observable floors: [1, 1],
       @observable price: [],
       @observable dewa: 0,
       @observable params: [],
