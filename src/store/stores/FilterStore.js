@@ -11,22 +11,6 @@ import {
 } from 'constants'
 import { store } from 'store'
 
-console.log({
-  objectTypes,
-  facilitiesTypes,
-  amenitiesTypes,
-  rulesTypes,
-  termTypes,
-  categoryTypes,
-  stateTypes,
-  furnitureTypes
-});
-
-const log = data => {
-  console.log('log', data);
-  return data;
-};
-
 class FilterStore {
   storeName = config.filter;
   @observable category;
@@ -95,24 +79,6 @@ class FilterStore {
     this.floor = value;
   };
 
-  match = data => {
-    const {
-      price, size,
-      type, stations,
-      activeParams
-    } = this;
-
-    return data.filter(model => {
-      return model.match({
-        price,
-        size,
-        type,
-        stations,
-        params: activeParams
-      });
-    })
-  };
-
   getActiveParametersFromData = params => {
     const lastElement = this.data.length - 1;
     const data = this.data.filter((item, index) => (
@@ -176,7 +142,10 @@ class FilterStore {
         this.configureData(rulesTypes),
         this.configureData(termTypes)
       ]
-    })
+    });
+
+    // set default category
+    this.setCategory(categoryTypes[2]);
   }
 
   @computed get cleanTypes() {
@@ -246,11 +215,6 @@ class FilterStore {
         ...item,
         types
       }
-    });
-    console.log({
-      ids,
-      _data,
-      data
     });
 
     this.category = data;

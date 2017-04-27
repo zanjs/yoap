@@ -9,12 +9,19 @@ export default class BaseFilterSlider extends Component {
   offset = 54; position = 0; step = 5;
 
   componentDidMount() {
-    const { defaultValue } = this.props;
+    const { defaultValue, snap, defaultSnapElement } = this.props;
     setTimeout(() => {
       this.resize();
 
       if (defaultValue != null) {
         this.scroll(defaultValue, true);
+      }
+
+      if (snap && defaultSnapElement != null) {
+        if (typeof defaultSnapElement === 'function') {
+          const block = defaultSnapElement();
+          block && this.__scroll(-(block.offsetLeft + 5));
+        }
       }
     }, 300);
     window.addEventListener('resize', this.resizeHandler);
@@ -58,15 +65,15 @@ export default class BaseFilterSlider extends Component {
   scroll = (_percent, noOffset) => {
     let percent = _percent;
 
-    if (percent > 100) {
-      percent = 100;
+    if (percent > 1) {
+      percent = 1;
     }
     if (percent < 0) {
       percent = 0;
     }
 
     if (noOffset) {
-      percent += 20;
+      percent += .2;
     }
 
     if (this.position === percent)
@@ -74,7 +81,7 @@ export default class BaseFilterSlider extends Component {
 
     this.position = percent;
 
-    this.__scroll(- ((this.scrollerWidth * (percent / 100))));
+    this.__scroll(-(this.scrollerWidth * percent));
   };
 
   mouseMoveHandler = e => {
@@ -82,7 +89,7 @@ export default class BaseFilterSlider extends Component {
       return this.scroll(0)
     }
 
-    const wrapperPercent = ((e.pageX - this.offset) / this.wrapperWidth) * 100;
+    const wrapperPercent = ((e.pageX - this.offset) / this.wrapperWidth);
     this.scroll(wrapperPercent);
   };
   wheelHandler = e => {

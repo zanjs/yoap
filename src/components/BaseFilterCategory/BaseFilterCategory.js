@@ -5,8 +5,8 @@ import s from './BaseFilterCategory.sass'
 
 import houseIcon from 'icons/ui/house.svg'
 
-const Item = ({children, className, onClick, index, isActive}) => (
-  <span onClick={() => onClick(index)}
+const Item = ({children, className, onClick, getRef, index, isActive}) => (
+  <span onClick={() => onClick(index)} ref={getRef}
         className={classNames(s.item, className, isActive && s.item_active)}>
     {children}
   </span>
@@ -21,8 +21,12 @@ export default class BaseFilterCategory extends Component {
     );
   };
 
+  getDefaultSnapElement = () => {
+    return document.querySelector(`.${s.item_active}`);
+  };
+
   render() {
-    const { props: { data, category } } = this;
+    const { props: { data, category }, block, getDefaultSnapElement } = this;
 
     if (!data) return null;
 
@@ -31,7 +35,7 @@ export default class BaseFilterCategory extends Component {
 
     return (
       <BaseFilterItem className={s.container} title="Категория объекта" icon={houseIcon}>
-        <BaseFilterSlider snap defaultValue={40} className={wrapperClassName}>
+        <BaseFilterSlider snap defaultSnapElement={getDefaultSnapElement} className={wrapperClassName}>
           {data.map((item, key) => {
             const className = !hasActive && key === 2 && s.item_active || null;
             return (
