@@ -40,7 +40,7 @@ export default class ProFilterContainer extends Component {
   onBathRoomsChange = value => {
     if (this.props.edit) {
       return this.changeHandler({
-        bathrooms: parseInt(value, 10)
+        bathrooms: +value
       })
     }
 
