@@ -9,7 +9,7 @@ import {
   itemUpdate, itemToggleFeatured,
   updateUserData, checkUser,
   logout, filterItems,
-  itemView
+  itemView, itemPhone
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
@@ -82,6 +82,12 @@ routes.put(
 
   itemController.updateViews
 );
+routes.post(
+  itemPhone,
+  authenticate,
+
+  itemController.findPhoneNumber
+)
 
 // Items routes
 routes.post(

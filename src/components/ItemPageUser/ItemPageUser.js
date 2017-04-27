@@ -3,6 +3,7 @@ import {
   Title, Link, LinkIcon, FlexGrid,
   Image, Svg, ItemPageInfoTitle
 } from 'components'
+import { UserPhoneContainer } from 'containers'
 import { classNames } from 'helpers'
 import s from './ItemPageUser.sass'
 
@@ -15,7 +16,7 @@ const ItemPageUser = props => {
     isVerified, className,
     titleClassName, linkClassName,
     imageClassName, linksClassName,
-    tag
+    tag, id
   } = props;
 
   return (
@@ -39,8 +40,7 @@ const ItemPageUser = props => {
           </FlexGrid>
 
           <div className={classNames(s.links, linksClassName)}>
-            {!phone && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
-                             href={`tel:${phone}`}>Показать телефон</Link>}
+            {!phone && <UserPhoneContainer id={id} />}
             {phone && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
                             href={`tel:${phone}`}>{phone}</Link>}
             {email && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}

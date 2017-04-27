@@ -7,6 +7,7 @@ import {
   itemToggleFeaturedApi as itemToggleFeaturedUrl,
   filterItemsApi as filterItemsUrl,
   itemViewApi as updateItemViewUrl,
+  itemPhoneApi as itemPhoneUrl,
 
   JSONHeaders as headers
 } from 'constants'
@@ -52,5 +53,11 @@ export const fetchFilteredItems = data => fetch(filterItemsUrl, {
 export const updateItemViews = id => fetch(updateItemViewUrl, {
   ...headers,
   method: 'put',
+  body: JSON.stringify({id})
+})
+
+export const findPhoneNumber = id => fetch(itemPhoneUrl, {
+  ...getHeaders(),
+  method: 'post',
   body: JSON.stringify({id})
 })

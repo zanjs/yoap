@@ -46,6 +46,10 @@ export const itemFindApi = apiOrigin + api + itemFind;
 export const itemUpdate = '/item/update';
 export const itemUpdateApi = apiOrigin + api + itemUpdate;
 
+// item get phone number api
+export const itemPhone = '/item/phone';
+export const itemPhoneApi = apiOrigin + api + itemPhone;
+
 // item views api
 export const itemView = '/item/view';
 export const itemViewApi = apiOrigin + api + itemView;

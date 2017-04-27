@@ -47,10 +47,11 @@ export default class ItemPageInfo extends Component {
         <Helmet title={title}/>
         <ItemNumbersDataContainer data={this.props.data}/>
         <ItemPageTitle id={order} status={status}>{title}</ItemPageTitle>
-        {user && <ItemPageUser phone={user.phone}
+        {user && <ItemPageUser
+                      id={id}
                       email={user.email}
                       link={user.link || '/y'}
-                      isVerified>
+                      isVerified={user.verified}>
           {user.name}
         </ItemPageUser>}
         <ItemPageType name={type.name}/>

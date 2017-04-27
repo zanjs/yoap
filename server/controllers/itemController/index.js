@@ -5,6 +5,7 @@ import findOneHandler from './findOneHandler'
 import updateHandler from './updateHandler'
 import getAllHandler from './getAllHandler'
 import updateViews from './updateViews'
+import findPhoneNumber from './findPhoneNumber'
 
 export default {
   createHandler,
@@ -13,5 +14,6 @@ export default {
   findOneHandler,
   updateHandler,
   getAllHandler,
-  updateViews
+  updateViews,
+  findPhoneNumber
 }
