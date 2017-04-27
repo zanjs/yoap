@@ -33,3 +33,34 @@
     &_active
       opacity: 1 !important
 
+.controls
+  position: static
+.control
+  position: absolute
+  top: 0
+  height: 100%
+  width: 20%
+  z-index: 5
+  transition: opacity $animParams
+  opacity: 0
+  cursor: pointer
+  user-select: none
+  background-color: rgba(255,255,255,0.3)
+  fill: #fff
+  &:hover
+    opacity: 1
+  svg
+    @include absolute_center(normal, 0)
+    @include size(40px)
+
+  &_prev
+    @extend .control
+    left: 0
+    svg
+      transform: translate(-50%, -50%) rotateZ(180deg)
+  &_next
+    @extend .control
+    right: 0
+
+
+

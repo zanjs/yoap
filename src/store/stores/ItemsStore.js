@@ -81,7 +81,7 @@ class ItemsStore {
   filterItemsResponse = response => {
     const { objects, price, squares } = response;
     this.fromJSON(objects, 'filtered', true);
-    this.fromJSON(objects, 'data', true);
+    this.fromJSON(objects, 'data');
     price && store.filter.setPrice(price);
     squares && store.filter.setSquares(squares);
     this.isFetching = false;

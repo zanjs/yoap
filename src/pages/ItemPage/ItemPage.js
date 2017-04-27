@@ -68,7 +68,6 @@ export default class ItemPage extends Component {
     }
 
     const { types, size, floors } = data;
-    window.data = data;
 
     const _size = {
       ...size,

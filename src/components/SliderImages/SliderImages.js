@@ -36,8 +36,6 @@ export default class SliderImages extends Component {
     this.move(.5);
   };
   resizeHandler = () => setTimeout(this.resize, 100);
-
-
   getImageRef = index => b => {
     this.images[index] = b;
 
@@ -103,7 +101,7 @@ export default class SliderImages extends Component {
   parseData = data => data && data.map((item, key) => (
     item && <Image getRef={this.getImageRef(key)}
                    className={s.image} src={item}/>
-  ));
+  )).filter(item => !!item);
 
   render() {
     const { data } = this.state;
