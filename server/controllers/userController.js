@@ -217,7 +217,7 @@ userController.update = (req, res) => {
       delete data.password;
     }
 
-    if (isEmpty(data.email) && req.user.email !== data.email) {
+    if (!isEmpty(data.email) && req.user.email !== data.email) {
       data.verified = false;
       data.verifyToken = createId();
     }
@@ -237,8 +237,8 @@ userController.update = (req, res) => {
             if (data.verifyToken) {
               sendSignUpEmail({
                 id: data.verifyToken,
-                email,
-                name
+                email: __data.email,
+                name: __data.name
               })
             }
           }).catch(err => {

@@ -16,6 +16,7 @@ import { extend, localStore, noop, isEmpty, getToken } from 'helpers'
 import { store as config } from 'constants'
 import { jwtStorageName } from 'config'
 import { store } from 'store'
+window.jwtDecode = jwtDecode;
 
 /**
  * UserStore class.

@@ -6,6 +6,7 @@ export default function createToken(user) {
     id: user._id || user.id,
     phone: user.phone,
     name: user.name,
+    email: user.email,
     isAdmin: user.isAdmin,
     image: user.image,
     banned: user.banned || false,

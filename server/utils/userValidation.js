@@ -23,7 +23,7 @@ export default function userValidation(data, _id, update) {
   let errors = isValid(toValidate);
 
   // password validation
-  if (password && !password_new || !password && password_new) {
+  if (update && password && !password_new || !password && password_new) {
     !password && (errors.password = 'Вы не ввели старый пароль.')
     !password_new && (errors.password_new = 'Вы не ввели новый пароль.')
   }
