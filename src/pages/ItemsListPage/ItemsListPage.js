@@ -10,7 +10,8 @@ import s from './ItemsListPage.sass'
 
 const mapStateToProps = ({items: {isFetching, fetchItems, filtered, data}, filter: {hasSearched}}) => ({
   isFetching, update: fetchItems,
-  data: hasSearched ? filtered : data
+  data: hasSearched ? filtered : data,
+  hasSearched
 });
 
 @inject(mapStateToProps) @observer
@@ -21,14 +22,15 @@ export default class ItemsListPage extends Component {
   }
 
   render() {
-    const { isFetching, data } = this.props;
+    const { isFetching, hasSearched, data } = this.props;
+    const title = hasSearched ? 'Отфильтрованные для вас' : 'Все объявления';
     return (
       <div className={s.wrapper}>
-        <Helmet title="Все объявления"/>
+        <Helmet title={title}/>
         {isFetching && <LoadingAnimation />}
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
-            <Title nooffsets size="1">Все объявления</Title>
+            <Title nooffsets size="1">{title}</Title>
             <LinkIcon className={s.link} to="/y" gray>Посмотреть на карте</LinkIcon>
           </FlexGrid>
           <FilterContainer/>

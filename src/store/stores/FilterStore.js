@@ -268,9 +268,8 @@ class FilterStore {
     return filters;
   };
   @action find = () => {
-    this.hasSearched = true;
     store.items.fetchFilteredItems(this.filters, () => {
-      console.log('loaded!');
+      this.hasSearched = true;
     });
   }
 
