@@ -80,6 +80,10 @@ export default class NavContainer extends Component {
           to: '/manage',
           content: 'Управление'
         },
+        {
+          to: '/them',
+          content: 'Пользователи'
+        },
         ...links
       ]
     }

@@ -118,9 +118,5 @@ module.exports = {
       filename: '[name].bundle.css',
       allChunks: true
     })
-  ],
-  node: {
-    net: 'empty',
-    dns: 'empty'
-  }
+  ]
 };

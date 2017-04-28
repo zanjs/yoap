@@ -121,9 +121,5 @@ module.exports = {
       template: '../webpack/template.html',
       favicon: '../src/data/images/favicon/favicon.ico'
     }),
-  ],
-  node: {
-    net: 'empty',
-    dns: 'empty'
-  }
+  ]
 };

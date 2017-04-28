@@ -337,7 +337,7 @@ class ItemsStore {
   find = (query, col = 'data') => {
     return this[col].find(query)
   };
-  toJSON = () => this.data.map(todo => todo.toJSON());
+  //toJSON = () => this.data.map(todo => todo.toJSON());
 
   @action fromJSON = (data, collection = 'data', toReplace) => {
     if (data && data.forEach) {

@@ -69,6 +69,7 @@ export ItemPageInfoEditIcon from './ItemPageInfoEditIcon/ItemPageInfoEditIcon'
 export UserDataEdit from './UserDataEdit/UserDataEdit'
 export ItemNumbersData from './ItemNumbersData/ItemNumbersData'
 export UserPhone from './UserPhone/UserPhone'
+export UsersList from './UsersList/UsersList'
 
 export ItemPageInfo from './ItemPageInfo/ItemPageInfo'
 export ItemPageInfoEdit from './ItemPageInfoEdit/ItemPageInfoEdit'

@@ -1,4 +1,3 @@
-import TodoStore from 'stores/TodoStore'
 import DeviceStore from 'stores/DeviceStore'
 import DomStore from 'stores/DomStore'
 import UserStore from 'stores/UserStore'
@@ -9,7 +8,6 @@ import ManageItemStore from 'stores/ManageItemStore'
 
 
 export const store = window.store = {
-  todo: TodoStore,
   device: DeviceStore,
   dom: DomStore,
   user: UserStore,

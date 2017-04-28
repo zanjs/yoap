@@ -21,7 +21,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: false,
     unique: true
   },
   image: {
@@ -77,6 +77,10 @@ const userSchema = new Schema({
     }
   ],
   isDeleted: {
+    type: Boolean,
+    default: false
+  },
+  isDummy: {
     type: Boolean,
     default: false
   },

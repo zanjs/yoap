@@ -5,7 +5,8 @@ import {
   HomePage, LoginPage, SignupPage,
   ItemsListPage, ItemPage, UserPage,
   ItemPageEdit, ManageItemsPage, UserItemsPage,
-  UserFeaturedPage, LogoutPage
+  UserFeaturedPage, LogoutPage,
+  ManageUsersPage
 } from 'pages'
 import {
   BrowserRouter as Router,
@@ -75,6 +76,7 @@ export default class App extends Component {
             <Route path="/you" exact component={UserPage}/>
             <Route path="/you/yours" exact component={UserItemsPage} />
             <Route path="/you/featured" exact component={UserFeaturedPage} />
+            <Route path="/them" exact component={ManageUsersPage} />
             <Route path="/manage" exact component={ManageItemsPage}/>
             <Route path="/manage/:link" component={ItemPageEdit}/>
           </PagesTransitions>
