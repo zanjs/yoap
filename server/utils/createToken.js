@@ -16,6 +16,7 @@ export default function createToken(user) {
     editedAt: user.editedAt,
     visits: user.visits,
     isDeleted: user.isDeleted,
+    isDummy: user.isDummy,
 
     objects: user.objects,
     featured: user.featured

@@ -4,7 +4,8 @@ import updateHandler from './updateHandler'
 import logoutHandler from './logoutHandler'
 import checkAuthHandler from './checkAuthHandler'
 import verifyHandler from './verifyHandler'
-import deleteHandler from './deleteHandler'
+import createDummyUser from './createDummyUser'
+//import deleteHandler from './deleteHandler'
 
 export default {
   signupHandler,
@@ -13,5 +14,6 @@ export default {
   logoutHandler,
   checkAuthHandler,
   verifyHandler,
-  deleteHandler
+  createDummyUser
+  //deleteHandler
 }

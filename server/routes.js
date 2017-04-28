@@ -9,7 +9,8 @@ import {
   itemUpdate, itemToggleFeatured,
   updateUserData, checkUser,
   logout, filterItems,
-  itemView, itemPhone
+  itemView, itemPhone,
+  createDummyUser
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
@@ -45,6 +46,12 @@ routes.post(
 
   userController.logoutHandler
 );
+routes.post(
+  createDummyUser,
+  authenticate,
+
+  userController.createDummyUser
+)
 
 // hidden user routes
 routes.get(

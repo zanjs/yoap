@@ -4,7 +4,7 @@ import { isValid } from 'validation/userValidation/tests'
 import { compareSync } from 'bcrypt'
 import isEmpty from 'helpers/app/isEmpty'
 
-export default function userValidation(data, _id, update) {
+export default function userValidation(data, _id, update, dummyUser) {
   const {
     phone, email, password, password_new
   } = data;
@@ -13,6 +13,10 @@ export default function userValidation(data, _id, update) {
     ...data,
     password: password_new || password
   };
+
+  if (dummyUser) {
+    delete toValidate.password;
+  }
 
   if (update) {
     if (!password) {
@@ -81,8 +85,10 @@ export default function userValidation(data, _id, update) {
     })
   }
 
-  return User.findOne(queryMatch).then(__user => {
-    let user = __user || {};
+  return User.findOne(queryMatch).then(user => {
+    if (isEmpty(user))
+      return null;
+
     if (user.email === email) {
       errors.email = 'Почта найдена в базе данных';
       errors.notUnique = true;

@@ -27,6 +27,8 @@ export const checkUser = `/check`;
 export const checkUserApi = apiOrigin + api + checkUser;
 export const updateUserData = `/update`;
 export const updateUserDataApi = apiOrigin + api + updateUserData;
+export const createDummyUser = `/create-dummy-user`;
+export const createDummyUserApi = apiOrigin + api + createDummyUser;
 
 // items api
 export const items = '/items';

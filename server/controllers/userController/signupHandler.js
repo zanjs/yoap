@@ -32,7 +32,7 @@ export default (req, res) => {
 
       user.save().then(data => {
         const token = createToken(data);
-        return User.findByIdAndUpdate((data.id || data._id), {token})
+        return User.findByIdAndUpdate((data._id || data.id), {token})
           .then(() => {
             res.status(200).json({
               success: true,

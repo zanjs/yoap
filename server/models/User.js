@@ -84,7 +84,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
-
+  _creator: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
   token: {
     type: String,
     required: false
