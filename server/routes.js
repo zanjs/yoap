@@ -20,37 +20,37 @@ const routes = express();
 routes.post(
   signup,
 
-  userController.signup
+  userController.signupHandler
 );
 routes.post(
   login,
 
-  userController.login
+  userController.loginHandler
 );
 routes.post(
   checkUser,
   authenticate,
 
-  userController.checkAuth
+  userController.checkAuthHandler
 );
 routes.post(
   updateUserData,
   authenticate,
 
-  userController.update
+  userController.updateHandler
 );
 routes.post(
   logout,
   authenticate,
 
-  userController.logout
+  userController.logoutHandler
 );
 
 // hidden user routes
 routes.get(
   hiddenRoutes.verifyUser,
 
-  userController.verifyUser
+  userController.verifyHandler
 )
 
 // Item routes
