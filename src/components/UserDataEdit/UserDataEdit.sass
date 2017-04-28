@@ -1,5 +1,12 @@
 @import ../../theme/index
 
+.wrapper
+  transition: opacity $animParams
+  opacity: 1
+
+.fetch
+  opacity: .7
+
 .edit_btn
   cursor: pointer
   user-select: none
@@ -53,4 +60,14 @@
     color: $pink
   &_normal
     color: $blue
+  &_big
+    position: static
+    width: 100%
+
+.password
+  color: $green
+  @include placeholder
+    color: $green
+  &__wrapper
+    margin-top: 10px
 

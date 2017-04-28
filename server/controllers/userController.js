@@ -2,7 +2,8 @@ import { User } from 'models'
 import { hashSync, compareSync } from 'bcrypt'
 import {
   userValidation, createToken,
-  createId, sendSignUpEmail
+  createId, sendSignUpEmail,
+  isEmpty
 } from 'utils'
 import { appDomainName } from 'serverConfig'
 
@@ -191,28 +192,66 @@ userController.update = (req, res) => {
     delete data.isAdmin;
   }
 
-  User
-    .findByIdAndUpdate(id, { $set: data }, { new: true })
-    .then(__data => {
-      // update user token with new data
-      const token = createToken(__data);
+  userValidation(data, id, true).then(({isValid, status, err, errors}) => {
+    if (!isValid) {
+      if (status) {
+        return res.status(status).json({
+          message: status === 404
+            ? 'Произошла ошибка, мы не нашли вас в нашей базе пользователей'
+            : err.toString()
+        })
+      }
 
-      User.findByIdAndUpdate(id, {token})
-        .then(() => {
-          res.status(200).json({
-            success: true,
-            data: {token}
-          })
-        }).catch(err => {
-          res.status(500).json({
-            message: err
-          })
+      return res.status(400).json({
+        errors: {
+          ...errors,
+          formImport: true
+        }
       })
-    }).catch(err => {
+    }
+
+    if (isEmpty(!data.password_new)) {
+      data.password = data.password_new;
+      delete data.password_new;
+    } else {
+      delete data.password;
+    }
+
+    if (isEmpty(data.email) && req.user.email !== data.email) {
+      data.verified = false;
+      data.verifyToken = createId();
+    }
+
+    User
+      .findByIdAndUpdate(id, { $set: data }, { new: true })
+      .then(__data => {
+        // update user token with new data
+        const token = createToken(__data);
+
+        User.findByIdAndUpdate(id, {token})
+          .then(() => {
+            res.status(200).json({
+              success: true,
+              data: {token}
+            })
+            if (data.verifyToken) {
+              sendSignUpEmail({
+                id: data.verifyToken,
+                email,
+                name
+              })
+            }
+          }).catch(err => {
+            res.status(500).json({
+              message: err
+            })
+        })
+      }).catch(err => {
       res.status(500).json({
         message: err
       })
     })
+  })
 };
 
 userController.delete = (req, res) => {

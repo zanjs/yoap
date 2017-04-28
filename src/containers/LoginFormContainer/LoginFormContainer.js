@@ -10,6 +10,7 @@ const mapStateToProps = ({
     email, password,
 
     isFetching, isError, isAuthorized,
+    errorMessage
   }
 }) => ({
   saveValues, login,
@@ -19,6 +20,7 @@ const mapStateToProps = ({
   },
 
   isFetching, isError, isAuthorized,
+  errorMessage
 });
 
 @inject(mapStateToProps) @observer
@@ -31,7 +33,8 @@ export default class LoginFormContainer extends Component {
         email, phone, password
       },
       className,
-      isFetching, isError, isAuthorized
+      isFetching, isError, isAuthorized,
+      errorMessage
     } = this.props;
 
     if (isAuthorized) {
@@ -45,7 +48,7 @@ export default class LoginFormContainer extends Component {
         identifier: (phone || email),
         password
       },
-      className,
+      className, errorMessage,
 
       isFetching, isError
     }

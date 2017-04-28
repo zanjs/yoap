@@ -15,7 +15,8 @@ export default class UserDataEdit extends Component {
     name: 'Name',
     email: 'Email',
     phone: 'Phone',
-    password: 'Password',
+    password: 'Старый пароль',
+    password_new: 'Новый пароль',
   };
 
   state = {
@@ -23,6 +24,7 @@ export default class UserDataEdit extends Component {
     email: '',
     phone: '',
     password: '',
+    password_new: '',
     edit: false,
 
     errors: {},
@@ -33,14 +35,8 @@ export default class UserDataEdit extends Component {
   onBlur = createHandleBlur(this);
   onChange = createHandleChange(this);
 
-  componentWillReact() {
-    this.setState({
-
-    })
-  }
-
   extendInputProps = name => {
-    const { isFetching, isError } = this.props;
+    const { isFetching } = this.props;
     const { success, errors, normal } = this.state;
     return {
       name,
@@ -59,7 +55,32 @@ export default class UserDataEdit extends Component {
       onChange: this.onChange,
 
       required: true,
-      type: name,
+      type: 'text',
+
+      disabled: isFetching
+    }
+  };
+  extendPasswordInput = name => {
+    const { isFetching } = this.props;
+    const { success, errors, normal } = this.state;
+    return {
+      name, className: s.password,
+      placeholder: this.placeholders[name],
+
+      defaultValue: '',
+
+      isSuccess: success[name],
+      isError: errors[name],
+      isNormal: normal[name],
+
+      msg: errors[name] || success[name],
+      bigMsg: true,
+
+      onBlur: this.onPasswordBlur,
+      onChange: this.onPasswordChange,
+
+      required: true,
+      type: 'password',
 
 
       disabled: isFetching
@@ -78,7 +99,6 @@ export default class UserDataEdit extends Component {
     }
 
     if (this.isValid()) {
-      this.switchEdit();
       this.saveValues();
     }
 
@@ -93,29 +113,59 @@ export default class UserDataEdit extends Component {
     edit: !state.edit
   }));
 
-  Input = ({isSuccess, isError, msg, isNormal, ...rest}) => (
+  Input = ({isSuccess, isError, bigMsg, msg, isNormal, className, ...rest}) => (
     <div className={s.input__wrapper}>
-      <InputClean className={s.input} {...rest}/>
-      {msg && <span className={classNames(s.msg, isError && s.msg_error, isNormal && s.msg_normal)}>
+      <InputClean className={classNames(s.input, className)} {...rest}/>
+      {msg && <span className={classNames(s.msg, bigMsg && s.msg_big, isError && s.msg_error, isNormal && s.msg_normal)}>
         {msg}
       </span>}
     </div>
   );
 
+  onPasswordBlur = ({target}) => this.setState({
+    [target.name]: target.value
+  })
+  onPasswordChange = ({target}) => this.setState({
+    [target.name]: target.value
+  })
+
+  componentWillReceiveProps(nextProps) {
+    const { isError, isFetching} = nextProps;
+
+    if (isEmpty(isError) && isEmpty(isFetching)) {
+      return this.setState({
+        edit: false
+      })
+    }
+
+    if (!isEmpty(isError) && isError.formImport) {
+      this.setState(state => ({
+        edit: true,
+        success: {},
+        normal: {},
+        errors: {
+          ...state.errors,
+          ...isError
+        }
+      }))
+    }
+  }
+
   render() {
     const {
       submitHandler,
       extendInputProps,
+      extendPasswordInput,
       Input,
       state: { edit },
-      props: { image, phone, email, name, verified }
+      props: { image, phone, email, isFetching, name, verified }
     } = this;
     return (
-      <div className={s.wrapper}>
+      <div className={classNames(s.wrapper, isFetching && s.fetch)}>
         <ItemPageInfoTitle title="Мой профиль">
-          <Content nooffsets gray onClick={submitHandler}
+          <Content nooffsets gray onClick={!isFetching && submitHandler}
                    className={s.edit_btn}>
-            {edit ? 'Сохранить' : 'Изменить'}
+            {isFetching ? 'Синхронизируем' : edit ? 'Сохранить' : 'Изменить'}
           </Content>
         </ItemPageInfoTitle>
 
@@ -141,6 +191,12 @@ export default class UserDataEdit extends Component {
               {!edit && phone}
               {edit && <Input {...extendInputProps('phone')} />}
             </Content>
+
+            {edit && <FlexGrid justify="space-between" align="start"
+                               className={s.password__wrapper}>
+              <Input {...extendPasswordInput('password')} />
+              <Input {...extendPasswordInput('password_new')} />
+            </FlexGrid>}
           </div>
         </FlexGrid>
       </div>

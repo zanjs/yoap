@@ -50,6 +50,8 @@ export default class LoginForm extends Component {
       required: true,
       type: name,
 
+      msg: errors[name],
+
       disabled: isFetching
     }
   };
@@ -81,8 +83,12 @@ export default class LoginForm extends Component {
   componentWillReceiveProps(nextProps) {
     const { isError } = nextProps;
 
-    if (!isEmpty(isError.errors)) {
-      this.setState({errors: isError.errors});
+    if (!isEmpty(isError)) {
+      this.setState({
+        errors: isError,
+        success: {},
+        normal: {}
+      });
     }
   }
 
@@ -94,7 +100,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    const { isFetching, isError, isAuthorized, className } = this.props;
+    const { isFetching, isError, errorMessage, className } = this.props;
 
     const isDuplicated = this.isDuplicated(isError);
 
@@ -104,7 +110,9 @@ export default class LoginForm extends Component {
         <FormGroup {...this.extendInputProps('identifier')} getRef={this.getIdentifierInputRef}/>
         <FormGroup {...this.extendInputProps('password')} getRef={this.getPasswordInputRef}/>
         {isDuplicated && <Content>Мы сохранили ваши данные, нажмите "Готово"</Content>}
-        {!isDuplicated && isError && <Content>{isError.message || isError.text || isError}</Content>}
+        {!isDuplicated && isError && <Content>
+          {isError.message || isError.text || errorMessage || JSON.stringify(isError)}
+        </Content>}
         <FlexGrid align="center" className={s.buttons}>
           <Button disabled={isFetching} buttonType='submit' type="pink" className={s.button}>Готово</Button>
           <Content tag={RouterLink} to="/reset-password"

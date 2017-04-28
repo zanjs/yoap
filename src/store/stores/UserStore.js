@@ -118,6 +118,7 @@ class UserStore {
   // auth states
   @observable isFetching = false;
   @observable isError = false;
+  @observable errorMessage = '';
   get isAuthorized() {
     return !!this.id && !!this.token;
   }
@@ -178,6 +179,10 @@ class UserStore {
           newData = __data.errors;
         }
 
+        if (__data.message) {
+          this.errorMessage = __data.message;
+        }
+
         this.isError = newData;
         this.isFetching = false;
       })
@@ -189,6 +194,8 @@ class UserStore {
 
   login = (cb = noop) => {
     this.isFetching = true;
+    this.errorMessage = false;
+    this.isError = false;
     const { email, phone, password } = this.toJSON();
     const data = {
       ...(email ? {email} : {phone}),
@@ -231,6 +238,8 @@ class UserStore {
   }
   signup = () => {
     this.isFetching = true;
+    this.errorMessage = false;
+    this.isError = false;
 
     return serverSignup(this.toJSON())
       .then(this.checkStatus)
@@ -242,8 +251,7 @@ class UserStore {
     if (!this.id || isEmpty(data))
       return null;
 
-    extend(this, data);
-
+    //extend(this, data);
     let newData = {
       data,
       id: this.id

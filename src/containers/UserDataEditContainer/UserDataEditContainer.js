@@ -3,8 +3,8 @@ import { inject, observer } from 'mobx-react'
 import { UserDataEdit } from 'components'
 import { isEmpty } from 'helpers'
 
-const mapStateToProps = ({user: {name, image, phone, email, verified, updateUserData, password}}) => ({
-  user: {name, image, email, phone, verified, password},
+const mapStateToProps = ({user: {name, image, phone, email, isError, isFetching, verified, updateUserData, password}}) => ({
+  user: {name, isError, isFetching, image, email, phone, verified, password},
   updateUserData
 })
 
@@ -31,7 +31,9 @@ export default class UserDataEditContainer extends Component {
 
     if (!isEmpty(values)) {
       console.log('to save', values);
-      this.props.updateUserData(values);
+      this.props.updateUserData(values, () => this.setState({
+        success: true
+      }));
     }
   };
   render() {
