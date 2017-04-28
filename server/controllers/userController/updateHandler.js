@@ -43,6 +43,8 @@ export default (req, res) => {
       data.verifyToken = createId();
     }
 
+    data.editedAt = new Date();
+
     User
       .findByIdAndUpdate(id, { $set: data }, { new: true })
       .then(__data => {

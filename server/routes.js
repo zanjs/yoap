@@ -10,7 +10,7 @@ import {
   updateUserData, checkUser,
   logout, filterItems,
   itemView, itemPhone,
-  createDummyUser
+  createDummyUser, updateDummyUser, users
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
@@ -51,6 +51,18 @@ routes.post(
   authenticate,
 
   userController.createDummyUser
+)
+routes.post(
+  updateDummyUser,
+  authenticate,
+
+  userController.updateDummyUser
+)
+routes.get(
+  users,
+  authenticate,
+
+  userController.getUsersHandler
 )
 
 // hidden user routes

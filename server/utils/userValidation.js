@@ -57,11 +57,11 @@ export default function userValidation(data, _id, update, dummyUser) {
       if (currentUser._id === matchedUser._id) {
         return currentUser;
       }
-      if (matchedUser.email === email) {
+      if (email && matchedUser.email === email) {
         errors.email = 'Почта найдена в базе данных';
         errors.notUnique = true;
       }
-      if (matchedUser.phone === phone) {
+      if (phone && matchedUser.phone === phone) {
         errors.phone = 'Телефон найден в базе данных';
         errors.notUnique = true;
       }
@@ -89,11 +89,11 @@ export default function userValidation(data, _id, update, dummyUser) {
     if (isEmpty(user))
       return null;
 
-    if (user.email === email) {
+    if (email && user.email === email) {
       errors.email = 'Почта найдена в базе данных';
       errors.notUnique = true;
     }
-    if (user.phone === phone) {
+    if (phone && user.phone === phone) {
       errors.phone = 'Телефон найден в базе данных';
       errors.notUnique = true;
     }

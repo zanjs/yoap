@@ -1,5 +1,3 @@
-import getToken from 'helpers/app/getToken'
-
 export const hostname = (() => {
   if (typeof window !== 'object') {
     return 'localhost'
@@ -17,22 +15,35 @@ export const JSONHeaders = {
 };
 
 // user api
+// sign up
 export const signup = `/signup`;
 export const signupApi = apiOrigin + api + signup;
+// login
 export const login = `/login`;
 export const loginApi = apiOrigin + api + login;
+// logout
 export const logout = `/logout`;
 export const logoutApi = apiOrigin + api + logout;
+// check user
 export const checkUser = `/check`;
 export const checkUserApi = apiOrigin + api + checkUser;
-export const updateUserData = `/update`;
+// update user data
+export const updateUserData = `/update-user`;
 export const updateUserDataApi = apiOrigin + api + updateUserData;
+// create dummy user
 export const createDummyUser = `/create-dummy-user`;
 export const createDummyUserApi = apiOrigin + api + createDummyUser;
+// update dummy user
+export const updateDummyUser = `/update-dummy-user`;
+export const updateDummyUserApi = apiOrigin + api + updateDummyUser;
+// get users
+export const users = '/users';
+export const getUsers = apiOrigin + api + users;
 
 // items api
 export const items = '/items';
 export const itemsApi = apiOrigin + api + items;
+// filtered items api
 export const filterItems = '/items-filtered'
 export const filterItemsApi = apiOrigin + api + filterItems;
 
