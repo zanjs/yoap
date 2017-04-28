@@ -2,7 +2,7 @@ import { User } from 'models'
 import {
   userValidation, createToken,
   sendSignUpEmail, createId,
-  isEmpty
+  isEmpty, filterPossibleToEditUser
 } from 'utils'
 
 export default (req, res) => {
@@ -11,6 +11,8 @@ export default (req, res) => {
   // only admins can set admin state
   if (!req.user.isAdmin) {
     delete data.isAdmin;
+    // only admins can edit all the data
+    data = filterPossibleToEditUser(data);
   }
 
   userValidation(data, id, true).then(({isValid, status, err, errors}) => {
