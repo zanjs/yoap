@@ -13,6 +13,11 @@
   &_banned
     *
       color: $light-orange !important
+  &__wrapper
+    position: relative
+    &:hover
+      .context
+        opacity: 1
 
 .item
   text-align: center
@@ -42,3 +47,20 @@
   line-height: 19px
   text-align: inherit
   display: block
+
+.context
+  position: absolute
+  right: -20px
+  top: 50%
+  transform: translate(100%, -50%)
+  opacity: 0
+  transition: opacity $animParams
+
+.icon
+  @include size(20px)
+  user-select: none
+  cursor: pointer
+  @include opacityAnim(.6)
+  margin-right: 10px
+  &:last-child
+    margin-right: 0

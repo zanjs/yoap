@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { UsersList } from 'components'
+import { shallowEqual } from 'helpers'
 
 const mapStateToProps = ({users}) => ({
   isFetching: users.isFetching,
@@ -15,10 +16,20 @@ const mapStateToProps = ({users}) => ({
 @inject(mapStateToProps) @observer
 export default class UsersListContainer extends Component {
   state = {isEdit: false, user: {}};
+  index;
+
   componentWillMount() {
     this.props.fetchUsers();
   }
 
+  getIndex = block => {
+    const parent = block.closest('[data-index]');
+
+    if (parent) {
+      return parseInt(parent.getAttribute('data-index'), 10)
+    }
+    return null;
+  }
   clickHandler = () => {
     if (!this.state.isEdit) {
       this.setState({isEdit: true});
@@ -42,9 +53,40 @@ export default class UsersListContainer extends Component {
       user: {}
     })
   }
+  getChangedData = data => {
+    const { index } = this;
+
+    if (index == null) {
+      return {data, isUpdate: false};
+    }
+
+    let newData = {};
+    let origin = this.props.dummies[index];
+    for (let prop in data) {
+      const value = data[prop];
+      if (!shallowEqual(origin[prop], value)) {
+        newData[prop] = value;
+      }
+    }
+
+    this.index = null;
+    return {
+      id: origin.id || origin._id,
+      data: newData,
+      isUpdate: true
+    }
+  }
   submitHandler = () => {
-    console.log('CREATE USER', this.state.user);
-    this.props.createUser(this.state.user, () => {
+    const editedData = this.getChangedData(this.state.user);
+
+    if (editedData.isUpdate) {
+      return this.props.updateUser(editedData.id, editedData.data, () => {
+        this.setState({user: {}, isEdit: false});
+        console.log('user was updated successfully!');
+      })
+    }
+
+    this.props.createUser(editedData.data, () => {
       // todo: print message
       this.setState({user: {}, isEdit: false});
       console.log('user was created successfully!');
@@ -54,11 +96,7 @@ export default class UsersListContainer extends Component {
     e.preventDefault();
 
     const { target } = e;
-    const block = target.closest('[data-index]')
-    console.log(
-      'clicked by left button',
-      parseInt(block.getAttribute('data-index'), 10)
-    )
+    const index = this.getIndex(target);
 
     return false;
   }
@@ -74,8 +112,7 @@ export default class UsersListContainer extends Component {
   rowContextHandler = (e) => {
     e.preventDefault();
     const { target } = e;
-    const block = target.closest('[data-index]')
-    const index = parseInt(block.getAttribute('data-index'), 10);
+    const index = this.getIndex(target);
 
     if (index == null)
       return false;
@@ -88,6 +125,23 @@ export default class UsersListContainer extends Component {
     return false;
   }
 
+  editHandler = e => {
+    e.preventDefault();
+    const { target } = e;
+    const index = this.getIndex(target);
+
+    if (index == null)
+      return false;
+
+    this.index = index;
+    this.setState({
+      user: this.props.dummies[index],
+      isEdit: true
+    })
+
+    return false;
+  }
+
 
   render() {
     // onClick, onChange, onSubmit, onCancel
@@ -95,7 +149,8 @@ export default class UsersListContainer extends Component {
     const { isEdit, user } = this.state;
     const {
       clickHandler, submitHandler, cancelHandler,
-      changeHandler, rowClickHandler, rowContextHandler
+      changeHandler, rowClickHandler, rowContextHandler,
+      editHandler
     } = this;
 
     return <UsersList onHeadClick={clickHandler}
@@ -104,6 +159,7 @@ export default class UsersListContainer extends Component {
                       onChange={changeHandler}
                       onCancel={cancelHandler}
                       onSubmit={submitHandler}
+                      onEditClick={editHandler}
                       isFetching={isFetching}
                       isError={isError}
                       newUser={user}

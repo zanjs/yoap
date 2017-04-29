@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { FlexGrid, Content, InputClean, Button } from 'components'
+import { FlexGrid, Content, InputClean, Button, Svg } from 'components'
 import { classNames, declination } from 'helpers'
 import s from './UsersList.sass'
+
+import editIcon from 'icons/ui/edit.svg'
 
 const getObjectsWord = declination([
   'объект',
@@ -31,6 +33,7 @@ const Msg = ({children}) => (
       data, edit, isError, isFetching,
       onHeadClick, onChange, onSubmit, onCancel,
       newUser, onRowClick, onRowContext,
+      onEditClick
     } = this.props;
     return (
       <div className={s.wrapper}>
@@ -65,12 +68,18 @@ const Msg = ({children}) => (
           </UserRowItem>
         </UserRow>}
         {data && data.map(({name, email, phone, objects, banned}, key) => (
-          <UserRow onClick={onRowClick} onContextMenu={onRowContext} banned={banned} index={key} key={key}>
-            <UserRowItem>{name || 'Без имени'}</UserRowItem>
-            <UserRowItem>{phone || 'Без телефона'}</UserRowItem>
-            <UserRowItem>{email || 'Без почты'}</UserRowItem>
-            <UserRowItem>{`${objects.length} ${getObjectsWord(objects.length)}`}</UserRowItem>
-          </UserRow>
+          <div className={s.row__wrapper} data-index={key} key={key}>
+            <UserRow onClick={onRowClick} onContextMenu={onRowContext} banned={banned}>
+              <UserRowItem>{name || 'Без имени'}</UserRowItem>
+              <UserRowItem>{phone || 'Без телефона'}</UserRowItem>
+              <UserRowItem>{email || 'Без почты'}</UserRowItem>
+              <UserRowItem>{`${objects.length} ${getObjectsWord(objects.length)}`}</UserRowItem>
+            </UserRow>
+            <div className={s.context}>
+              {/* Edit button */}
+              <Svg onClick={onEditClick} src={editIcon} className={s.icon}/>
+            </div>
+          </div>
         ))}
       </div>
     )
