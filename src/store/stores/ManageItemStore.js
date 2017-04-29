@@ -174,6 +174,10 @@ class ManageItemStore {
       data._creator = store.user.id;
     }
 
+    if (data.user) {
+      data._creator = (data.user._id || data.user.id || data.user);
+    }
+
     data.images = {
       thumbnail: data.images[0],
       gallery: data.images.filter(it => !!it)

@@ -1,21 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Link as RouterLink, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import {
-  ItemPageInfoTitle,
-  UserCustomAddress,
-  Container, FlexGrid,
-  LinkIcon,
-  Svg, Content, LoadingAnimation,
-  Dashboard
+  UserCustomAddress, Container, FlexGrid,
+  LoadingAnimation, UserSubscription,
+  Dashboard, UserFeatured,
+  UserObjects
 } from 'components'
 import {
-  UserDataEditContainer, ItemTileContainer
+  UserDataEditContainer
 } from 'containers'
-import { classNames } from 'helpers'
 import s from './UserPage.sass'
-
-import addIcon from 'icons/ui/add.svg'
 
 const mapStateToProps = ({
     items: {
@@ -27,9 +22,6 @@ const mapStateToProps = ({
   }) => ({
   data: users,
   featured,
-  name: user.name,
-  phone: user.phone,
-  email: user.email,
   isFetching: isFetching || user.isFetching,
   isAuthorized: user.isAuthorized,
   _objects: user._objects,
@@ -120,11 +112,9 @@ export default class UserPage extends Component {
   }
   render() {
     const {
-      data, featured, name,
-      phone, email, isFetching,
+      data, featured, isFetching,
       isAuthorized
     } = this.props;
-    const object = data && data.length ? data[0] : null;
 
     if (!isAuthorized) {
       return <Redirect to="/login"/>
@@ -139,54 +129,18 @@ export default class UserPage extends Component {
           <FlexGrid justify="space-between" align="start">
 
             <div className={s.info}>
-              {/*<ItemPageUser title="Мой профиль" phone={phone}*/}
-                            {/*email={email} link="/y" isVerified>*/}
-                {/*{name}*/}
-              {/*</ItemPageUser>*/}
               <UserDataEditContainer />
-
               <UserCustomAddress />
-              <div className={s.item}>
-                <ItemPageInfoTitle title="Подписка" />
-                <Content nooffsets light size="3">Расширенный тариф до 21.04.17</Content>
-                <Content nooffsets light size="3">Осталось 30 дней и 293 открытия</Content>
-              </div>
-
+              <UserSubscription />
             </div>
 
             <div className={s.data}>
-              <div className={s.item}>
-                <ItemPageInfoTitle title="Мои объявления">
-                  <LinkIcon gray to="/you/yours">
-                    Все объявления{data.length ? ` (${data.length})` : ''}
-                  </LinkIcon>
-                </ItemPageInfoTitle>
-                <FlexGrid className={s.items__wrapper} justify="start"
-                          align="start" wrap="false">
-                  {object && <ItemTileContainer edit data={object}/>}
-                  <RouterLink to="/manage/create">
-                    <Svg className={classNames(s.add, !!object && s.add_last)}
-                         src={addIcon} />
-                  </RouterLink>
-                </FlexGrid>
-              </div>
-              <div className={s.item}>
-                <ItemPageInfoTitle title="Избранное">
-                  <LinkIcon gray to="/you/featured">
-                    Все избранные{featured.length ? ` (${featured.length})` : ''}
-                  </LinkIcon>
-                </ItemPageInfoTitle>
-                {featured && <FlexGrid justify="start" align="start">
-                  {featured.map((item, key) => (
-                    <ItemTileContainer key={key} data={item}/>
-                  ))}
-                </FlexGrid>}
-              </div>
+              <UserObjects data={data}/>
+              <UserFeatured data={featured}/>
             </div>
 
           </FlexGrid>
         </Container>
-
       </div>
     )
   }
