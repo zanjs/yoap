@@ -2,7 +2,7 @@ import { User } from 'models'
 import { filterUserFields } from 'utils'
 
 export default () => {
-  return User.find({}).then(__users => {
+  return User.find({}).sort({createdAt: -1}).then(__users => {
     let dummyUsers = [];
     let users = [];
     __users.forEach(item => {

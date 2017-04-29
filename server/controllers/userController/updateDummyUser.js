@@ -10,6 +10,7 @@ export default (req, res) => {
   }
 
   const { data, id } = req.body;
+  console.log({data, id});
 
   userValidation(data, id, true).then(({isValid, status, err, errors}) => {
     // validation

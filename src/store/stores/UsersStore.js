@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import { UserModel } from 'models'
 import {
   createDummyUserApi, updateDummyUserApi,
@@ -6,12 +6,13 @@ import {
 } from 'api'
 import { noop } from 'helpers'
 
-export default class UsersStore {
+class UsersStore {
   @observable dummies = [];
-  @observable data = [];
+  @observable users = [];
 
   @observable isFetching = false;
   @observable isError = false;
+  @observable errorMessage = false;
 
   checkStatus = (res) => {
     if (res.status >= 200 && res.status < 300) {
@@ -23,7 +24,7 @@ export default class UsersStore {
     }
   };
   responseHandler = response => {
-    this.fromJSON(response);
+    response.data && this.fromJSON(response.data);
 
     this.isFetching = false;
     this.isError = false;
@@ -35,15 +36,14 @@ export default class UsersStore {
 
     if (data.json) {
       return data.json().then(data => {
-        if (data.message.errmsg) {
-          data = {message: data.message.errmsg}
-        }
-
-        this.isError = {
-          ...data,
-          text: data.message
-        };
         this.isFetching = false;
+
+        if (data.errors) {
+          this.isError = data.errors;
+        }
+        if (data.message) {
+          this.errorMessage = data.message.errmsg ||  data.message;
+        }
       })
     }
 
@@ -52,7 +52,7 @@ export default class UsersStore {
   };
   parseJSON = res => res.json();
 
-  createUser = (data, cb = noop) => {
+  @action createUser = (data, cb = noop) => {
     this.isFetching = true;
     this.isError = false;
 
@@ -63,7 +63,7 @@ export default class UsersStore {
       .then(cb)
       .catch(this.errorHandler)
   };
-  updateUser = (id, data, cb = noop) => {
+  @action updateUser = (id, data, cb = noop) => {
     this.isFetching = true;
     this.isError = false;
 
@@ -74,7 +74,7 @@ export default class UsersStore {
       .then(cb)
       .catch(this.errorHandler)
   };
-  fetchUsers = (cb = noop) => {
+  @action fetchUsers = (cb = noop) => {
     this.isFetching = true;
     this.isError = false;
 
@@ -94,14 +94,15 @@ export default class UsersStore {
     if (data.dummies) {
       this.fromJSONToCollection(data.dummies, 'dummies');
     }
-    if (data.data) {
-      this.fromJSONToCollection(data.data);
+    if (data.users) {
+      this.fromJSONToCollection(data.users);
     }
   }
 
-  fromJSONToCollection = (data, collection = 'data') => {
-    return this[collection].replace(
-      data.map(item => UserModel.fromJSON(this, data))
-    );
+  fromJSONToCollection = (data, collection = 'users') => {
+    const newCollection = data.map(item => UserModel.fromJSON(this, item));
+    return this[collection].replace(newCollection);
   };
 }
+
+export default new UsersStore()

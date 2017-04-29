@@ -2,7 +2,7 @@ import { User } from 'models'
 import { Types } from 'mongoose'
 import { isValid } from 'validation/userValidation/tests'
 import { compareSync } from 'bcrypt'
-import isEmpty from 'helpers/app/isEmpty'
+import { isEmpty } from 'utils'
 
 export default function userValidation(data, _id, update, dummyUser) {
   const {
@@ -32,7 +32,10 @@ export default function userValidation(data, _id, update, dummyUser) {
     !password_new && (errors.password_new = 'Вы не ввели новый пароль.')
   }
 
-  const queryMatch = {$or: [{email}, {phone}]}
+  const queryMatch = {$or: [
+    ...(!isEmpty(email) ? [{email}] : []),
+    {phone},
+  ]}
   const queryId = {_id: Types.ObjectId(_id)};
 
   if (update) {

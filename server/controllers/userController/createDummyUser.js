@@ -40,11 +40,13 @@ export default (req, res) => {
     delete credentials.password;
 
     const verifyToken = createId();
-    const user = new User({
+    const userData = {
       ...credentials,
       isDummy: true, verifyToken,
       password_digest: hashSync(createId(), 10),
-    });
+    };
+    console.log('userData', userData);
+    const user = new User(userData);
 
     user.save().then(() => {
       return getUsers().then(__data => {

@@ -6,12 +6,39 @@
   &_head
     .item
       color: $gray9b
+  &_click
+    cursor: pointer
+    user-select: none
+    @include opacityAnim(.7)
+  &_banned
+    *
+      color: $light-orange !important
+
 .item
   text-align: center
   width: 25%
   color: #000
   font-weight: normal
+  transition: color $animParams
   &:first-child
     text-align: left
   &:last-child
     text-align: right
+
+.input
+  text-align: inherit
+  border-bottom: 1px solid $light-gray
+  width: 95%
+
+.btn
+  margin: 0
+  &:first-child
+    margin-right: 10px
+
+.msg
+  margin-top: 10px
+  color: $pink
+  font-size: 14px
+  line-height: 19px
+  text-align: inherit
+  display: block

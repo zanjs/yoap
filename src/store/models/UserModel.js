@@ -2,7 +2,7 @@ import { observable, computed } from 'mobx'
 
 export default class UserModel {
   @observable _id;
-  @computed id() {
+  @computed get id() {
     return this._id;
   }
   set id(id) {

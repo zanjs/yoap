@@ -21,8 +21,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: false,
-    unique: true
+    trim: true, index: true, unique: true, sparse: true
   },
   image: {
     type: String,
