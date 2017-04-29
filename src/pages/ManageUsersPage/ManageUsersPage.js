@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-import { UsersList, FlexGrid, Title, LinkIcon, Container } from 'components'
+import { FlexGrid, Title, LinkIcon, Container } from 'components'
+import { UsersListContainer } from 'containers'
 import s from './ManageUsersPage.sass'
 
 
@@ -19,7 +20,7 @@ export default class ManageUsersPage extends Component {
             </LinkIcon>
           </FlexGrid>
 
-          <UsersList/>
+          <UsersListContainer/>
         </Container>
       </div>
     )

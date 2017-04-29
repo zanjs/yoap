@@ -1,4 +1,3 @@
-import { fetch } from 'helpers'
 import {
   signupApi as signupUrl,
   loginApi as loginUrl,
@@ -7,7 +6,7 @@ import {
   checkUserApi as checkUserUrl,
   JSONHeaders as headers,
 } from 'constants'
-import { getHeaders } from 'helpers'
+import { getHeaders, fetch } from 'helpers'
 
 export const login = data => fetch(loginUrl, {
   ...headers,

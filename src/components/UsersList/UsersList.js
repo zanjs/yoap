@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import { FlexGrid, Content } from 'components'
-import { classNames } from 'helpers'
+import { classNames, declination } from 'helpers'
 import s from './UsersList.sass'
+
+const getObjectsWord = declination([
+  'объект',
+  'объекта',
+  'объектов'
+])
 
 const fakeItem = {
   name: 'Иван',
@@ -37,7 +43,7 @@ const UsersList = ({data = fakeData}) => {
           <UserRowItem>{name || 'Без имени'}</UserRowItem>
           <UserRowItem>{phone || 'Без телефона'}</UserRowItem>
           <UserRowItem>{email || 'Без почты'}</UserRowItem>
-          <UserRowItem>{`${objects.length} объектов`}</UserRowItem>
+          <UserRowItem>{`${objects.length} ${getObjectsWord(objects.length)}`}</UserRowItem>
         </UserRow>
       ))}
     </div>

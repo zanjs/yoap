@@ -24,6 +24,7 @@ export StatusChangeContainer from './StatusChangeContainer/StatusChangeContainer
 export StarsRatingContainer from './StarsRatingContainer/StarsRatingContainer'
 export ItemNumbersDataContainer from './ItemNumbersDataContainer/ItemNumbersDataContainer'
 export UserPhoneContainer from './UserPhoneContainer/UserPhoneContainer'
+export UsersListContainer from './UsersListContainer/UsersListContainer'
 
 export MapContainer from './MapContainer/MapContainer'
 export ItemTileContainer from './ItemTileContainer/ItemTileContainer'
