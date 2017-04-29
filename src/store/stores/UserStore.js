@@ -309,18 +309,13 @@ class UserStore {
     let values = {..._values};
     if (values.identifier) {
       const { identifier } = values;
-      if (identifier.indexOf('@') !== -1) {
+      const __phone = parseInt(identifier.replace(/ /gi, '').replace(/\(|\)|\-/gi, ''), 10);
+      const isPhone = !isNaN(__phone);
+
+      if (!isPhone) {
         values.email = identifier;
       } else {
-        const newIdentifier = identifier.replace(new RegExp(' ', 'gi'), '');
-        let firstSymbol = identifier[0] === '+' ? '+' : ''
-        let phone = firstSymbol + identifier.replace(/\D+/g,"");
-
-        if (newIdentifier.length === phone.length) {
-          values.phone = phone;
-        } else {
-          delete values.phone;
-        }
+        values.phone = identifier;
       }
     }
 

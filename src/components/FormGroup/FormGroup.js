@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { classNames, isEmpty } from 'helpers'
-import { Input, FlexGrid, Svg } from 'components'
+import { Input, InputPhone, FlexGrid, Svg } from 'components'
 import { BLUE_COLOR, PINK_COLOR, GREEN_COLOR } from 'constants'
 import s from './FormGroup.sass'
 
@@ -18,7 +18,6 @@ export default class FormGroup extends Component {
       }, 1000);
     }
   }
-
   renderMessage = (type, message) => {
     if (!type) {
       return null;
@@ -54,7 +53,6 @@ export default class FormGroup extends Component {
     )
 
   };
-
   getRef = (b) => {
     this.input = b;
 
@@ -63,22 +61,14 @@ export default class FormGroup extends Component {
     }
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { props } = this;
-
-    if (props.defaultValue !== nextProps.defaultValue) {
-      return false;
-    }
-
-    return true;
-  }
-
   render() {
     const {
       name, getRef, isError,
       isSuccess, isNormal, ph,
       defaultValue, type, msg,
-      required, disabled, wrapperClassName, ...rest
+      required, disabled, wrapperClassName,
+      isPhone,
+      ...rest
     } = this.props;
 
     let status = '';
@@ -95,10 +85,19 @@ export default class FormGroup extends Component {
       status = 'normal'
     }
 
+    const props = {
+      disabled, getRef, name,
+      type: type || 'text',
+      required, defaultValue,
+      placeholder: ph,
+      ...rest
+    };
+
+    const isInputPhone = (name === 'phone' || isPhone && name === 'identifier');
+
     return (
       <div className={classNames(s.group, wrapperClassName)}>
-        <Input disabled={disabled} getRef={this.getRef} name={name} type={type ? type : 'text'}
-               required={required} defaultValue={defaultValue} placeholder={ph} {...rest}/>
+        {isInputPhone ? <InputPhone {...props}/> : <Input {...props}/>}
         {required && this.renderMessage(status, msg)}
       </div>
     )

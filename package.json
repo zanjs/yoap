@@ -103,6 +103,7 @@
     "react-dom": "^15.5.4",
     "react-dropzone": "^3.12.2",
     "react-helmet": "^4.0.0",
+    "react-input-mask": "^0.8.0",
     "react-lazy-render": "^0.3.0",
     "react-lazyload": "^2.2.7",
     "react-list": "^0.8.5",

@@ -32,13 +32,17 @@ export default class LoginForm extends Component {
 
   extendInputProps = name => {
     const { isFetching, isError } = this.props;
-    const { success, errors, normal } = this.state;
+    const { success, errors, normal, identifier } = this.state;
+    const isPhone = !isEmpty(identifier) && !isNaN(
+      parseInt(identifier.replace(/ /gi, '').replace(/\(|\)|\-/gi, ''), 10)
+    );
+
     return {
       name,
       ph: this.placeholders[name],
 
       // TODO: Fix default value update
-      defaultValue: this.props.initialValues[name],
+      defaultValue: this.state[name],
 
       isSuccess: success[name],
       isError: errors[name],
@@ -48,7 +52,8 @@ export default class LoginForm extends Component {
       onChange: this.onChange,
 
       required: true,
-      type: name,
+      type: name || 'text',
+      isPhone,
 
       msg: errors[name],
 
@@ -71,6 +76,7 @@ export default class LoginForm extends Component {
   };
   saveValues = (values) => {
     const {normal, errors, success, ...rest} = values;
+    console.log('will save to the store', rest);
     this.props.saveValues(rest);
   };
 

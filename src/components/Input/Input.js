@@ -11,5 +11,8 @@ const Input = ({tag, className, getRef, ...rest}) => {
     )
 };
 
+Input.className = s.input;
+Input.disabledClassName = s.disabled;
+
 export default Input;
 

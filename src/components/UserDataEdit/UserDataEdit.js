@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import {
   ItemPageInfoTitle, Content, FlexGrid,
-  Image, Svg, Title, InputClean,
+  Image, Svg, Title, InputClean, InputCleanPhone
 } from 'components'
 import { createHandleChange, createHandleBlur } from 'validation/userValidation'
 import { isEmpty, classNames } from 'helpers'
@@ -113,14 +113,18 @@ export default class UserDataEdit extends Component {
     edit: !state.edit
   }));
 
-  Input = ({isSuccess, isError, bigMsg, msg, isNormal, className, ...rest}) => (
-    <div className={s.input__wrapper}>
-      <InputClean className={classNames(s.input, className)} {...rest}/>
-      {msg && <span className={classNames(s.msg, bigMsg && s.msg_big, isError && s.msg_error, isNormal && s.msg_normal)}>
-        {msg}
-      </span>}
-    </div>
-  );
+  Input = ({isSuccess, isError, bigMsg, msg, isNormal, className, ...rest}) => {
+    const InputElement = rest.name === 'phone' ? InputCleanPhone : InputClean;
+
+    return (
+      <div className={s.input__wrapper}>
+        <InputElement className={classNames(s.input, className)} {...rest}/>
+        {msg && <span className={classNames(s.msg, bigMsg && s.msg_big, isError && s.msg_error, isNormal && s.msg_normal)}>
+              {msg}
+          </span>}
+      </div>
+    )
+  }
 
   onPasswordBlur = ({target}) => this.setState({
     [target.name]: target.value

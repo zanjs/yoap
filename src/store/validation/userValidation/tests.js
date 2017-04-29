@@ -78,7 +78,8 @@ export const validateName = (string = '') => {
  * @param {string|number} phone
  * @return {boolean}
  */
-const testPhone = (phone) => {
+const testPhone = __phone => {
+  const phone = __phone.replace(/ /gi, '').replace(/\(|\)|\-/gi, '')
   const reg = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
   const exec = reg.exec(phone);
   const test = reg.test(phone);

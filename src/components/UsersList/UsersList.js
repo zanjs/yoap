@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { FlexGrid, Content, InputClean, Button, Svg } from 'components'
+import {
+  FlexGrid, Content, InputClean,
+  InputCleanPhone, Button, Svg
+} from 'components'
 import { classNames, declination } from 'helpers'
 import s from './UsersList.sass'
 
@@ -51,9 +54,9 @@ const Msg = ({children}) => (
             {isError && isError.name && <Msg>{isError.name}</Msg>}
           </UserRowItem>
           <UserRowItem>
-            <InputClean placeholder="Телефон" className={s.input}
-                        defaultValue={newUser.phone}
-                        name="phone" onChange={onChange}/>
+            <InputCleanPhone placeholder="Телефон" className={s.input}
+                             defaultValue={newUser.phone}
+                             name="phone" onChange={onChange}/>
             {isError && isError.phone && <Msg>{isError.phone}</Msg>}
           </UserRowItem>
           <UserRowItem>
