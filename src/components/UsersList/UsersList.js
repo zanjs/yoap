@@ -72,7 +72,7 @@ const Msg = ({children}) => (
         </UserRow>}
         {data && data.map(({name, email, phone, objects, banned}, key) => (
           <div className={s.row__wrapper} data-index={key} key={key}>
-            <UserRow onClick={onRowClick} onContextMenu={onRowContext} banned={banned}>
+            <UserRow click onClick={onRowClick} onContextMenu={onRowContext} banned={banned}>
               <UserRowItem>{name || 'Без имени'}</UserRowItem>
               <UserRowItem>{phone || 'Без телефона'}</UserRowItem>
               <UserRowItem>{email || 'Без почты'}</UserRowItem>

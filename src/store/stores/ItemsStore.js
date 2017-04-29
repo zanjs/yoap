@@ -101,16 +101,16 @@ class ItemsStore {
     return item || response.data;
   };
   updateItemResponse = response => {
-    let item;
+    let items;
     if (response.data) {
-      item = [response.data];
+      items = response.data.length ? response.data : [response.data];
 
-      this.fromJSON(item, 'manage');
+      this.fromJSON(items, 'manage');
     }
 
     this.isFetching = false;
 
-    return item || response.data;
+    return items || response.data;
   };
   findByResponse = col => response => {
     this.fromJSON(response.data, col);

@@ -8,14 +8,20 @@ export default function userModeratorValidation({req, res, _creator, objectId}) 
     );
 
     if (!isExist) {
-      return res.status(401).json({
+      res.status(401).json({
         message: 'У вас нет прав редактировать это объявление.'
       })
+      return false;
     }
+
+    return true;
   } else if (!isAdmin && _creator !== userId) {
-    return res.status(401).json({
+    res.status(401).json({
       message: 'У вас нет прав редактировать чужие объявления.'
     })
+    return false;
+  } else if (isAdmin) {
+    return true;
   }
 
   return false;

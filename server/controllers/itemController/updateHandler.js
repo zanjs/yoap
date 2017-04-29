@@ -12,7 +12,7 @@ export default (req, res) => {
   const objectId = id || _id;
   const isAdmin = req.user.isAdmin;
 
-  if (userModeratorValidation({objectId, _creator, req, res})) {
+  if (!userModeratorValidation({objectId, _creator, req, res})) {
     return null;
   }
 
@@ -58,8 +58,12 @@ export default (req, res) => {
     update.justCreated = false;
   }
 
-  Item.findOneAndUpdate(id, { $set: update }, { new: true })
+  console.log('status to update', update.status, objectId);
+
+  Item.findByIdAndUpdate(objectId, { $set: update }, { new: true })
     .then(data => {
+      console.log('updated object', data._id, 'but id was', objectId, objectId === data._id)
+      console.log('status updated to', data.status)
       res.status(200).json({
         success: true,
         data

@@ -234,7 +234,7 @@ export default class ItemTileManage extends Component {
                         linksClassName={s.user__links}
                         phone={user.phone} email={user.email}
                         link={user.link || '/y'} notitle
-                        isVerified>
+                        isVerified={user.verified}>
             {user.name}
           </ItemPageUser>
         </div>
