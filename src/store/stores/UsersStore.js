@@ -7,6 +7,7 @@ import {
 import { noop } from 'helpers'
 
 class UsersStore {
+  @observable current = {};
   @observable dummies = [];
   @observable users = [];
 
@@ -87,16 +88,22 @@ class UsersStore {
       .catch(this.errorHandler)
   };
 
+  @action updateCurrent = data => {
+    this.current = {
+      ...this.current,
+      ...data
+    };
+  }
+
   find = cb => {
     const dataCollection = this.users.find(cb);
 
-    if (cb) {
+    if (dataCollection) {
       return dataCollection;
     }
 
     return this.dummies.find(cb);
   }
-
   fromJSON = data => {
     if (data.length != null) {
       return this.fromJSONToCollection(data);
@@ -109,7 +116,6 @@ class UsersStore {
       this.fromJSONToCollection(data.users);
     }
   }
-
   fromJSONToCollection = (data, collection = 'users') => {
     const newCollection = data.map(item => UserModel.fromJSON(this, item));
     return this[collection].replace(newCollection);

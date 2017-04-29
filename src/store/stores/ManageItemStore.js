@@ -14,7 +14,7 @@ class ManageItemStore {
     this.CreateNew();
   };
 
-  CreateNew = () => {
+  CreateNew = (userId) => {
     this.data = {
       @observable id: '',
       @observable title: '',
@@ -53,6 +53,10 @@ class ManageItemStore {
         gallery: []
       },
     };
+
+    if (!isEmpty(userId)) {
+      this.getUser(userId);
+    }
   };
   @action Import = __object => {
     const object = __object.toJSON
@@ -107,8 +111,8 @@ class ManageItemStore {
 
       loc.address && (this.data.location.address = loc.address);
       loc.location && (this.data.location.location.replace([...loc.location]));
-      loc.subway && (this.data.location.subway.replace([...loc.subway]));
-      loc.timing && (this.data.location.timing.replace([...loc.timing]));
+      loc.subway && loc.subway.length && (this.data.location.subway.replace([...loc.subway]));
+      loc.timing && loc.timing.length && (this.data.location.timing.replace([...loc.timing]));
     }
     // object images
     if (object.images)
@@ -190,7 +194,15 @@ class ManageItemStore {
 
   getUser = data => {
     if (typeof data === 'string') {
-      const user = store.users.find(it => (it.id || it._id) === data);
+      const query = it => (it.id || it._id) === data;
+      const user = store.users.find(query);
+      if (!user) {
+        return store.users.fetchUsers(() => {
+          const user = store.users.find(query);
+          this.data.user = user;
+        })
+      }
+
       return this.data.user = user;
     }
 

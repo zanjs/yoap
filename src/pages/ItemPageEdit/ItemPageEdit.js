@@ -16,10 +16,10 @@ import {
 import { randomNumber } from 'helpers'
 import s from './ItemPageEdit.sass'
 
-@inject(({filter, items, user, manage}) => ({
+@inject(({filter, items, user, users, manage}) => ({
   filter, manage,
   isFetching: user.isFetching || items.isFetching,
-  user, items
+  user, items, users
 })) @observer
 export default class ItemPageEdit extends Component {
   static contextTypes = {
@@ -98,9 +98,10 @@ export default class ItemPageEdit extends Component {
   // if not -> generate clean params
   componentWillMount() {
     const isExist = this.getData();
-
+    const { userId } = this.props.match.params;
+    console.log({userId})
     if (!isExist) {
-      this.props.manage.CreateNew();
+      this.props.manage.CreateNew(userId);
       this.setState({isEmpty: false})
     }
   }

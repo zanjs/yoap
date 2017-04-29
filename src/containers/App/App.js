@@ -74,13 +74,13 @@ export default class App extends Component {
             <Route path="/y" exact component={ItemsListPage}/>
             <Route path="/y/:link" exact component={ItemPage}/>
             <Route path="/you" exact component={UserPage}/>
-            <Route path="/user/:id" exact component={UsersPage}/>
             <Route path="/you/yours" exact component={UserItemsPage} />
             <Route path="/you/featured" exact component={UserFeaturedPage} />
-            <Route path="/them" exact component={ManageUsersPage} />
+            <Route path="/they" exact component={ManageUsersPage} />
+            <Route path="/they/:id" exact component={UsersPage}/>
             <Route path="/manage" exact component={ManageItemsPage}/>
             <Route path="/manage/:link" component={ItemPageEdit}/>
-            <Route path="/object/:userId/:link" component={ItemPageEdit}/>
+            <Route path="/they/manage/:userId/:link" component={ItemPageEdit}/>
           </PagesTransitions>
           {/*<PagesTransitions className={s.content}>*/}
             {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}

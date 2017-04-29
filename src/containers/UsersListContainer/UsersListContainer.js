@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import { UsersList } from 'components'
-import { shallowEqual } from 'helpers'
+import { shallowEqual, isEmpty } from 'helpers'
 
 const mapStateToProps = ({users}) => ({
   isFetching: users.isFetching,
@@ -15,6 +16,10 @@ const mapStateToProps = ({users}) => ({
 
 @inject(mapStateToProps) @observer
 export default class UsersListContainer extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
   state = {isEdit: false, user: {}};
   index;
 
@@ -97,6 +102,16 @@ export default class UsersListContainer extends Component {
 
     const { target } = e;
     const index = this.getIndex(target);
+
+    if (index == null)
+      return false;
+
+    if (isEmpty(this.props.dummies[index].id)) {
+      console.log('user was empty!');
+      return false;
+    }
+
+    this.context.router.history.push(`/they/${this.props.dummies[index].id}`);
 
     return false;
   }

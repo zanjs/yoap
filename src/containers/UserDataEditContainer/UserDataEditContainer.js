@@ -16,7 +16,7 @@ export default class UserDataEditContainer extends Component {
       const newValue = values[prop];
       const prevValue = prevValues[prop];
 
-      if (isEmpty(newValue))
+      if (isEmpty(newValue) || prop === 'id' || prop === '_id')
         return;
 
       if (newValue !== prevValue) {
@@ -27,17 +27,21 @@ export default class UserDataEditContainer extends Component {
     return newValues;
   }
   saveUserData = (__values) => {
-    const values = this.filterValues(this.props.user, __values);
+    const data = this.getData();
+    const values = this.filterValues(data, __values);
 
     if (!isEmpty(values)) {
-      console.log('to save', values);
+      const id = data._id || data.id;
       this.props.updateUserData(values, () => this.setState({
         success: true
-      }));
+      }), id);
     }
   };
+  getData = () => this.props.data || this.props.user;
   render() {
-    return <UserDataEdit onSubmit={this.saveUserData} {...this.props.user}/>
+    const data = this.getData();
+
+    return <UserDataEdit noEdit={this.props.noEdit} onSubmit={this.saveUserData} {...data}/>
   }
 }
 

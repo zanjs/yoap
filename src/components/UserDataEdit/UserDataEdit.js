@@ -162,15 +162,15 @@ export default class UserDataEdit extends Component {
       extendPasswordInput,
       Input,
       state: { edit },
-      props: { image, phone, email, isFetching, name, verified }
+      props: { image, phone, email, noEdit, isFetching, name, verified }
     } = this;
     return (
       <div className={classNames(s.wrapper, isFetching && s.fetch)}>
         <ItemPageInfoTitle title="Мой профиль">
-          <Content nooffsets gray onClick={!isFetching && submitHandler}
+          {!noEdit && <Content nooffsets gray onClick={!isFetching && submitHandler}
                    className={s.edit_btn}>
             {isFetching ? 'Синхронизируем' : edit ? 'Сохранить' : 'Изменить'}
-          </Content>
+          </Content>}
         </ItemPageInfoTitle>
 
         <FlexGrid justify="start" align="start" className={s.user}>

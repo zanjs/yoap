@@ -248,14 +248,14 @@ class UserStore {
       .then(this.responseHandler)
       .catch(this.errorHandler);
   };
-  updateUserData = (data, cb = noop) => {
+  updateUserData = (data, cb = noop, id) => {
     if (!this.id || isEmpty(data))
       return null;
 
     //extend(this, data);
     let newData = {
       data,
-      id: this.id
+      id: id || this.id
     };
 
     return serverUpdateUserData(newData)

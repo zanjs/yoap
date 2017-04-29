@@ -81,7 +81,7 @@ export default class NavContainer extends Component {
           content: 'Управление'
         },
         {
-          to: '/them',
+          to: '/they',
           content: 'Пользователи'
         },
         ...links
