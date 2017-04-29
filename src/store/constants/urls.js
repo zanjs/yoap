@@ -39,6 +39,9 @@ export const updateDummyUserApi = apiOrigin + api + updateDummyUser;
 // get users
 export const users = '/users';
 export const getUsers = apiOrigin + api + users;
+// delete user
+// export const users = '/users';
+// export const getUsers = apiOrigin + api + users;
 
 // items api
 export const items = '/items';

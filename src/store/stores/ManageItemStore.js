@@ -121,17 +121,13 @@ class ManageItemStore {
       this.data.views = object.views;
     // object user
     if (object._userData || object._creator)
-      this.data.user = object._creator;
+      this.getUser(object._userData || object._creator);
     // object params
     if (object.params) {
       this.data.params.replace(
         this.parseParams(object.params)
       )
     }
-    console.log(window.order = {
-      order: object.order,
-      object,
-    })
     if (object.order != null) {
       this.data.order = object.order;
     }
@@ -187,6 +183,15 @@ class ManageItemStore {
 
     store.items.createItem(data, cb);
   };
+
+  getUser = data => {
+    if (typeof data === 'string') {
+      const user = store.users.find(it => (it.id || it._id) === data);
+      return this.data.user = user;
+    }
+
+    return this.data.user = data;
+  }
 
   @computed get category() {
     const params = this.params;

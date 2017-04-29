@@ -47,7 +47,9 @@ export default class ItemPageInfoEdit extends Component {
       title, content, description,
       type, price, dewa, order
     } = this.props.data;
-    const { className, user, category } = this.props;
+    const { className, category } = this.props;
+    const user = this.props.data.user || this.props.user;
+
     return (
       <div className={classNames(s.wrapper, className)}>
         <ItemPageTitle edit id={order}
@@ -59,6 +61,7 @@ export default class ItemPageInfoEdit extends Component {
           {content || description}
         </ItemPageContent>
         <ItemPageUser phone={user.phone}
+                      id={this.props.data._id || this.props.data.id}
                       email={user.email}
                       link="/y" image={user.image}
                       isVerified={user.verified}>

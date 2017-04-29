@@ -74,6 +74,7 @@ class UsersStore {
       .then(cb)
       .catch(this.errorHandler)
   };
+  //@action deleteUser = id => {};
   @action fetchUsers = (cb = noop) => {
     this.isFetching = true;
     this.isError = false;
@@ -85,6 +86,16 @@ class UsersStore {
       .then(cb)
       .catch(this.errorHandler)
   };
+
+  find = cb => {
+    const dataCollection = this.users.find(cb);
+
+    if (cb) {
+      return dataCollection;
+    }
+
+    return this.dummies.find(cb);
+  }
 
   fromJSON = data => {
     if (data.length != null) {

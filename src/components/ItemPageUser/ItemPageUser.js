@@ -40,7 +40,7 @@ const ItemPageUser = props => {
           </FlexGrid>
 
           <div className={classNames(s.links, linksClassName)}>
-            {!phone && <UserPhoneContainer id={id} />}
+            {!phone && <UserPhoneContainer id={(id || _id)} />}
             {phone && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
                             href={`tel:${phone}`}>{phone}</Link>}
             {email && <Link tag={tag || 'a'} gray className={classNames(s.link, linkClassName)}
