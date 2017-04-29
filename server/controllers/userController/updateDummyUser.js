@@ -1,5 +1,6 @@
 import { User } from 'models'
-import { userValidation, filterUserFields } from 'utils'
+import { userValidation } from 'utils'
+import getUsers from './getUsers'
 
 export default (req, res) => {
   if (!req.user.isAdmin) {
@@ -33,15 +34,21 @@ export default (req, res) => {
 
     User
       .findByIdAndUpdate(id, { $set: data }, { new: true })
-      .then(__data => {
-        res.status(200).json({
-          success: true,
-          data: filterUserFields(__data)
+      .then(() => {
+        getUsers().then(__data => {
+          res.status(200).json({
+            success: true,
+            data: __data
+          })
+        }).catch(err => {
+          res.status(500).json({
+            message: err
+          })
         })
       }).catch(err => {
-      res.status(500).json({
-        message: err
-      })
+        res.status(500).json({
+          message: err
+        })
     })
   })
 }

@@ -2,8 +2,9 @@ import { User } from 'models'
 import { hashSync } from 'bcrypt'
 import {
   createId, userValidation,
-  sendSignUpEmail, createToken
+  sendSignUpEmail
 } from 'utils'
+import getUsers from './getUsers'
 
 export default (req, res) => {
   if (!req.user.isAdmin) {
@@ -45,27 +46,17 @@ export default (req, res) => {
       password_digest: hashSync(createId(), 10),
     });
 
-    user.save().then(data => {
-      const token = createToken(data);
-      return User.findByIdAndUpdate((data._id || data.id), {token})
-        .then(() => {
-          res.status(200).json({
-            success: true,
-            data: {token}
-          })
-          if (credentials.email) {
-            sendSignUpEmail({
-              id: verifyToken,
-              email: credentials.email,
-              name: credentials.name
-            })
-          }
+    user.save().then(() => {
+      return getUsers().then(__data => {
+        res.status(200).json({
+          success: true,
+          data: __data
         })
-        .catch(err => {
-          res.status(500).json({
-            message: err
-          })
+      }).catch(err => {
+        res.status(500).json({
+          message: err
         })
+      })
     }).catch(err => {
       res.status(500).json({
         message: err

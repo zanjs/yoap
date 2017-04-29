@@ -90,6 +90,7 @@ export default class UsersStore {
     if (data.length != null) {
       return this.fromJSONToCollection(data);
     }
+
     if (data.dummies) {
       this.fromJSONToCollection(data.dummies, 'dummies');
     }

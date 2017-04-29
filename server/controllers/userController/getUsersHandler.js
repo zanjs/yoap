@@ -1,5 +1,4 @@
-import { User } from 'models'
-import { filterUserFields } from 'utils'
+import getUsers from './getUsers'
 
 export default (req, res) => {
   if (!req.user.isAdmin) {
@@ -8,26 +7,10 @@ export default (req, res) => {
     })
   }
 
-  User.find({}).then(__users => {
-    let dummyUsers = [];
-    let users = [];
-    __users.forEach(item => {
-      if (item.isDummy) {
-        return dummyUsers.push(
-          filterUserFields(item)
-        );
-      }
-
-      return users.push(
-        filterUserFields(item)
-      );
-    })
-
+  getUsers().then(data => {
     return res.status(200).json({
-      data: {
-        dummies: dummyUsers,
-        users
-      }
+      success: true,
+      data
     })
   }).catch(err => {
     res.status(500).json({
