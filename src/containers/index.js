@@ -28,3 +28,4 @@ export UsersListContainer from './UsersListContainer/UsersListContainer'
 
 export MapContainer from './MapContainer/MapContainer'
 export ItemTileContainer from './ItemTileContainer/ItemTileContainer'
+export ItemPageRatingContainer from './ItemPageRatingContainer/ItemPageRatingContainer'

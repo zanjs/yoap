@@ -204,7 +204,9 @@ export default class ItemTileManage extends Component {
               <Content className={s.title__content}
                        size="5" gray regular>
                 <StarsRating itemClassName={s.star}
-                             tag="span" value={rating || 5}/>
+                             activeColor="#9b9b9b"
+                             inactiveColor="#e0e0e0"
+                             tag="span" value={rating || 0}/>
               </Content>
             </FlexGrid>
           </div>

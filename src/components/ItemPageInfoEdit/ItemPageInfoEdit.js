@@ -3,9 +3,12 @@ import { inject, observer } from 'mobx-react'
 import {
   ItemPageTitle, ItemPageContent,
   ItemPageUser, ItemPageType,
-  ItemPagePriceEdit, ItemPageRating
+  ItemPagePriceEdit
 } from 'components'
-import { StatusChangeContainer } from 'containers'
+import {
+  StatusChangeContainer,
+  ItemPageRatingContainer
+} from 'containers'
 import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
@@ -69,7 +72,7 @@ export default class ItemPageInfoEdit extends Component {
         </ItemPageUser>
         <ItemPageType id={type && type.id || type || ''} edit onChange={this.onTypeChange}/>
         <ItemPagePriceEdit data={price} dewa={dewa} onChange={this.onPriceChange} />
-        <ItemPageRating edit={user.isAdmin} data={category}/>
+        <ItemPageRatingContainer data={category}/>
       </div>
     )
   }

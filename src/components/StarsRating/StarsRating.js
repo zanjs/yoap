@@ -7,12 +7,12 @@ import starIcon from 'icons/ui/star.svg'
 
 export default class StarsRating extends Component {
   static defaultProps = {
-    value: 5
+    value: 0
   };
 
   dur = .3; ease = Cubic.easeOut;
-  activeColor = '#FF5388';
-  inactiveColor = '#dddddd';
+  activeColor = this.props.activeColor || '#FF5388';
+  inactiveColor = this.props.inactiveColor || '#dddddd';
   blocks = [];
   stars = [1,2,3,4,5];
   rating = 0;

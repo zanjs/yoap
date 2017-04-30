@@ -164,8 +164,8 @@ export default class Image extends Component {
     }
 
     const _src = typeof src === 'string' ? src
-      : src.src
-        ? src.src : this.getSrc(src);
+      : src.full
+        ? src.full : this.getSrc(src);
 
     if (isLoaded) {
       return this.renderImage({

@@ -4,14 +4,16 @@ import Helmet from 'react-helmet'
 import {
   ItemPageTitle, ItemPageContent,
   ItemPageUser, ItemPageType,
-  ItemPagePrice, ItemPageRating
+  ItemPagePrice
 } from 'components'
-import { ItemNumbersDataContainer } from 'containers'
+import {
+  ItemNumbersDataContainer, ItemPageRatingContainer
+} from 'containers'
 import { classNames } from 'helpers'
 import { statusTypes, GREEN_COLOR } from 'constants'
 import s from './ItemPageInfo.sass'
 
-const mapStateToProps = ({user, }) => ({
+const mapStateToProps = ({user}) => ({
   user
 })
 
@@ -59,7 +61,7 @@ export default class ItemPageInfo extends Component {
         <ItemPageType name={type.name}/>
         <ItemPagePrice data={price} dewa={dewa}/>
         <ItemPageContent>{description}</ItemPageContent>
-        <ItemPageRating data={category} value={rating} />
+        <ItemPageRatingContainer data={category} value={rating} />
       </div>
     )
   }

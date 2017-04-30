@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
-import { Link as RouterLink } from 'react-router-dom'
 import {
   Content, Image, Svg,
   FlexGrid, Container, StarsRating
@@ -102,6 +100,8 @@ export default class ItemTile extends Component {
                 <Content className={s.title__content}
                          size="5" gray regular>
                   <StarsRating itemClassName={s.star}
+                               activeColor="#9b9b9b"
+                               inactiveColor="#e0e0e0"
                                tag="span" value={rating || 0}/>
                 </Content>
               </FlexGrid>

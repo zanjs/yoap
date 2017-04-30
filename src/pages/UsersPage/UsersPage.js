@@ -25,7 +25,8 @@ const mapStateToProps = ({users, user, items}) => {
     findUser: find,
     isAuthorized: user.isAuthorized,
     isAdmin: user.isAdmin,
-    user: current
+    user: current,
+    isFetching: items.isFetching || user.isFetching || users.isFetching
   }
 }
 
