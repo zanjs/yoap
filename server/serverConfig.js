@@ -6,8 +6,8 @@ export const images = {
   previewSize: 150,
 };
 export const sortConfig = {editedAt: -1, rating: -1};
-export const domainName = 'http://localhost:5000';
-export const appDomainName = 'http://localhost:8080';
+export const domainName = 'http://yoap.co';
+export const appDomainName = domainName;
 export const verifyAccountLink = api + '/verify'
 
 export const routes = {

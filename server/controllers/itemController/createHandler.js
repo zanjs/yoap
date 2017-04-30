@@ -21,8 +21,8 @@ const Update = (req, res) => {
     images, objectId,
     status
   } = req.body;
-  const notValid = validate({objectId, req, res, _creator});
-  if (notValid) {
+  const isValid = validate({objectId, req, res, _creator});
+  if (!isValid) {
     return notAuthorized(req, res);
   }
 
