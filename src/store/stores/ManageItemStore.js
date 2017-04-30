@@ -1,4 +1,4 @@
-import { extendObservable, observable, computed, action } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import { extend, isEmpty, keys } from 'helpers'
 import { ItemModel } from 'models'
 import { store } from 'store'
@@ -7,12 +7,10 @@ import { objectTypes } from 'constants'
 
 
 class ManageItemStore {
-  constructor = () => {
-    extendObservable(this, {
-      errors: {},
-      data: {}
-    });
+  @observable errors = {};
+  @observable data = {};
 
+  constructor() {
     this.CreateNew();
   };
 
