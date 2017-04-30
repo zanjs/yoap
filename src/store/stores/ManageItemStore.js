@@ -14,7 +14,7 @@ class ManageItemStore {
     this.CreateNew();
   };
 
-  CreateNew = (userId) => {
+  setEmptyData = () => {
     this.data = {
       @observable id: '',
       @observable title: '',
@@ -53,6 +53,9 @@ class ManageItemStore {
         gallery: []
       },
     };
+  }
+  CreateNew = (userId) => {
+    this.setEmptyData();
 
     if (!isEmpty(userId)) {
       this.getUser(userId);
@@ -62,8 +65,9 @@ class ManageItemStore {
     const object = __object.toJSON
       ? __object.toJSON() : __object;
 
-    if (isEmpty(this.data))
-      this.CreateNew();
+    this.setEmptyData();
+    if (isEmpty(object))
+      return null;
 
     // object title
     if (object.title)
@@ -182,12 +186,26 @@ class ManageItemStore {
       data._creator = (data.user._id || data.user.id || data.user);
     }
 
+    if (data.type && data.type.id) {
+      data.type = data.type.id;
+    }
+    if (data.category && data.category.id) {
+      data.category = data.category.id;
+    }
+    if (data.status && data.status.id) {
+      data.status = data.status.id;
+    }
+
     data.images = {
       thumbnail: data.images[0],
       gallery: data.images.filter(it => !!it)
     };
 
     data.params = this.params;
+
+    if (data.id || data._id) {
+      return store.items.updateItem((data.id || data._id), data, cb);
+    }
 
     store.items.createItem(data, cb);
   };

@@ -31,18 +31,20 @@ const mapStateToProps = ({users, user, items}) => {
 
 @inject(mapStateToProps) @observer
 export default class UsersPage extends Component {
+  setUser = id => {
+    const user = this.props.findUser(it => (it.id || it._id) === id);
+    this.props.updateCurrent(user);
+    return user;
+  };
   update = () => {
     const { id } = this.props.match.params;
     if (isEmpty(id))
       return;
 
-    const user = this.props.findUser(it => (it.id || it._id) === id);
-    console.log("FOUND USER", user);
-    user && this.props.updateCurrent(user);
-
+    this.setUser(id);
     this.props.fetchUsers(() => {
-      const user = this.props.findUser(it => (it.id || it._id) === id);
-      console.log("FOUND USER AFTER FETCH", user);
+      const user = this.setUser(id);
+      console.log(user);
       this.props.updateCurrent(user);
       this.props.fetchUserItems(user.objects);
       this.props.fetchUserFeatured(user.featured);

@@ -178,7 +178,7 @@ class ItemsStore {
   }
   fetchUserItems = (ids, cb = noop) => {
     if (!ids || !ids.length)
-      return;
+      return this.users.replace([]);
 
     this.isFetching = true;
     getItems({ids, noStatus: true})
@@ -190,7 +190,7 @@ class ItemsStore {
   };
   fetchUserFeatured = (ids, cb = noop) => {
     if (!ids || !ids.length)
-      return;
+      return this.featured.replace([])
 
     this.isFetching = true;
     getItems({ids})
@@ -206,6 +206,7 @@ class ItemsStore {
       .newModel(null, data)
       .toJSON();
 
+    console.log('CREATE ITEM');
     saveItem(item)
       .then(this.checkStatus)
       .then(this.parseJSON)
@@ -215,6 +216,7 @@ class ItemsStore {
   };
   updateItem = (id, update, cb = noop) => {
     this.isFetching = true;
+    console.log('UPDATE ITEM');
 
     updateItemApi({id, update})
       .then(this.checkStatus)

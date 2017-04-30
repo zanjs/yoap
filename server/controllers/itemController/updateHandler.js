@@ -1,5 +1,5 @@
 import { Item } from 'models'
-import { userModeratorValidation } from 'utils'
+import { userModeratorValidation, filterObject } from 'utils'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
 
 export default (req, res) => {
@@ -12,6 +12,8 @@ export default (req, res) => {
   const objectId = id || _id;
   const isAdmin = req.user.isAdmin;
 
+  // filters
+  update = filterObject(update);
   if (!userModeratorValidation({objectId, _creator, req, res})) {
     return null;
   }
@@ -57,6 +59,9 @@ export default (req, res) => {
   if (update.status && update.status === statusTypes.types[1].id) {
     update.justCreated = false;
   }
+
+  delete update.id;
+  delete update._id;
 
   console.log('status to update', update.status, objectId);
 

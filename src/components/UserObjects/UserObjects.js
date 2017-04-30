@@ -43,7 +43,7 @@ const UserFeatured = ({data, notAllowed, newObject}) => {
         </RouterLink>}
 
         {!notAllowed && !isEmpty && <RouterLink to={newObject || "/manage/create"}>
-          <Svg className={classNames(s.add)}
+          <Svg className={classNames(s.add, s.add_last)}
                src={addIcon} />
         </RouterLink>}
       </FlexGrid>

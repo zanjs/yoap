@@ -21,10 +21,6 @@ const Update = (req, res) => {
     images, objectId,
     status
   } = req.body;
-  const isValid = validate({objectId, req, res, _creator});
-  if (!isValid) {
-    return notAuthorized(req, res);
-  }
 
   let toUpdate = filterObject({
     title, description,
@@ -108,11 +104,13 @@ export default (req, res) => {
 
   const objectId = (id || _id);
   req.body.objectId = objectId;
-  const notValid = validate({objectId, req, res, _creator});
-  if (notValid) {
+
+  const isValid = validate({objectId, req, res, _creator});
+  if (!isValid) {
     return notAuthorized(req, res);
   }
 
+  // just for security reasons
   if (objectId) {
     return Update(req, res);
   }
