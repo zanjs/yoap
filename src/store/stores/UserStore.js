@@ -199,7 +199,7 @@ class UserStore {
     this.isError = false;
     const { email, phone, password } = this.toJSON();
     const data = {
-      ...(email ? {email} : {phone}),
+      ...(this.loginByPhone && !isEmpty(phone) ? {phone} : {email}),
       password
     };
 
@@ -313,8 +313,10 @@ class UserStore {
       const isPhone = !isNaN(__phone);
 
       if (!isPhone) {
+        this.loginByPhone = true;
         values.email = identifier;
       } else {
+        this.loginByPhone = true;
         values.phone = identifier;
       }
     }

@@ -1,15 +1,18 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Link as RouterLink } from 'react-router-dom'
-import { ItemPageInfoTitle, LinkIcon, Svg, FlexGrid } from 'components'
+import { ItemPageInfoTitle, LinkIcon, Svg, Content, FlexGrid } from 'components'
 import { ItemTileContainer } from 'containers'
 import { classNames } from 'helpers'
 import s from './UserObjects.sass'
 
 import addIcon from 'icons/ui/add.svg'
+import notAvailableIcon from 'icons/ui/not_available.svg'
 
-const UserFeatured = ({data, newObject}) => {
-  const object = data && data.length && data[0] || null;
+const UserFeatured = ({data, notAllowed, newObject}) => {
+  const isEmpty = !data || !data.length || !data[0];
+  const object =  !isEmpty && data[0];
+
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title="Мои объявления">
@@ -19,11 +22,30 @@ const UserFeatured = ({data, newObject}) => {
       </ItemPageInfoTitle>
       <FlexGrid className={s.items__wrapper} justify="start"
                 align="start" wrap="false">
-        {object && <ItemTileContainer edit data={object}/>}
-        <RouterLink to={newObject || "/manage/create"}>
-          <Svg className={classNames(s.add, !!object && s.add_last)}
+        {!isEmpty && <ItemTileContainer edit data={object}/>}
+        {notAllowed &&
+        <div className={classNames(s.icon__wrapper, s.icon__wrapper_full)}>
+          <Svg className={classNames(s.icon, s.icon_null)}
+               src={notAvailableIcon} />
+          <Content regular nooffsets gray className={s.text}>
+            Для добавления необходимо <br/>подтвердить аккаунт по e-mail.
+          </Content>
+        </div>}
+
+        {!notAllowed && isEmpty &&
+        <RouterLink to={newObject || "/manage/create"}
+                    className={classNames(s.icon__wrapper, s.icon__wrapper_full)}>
+          <Svg className={classNames(s.add, s.icon_null)}
                src={addIcon} />
-        </RouterLink>
+          <Content regular nooffsets gray className={s.text}>
+            Добавьте первое объявление
+          </Content>
+        </RouterLink>}
+
+        {!notAllowed && !isEmpty && <RouterLink to={newObject || "/manage/create"}>
+          <Svg className={classNames(s.add)}
+               src={addIcon} />
+        </RouterLink>}
       </FlexGrid>
     </div>
   )

@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { observer, inject } from "mobx-react";
-import { classNames, getDeviceBreakpoint, getPrevDeviceBreakpoint } from 'helpers'
+import { inject, observer } from 'mobx-react'
+import {
+  classNames, getDeviceBreakpoint,
+  getPrevDeviceBreakpoint, shallowEqual
+} from 'helpers'
 import { image as config } from 'config'
+import { apiOrigin as hostname } from 'constants/urls'
 import s from './Image.sass'
 
 const mapStateToProps = ({device: {width}}) => ({
@@ -41,7 +45,7 @@ export default class Image extends Component {
       return sizes;
 
     if (Object.keys(sizes).length <= 2) {
-      return sizes.full;
+      return sizes.src;
     }
 
     // get current device params
@@ -63,10 +67,26 @@ export default class Image extends Component {
     this.isMount = false;
   }
 
+  componentWillReceiveProps({src, preview}) {
+    if (preview !== preview || !shallowEqual(src, this.props.src)) {
+      return this.setState({isLoaded: false, mainImageLoaded: false});
+    }
+  }
+
   componentDidUpdate() {
     if (!this.isFaded && this.state.mainImageLoaded) {
       this.showImage();
     }
+
+    this.addEventListener();
+  }
+
+  componentDidMount() {
+    this.addEventListener();
+  }
+
+  addEventListener = () => {
+    this.image && this.image.addEventListener('load', this.onImageLoad);
   }
 
   showImage = () => {
@@ -80,14 +100,17 @@ export default class Image extends Component {
     })
   };
   fadeInImage = onComplete => {
-    if (!this.preview || !this.image)
-      return;
+    const preview = this.preview || (this.preview = document.querySelector(`.${s.preview}`))
+    const image = this.image || (this.getRef(document.querySelector(`.${s.img}`)));
+
+    if (!preview || !image)
+      return null;
 
     const { dur, ease } = this;
-    TweenMax.set(this.preview, {
+    TweenMax.set(preview, {
       display: 'none'
     });
-    TweenMax.fromTo(this.image, dur, {
+    TweenMax.fromTo(image, dur, {
       opacity: 0,
       display: 'block',
     }, {
@@ -98,14 +121,24 @@ export default class Image extends Component {
   };
 
   renderImage = props => (
-    <img {...props}/>
+    <img {...props} src={`${hostname}${props.src}`}/>
   );
 
   getPreviewRef = b => this.preview = b;
-  getImageRef = b => this.image = b;
+  getRef = b => {
+    this.image = b;
+    if (this.props.getRef) {
+      this.props.getRef(b);
+    }
+
+    return b;
+  }
 
   onImageLoad = () => {
-    this.isMount && this.setState({mainImageLoaded: true});
+    if (this.isMount && !this.state.mainImageLoaded) {
+      this.isFaded = false;
+      this.setState({mainImageLoaded: true});
+    }
   }
 
   imageStyles = {display: 'none'}
@@ -113,9 +146,9 @@ export default class Image extends Component {
   render() {
     const {
       className, withLoading,
-      preview,
-      src, getRef, alt
+      preview, src, alt, style
     } = this.props;
+    const { getRef } = this;
     const { isLoaded } = this.state;
     const previewSrc =
       preview || src && src.preview || withLoading;
@@ -125,28 +158,30 @@ export default class Image extends Component {
 
     if (!previewSrc) {
       return this.renderImage({
-        src, className, ref: getRef, alt
+        src, className, ref: getRef, alt,
+        style
       })
     }
 
     const _src = typeof src === 'string' ? src
-      : src.full
-        ? src.full : this.getSrc(src);
+      : src.src
+        ? src.src : this.getSrc(src);
 
     if (isLoaded) {
       return this.renderImage({
-        src: _src, className, ref: getRef, alt
+        src: _src, className, ref: getRef, alt,
+        style
       })
     }
 
     return (
       <figure className={s.wrapper}>
         {!isLoaded && <img className={classNames(s.preview, className)}
-                           ref={this.getPreviewRef}
-                           src={previewSrc} alt=""/>}
+                           ref={this.getPreviewRef} style={style}
+                           src={`${hostname}${previewSrc}`}/>}
         <img className={classNames(s.img, className)}
-             src={_src} style={this.imageStyles} ref={this.getImageRef}
-             onLoad={this.onImageLoad} onError={(e) => console.log('load image error', e)}/>
+             src={`${hostname}${_src}`} style={this.imageStyles} ref={getRef}
+             onLoad={this.onImageLoad}/>
       </figure>
     )
   }

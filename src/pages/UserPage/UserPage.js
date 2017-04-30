@@ -26,6 +26,7 @@ const mapStateToProps = ({
   isAuthorized: user.isAuthorized,
   _objects: user._objects,
   _featured: user._featured,
+  verified: user.verified,
   update: user.update,
   saveValues: user.saveValues,
   clearRedirect: () => user.redirectWhenLogin(null),
@@ -113,7 +114,7 @@ export default class UserPage extends Component {
   render() {
     const {
       data, featured, isFetching,
-      isAuthorized
+      isAuthorized, verified
     } = this.props;
 
     if (!isAuthorized) {
@@ -135,7 +136,7 @@ export default class UserPage extends Component {
             </div>
 
             <div className={s.data}>
-              <UserObjects data={data}/>
+              <UserObjects notAllowed={!verified} data={data}/>
               <UserFeatured data={featured}/>
             </div>
 

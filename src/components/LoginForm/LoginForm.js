@@ -76,7 +76,6 @@ export default class LoginForm extends Component {
   };
   saveValues = (values) => {
     const {normal, errors, success, ...rest} = values;
-    console.log('will save to the store', rest);
     this.props.saveValues(rest);
   };
 

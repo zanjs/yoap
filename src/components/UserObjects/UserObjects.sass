@@ -1,11 +1,27 @@
 @import ../../theme/index
 
-.add
+$offsetTop: 130px
+
+.icon
   @include size(37px)
   fill: #9c9c9c
-  margin: 130px 0
-  @include opacityAnim(.6)
-  cursor: pointer
+  margin: $offsetTop 0
+  &__wrapper
+    text-align: center
+    &_full
+      width: 100%
   &_last
     margin-left: 83px
+  &_null
+    margin-bottom: 20px
+    margin-left: auto
+    margin-right: auto
 
+.add
+  @extend .icon
+  @include opacityAnim(.6)
+  cursor: pointer
+
+.text
+  width: 100%
+  margin-bottom: $offsetTop
