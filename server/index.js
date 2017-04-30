@@ -11,7 +11,7 @@ app.use(express.static(__DIST));
 
 
 app.get('*', (req, res) => {
-  res.sendFile(`${__DIST}/index.html`)
+  res.sendFile(`${__DIST}/app/index.html`)
 });
 
 const server = createServer(app);

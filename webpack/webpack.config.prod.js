@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const __APP = resolve(__dirname, '../src');
-const __DIST = resolve(__dirname, '../dist');
+const __DIST = resolve(__dirname, '../dist/app');
 const getAbsolutePath = (path) => __APP + '/' + path;
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
   output: {
     path: __DIST,
     filename: '[name].[chunkhash].js',
-    publicPath: '/',
+    publicPath: '/app/',
   },
   module: {
     rules: [

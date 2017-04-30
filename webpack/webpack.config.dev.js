@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const __APP = resolve(__dirname, '../src');
-const __DIST = resolve(__dirname, '../dist');
+const __DIST = resolve(__dirname, '../dist/app');
 
 const getAbsolutePath = (path) => __APP + '/' + path;
 
