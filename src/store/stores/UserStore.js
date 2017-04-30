@@ -212,24 +212,29 @@ class UserStore {
   };
   logout = (cb = noop) => {
     this.isLogout = true;
-    const deleteData = () => extend(this, {
-      name: '',
-      identifier: '',
-      password: '',
-      phone: '',
-      id: '',
-      isAdmin: '',
-      verified: false,
-      banned: this.banned,
-      createdAt: '',
-      isDeleted: '',
-      lastVisit: '',
-      visits: '',
-      image: '',
-      objects: [],
-      featured: [],
-      token: null
-    });
+    const deleteData = () => {
+      extend(this, {
+        name: '',
+        identifier: '',
+        password: '',
+        phone: '',
+        id: '',
+        isAdmin: '',
+        verified: false,
+        banned: this.banned,
+        createdAt: '',
+        isDeleted: '',
+        lastVisit: '',
+        visits: '',
+        image: '',
+        objects: [],
+        featured: [],
+        token: null
+      });
+
+      store.items.users.replace([]);
+      store.items.featured.replace([]);
+    };
 
     serverLogout()
       .then(this.checkStatus)

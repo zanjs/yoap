@@ -5,6 +5,7 @@ import s from './UserSubscription.sass'
 
 
 const UserSubscription = () => {
+  return null;
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title="Подписка" />
