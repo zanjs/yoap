@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   Container, DashboardNotification
 } from 'components'
 import s from './Dashboard.sass'
 
-
+@inject('dash') @observer
 export default class Dashboard extends Component {
   state = {color: '#448aff', isEmpty: true};
 
@@ -16,6 +17,9 @@ export default class Dashboard extends Component {
     this.setState({
       isEmpty: cond
     })
+  }
+  componentWillMount() {
+    this.props.dash.update();
   }
 
   render() {

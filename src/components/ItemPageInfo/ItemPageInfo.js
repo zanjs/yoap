@@ -55,7 +55,6 @@ export default class ItemPageInfo extends Component {
         {user && <ItemPageUser
                       id={objectId}
                       email={user.email}
-                      link={user.link || '/y'}
                       isVerified={user.verified}>
           {user.name}
         </ItemPageUser>}

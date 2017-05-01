@@ -17,11 +17,6 @@ class DashboardStore {
   @observable notifications = [];
   @observable tips = [];
 
-  constructor() {
-    this.subscribeToUserStore();
-    this.subscribeToUserObjects();
-  }
-
   bannedSlide = () => ({
     color: '#37474f',
     title: (
@@ -154,9 +149,11 @@ class DashboardStore {
   }
 
   onUserChange = (user, objects) => {
+    this.notifications.replace([]);
+
+    const { addNotification } = this;
     const hasObjects = !!objects && !!objects.length || false;
     const statuses = statusTypes.types;
-    const { addNotification } = this;
     if (user.banned) {
       return addNotification(
         this.bannedSlide(user)
@@ -164,11 +161,18 @@ class DashboardStore {
     }
 
     // if user verified and did not create an objects
+    console.log('is user verified', user.verified && !hasObjects, {
+      verified: user.verified,
+      hasObjects
+    })
     if (user.verified && !hasObjects) {
       addNotification(this.verifiedSlide(user))
     }
 
     // if user not verified
+    console.log('is user not verified', !user.verified, {
+      verified: user.verified
+    })
     if (!user.verified) {
       addNotification(this.notVerifiedSlide(user))
     }
@@ -185,7 +189,9 @@ class DashboardStore {
 
     if (hasObjects) {
       const onModeration = objects.find(
-        item => !item.justCreated && item.status === types[0].id
+        item => !item.justCreated && item.status.id
+          ? item.status.id === statuses[0].id
+          : item.status === statuses[0].id
       );
       if (onModeration) {
         addNotification(this.onModerationSlide(onModeration))
@@ -202,13 +208,20 @@ class DashboardStore {
     }
   };
 
+  update = (user, items) => {
+    this.onUserChange(user || store.user, items || store.items.users);
+
+    this.subscribeToUserStore();
+    this.subscribeToUserObjects();
+  }
+
   subscribeToUserStore = () => reaction(
-    () => store.user,
+    () => store && store.user,
     user => this.onUserChange(user)
   )
   subscribeToUserObjects = () => reaction(
-    () => store.items.users,
-    data => this.onUserChange(store.user, store.items.users)
+    () => store && store.items.users,
+    data => this.onUserChange(store.user, data)
   )
 }
 

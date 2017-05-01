@@ -22,9 +22,9 @@ const ItemPageUser = props => {
   return (
     <div className={classNames(s.wrapper, className)}>
       {!notitle && <ItemPageInfoTitle title={title}>
-        <LinkIcon tag={tag} gray to={link}>
+        {link && <LinkIcon tag={tag} gray to={link}>
           Профиль
-        </LinkIcon>
+        </LinkIcon>}
       </ItemPageInfoTitle>}
       <FlexGrid justify="flex-start" align="start">
         <div className={classNames(s.image, imageClassName)}>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import {
   Title, Button, FlexGrid
 } from 'components'
 import { shallowEqual, isEmpty as isEmptyData } from 'helpers'
 import s from './NotificationSlider.sass'
 
-const Notification = ({children, onClick, getRef, title, icon, buttons}) => (
+const Notification = observer(({children, onClick, getRef, title, icon, buttons}) => (
   <div ref={getRef} onClick={onClick}
        className={s.wrapper}>
     {title && <FlexGrid justify="space-between" align="center"
@@ -25,8 +26,9 @@ const Notification = ({children, onClick, getRef, title, icon, buttons}) => (
       ))}
     </FlexGrid>}
   </div>
-);
+))
 
+@observer
 export default class NotificationSlider extends Component {
   dur = .35;
   easeInOut = Power0.easeNone;
