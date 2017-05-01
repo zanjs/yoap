@@ -121,7 +121,7 @@ export default class Image extends Component {
   };
 
   renderImage = props => (
-    <img {...props} src={`${hostname}${props.src}`}/>
+    <img {...props} src={this.getHostNameSrc(props.src)}/>
   );
 
   getPreviewRef = b => this.preview = b;
@@ -142,6 +142,13 @@ export default class Image extends Component {
   }
 
   imageStyles = {display: 'none'}
+  getHostNameSrc = src => {
+    if (src.indexOf('blob') === -1) {
+      return `${hostname}${src}`
+    }
+
+    return src;
+  }
 
   render() {
     const {
@@ -158,7 +165,7 @@ export default class Image extends Component {
 
     if (!previewSrc) {
       return this.renderImage({
-        src, className, ref: getRef, alt,
+        src: this.getHostNameSrc(src), className, ref: getRef, alt,
         style
       })
     }
@@ -178,9 +185,9 @@ export default class Image extends Component {
       <figure className={s.wrapper}>
         {!isLoaded && <img className={classNames(s.preview, className)}
                            ref={this.getPreviewRef} style={style}
-                           src={`${hostname}${previewSrc}`}/>}
+                           src={this.getHostNameSrc(_src)}/>}
         <img className={classNames(s.img, className)}
-             src={`${hostname}${_src}`} style={this.imageStyles} ref={getRef}
+             src={this.getHostNameSrc(_src)} style={this.imageStyles} ref={getRef}
              onLoad={this.onImageLoad}/>
       </figure>
     )

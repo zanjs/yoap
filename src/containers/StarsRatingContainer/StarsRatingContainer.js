@@ -2,28 +2,36 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { StarsRating } from 'components'
 
-const mapStateToProps = ({manage: {data, changeData}, items: {updateItem}}) => ({
+const mapStateToProps = ({manage: {data, changeData}, user: {isAdmin}, items: {updateItem, current}}) => ({
   value: data.value || 0,
-  id: data.id,
+  id: data.id || data._id || current.id || current._id,
   updateItem,
-  changeData
+  changeData,
+  isAdmin
 })
 
 @inject(mapStateToProps) @observer
 export default class StarsRatingContainer extends Component {
   state = { value: this.props.value };
   onChange = __value => {
+    if (!this.props.isAdmin) {
+      return
+    }
+
     const value = parseInt(__value, 10);
-    console.log(value);
+
     if (this.props.id) {
       this.props.updateItem(this.props.id, {
         rating: value
       })
     };
+
     this.setState({value});
-    this.props.changeData({
-      rating: value
-    })
+    if (this.props.changeData) {
+      this.props.changeData({
+        rating: value
+      })
+    }
   }
   render() {
     const {

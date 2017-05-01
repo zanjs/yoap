@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { ItemPageParameters, Container } from 'components'
 
-
-@inject(({filter}) => ({
+const mapStateToProps = ({filter}) => ({
   parseTypes: filter.getActiveParametersFromData
-}))
+});
+
+@inject(mapStateToProps) @observer
 export default class ItemPageParametersContainer extends Component {
   getRef = b => this.wrapper = b;
 

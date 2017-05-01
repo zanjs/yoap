@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import { ProFilter } from 'components'
 import { ProFilterContainer } from 'containers'
 import s from './ItemPageParameters.sass'
 
-
+@observer
 export default class ItemPageParameters extends Component {
   render() {
     const {

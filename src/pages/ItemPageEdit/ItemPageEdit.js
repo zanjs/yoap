@@ -32,7 +32,7 @@ export default class ItemPageEdit extends Component {
     isEmpty: true
   };
   redirect = () => {
-    return this.context.router.history.push('/');
+    return this.context.router.history.push('/login');
   }
   checkRules = (link, id, props = this.props) => {
     if (!props.user.isAuthorized) {

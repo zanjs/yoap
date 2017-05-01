@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   ItemPageInfoScroller,
   ItemPageLocation
@@ -6,7 +7,11 @@ import {
 import { MapContainer } from 'containers'
 import { isEmpty } from 'helpers'
 
+const mapStateToProps = ({items: {current}}) => ({
+  data: current
+})
 
+@inject(mapStateToProps) @observer
 export default class ItemPageLocationContainer extends Component {
   state = {
     address: null,

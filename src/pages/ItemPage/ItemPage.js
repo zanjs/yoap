@@ -16,8 +16,7 @@ const mapStateToProps = ({items, user}) => ({
 @inject(mapStateToProps) @observer
 export default class ItemPage extends Component {
   state = {
-    shouldUpdate: 0,
-    data: {}
+    shouldUpdate: 0
   };
 
   onChange = () => {
@@ -43,7 +42,8 @@ export default class ItemPage extends Component {
       return;
 
     this.props.items.findByLink(params.link, 'data', data => {
-      this.setState({data}, this.updateViews)
+      this.props.items.setCurrent(data);
+      this.updateViews();
     });
   };
 
@@ -53,35 +53,36 @@ export default class ItemPage extends Component {
   }
   componentWillUnmount() {
     normalizeScroll(false);
+    this.props.items.setCurrent({});
   }
 
   updateViews = () => {
-    const { id } = this.state.data;
+    const { id } = this.props.items.current;
     if (isEmpty(id))
       return null;
 
     this.props.items.updateItemViews(id, () => {
-      const views = this.state.data.views;
-      let data = {...this.state.data};
-      data.views = views + 1;
-
-      this.setState(data);
+      const views = this.props.items.current.views;
+      this.props.items.changeCurrent({
+        views: views + 1
+      });
     });
   }
 
   render() {
     const {
-      state: {shouldUpdate, data},
+      state: {shouldUpdate},
+      props: {items: {current}},
       onChange
     } = this;
 
-    if (isEmpty(data)) {
+    if (isEmpty(current)) {
       return <div className={s.empty}>
         <LoadingAnimation />
       </div>
     }
 
-    const { types, size, floors } = data;
+    const { types, size, floors } = current;
 
     const _size = {
       ...size,
@@ -91,9 +92,9 @@ export default class ItemPage extends Component {
     return (
       <div>
         {/* Object title, des, images, price, rating, etc. */}
-        <ItemPageInfoContainer data={data} shouldUpdate={shouldUpdate}/>
+        <ItemPageInfoContainer shouldUpdate={shouldUpdate}/>
         {/* Object location */}
-        <ItemPageLocationContainer onChange={onChange} data={data} shouldUpdate={shouldUpdate}/>
+        <ItemPageLocationContainer onChange={onChange} shouldUpdate={shouldUpdate}/>
         {/* Object params */}
         <ItemPageParametersContainer onChange={onChange} data={types} size={_size} />
       </div>

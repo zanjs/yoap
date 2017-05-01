@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   ItemPageInfoScroller,
   SliderImages,
@@ -6,7 +7,11 @@ import {
 } from 'components'
 import s from './ItemPageInfoContainer.sass'
 
+const mapStateToProps = ({items: {current}}) => ({
+  data: current
+})
 
+@inject(mapStateToProps) @observer
 export default class ItemPageInfoContainer extends Component {
   render() {
     const { shouldUpdate, data } = this.props;

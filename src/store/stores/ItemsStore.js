@@ -2,7 +2,7 @@ import {
   observable, computed, reaction,
   action, observer, autorun
 } from 'mobx'
-import { localStore, noop, isEmpty } from 'helpers'
+import { localStore, noop, isEmpty, extend } from 'helpers'
 import { store as config, statusTypes } from 'constants'
 import {
   getItems, saveItem, getItem,
@@ -16,6 +16,7 @@ import { store } from 'store'
 
 
 class ItemsStore {
+  @observable current = {};
   @observable data = [];
   @observable manage = [];
   @observable users = [];
@@ -37,6 +38,13 @@ class ItemsStore {
     this.fetchItems();
     //
     // this.subscribeToLocalStorage();
+  }
+
+  setCurrent = data => {
+    this.current = data;
+  };
+  changeCurrent = data => {
+    return extend(this.current, data);
   }
 
   checkStatus = (res) => {

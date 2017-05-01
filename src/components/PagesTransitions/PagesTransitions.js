@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Switch } from 'react-router-dom'
 import s from './PagesTransitions.sass'
 
 
@@ -42,20 +42,20 @@ export default class PagesTransitions extends Component {
   }
 
   animation() {
-    //if (!this.wrapper) return;
-    //const { dur, ease } = this;
-
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
 
-    // TweenMax.fromTo(this.wrapper, dur, {
-    //   opacity: 0,
-    //   //y: 200
-    // }, {
-    //   opacity: 1,
-    //   //y: 0,
-    //   ease
-    // })
+    if (!this.wrapper) return;
+    const { dur, ease } = this;
+
+    TweenMax.fromTo(this.wrapper, dur, {
+      opacity: 0,
+      //y: 200
+    }, {
+      opacity: 1,
+      //y: 0,
+      ease
+    })
   }
 
   getRef = b => {
@@ -65,7 +65,7 @@ export default class PagesTransitions extends Component {
   render() {
     return (
       <div className={s.wrapper} ref={this.getRef}>
-        {this.props.children}
+        <Switch>{this.props.children}</Switch>
       </div>
     )
   }

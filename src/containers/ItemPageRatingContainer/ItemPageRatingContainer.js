@@ -9,8 +9,8 @@ const mapStateToProps = ({user: {isAdmin}}) => ({
 @inject(mapStateToProps) @observer
 export default class ItemPageRatingContainer extends Component {
   render() {
-    const { isAdmin, data, value } = this.props;
-    return <ItemPageRating edit={isAdmin} value={value} data={data}/>
+    const { isAdmin, data, value, id } = this.props;
+    return <ItemPageRating id={id} edit={isAdmin} value={value} data={data}/>
   }
 }
 

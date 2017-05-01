@@ -1,4 +1,5 @@
 import React  from 'react'
+import { observer } from 'mobx-react'
 import { FlexGrid, Svg, Content } from 'components'
 import { classNames, getDateDifference } from 'helpers'
 import s from './ItemNumbersData.sass'
@@ -30,5 +31,5 @@ const ItemNumbersData = ({date, views, featured, isFeaturedActive, onFeaturedCli
   </FlexGrid>
 )
 
-export default ItemNumbersData;
+export default observer(ItemNumbersData);
 

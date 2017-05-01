@@ -13,8 +13,8 @@ import { classNames } from 'helpers'
 import { statusTypes, GREEN_COLOR } from 'constants'
 import s from './ItemPageInfo.sass'
 
-const mapStateToProps = ({user}) => ({
-  user
+const mapStateToProps = ({user, items: {current}}) => ({
+  user, data: current
 })
 
 @inject(mapStateToProps) @observer
@@ -38,11 +38,12 @@ export default class ItemPageInfo extends Component {
       title, description,
       price, dewa, rating,
       category, type,
-      id, order
+      id, _id, order
     } = this.props.data;
 
+    const objectId = _id || id;
     const user = this.props.data.user || this.props.data._creator;
-    const status = this.getStatus(id);
+    const status = this.getStatus(objectId);
 
     return (
       <div className={classNames(s.wrapper, this.props.className)}>
@@ -52,7 +53,7 @@ export default class ItemPageInfo extends Component {
         <ItemNumbersDataContainer data={this.props.data}/>
         <ItemPageTitle id={order} status={status}>{title}</ItemPageTitle>
         {user && <ItemPageUser
-                      id={id}
+                      id={objectId}
                       email={user.email}
                       link={user.link || '/y'}
                       isVerified={user.verified}>
