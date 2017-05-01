@@ -53,7 +53,7 @@ export default class ItemPageEdit extends Component {
 
     return false;
   }
-  getData = () => {
+  getData = (cb) => {
     const { link } = this.props.match.params;
     const isBlank = this.isBlank(link);
     const isAuthorized = this.checkRules(!isBlank && link);
@@ -99,7 +99,7 @@ export default class ItemPageEdit extends Component {
   componentWillMount() {
     const isExist = this.getData();
     const { userId } = this.props.match.params;
-    console.log({userId})
+    console.log('isExist', isExist);
     if (!isExist) {
       this.props.manage.CreateNew(userId);
       this.setState({isEmpty: false})

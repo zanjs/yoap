@@ -2,32 +2,19 @@ import React, { Component } from 'react'
 import {
   UserCustomAddressItem,
   ItemPageInfoTitle,
-  ItemPageInfoEditIcon,
-  FlexGrid
+  FlexGrid, Content
 } from 'components'
 import s from './UserCustomAddress.sass'
 
-const data = [
-  {
-    title: 'Работа',
-    address: 'Санкт-Петербург, Лиговский пр. 76а, 190000'
-  },
-  {
-    title: 'Учеба',
-    address: 'Санкт-Петербург, ул. Большая морская, 67, 190000'
-  }
-];
-
-const UserCustomAddress = () => {
-  const { wrapperClassName } = ItemPageInfoEditIcon;
+const UserCustomAddress = ({data}) => {
   return (
     <div className={s.wrapper}>
-      <ItemPageInfoTitle className={wrapperClassName} title="Мои адреса">
-        <ItemPageInfoEditIcon />
+      <ItemPageInfoTitle title="Мои адреса">
+        <Content nooffsets gray>Изменить</Content>
       </ItemPageInfoTitle>
-      <FlexGrid justify="start" align="start">
-        {data.map((item, key) => (
-          <UserCustomAddressItem key={key} {...item} />
+      <FlexGrid justify="start" align="start" wrap="true">
+        {data && data.map((item, key) => (
+          <UserCustomAddressItem className={s.item} key={key} {...item} />
         ))}
       </FlexGrid>
     </div>

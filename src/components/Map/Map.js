@@ -108,21 +108,22 @@ export default class Map extends Component {
     )
   };
   // get map options
-  getOptions = () => {
+  getOptions = (__options = this.props.options) => {
+    let options = __options || {};
     const { center: [lat, lng], ...rest } = config.options;
 
     return this.options = {
       center: { lat, lng },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       ...rest,
-      ...this.props.options,
+      ...options,
     }
   };
 
   // initialize map
   initMap = () => {
-    const { point, points } = this.props;
-    this.map = new window.google.maps.Map(this.mapBlock, this.getOptions());
+    const { point, points, options } = this.props;
+    this.map = new window.google.maps.Map(this.mapBlock, this.getOptions(options));
 
     this.transitLayer = new window.google.maps.TransitLayer();
     this.transitLayer.setMap(this.map);

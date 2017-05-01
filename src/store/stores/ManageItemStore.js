@@ -10,10 +10,6 @@ class ManageItemStore {
   @observable errors = {};
   @observable data = {};
 
-  constructor() {
-    this.CreateNew();
-  };
-
   setEmptyData = () => {
     this.data = {
       @observable id: '',
@@ -57,9 +53,7 @@ class ManageItemStore {
   CreateNew = (userId) => {
     this.setEmptyData();
 
-    if (!isEmpty(userId)) {
-      this.getUser(userId);
-    }
+    this.getUser(userId);
   };
   @action Import = __object => {
     const object = __object.toJSON
@@ -128,8 +122,10 @@ class ManageItemStore {
     if (object.views)
       this.data.views = object.views;
     // object user
-    if (object._userData || object._creator)
-      this.getUser(object._userData || object._creator);
+    if (object._userData || object._creator || object.user) {
+      this.getUser(object._userData || object._creator || object.user);
+      console.log('get user when was import')
+    }
     // object params
     if (object.params) {
       this.data.params.replace(
@@ -224,7 +220,7 @@ class ManageItemStore {
       return this.data.user = user;
     }
 
-    return this.data.user = data;
+    return this.data.user = store.user;
   }
 
   @computed get category() {

@@ -1,14 +1,17 @@
 @import ../../theme/index
 
 .wrapper
-  width: 100%
   padding-right: 5%
   padding-bottom: 31px
   border-bottom: 1px solid #ddd
 
 .map
+  $height: 150px
+  width: 100%
   margin-top: 21px
-  height: 120px
+  height: $height
+  max-height: $height
+  min-height: $height
   background-color: #ddd
   border-radius: 4px
 

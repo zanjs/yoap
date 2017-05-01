@@ -2,13 +2,14 @@ import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom'
 import {
-  UserCustomAddress, Container, FlexGrid,
+  Container, FlexGrid,
   LoadingAnimation, UserSubscription,
   Dashboard, UserFeatured,
   UserObjects
 } from 'components'
 import {
-  UserDataEditContainer
+  UserDataEditContainer,
+  UserCustomAddressContainer
 } from 'containers'
 import s from './UserPage.sass'
 
@@ -128,10 +129,9 @@ export default class UserPage extends Component {
 
         <Container className={s.content}>
           <FlexGrid justify="space-between" align="start">
-
             <div className={s.info}>
               <UserDataEditContainer />
-              <UserCustomAddress />
+              <UserCustomAddressContainer />
               <UserSubscription />
             </div>
 
@@ -139,7 +139,6 @@ export default class UserPage extends Component {
               <UserObjects notAllowed={!verified} data={data}/>
               <UserFeatured data={featured}/>
             </div>
-
           </FlexGrid>
         </Container>
       </div>

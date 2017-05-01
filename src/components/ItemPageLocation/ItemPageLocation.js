@@ -9,7 +9,7 @@ import { classNames } from 'helpers'
 import s from './ItemPageLocation.sass'
 
 import subwayIcon from 'icons/ui/subway.svg'
-import workIcon from 'icons/work.svg'
+import workIcon from 'icons/ui/work.svg'
 import houseIcon from 'icons/ui/house.svg'
 import tramIcon from 'icons/ui/tram.svg'
 import subwayTrainIcon from 'icons/ui/subway-train.svg'
