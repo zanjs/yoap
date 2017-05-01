@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { UserCustomAddress } from 'components'
+import { isEmpty } from 'helpers'
 
-@observer
+const mapStateToProps = ({user: {personalPoints, updateUserData}}) => ({
+  data: personalPoints,
+  updateUserData
+});
+
+@inject(mapStateToProps) @observer
 export default class UserCustomAddressContainer extends Component {
   state = {data: [], isEdit: false, newAddress: {}};
 
@@ -16,7 +22,8 @@ export default class UserCustomAddressContainer extends Component {
   };
   updateData = (props = this.props) => {
     let data = [
-      this.getDefaultPoint()
+      this.getDefaultPoint(),
+      ...props.data
     ];
 
     this.setState({data});
@@ -29,9 +36,37 @@ export default class UserCustomAddressContainer extends Component {
     this.updateData(nextProps);
   }
 
+  validate = (state = this.state) => {
+    const { position, address, title, icon } = state.newAddress;
+
+    if (isEmpty(position) || !position[0] || !position[1]) {
+      return null;
+    }
+
+    if (isEmpty(address) || isEmpty(title)) {
+      return null;
+    }
+
+    return {
+      position,
+      address,
+      title,
+      icon: icon || ''
+    }
+  }
   clickHandler = () => {
-    if (this.isEdit) {
-      return console.log('trying to save');
+    if (this.state.isEdit) {
+      const data = this.validate();
+
+      if (!data) {
+        return console.log('validation error!');
+      }
+      console.log('user will be updated', data);
+      this.props.updateUserData({personalPoints:
+        [...this.props.data, data]
+      })
+
+      return this.setState({isEdit: false})
     }
 
     return this.setState({isEdit: true})

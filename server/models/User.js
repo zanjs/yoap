@@ -13,6 +13,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  personalPoints: [
+    {
+      position: [Number, Number],
+      title: String,
+      address: String,
+      icon: String
+    }
+  ],
   phone: {
     type: String,
     required: true,

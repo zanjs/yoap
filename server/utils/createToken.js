@@ -19,6 +19,7 @@ export default function createToken(user) {
     isDummy: user.isDummy,
 
     objects: user.objects,
-    featured: user.featured
+    featured: user.featured,
+    personalPoints: user.personalPoints || []
   }, jwtSecret);
 }

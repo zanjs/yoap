@@ -73,6 +73,7 @@ class UserStore {
   @observable banned;
 
   @observable notifications = [];
+  @observable personalPoints = [];
   @observable isUserPage = false;
   @observable redirect = null;
 
@@ -229,7 +230,8 @@ class UserStore {
         image: '',
         objects: [],
         featured: [],
-        token: null
+        token: null,
+        personalPoints: []
       });
 
       store.items.users.replace([]);
@@ -349,7 +351,8 @@ class UserStore {
     email: this.email,
     phone: this.phone,
     password: this.password,
-    token: this.token
+    token: this.token,
+    personalPoints: this.personalPoints
     // _featured: this._featured,
     // _objects: this._objects
   })
