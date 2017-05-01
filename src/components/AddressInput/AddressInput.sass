@@ -1,7 +1,28 @@
 @import ../../theme/index
 
+.block
+  display: block
+.wrapper
+  @extend .block
+  position: relative
+  &_inherit
+    font-weight: inherit
+    font-size: inherit
+    line-height: inherit
+
+
 .item
+  @extend .block
   @include opacityAnim(.7)
   cursor: pointer
   user-select: none
 
+.predictions
+  @extend .block
+  position: absolute
+  left: 0
+  top: 100%
+  background-color: #fff
+  width: 100%
+  z-index: 10
+  padding-bottom: 21px

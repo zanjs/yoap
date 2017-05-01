@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Content, InputClean } from 'components'
-import { isEmpty, Predictions } from 'helpers'
+import { classNames, Predictions } from 'helpers'
 import s from './AddressInput.sass'
 
 
@@ -79,26 +79,31 @@ export default class AddressInput extends Component {
       setPoint,
       getInputRef,
       state: {
-        predictions, message
+        predictions, message,
       },
       props: {
-        defaultValue
+        defaultValue,
+        placeholder,
+        inherit,
+        noMessage
       }
     } = this;
 
     return (
-      <Content tag="div" size="2" light lightColor>
-        <InputClean onChange={onChange} placeholder="Введите адрес"
+      <Content className={classNames(s.wrapper, inherit && s.wrapper_inherit)}
+               tag="span" size="2" light lightColor>
+        <InputClean onChange={onChange} placeholder={placeholder || 'Введите адрес'}
                     defaultValue={defaultValue} getRef={getInputRef}/>
-        {predictions && <div className={s.predictions}>
+        {predictions && <span className={s.predictions}>
           {predictions.map((item, key) => (
-            <Content className={s.item} size="3" blue key={key} onClick={() => setPoint(item)}>
+            <Content tag="span" className={s.item}
+                     size="3" blue key={key} onClick={() => setPoint(item)}>
               {item.name || item.structured_formatting.main_text}
             </Content>
           ))}
-        </div>}
-        {message && message.content &&
-        <Content>
+        </span>}
+        {!noMessage && message && message.content &&
+        <Content className={s.block} tag="span">
           {message.content}
         </Content>}
       </Content>

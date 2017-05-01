@@ -17,7 +17,7 @@ const mapSettings = {
   scaleControl: false,
   scrollwheel: false,
   streetViewControl: false,
-  zoomControl: false
+  zoomControl: true
 };
 
 const getIcon = name => {
@@ -28,28 +28,37 @@ const getIcon = name => {
     case 'city':
       return cityIcon;
   }
+
+  return null;
 }
 
 const UserCustomAddressItem = (props) => {
   const {
-    title, edit, address, iconName = 'work',
-    onTitleChange, className, onAddressChange
+    title, edit, address, iconName,
+    position, onTitleChange, className,
+    onAddressChange
   } = props;
+  const icon = getIcon(iconName);
 
   return (
     <div className={classNames(s.wrapper, className)}>
       <Title size="6" light>
         <FlexGrid justify="start" align="center">
-          <Svg className={s.icon} src={getIcon(iconName)}/>
-          {edit && <InputClean onChange={onTitleChange} defaultValue={title}/>}
+          {icon && <Svg className={s.icon} src={icon}/>}
+          {edit && <InputClean onChange={onTitleChange}
+                               placeholder="Как будет называться ваш адрес?"
+                               defaultValue={title}/>}
           {!edit && <span>{title}</span>}
         </FlexGrid>
       </Title>
       <Content size="3">
-        {edit && <AddressInput onChange={onAddressChange} defaultValue={address}/>}
+        {edit && <AddressInput onChange={onAddressChange} inherit
+                               noMessage setPoint={onAddressChange}
+                               placeholder="Где будет находиться ваш адрес?"
+                               defaultValue={address}/>}
         {!edit && address}
       </Content>
-      <Map options={mapSettings} className={s.map}/>
+      <Map point={{position}} options={mapSettings} className={s.map}/>
     </div>
   )
 };
