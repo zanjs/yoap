@@ -19,8 +19,6 @@ export default function imageUpload(files) {
     data.append(`image-${index}`, item);
   });
 
-  console.log(files);
-
   return fetch(imageApi, {
       method: 'post',
       body: data
@@ -28,7 +26,6 @@ export default function imageUpload(files) {
     .then(status)
     .then(json)
     .then((res) => res.data)
-
     .catch(function(e) {
       console.log('Error', e);
     });

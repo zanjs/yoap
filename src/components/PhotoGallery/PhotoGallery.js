@@ -179,7 +179,6 @@ export default class PhotoGallery extends Component {
   );
 
   itemClickHandler = index => {
-    console.log(index);
     if (this.props.onClick) {
       this.props.onClick(index);
     }

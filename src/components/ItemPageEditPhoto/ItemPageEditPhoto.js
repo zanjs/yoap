@@ -121,7 +121,6 @@ export default class ItemPageEditPhoto extends Component {
         let modifiedData = [...data];
         let index = 0;
 
-        console.log('newData', newData);
         needLoading.forEach(item => {
           modifiedData[item] = newData[index];
 

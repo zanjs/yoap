@@ -35,8 +35,6 @@ export default class ItemPagePriceEdit extends Component {
       res.deposit = true;
     }
 
-    console.log('imported props', window.res = res);
-
     this.setState(res, this.onChange);
   };
 
@@ -140,7 +138,6 @@ export default class ItemPagePriceEdit extends Component {
   };
   createDewa = value => {
     const noChange = typeof value === 'number' || typeof value === 'string';
-    console.log(value);
 
     const data = {
       dewa: {

@@ -124,7 +124,6 @@ class ManageItemStore {
     // object user
     if (object._userData || object._creator || object.user) {
       this.getUser(object._userData || object._creator || object.user);
-      console.log('get user when was import')
     }
     // object params
     if (object.params) {
@@ -140,7 +139,6 @@ class ManageItemStore {
     const errors = keys(this.data, (value, prop, result) => {
       const validation = isValid(prop, value) || {};
       let error = {};
-      console.log(`validation ${prop}`, validation);
 
       if (validation.isError) {
         error = {

@@ -121,7 +121,7 @@ export default class Image extends Component {
   };
 
   renderImage = props => (
-    <img {...props} src={this.getHostNameSrc(props.src)}/>
+    <img {...props} src={props.src}/>
   );
 
   getPreviewRef = b => this.preview = b;
@@ -176,7 +176,7 @@ export default class Image extends Component {
 
     if (isLoaded) {
       return this.renderImage({
-        src: _src, className, ref: getRef, alt,
+        src: this.getHostNameSrc(_src), className, ref: getRef, alt,
         style
       })
     }

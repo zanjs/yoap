@@ -99,7 +99,7 @@ export default class ItemPageEdit extends Component {
   componentWillMount() {
     const isExist = this.getData();
     const { userId } = this.props.match.params;
-    console.log('isExist', isExist);
+
     if (!isExist) {
       this.props.manage.CreateNew(userId);
       this.setState({isEmpty: false})
@@ -162,7 +162,7 @@ export default class ItemPageEdit extends Component {
     }
 
     return (
-      <div style={{opacity: isFetching ? .5 : 1}}>
+      <div style={{opacity: isFetching ? .8 : 1}}>
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <ItemPhotoEditContainer />
         )}>
