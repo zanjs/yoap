@@ -99,7 +99,7 @@ export default class ItemPageLocation extends Component {
   }
 
   isPointActive = (method, currentMethod) => (
-    method.toLowerCase() === currentMethod.toLowerCase()
+    method && currentMethod && method.toLowerCase() === currentMethod.toLowerCase()
   )
 
   render() {
