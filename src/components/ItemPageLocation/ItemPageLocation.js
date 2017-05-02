@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import {
   ItemPageInfoTitle, Content,
   FlexGrid, Svg, InputClean,
@@ -15,6 +16,7 @@ import tramIcon from 'icons/ui/tram.svg'
 import subwayTrainIcon from 'icons/ui/subway-train.svg'
 import taxiIcon from 'icons/ui/taxi.svg'
 import busIcon from 'icons/ui/bus.svg'
+import pinIcon from 'icons/ui/location.svg'
 
 const Point = props => {
   const {
@@ -37,6 +39,7 @@ const Point = props => {
   )
 };
 
+@observer
 export default class ItemPageLocation extends Component {
   static defaultProps = {
     data: {}
@@ -51,17 +54,20 @@ export default class ItemPageLocation extends Component {
 
     switch (item.type) {
       case 'center':
-        return {
+        newItem = {
           ...newItem,
           src: houseIcon
         };
       case 'work':
-        return {
+        newItem = {
           ...newItem,
           src: workIcon
         };
-      default:
-        return newItem;
+    }
+
+    return {
+      ...newItem,
+      method: this.props.method
     }
   };
 
@@ -81,8 +87,8 @@ export default class ItemPageLocation extends Component {
   render() {
     const {
       className, edit, point, direction,
-      onStationChange,
-      data: { address, subway, timing },
+      onStationChange, timing,
+      data: { address, subway },
     } = this.props;
     return (
       <div className={classNames(s.wrapper, className)}>
@@ -100,11 +106,12 @@ export default class ItemPageLocation extends Component {
         </div>
         {timing && !!timing.length && <div className={s.item}>
           <ItemPageInfoTitle title="Время в пути"/>
-          {timing.map((item, key) => {
-            const { name, time, distance, src} = this.getTimingData(item);
+          {timing.map((__item, key) => {
+            const item = this.getTimingData(__item);
             return (
-              <Point src={src || houseIcon} key={key} title={name}>
-                {`${time} мин / ${distance}`}
+              <Point onClick={() => this.props.setDirection(item)}
+                     src={item.src || pinIcon} key={key} title={item.name}>
+                {`${item.time} / ${item.distance}`}
               </Point>
             )
           })}

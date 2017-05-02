@@ -18,7 +18,7 @@ export default class NearestStations extends Component {
     super(props);
 
     //if (!this.props.defaultData)
-      this.transport = new NearestTransport();
+    this.transport = new NearestTransport();
   }
 
   sortData = data => data;

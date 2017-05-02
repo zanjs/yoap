@@ -96,7 +96,7 @@ export default class ItemPage extends Component {
         {/* Object location */}
         <ItemPageLocationContainer onChange={onChange} shouldUpdate={shouldUpdate}/>
         {/* Object params */}
-        <ItemPageParametersContainer onChange={onChange} data={types} size={_size} />
+        <ItemPageParametersContainer data={types} size={_size} />
       </div>
     )
   }

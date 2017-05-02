@@ -14,8 +14,8 @@ export default class ItemPageParameters extends Component {
 
     return (
       <div ref={getRef} className={s.wrapper}>
-        {!edit && <ProFilter onChange={onChange} readOnly={!edit}
-                   edit={edit} size={size} data={data}/>}
+        {!edit && <ProFilter readOnly={!edit} edit={edit}
+                             size={size} data={data}/>}
         {edit && <ProFilterContainer size={size} data={data} edit={edit}
                                      onSizeChange={onSizeChange}
                                      onChange={onChange}/>}

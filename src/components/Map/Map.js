@@ -5,7 +5,10 @@ import {
   unmountComponentAtNode as unmount
 } from 'react-dom'
 import { Svg, MapMarker, RouterStoreProvider } from 'components'
-import { isEmpty, loop, classNames, loadScript, shallowEqual } from 'helpers'
+import {
+  isEmpty, loop, classNames,
+  loadScript, shallowEqual, getDirection
+} from 'helpers'
 import { map as config } from 'config'
 import s from './Map.sass'
 
@@ -218,40 +221,15 @@ export default class Map extends Component {
   setDirection = props => {
     const { point, direction } = props || this.props;
 
-    if (!point || !direction || !point.position || !direction.position)
-      return null;
-
-    const [lat, lng] = point.position;
-    const [_lat, _lng] = direction.position;
-
-    const origin = new google.maps.LatLng(lat, lng);
-    const destination = new google.maps.LatLng(_lat, _lng);
-
-    const request = {
-      origin, destination,
-      travelMode: google.maps.TravelMode[direction.method || 'WALKING'],
-      unitSystem: google.maps.UnitSystem.METRIC,
-      optimizeWaypoints: true,
-      provideRouteAlternatives: true,
-      avoidHighways: true,
-      avoidTolls: true
-    };
-    this.directionsService.route(request, (result, status) => {
-      if (status == google.maps.DirectionsStatus.OK) {
-        this.directionsDisplay.setDirections(result);
-
-        const routes = result.routes;
-        const leg = routes[0].legs;
-        const length = leg[0].distance.text;
-        const duration = leg[0].duration.text;
-
-        console.log(window.res = {
-          routes,
-          leg, length,
-          duration
-        })
-      }
-    });
+    getDirection(point, direction).then(props => {
+      console.log(
+        'direction was set',
+        window.dir = props
+      );
+      this.directionsDisplay.setDirections(props.result);
+    }).catch(err => {
+      console.log('ERROR!', err);
+    })
   };
   comparePoints = (first, last) => {
     return first && last && first.length && last.length

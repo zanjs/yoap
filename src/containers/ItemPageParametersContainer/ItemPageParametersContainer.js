@@ -24,8 +24,8 @@ export default class ItemPageParametersContainer extends Component {
     return (
       <Container getRef={getRef}>
         <ItemPageParameters edit={edit} data={_data} size={size}
-                            onChange={onChange}
-                            onSizeChange={onSizeChange}/>
+                            onChange={edit && onChange}
+                            onSizeChange={edit && onSizeChange}/>
       </Container>
     )
   }

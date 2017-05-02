@@ -5,10 +5,11 @@ import {
   ItemPageLocation
 } from 'components'
 import { MapContainer } from 'containers'
-import { isEmpty } from 'helpers'
+import { isEmpty, getDirection, shallowEqual } from 'helpers'
 
-const mapStateToProps = ({items: {current}}) => ({
-  data: current
+const mapStateToProps = ({items: {current}, user: {personalPoints}}) => ({
+  data: current,
+  personalPoints
 })
 
 @inject(mapStateToProps) @observer
@@ -16,7 +17,9 @@ export default class ItemPageLocationContainer extends Component {
   state = {
     address: null,
     direction: null,
-    subway: null
+    subway: null,
+    timing: null,
+    method: 'WALKING'
   };
 
   setPoint = address =>
@@ -49,7 +52,6 @@ export default class ItemPageLocationContainer extends Component {
       subway
     })
   };
-
   getPointData = data => {
     if (!data)
       return null;
@@ -66,7 +68,6 @@ export default class ItemPageLocationContainer extends Component {
       props: {}
     }
   };
-
   getLocationData = () => {
     const { location, data } = this.props;
 
@@ -78,11 +79,63 @@ export default class ItemPageLocationContainer extends Component {
 
     return data;
   };
+  updateTiming = (props = this.props) => {
+    const point = this.getPointData(props.data);
+    const { personalPoints } = props;
+
+    if (!personalPoints || !personalPoints.length) {
+      return null;
+    }
+
+    Promise.all(personalPoints.map(item => {
+      return getDirection(point, item)
+    })).then(props => {
+      if (!props || !props.length)
+        return null;
+
+      let data = props.map((item, index) => {
+        const point = personalPoints[index];
+        let newItem = {
+          distance: item.length,
+          time: item.duration
+        };
+
+        if (point.title) {
+          newItem.name = point.title;
+        }
+
+        return newItem;
+      })
+
+      this.setState({timing: data}, this.props.onChange);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  componentDidMount() {
+    this.updateTiming();
+  }
+  componentWillUpdate(props, state) {
+    if (props.personalPoints.length) {
+      if (!this.state.timing || !this.state.timing.length) {
+        return this.updateTiming(props);
+      }
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!shallowEqual(this.props.personalPoints, nextProps.personalPoints)) {
+      this.updateTiming(nextProps);
+    }
+  }
 
   render() {
     const { mapClassName } = ItemPageLocation;
     const {
-      state: {address, direction},
+      state: {
+        address, direction, timing,
+        method
+      },
       props: {
         shouldUpdate, data
       },
@@ -106,6 +159,7 @@ export default class ItemPageLocationContainer extends Component {
                       point={pointData}/>
       )}>
         <ItemPageLocation setPoint={setPoint} point={pointData}
+                          timing={timing} method={method}
                           onStationChange={metroChangeHandler} direction={direction}
                           setDirection={setDirection}
                           data={locationData} />

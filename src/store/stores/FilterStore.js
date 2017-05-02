@@ -90,9 +90,10 @@ class FilterStore {
       const types = item.types.map((type, index) => {
         const paramIndex = params.findIndex(param => param.id === type.id);
 
-        type.isActive = paramIndex >= 0;
-
-        return type;
+        return {
+          ...type,
+          isActive: paramIndex >= 0
+        };
       });
 
       return {
