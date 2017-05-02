@@ -146,10 +146,14 @@ export default class ItemPageEdit extends Component {
   render() {
     const {
       state: {shouldUpdate, saved, isEmpty},
-      props: {isFetching, user},
+      props: {isFetching, user, match: {params}},
       submitHandler,
       onChange
     } = this;
+
+    if (!user.isAuthorized || user.isAuthorized && params.userId && !user.isAdmin) {
+      return <Redirect to='/login'/>
+    }
 
     if (saved) {
       return <Redirect to={user.isAdmin ? '/manage' : "/you"}/>

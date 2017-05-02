@@ -62,8 +62,8 @@ export default class UsersPage extends Component {
       match: {params: {id}}
     } = this.props;
 
-    if (!isAuthorized || !isAdmin) {
-      return <Redirect to="/login"/>
+    if (!isAuthorized || id && !isAdmin) {
+      return <Redirect to="/y" />
     }
 
     return (

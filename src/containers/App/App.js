@@ -68,6 +68,9 @@ export default class App extends Component {
             <Route path="/manage" exact component={ManageItemsPage}/>
             <Route path="/manage/:link" component={ItemPageEdit}/>
             <Route path="/they/manage/:userId/:link" component={ItemPageEdit}/>
+            <Route render={() => {
+              return <Redirect to="/y"/>
+            }}/>
           </PagesTransitions>
           {/*<PagesTransitions className={s.content}>*/}
             {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}
