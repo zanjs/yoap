@@ -23,7 +23,7 @@ export default (req, res) => {
     })
   }
 
-  Item.find(query)
+  Item.findOne(query)
     .then(data => {
       res.status(200).json({
         success: true,

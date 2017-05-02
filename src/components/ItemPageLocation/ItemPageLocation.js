@@ -2,21 +2,24 @@ import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import {
   ItemPageInfoTitle, Content,
-  FlexGrid, Svg, InputClean,
+  FlexGrid, Svg,
   NearestStations,
   AddressInput
 } from 'components'
-import { classNames } from 'helpers'
+import { classNames, shallowEqual } from 'helpers'
 import s from './ItemPageLocation.sass'
+
+const drivingMethod = 'DRIVING';
+const busMethod = 'TRANSIT';
+const walkMethod = 'WALKING';
 
 import subwayIcon from 'icons/ui/subway.svg'
 import workIcon from 'icons/ui/work.svg'
 import houseIcon from 'icons/ui/house.svg'
-import tramIcon from 'icons/ui/tram.svg'
-import subwayTrainIcon from 'icons/ui/subway-train.svg'
-import taxiIcon from 'icons/ui/taxi.svg'
-import busIcon from 'icons/ui/bus.svg'
 import pinIcon from 'icons/ui/location.svg'
+import carIcon from 'icons/ui/car.svg'
+import walkIcon from 'icons/ui/walk.svg'
+import busIcon from 'icons/ui/bus.svg'
 
 const Point = props => {
   const {
@@ -50,7 +53,7 @@ export default class ItemPageLocation extends Component {
     let newItem = {...item};
 
     newItem.distance = newItem.distance > 1000 ?
-      `${newItem.distance / 1000} км` : `${newItem.distance} м`;
+      `${newItem.distance / 1000} км` : `${newItem.distance}`;
 
     switch (item.type) {
       case 'center':
@@ -84,12 +87,28 @@ export default class ItemPageLocation extends Component {
     }
   };
 
+  setTimingDirection = item => {
+    if (this.props.setDirection) {
+      this.props.setDirection(item.position)
+    }
+  }
+  createChangeMethod = method => () => {
+    if (this.props.onMethodChange) {
+      this.props.onMethodChange(method)
+    }
+  }
+
+  isPointActive = (method, currentMethod) => (
+    method.toLowerCase() === currentMethod.toLowerCase()
+  )
+
   render() {
     const {
       className, edit, point, direction,
-      onStationChange, timing,
+      onStationChange, timing, method,
       data: { address, subway },
     } = this.props;
+    const { createChangeMethod, isPointActive } = this;
     return (
       <div className={classNames(s.wrapper, className)}>
         <div className={s.item}>
@@ -102,14 +121,15 @@ export default class ItemPageLocation extends Component {
           <ItemPageInfoTitle title="Ближайшее метро"/>
           <NearestStations direction={direction} defaultData={subway}
                            point={point} onChange={onStationChange}
-                           render={this.renderStation}/>
+                           method={method} render={this.renderStation}/>
         </div>
         {timing && !!timing.length && <div className={s.item}>
           <ItemPageInfoTitle title="Время в пути"/>
           {timing.map((__item, key) => {
             const item = this.getTimingData(__item);
             return (
-              <Point onClick={() => this.props.setDirection(item)}
+              <Point onClick={() => this.setTimingDirection(item)}
+                     isActive={direction && shallowEqual(direction.position, item.position)}
                      src={item.src || pinIcon} key={key} title={item.name}>
                 {`${item.time} / ${item.distance}`}
               </Point>
@@ -119,14 +139,15 @@ export default class ItemPageLocation extends Component {
         <div className={s.item}>
           <ItemPageInfoTitle title="Доступность транспорта"/>
           <FlexGrid justify="start" align="center" className={s.icons}>
-            <Svg src={busIcon} className={classNames(s.icon, s.icon_active)} />
-            <Svg src={tramIcon} className={s.icon} />
-            <Svg src={subwayTrainIcon} className={s.icon} />
-            <Svg src={taxiIcon} className={s.icon} />
+            <Svg onClick={createChangeMethod(walkMethod)} src={walkIcon}
+                 className={classNames(s.icon, isPointActive(walkMethod, method) && s.icon_active)} />
+            <Svg onClick={createChangeMethod(busMethod)} src={busIcon}
+                 className={classNames(s.icon, isPointActive(busMethod, method) && s.icon_active)} />
+            <Svg onClick={createChangeMethod(drivingMethod)} src={carIcon}
+                 className={classNames(s.icon, isPointActive(drivingMethod, method) && s.icon_active)} />
+            {/*<Svg onClick={createChangeMethod('BICYCLING')}*/}
+                 {/*src={bikeIcon} className={classNames(s.icon,)} />*/}
           </FlexGrid>
-          <Content size="3" light lightColor>
-            54, 3, 26, 91, 141
-          </Content>
         </div>
       </div>
     )

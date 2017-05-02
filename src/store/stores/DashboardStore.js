@@ -179,7 +179,7 @@ class DashboardStore {
 
     if (hasObjects) {
       const restricted = objects.find(
-        item => item.status === types[2].id
+        item => item.status === statuses[2].id
       );
 
       if (restricted) {

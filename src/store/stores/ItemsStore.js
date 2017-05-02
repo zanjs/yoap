@@ -121,6 +121,12 @@ class ItemsStore {
     return items || response.data;
   };
   findByResponse = col => response => {
+    if (isEmpty(response.data)) {
+      this.isFetching = false;
+      this.isError = {message: 'Такого объекта не существует.'}
+      throw new Error('Could not find the object!')
+    }
+
     this.fromJSON(response.data, col);
     this.isFetching = false;
 

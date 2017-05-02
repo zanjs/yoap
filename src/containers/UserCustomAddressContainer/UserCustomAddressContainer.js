@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { UserCustomAddress } from 'components'
-import { isEmpty } from 'helpers'
+import { isEmpty, getDefaultPersonalPoint } from 'helpers'
 
 const mapStateToProps = ({user: {personalPoints, updateUserData}}) => ({
   data: personalPoints,
@@ -12,17 +12,9 @@ const mapStateToProps = ({user: {personalPoints, updateUserData}}) => ({
 export default class UserCustomAddressContainer extends Component {
   state = {data: [], isEdit: false, isNew: false, newAddress: {}};
 
-  getDefaultPoint = () => {
-    return {
-      position: [59.92517, 30.32243900000003],
-      title: 'Центр',
-      address: 'Санкт-Петербург',
-      id: 'default-id'
-    }
-  };
   updateData = (props = this.props) => {
     let data = [
-      this.getDefaultPoint(),
+      getDefaultPersonalPoint(),
       ...props.data
     ];
 

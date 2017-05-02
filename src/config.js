@@ -89,10 +89,13 @@ export const map = {
   //apiKey: "AIzaSyDfRCp7Rg_ufXZqgFBOsNP8ICY9LnPE1oI",
   apiKey: 'AIzaSyCzIFSJwXc8KfxmERx6-ut9FMnzN2owdW4',
   url: 'https://maps.googleapis.com/maps/api/js?key=',
+  libraryOptions: 'language=ru',
   loadingParams: 'libraries=places',
   yandexMap: 'https://api-maps.yandex.ru/2.1/?lang=ru_RU&modules=metro',
   get link() {
-    return this.url + this.apiKey + (this.loadingParams ? '&' + this.loadingParams : '')
+    return this.url + this.apiKey +
+      (this.loadingParams ? '&' + this.loadingParams : '') +
+      (this.libraryOptions ? '&' + this.libraryOptions : '')
   },
   scriptId: 'map-script',
 

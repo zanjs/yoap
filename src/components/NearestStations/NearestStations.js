@@ -8,7 +8,6 @@ import s from './NearestStations.sass'
 export default class NearestStations extends Component {
   maxDistance = 3.5;
 
-
   state = {
     data: [],
     isFetching: false
@@ -71,6 +70,7 @@ export default class NearestStations extends Component {
 
   search = point => {
     const { position } = point || this.props.point || {};
+    const { method } = this.props || {};
 
     if (!position || !position[0] || !position[1])
       return;

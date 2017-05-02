@@ -5,7 +5,7 @@ import {
   ItemPageLocation
 } from 'components'
 import { MapContainer } from 'containers'
-import { isEmpty, getDirection, shallowEqual } from 'helpers'
+import { isEmpty, getDirection, shallowEqual, getDefaultPersonalPoint } from 'helpers'
 
 const mapStateToProps = ({items: {current}, user: {personalPoints}}) => ({
   data: current,
@@ -27,10 +27,25 @@ export default class ItemPageLocationContainer extends Component {
   setDirection = position => {
     // method means walking, transit etc.
     this.setState({direction: {
-      method: false,
+      method: this.state.method,
       position
     }});
   };
+  changeMethodHandler = method => {
+    this.setState(state => {
+      if (state.direction && state.direction.method) {
+        return {
+          method,
+          direction: {
+            ...state.direction,
+            method
+          }
+        }
+      }
+
+      return {method};
+    }, this.updateTiming)
+  }
   metroChangeHandler = subway => {
     this.setState({
       subway
@@ -87,17 +102,26 @@ export default class ItemPageLocationContainer extends Component {
       return null;
     }
 
-    Promise.all(personalPoints.map(item => {
-      return getDirection(point, item)
+    let __points = [
+      getDefaultPersonalPoint(),
+      ...personalPoints
+    ];
+
+    Promise.all(__points.map(item => {
+      return getDirection(point, {
+        ...item,
+        method: this.state.method
+      })
     })).then(props => {
       if (!props || !props.length)
         return null;
 
       let data = props.map((item, index) => {
-        const point = personalPoints[index];
+        const point = __points[index];
         let newItem = {
           distance: item.length,
-          time: item.duration
+          time: item.duration,
+          position: point.position
         };
 
         if (point.title) {
@@ -107,14 +131,14 @@ export default class ItemPageLocationContainer extends Component {
         return newItem;
       })
 
-      this.setState({timing: data}, this.props.onChange);
+      this.setState({ timing: data }, this.props.onChange);
     }).catch(err => {
       console.log(err);
     })
   }
 
   componentDidMount() {
-    this.updateTiming();
+    setTimeout(this.updateTiming, 1000);
   }
   componentWillUpdate(props, state) {
     if (props.personalPoints.length) {
@@ -141,7 +165,8 @@ export default class ItemPageLocationContainer extends Component {
       },
       setPoint,
       setDirection,
-      metroChangeHandler
+      metroChangeHandler,
+      changeMethodHandler
     } = this;
 
     const locationData = this.getLocationData();
@@ -160,9 +185,10 @@ export default class ItemPageLocationContainer extends Component {
       )}>
         <ItemPageLocation setPoint={setPoint} point={pointData}
                           timing={timing} method={method}
-                          onStationChange={metroChangeHandler} direction={direction}
-                          setDirection={setDirection}
-                          data={locationData} />
+                          direction={direction} data={locationData}
+                          onStationChange={metroChangeHandler}
+                          onMethodChange={changeMethodHandler}
+                          setDirection={setDirection}/>
       </ItemPageInfoScroller>
     )
   }

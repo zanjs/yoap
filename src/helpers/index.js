@@ -29,6 +29,7 @@ export getHeaders from './app/getHeaders'
 export declination from './app/declination'
 export getDateDifference from './app/getDateDifference'
 export getDirection from './app/getDirection'
+export getDefaultPersonalPoint from './app/getDefaultPersonalPoint'
 export noop from './app/noop'
 
 // animation helpers

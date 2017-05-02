@@ -221,6 +221,8 @@ export default class Map extends Component {
   setDirection = props => {
     const { point, direction } = props || this.props;
 
+    console.log({point, direction});
+
     getDirection(point, direction).then(props => {
       console.log(
         'direction was set',
@@ -251,7 +253,7 @@ export default class Map extends Component {
       return this.setPoint(point);
     }
 
-    if (direction && !comparePoints(direction.position, _direction.position)) {
+    if (direction && !comparePoints(direction, _direction)) {
       console.log('set direction...');
       return this.setDirection(nextProps);
     }

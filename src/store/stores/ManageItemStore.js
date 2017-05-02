@@ -218,6 +218,10 @@ class ManageItemStore {
       return this.data.user = user;
     }
 
+    if (data != null) {
+      return this.data.user = data;
+    }
+
     return this.data.user = store.user;
   }
 
