@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import {
   UserCustomAddressItem,
   ItemPageInfoTitle,
-  FlexGrid, Content
+  FlexGrid, Content,
+  Svg
 } from 'components'
 import s from './UserCustomAddress.sass'
+
+import addIcon from 'icons/ui/add-flat.svg'
 
 const UserCustomAddress = props => {
   const {
     data, editData, isEdit, onControlClick,
-    onTitleChange, onAddressChange
+    isNew, onTitleChange, onAddressChange,
+    onAddNew, onRemove
   } = props;
   return (
     <div className={s.wrapper}>
@@ -23,11 +27,18 @@ const UserCustomAddress = props => {
       <FlexGrid justify="start" align="start" wrap="true">
         {data && data.map((item, key) => (
           <UserCustomAddressItem className={s.item}
+                                 onTitleChange={e => onTitleChange(e, key)}
+                                 onAddressChange={e => onAddressChange(e, key)}
+                                 edit={isEdit} onRemove={() => onRemove(key)}
                                  key={key} {...item} />
         ))}
-        {isEdit && <UserCustomAddressItem onTitleChange={onTitleChange} edit
-                                          onAddressChange={onAddressChange}
-                                          className={s.item} {...editData}/>}
+        {isEdit && !isNew && <div className={s.item}>
+          <Svg onClick={onAddNew} className={s.icon} src={addIcon}/>
+        </div>}
+        {isNew && isEdit &&
+        <UserCustomAddressItem onTitleChange={onTitleChange} edit noIcon
+                               onAddressChange={onAddressChange}
+                               className={s.item} {...editData}/>}
       </FlexGrid>
     </div>
   )

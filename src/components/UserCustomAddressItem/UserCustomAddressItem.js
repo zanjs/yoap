@@ -7,8 +7,8 @@ import {
 import { classNames } from 'helpers'
 import s from './UserCustomAddressItem.sass'
 
-import cityIcon from 'icons/ui/city.svg'
-import workIcon from 'icons/ui/work.svg'
+import closeIcon from 'icons/ui/close.svg'
+import pinIcon from 'icons/ui/location.svg'
 
 
 const mapSettings = {
@@ -20,31 +20,21 @@ const mapSettings = {
   zoomControl: true
 };
 
-const getIcon = name => {
-  switch (name) {
-    case 'work':
-      return workIcon;
-    case 'center':
-    case 'city':
-      return cityIcon;
-  }
-
-  return null;
-}
-
 const UserCustomAddressItem = (props) => {
   const {
-    title, edit, address, iconName,
+    title, edit, address,
     position, onTitleChange, className,
-    onAddressChange
+    onAddressChange, onRemove, noIcon
   } = props;
-  const icon = getIcon(iconName);
+
 
   return (
     <div className={classNames(s.wrapper, className)}>
       <Title size="6" light>
         <FlexGrid justify="start" align="center">
-          {icon && <Svg className={s.icon} src={icon}/>}
+          {!noIcon && <Svg onClick={edit && onRemove}
+                           src={edit ? closeIcon : pinIcon}
+                           className={classNames(s.icon, edit && s.icon_click)} />}
           {edit && <InputClean onChange={onTitleChange}
                                placeholder="Как будет называться ваш адрес?"
                                defaultValue={title}/>}

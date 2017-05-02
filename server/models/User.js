@@ -18,7 +18,6 @@ const userSchema = new Schema({
       position: [Number, Number],
       title: String,
       address: String,
-      icon: String
     }
   ],
   phone: {
