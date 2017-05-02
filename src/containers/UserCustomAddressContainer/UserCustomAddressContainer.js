@@ -52,7 +52,7 @@ export default class UserCustomAddressContainer extends Component {
   clickHandler = () => {
     if (this.state.isEdit) {
       const data = this.validate();
-      const defaultPoint = this.getDefaultPoint();
+      const defaultPoint = getDefaultPersonalPoint();
       const personalPoints = (data ? [...this.state.data, data] : this.state.data)
         .filter(it => {
           if (!it)
