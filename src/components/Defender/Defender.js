@@ -1,53 +1,56 @@
 import React, { Component } from 'react'
-import { observer, inject } from "mobx-react";
-import { FormGroup, Button, FlexGrid } from 'components'
 import { Redirect } from 'react-router-dom'
+import { observer, inject } from 'mobx-react'
+import { FormGroup, Svg, FlexGrid } from 'components'
+import { classNames } from 'helpers'
 import s from './Defender.sass'
 
+import logoIcon from 'icons/logo.svg'
+import lockIcon from 'icons/ui/lock.svg'
 
-const mapStateToProps = ({size: {width, height}}) => ({
+const mapStateToProps = ({device: {width, height}}) => ({
   width: `${width}px`, height: `${height}px`
 });
 
 @inject(mapStateToProps) @observer
 export default class Defender extends Component {
-  state = {isError: null, msg: null};
-
   submitHandler = e => {
     e.preventDefault();
 
-    const respond = this.props.submitHandler(this.input.value);
-
-    if (respond) {
-      this.setState({isError: true, msg: respond})
-    }
-
-    console.log('submitted', this.input.value);
+    this.props.onSubmit();
 
     return false;
   };
 
   onFocus = () => {
-    this.setState({isError: null, msg: null})
+    this.props.onCleanUp();
   };
 
   render() {
-    const { width, height, userHasAuthorized } = this.props;
-    const { isError, msg } = this.state;
+    const {
+      width, height,
+      isError, isFetching,
+      isAuthorized,
+      onChange
+    } = this.props;
 
-    if (userHasAuthorized) {
+    if (isAuthorized) {
       return <Redirect to="/"/>
     }
 
     return (
       <FlexGrid direction="column" justify="center" align="center"
                 className={s.defender} style={{width, height}}>
-        <form className={s.wrapper} onSubmit={this.submitHandler}>
-          <div className={s.logo}>Enter to App</div>
-          <FormGroup getRef={b => this.input = b} isError={isError} msg={msg}
-                     onFocus={this.onFocus} className={s.input}
-                     placeholder="Password*" type="password" required/>
-          <Button className={s.btn}>Enter</Button>
+        <form className={classNames(s.wrapper, isFetching && s.fetch)} onSubmit={this.submitHandler}>
+          <div className={s.logo}>
+            <Svg src={logoIcon} className={s.logo__icon}/>
+          </div>
+          <FormGroup onChange={onChange} isError={isError} msg={isError}
+                     onFocus={this.onFocus} wrapperClassName={s.input}
+                     theme="transparent" placeholder="Password*"
+                     type="password" required>
+            {!isError && <Svg src={lockIcon} className={s.lock_icon}/>}
+          </FormGroup>
         </form>
       </FlexGrid>
     )

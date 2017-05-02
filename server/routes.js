@@ -10,14 +10,19 @@ import {
   updateUserData, checkUser,
   logout, filterItems,
   itemView, itemPhone,
-  createDummyUser, updateDummyUser, users
+  createDummyUser, updateDummyUser,
+  users, checkPassword
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
 const routes = express();
 
-
 // User routes
+routes.post(
+  checkPassword,
+
+  userController.checkPassword
+)
 routes.post(
   signup,
 

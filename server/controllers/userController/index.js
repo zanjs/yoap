@@ -7,6 +7,7 @@ import verifyHandler from './verifyHandler'
 import createDummyUser from './createDummyUser'
 import updateDummyUser from './updateDummyUser'
 import getUsersHandler from './getUsersHandler'
+import checkPassword from './checkPassword'
 //import deleteHandler from './deleteHandler'
 
 export default {
@@ -19,5 +20,6 @@ export default {
   createDummyUser,
   updateDummyUser,
   getUsersHandler,
+  checkPassword
   //deleteHandler
 }

@@ -67,7 +67,7 @@ export default class FormGroup extends Component {
       isSuccess, isNormal, ph,
       defaultValue, type, msg,
       required, disabled, wrapperClassName,
-      isPhone,
+      isPhone, children,
       ...rest
     } = this.props;
 
@@ -99,6 +99,7 @@ export default class FormGroup extends Component {
       <div className={classNames(s.group, wrapperClassName)}>
         {isInputPhone ? <InputPhone {...props}/> : <Input {...props}/>}
         {required && this.renderMessage(status, msg)}
+        {children}
       </div>
     )
   }

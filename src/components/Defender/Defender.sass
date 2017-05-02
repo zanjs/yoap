@@ -7,24 +7,43 @@
   top: 0
   width: 100%
   height: 100%
-  background-color: #fff
+  background-color: #1c1c26
+  transition: opacity $animParams
+
+.fetch
+  opacity: .7
+  user-focus: none
+  user-select: none
 
 .wrapper
   width: 50%
   margin: 0 auto
-  max-width: 450px
+  max-width: 360px
+  position: relative
   @include respond(mobile)
     width: 90%
-  *
-    text-align: center
 
 .logo
-  width: 70%
-  margin: 0 auto
-  padding: 15px 0
+  width: 100%
+  margin: 0 auto 0 0
+  padding: 36px 0
+  &__icon
+    fill: #fff
+    max-width: 160px
+
 .btn
   margin: 20px auto
   display: block
   width: auto
 
+.input
+  position: relative
 
+.lock_icon
+  display: block
+  position: absolute
+  right: 0
+  top: 50%
+  transform: translate(-50%, -50%)
+  @include size(18px)
+  fill: #fff

@@ -15,6 +15,8 @@ export const JSONHeaders = {
 };
 
 // user api
+export const checkPassword = `/password`;
+export const checkPasswordApi = apiOrigin + api + checkPassword;
 // sign up
 export const signup = `/signup`;
 export const signupApi = apiOrigin + api + signup;

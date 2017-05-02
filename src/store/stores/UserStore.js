@@ -76,6 +76,7 @@ class UserStore {
   @observable personalPoints = [];
   @observable isUserPage = false;
   @observable redirect = null;
+  @observable isAllowed = false;
 
   @observable _objects;
   set objects(d) {
@@ -133,10 +134,7 @@ class UserStore {
   @action redirectWhenLogin = path => {
     this.redirect = path;
   }
-
-  notify = type => {
-
-  };
+  @action updateAllowed = data => this.isAllowed = data;
 
   has = id => {
     if (this._objects) {
@@ -352,7 +350,8 @@ class UserStore {
     phone: this.phone,
     password: this.password,
     token: this.token,
-    personalPoints: this.personalPoints
+    personalPoints: this.personalPoints,
+    isAllowed: this.isAllowed
     // _featured: this._featured,
     // _objects: this._objects
   })

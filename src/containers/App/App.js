@@ -1,6 +1,6 @@
 import React, { Component, } from 'react'
 import Helmet from 'react-helmet'
-import DevTools, { configureDevtool } from 'mobx-react-devtools'
+import { inject, observer } from 'mobx-react'
 import {
   HomePage, LoginPage, SignupPage,
   ItemsListPage, ItemPage, UserPage,
@@ -10,41 +10,31 @@ import {
 } from 'pages'
 import {
   BrowserRouter as Router,
-  Route
+  Route, Redirect
 } from 'react-router-dom'
 import {
-  PagesTransitions, Overlay,
-  Defender, PathNotify, Footer
+  PagesTransitions, Overlay, Footer
 } from 'components'
-import { NavContainer } from 'containers'
+import { NavContainer, DefenderContainer } from 'containers'
 import s from './App.sass'
 
-// configureDevtool({
-//   // Turn on logging changes button programmatically:
-//   logEnabled: true,
-//   // Turn off displaying conponents' updates button programmatically:
-//   updatesEnabled: false,
-//   renderReporter: true
-// });
+const mapStateToProps = ({user: {isAllowed}}) => ({
+  isAllowed
+})
 
-
+@inject(mapStateToProps) @observer
 export default class App extends Component {
-  state = {
-    currentPage: 0,
-    userHasAuthorized: !!module.hot
-  };
-
-  submitHandler = value => {
-    if (value !== ___PW) {
-      return 'Password is not correct!'
+  state = {DevTools: null};
+  componentWillMount() {
+    if (module.hot) {
+      System.import('mobx-react-devtools').then(data => {
+        this.setState({DevTools: data.default})
+      })
     }
-
-    this.setState({userHasAuthorized: true})
-  };
-
+  }
   render() {
-    const { userHasAuthorized } = this.state;
-
+    const { DevTools } = this.state;
+    const { isAllowed } = this.props;
     return (
       <Router>
         <div className={s.root}>
@@ -56,11 +46,8 @@ export default class App extends Component {
           />
 
           {/* Defend your project. Works only in production mode. */}
-          {/*{!userHasAuthorized && <Redirect to="/defender"/>}*/}
-
-          {/*<Route path="/defender" render={() => (*/}
-            {/*<Defender userHasAuthorized={userHasAuthorized} submitHandler={this.submitHandler}/>*/}
-          {/*)}/>*/}
+          {!isAllowed && <Redirect to="/defender"/>}
+          <Route path="/defender" component={DefenderContainer} />
 
           {/* Place for Navigation, Sidebar, Modal, etc.  */}
           <NavContainer />
@@ -97,7 +84,7 @@ export default class App extends Component {
           <Overlay />
 
           {/* MobX Devtools */}
-          <DevTools />
+          {DevTools && <DevTools />}
         </div>
       </Router>
     )
