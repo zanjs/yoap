@@ -62,7 +62,7 @@ export default class DefenderContainer extends Component {
 
   render() {
     if (this.props.isAllowed) {
-      return <Redirect to="/"/>
+      return <Redirect to="/y"/>
     }
 
     const {

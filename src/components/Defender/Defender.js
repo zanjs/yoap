@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
 import { FormGroup, Svg, FlexGrid } from 'components'
 import { classNames } from 'helpers'
@@ -9,7 +8,7 @@ import logoIcon from 'icons/logo.svg'
 import lockIcon from 'icons/ui/lock.svg'
 
 const mapStateToProps = ({device: {width, height}}) => ({
-  width: `${width}px`, height: `${height}px`
+  width: `${width}px`, height: `${height}px`,
 });
 
 @inject(mapStateToProps) @observer
@@ -30,13 +29,8 @@ export default class Defender extends Component {
     const {
       width, height,
       isError, isFetching,
-      isAuthorized,
       onChange
     } = this.props;
-
-    if (isAuthorized) {
-      return <Redirect to="/"/>
-    }
 
     return (
       <FlexGrid direction="column" justify="center" align="center"

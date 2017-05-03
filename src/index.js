@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader'
 import { App } from 'containers'
@@ -8,7 +9,9 @@ import { store } from 'store'
 export const Application = (App, _store) => (
   <AppContainer>
     <Provider {..._store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </AppContainer>
 );
