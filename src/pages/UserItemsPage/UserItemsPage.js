@@ -3,8 +3,9 @@ import { inject, observer } from 'mobx-react'
 import Helmet from 'react-helmet'
 import {
   Container, FlexGrid, Title, LinkIcon,
-  ItemTile, LoadingAnimation
+  LoadingAnimation
 } from 'components'
+import { ItemTileContainer } from 'containers'
 import s from './UserItemsPage.sass'
 
 const mapStateToProps = ({user: {name, update, isFetching, _objects}, items}) => ({
@@ -40,7 +41,7 @@ export default class UserItemsPage extends Component {
           <FlexGrid wrap="true" justify="start"
                     align="start">
             {data && data.map((item, key) => (
-              <ItemTile edit data={item} key={key} />
+              <ItemTileContainer edit data={item} key={key} />
             ))}
           </FlexGrid>
         </Container>
