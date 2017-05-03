@@ -63,15 +63,11 @@ export default (req, res) => {
   delete update.id;
   delete update._id;
 
-  console.log('status to update', update.status, objectId);
-
   Item.findByIdAndUpdate(objectId, { $set: update }, { new: true })
     .then(data => {
-      console.log('updated object', data._id, 'but id was', objectId, objectId === data._id)
-      console.log('status updated to', data.status)
       res.status(200).json({
         success: true,
-        data
+        data: [data]
       })
     })
     .catch(err => {

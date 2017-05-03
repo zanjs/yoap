@@ -89,13 +89,19 @@ export default class ItemNumbersDataContainer extends Component {
 
   render() {
     const { views, createdAt } = this.props.data;
+    const { children } = this.props;
     const { featured } = this.state;
     const { featuredClickHandler } = this;
     const isActive = this.isFeatured();
+    console.log({children})
 
-    return <ItemNumbersData isFeaturedActive={isActive} views={views}
-                            onFeaturedClick={featuredClickHandler}
-                            date={createdAt} featured={featured}/>
+    return (
+      <ItemNumbersData isFeaturedActive={isActive} views={views}
+                       onFeaturedClick={featuredClickHandler}
+                       date={createdAt} featured={featured}>
+        {children}
+      </ItemNumbersData>
+    )
   }
 }
 

@@ -155,6 +155,10 @@ export default class ItemPageEdit extends Component {
       return <Redirect to='/login'/>
     }
 
+    if (!user.verified) {
+      return <Redirect to='/you'/>
+    }
+
     if (saved) {
       return <Redirect to={user.isAdmin ? '/manage' : "/you"}/>
     }

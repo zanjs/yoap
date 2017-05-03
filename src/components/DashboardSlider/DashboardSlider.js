@@ -162,7 +162,7 @@ export default class DashboardSlider extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (
-      shallowEqual(nextProps.slides, this.props.slides)
+      !shallowEqual(nextProps.slides, this.props.slides)
       || this.isEmpty() && !this.isEmpty(nextProps)
     ) {
       return this.setState({newProps: true})
@@ -199,8 +199,8 @@ export default class DashboardSlider extends Component {
 
     return (
       <Slide onClick={this.clickHandler}
-                    getRef={this.getWrapperRef}
-                    {...this.state.slide}>
+             getRef={this.getWrapperRef}
+             {...this.state.slide}>
         <div className={s.progress}>
           <div ref={this.getBarRef} className={s.bar} />
         </div>

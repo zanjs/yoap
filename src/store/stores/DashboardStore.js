@@ -12,9 +12,14 @@ import starsIcon from 'images/emoji/6.png'
 
 class DashboardStore {
   @computed get data() {
-    return this.notifications;
+    return [
+      ...this.notifications,
+      ...this.promotion,
+      ...this.tips,
+    ];
   }
   @observable notifications = [];
+  @observable promotion = [];
   @observable tips = [];
 
   bannedSlide = () => ({
@@ -160,6 +165,11 @@ class DashboardStore {
       )
     }
 
+    console.log({
+      hasObjects,
+      user
+    })
+
     // if user verified and did not create an objects
     if (user.verified && !hasObjects) {
       addNotification(this.verifiedSlide(user))
@@ -214,8 +224,8 @@ class DashboardStore {
         return {}
       }
 
-      const { verified, banned } = store.user;
-      return { verified, banned }
+      const { verified, banned, link, _link } = store.user;
+      return { verified, banned, link: link || _link }
     },
     user => this.onUserChange(store.user)
   )
@@ -226,10 +236,13 @@ class DashboardStore {
       }
 
       return {
-        data: store.items.users
+        data: store.items.users.map(item => ({
+          justCreated: item.justCreated,
+          status: item.status
+        }))
       }
     },
-    ({data}) => this.onUserChange(store.user, data || [])
+    ({data}) => this.onUserChange(store.user, store.items.users)
   )
 }
 

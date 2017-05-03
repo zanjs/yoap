@@ -12,7 +12,7 @@ export default (req, res) => {
 
   if (!query && (link || _link)) {
     query = {
-      link: link || _link
+      link: _link || link
     };
   }
 
@@ -27,7 +27,7 @@ export default (req, res) => {
     .then(data => {
       res.status(200).json({
         success: true,
-        data
+        data: [data]
       })
     })
     .catch(err => {

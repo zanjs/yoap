@@ -46,8 +46,6 @@ export default (req, res) => {
           }
         }
 
-        console.log('featured updated to', featured);
-
         Item.findOneAndUpdate(_query, {featured})
           .then(cb)
           .catch(err => {
@@ -67,7 +65,7 @@ export default (req, res) => {
         .then(data => {
           res.status(200).json({
             success: true,
-            data
+            data: [data]
           })
         }).catch(err => {
         res.status(500).json({
@@ -103,7 +101,7 @@ export default (req, res) => {
 
       res.status(500).json({
         message: 'Такого юзера нет!',
-        data: item
+        data: [item]
       })
     })
     .catch(err => {

@@ -14,7 +14,7 @@ const getFeaturedClassName = isActive => {
   return classNames(s.item, s.featured, isActive && s.featured_active)
 }
 
-const ItemNumbersData = ({date, views, featured, isFeaturedActive, onFeaturedClick}) => (
+const ItemNumbersData = ({date, views, children, featured, isFeaturedActive, onFeaturedClick}) => (
   <FlexGrid align="center" justify="start">
     <Content size="4" gray className={s.item}>
       {getDateDifference(date)}
@@ -28,6 +28,7 @@ const ItemNumbersData = ({date, views, featured, isFeaturedActive, onFeaturedCli
       <Svg src={favoriteIcon} className={s.icon}/>
       <Content size="4" gray nooffsets>{featured}</Content>
     </FlexGrid>
+    {children}
   </FlexGrid>
 )
 

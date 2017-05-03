@@ -15,7 +15,7 @@ const ItemPageRating = ({value, edit, data}) => {
         <Content lightColor light size="2">
           {data.name}
         </Content>
-        {edit && <StarsRatingContainer value={value} className={s.stars}/>}
+        {edit && <StarsRatingContainer __value={value} className={s.stars}/>}
         {!edit && value != null && <StarsRating value={value} className={s.stars}/>}
       </FlexGrid>
     </div>

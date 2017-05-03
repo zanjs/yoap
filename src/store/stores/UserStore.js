@@ -352,7 +352,8 @@ class UserStore {
     password: this.password,
     token: this.token,
     personalPoints: this.personalPoints,
-    isAllowed: this.isAllowed
+    isAllowed: this.isAllowed,
+    isAdmin: this.isAdmin
     // _featured: this._featured,
     // _objects: this._objects
   })

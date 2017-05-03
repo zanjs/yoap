@@ -272,7 +272,7 @@ class ItemsStore {
   };
 
   // selectors
-  findBy = (sel, val, col, cb) => {
+  findBy = (sel, val, col, cb, noRequest) => {
     const selector = item => item[sel] === val;
     let data = this.data.find(selector);
 
@@ -287,14 +287,14 @@ class ItemsStore {
     if (data)
       return cb(data);
 
-    if (!data) {
+    if (!data && !noRequest) {
       this.isFetching = true;
       getItem({[sel]: val})
         .then(this.checkStatus)
         .then(this.parseJSON)
         .then(this.findByResponse(col || 'data'))
         .then(() => {
-          this.findBy(sel, val, col, cb);
+          this.findBy(sel, val, col, cb, true);
         })
     }
   };

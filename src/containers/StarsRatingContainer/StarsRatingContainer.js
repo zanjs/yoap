@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { StarsRating } from 'components'
 
 const mapStateToProps = ({manage: {data, changeData}, user: {isAdmin}, items: {updateItem, current}}) => ({
-  value: data.value || 0,
+  value: current.rating || data.rating || 0,
   id: data.id || data._id || current.id || current._id,
   updateItem,
   changeData,
@@ -32,7 +32,7 @@ export default class StarsRatingContainer extends Component {
         rating: value
       })
     }
-  }
+  };
   render() {
     const {
       props: {className},

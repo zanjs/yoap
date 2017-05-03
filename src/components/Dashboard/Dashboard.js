@@ -3,8 +3,8 @@ import { inject, observer } from 'mobx-react'
 import { DashboardSlider } from 'components'
 import { isEmpty } from 'helpers'
 
-const mapStateToProps = ({dash: {notifications}}) => ({
-  notifications
+const mapStateToProps = ({dash: {data}}) => ({
+  data
 });
 
 @inject(mapStateToProps) @observer
@@ -15,7 +15,7 @@ export default class DashboardNotification extends Component {
     }
   }
   update = (props = this.props) => {
-    if (isEmpty(props.data)) {
+    if (!props.data || !props.data.length) {
       return this.setEmpty(true)
     }
     return this.setEmpty(false)
@@ -27,7 +27,8 @@ export default class DashboardNotification extends Component {
     this.update();
   }
   render() {
-    const slides = this.props.notifications.length && this.props.notifications || [];
+    const slides = !!this.props.data.length && this.props.data || [];
+    console.log(slides.length, {slides});
     return <DashboardSlider slides={slides} changeBackground={this.props.changeBackground} />
   }
 }
