@@ -38,10 +38,10 @@ const UserCustomAddressItem = (props) => {
           {edit && <InputClean onChange={onTitleChange}
                                placeholder="Название пункта"
                                defaultValue={title}/>}
-          {!edit && <span>{title}</span>}
+          {!edit && <span className={s.text_limit}>{title}</span>}
         </FlexGrid>
       </Title>
-      <Content size="3">
+      <Content size="3" className={s.text_limit}>
         {edit && <AddressInput onChange={onAddressChange} inherit
                                noMessage setPoint={onAddressChange}
                                placeholder="Точный адрес"

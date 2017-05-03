@@ -4,9 +4,9 @@ import {
   Title, Button, FlexGrid
 } from 'components'
 import { shallowEqual, isEmpty as isEmptyData } from 'helpers'
-import s from './NotificationSlider.sass'
+import s from './DashboardSlider.sass'
 
-const Notification = observer(({children, onClick, getRef, title, icon, buttons}) => (
+const Slide = observer(({children, onClick, getRef, title, icon, buttons}) => (
   <div ref={getRef} onClick={onClick}
        className={s.wrapper}>
     {title && <FlexGrid justify="space-between" align="center"
@@ -29,7 +29,7 @@ const Notification = observer(({children, onClick, getRef, title, icon, buttons}
 ))
 
 @observer
-export default class NotificationSlider extends Component {
+export default class DashboardSlider extends Component {
   dur = .35;
   easeInOut = Power0.easeNone;
   easeIn = Cubic.easeOut;
@@ -198,13 +198,13 @@ export default class NotificationSlider extends Component {
       return null;
 
     return (
-      <Notification onClick={this.clickHandler}
+      <Slide onClick={this.clickHandler}
                     getRef={this.getWrapperRef}
                     {...this.state.slide}>
         <div className={s.progress}>
           <div ref={this.getBarRef} className={s.bar} />
         </div>
-      </Notification>
+      </Slide>
     )
   }
 }

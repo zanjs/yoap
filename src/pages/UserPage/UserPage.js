@@ -4,12 +4,13 @@ import { Redirect } from 'react-router-dom'
 import {
   Container, FlexGrid,
   LoadingAnimation, UserSubscription,
-  Dashboard, UserFeatured,
+  UserFeatured,
   UserObjects
 } from 'components'
 import {
   UserDataEditContainer,
-  UserCustomAddressContainer
+  UserCustomAddressContainer,
+  DashboardContainer
 } from 'containers'
 import s from './UserPage.sass'
 
@@ -124,7 +125,7 @@ export default class UserPage extends Component {
 
     return (
       <div>
-        <Dashboard />
+        <DashboardContainer />
         {isFetching && <LoadingAnimation />}
 
         <Container className={s.content}>

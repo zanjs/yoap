@@ -1,22 +1,39 @@
 @import ../../theme/index
 
 .wrapper
-  background-color: #448aff
-  padding: 205px 0 118.3px
-  transition: background .3s ease-out
-  @include respond(mobile)
-    padding: 125px 0 80px
+  cursor: pointer
 
-.subtitle
-  letter-spacing: 5px
-  text-transform: uppercase
+.content
+  padding: 51.2px 0 48.6px
+
+.footer
+  padding-top: 41px
+
+.title
+  width: 75%
+
+.icon
+  width: 25%
+  padding: 0 75px
   display: block
-  color: #ffffff
-  opacity: .3
-  font-weight: 300
-  font-size: 18px
-  line-height: 21px
-  @include respond(mobile)
-    font-size: 16px
-    line-height: 19px
-    letter-spacing: 4px
+
+.btn
+  color: #ffffff !important
+  &:last-child
+    opacity: .7
+    &:hover
+      opacity: 1
+
+.progress
+  height: 2px
+  width: 50%
+  background-color: rgba(#fff, .3)
+  position: relative
+  overflow: hidden
+
+.bar
+  @include absolute_init(full, 0)
+  left: -100%
+  transform: translateX(0%)
+  background-color: #fff
+

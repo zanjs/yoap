@@ -23,3 +23,20 @@
     @include opacityAnim(.7)
     cursor: pointer
     user-select: none
+
+.text_limit
+  position: relative
+  display: block
+  width: 100%
+  white-space: pre
+  overflow: hidden
+  &:after
+    content: ''
+    display: block
+    background: linear-gradient(to right, rgba(#fff, 0), rgba(#fff, 1))
+    position: absolute
+    z-index: 10
+    right: 0
+    top: 0
+    height: 100%
+    width: 20px

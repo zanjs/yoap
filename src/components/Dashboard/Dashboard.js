@@ -1,46 +1,34 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import {
-  Container, DashboardNotification
-} from 'components'
-import s from './Dashboard.sass'
+import { DashboardSlider } from 'components'
+import { isEmpty } from 'helpers'
 
-@inject('dash') @observer
-export default class Dashboard extends Component {
-  state = {color: '#448aff', isEmpty: true};
+const mapStateToProps = ({dash: {notifications}}) => ({
+  notifications
+});
 
-  changeBackground = color => this.setState({
-    color
-  });
-
-  isEmpty = (cond) => {
-    this.setState({
-      isEmpty: cond
-    })
+@inject(mapStateToProps) @observer
+export default class DashboardNotification extends Component {
+  setEmpty = cond => {
+    if (this.props.isEmpty) {
+      this.props.isEmpty(cond)
+    }
+  }
+  update = (props = this.props) => {
+    if (isEmpty(props.data)) {
+      return this.setEmpty(true)
+    }
+    return this.setEmpty(false)
+  }
+  componentWillReceiveProps(props) {
+    this.update(props);
   }
   componentWillMount() {
-    this.props.dash.update();
+    this.update();
   }
-
   render() {
-    const {
-      state: {color, isEmpty},
-      changeBackground
-    } = this;
-
-    const display = isEmpty ? 'none' : 'block';
-
-    return (
-      <div style={{backgroundColor: color, display}} className={s.wrapper}>
-        <Container>
-          <span className={s.subtitle}>
-            Уведомления
-          </span>
-          <DashboardNotification isEmpty={this.isEmpty}
-                                 changeBackground={changeBackground} />
-        </Container>
-      </div>
-    )
+    const slides = this.props.notifications.length && this.props.notifications || [];
+    return <DashboardSlider slides={slides} changeBackground={this.props.changeBackground} />
   }
 }
 
