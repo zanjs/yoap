@@ -3,21 +3,21 @@ import { statusTypes } from 'constants/itemConstants/statusTypes'
 const { Schema } = mongoose;
 
 mongoose.Promise = global.Promise;
-export const imageSchema = {
+export const imageSchema = required => ({
   preview: {
     type: String,
-    required: true
+    required
   },
   full: {
     type: String,
-    required: true
+    required
   },
   mobile: String,
   tablet: String,
   laptop: String,
   desktop: String,
   retina: String
-};
+});
 
 const itemSchema = new Schema({
   title: {
@@ -62,8 +62,8 @@ const itemSchema = new Schema({
     required: true
   },
   images: {
-    thumbnail: imageSchema,
-    gallery: [imageSchema]
+    thumbnail: imageSchema(true),
+    gallery: [imageSchema(true)]
   },
   price: [
     {

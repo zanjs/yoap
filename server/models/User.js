@@ -31,7 +31,7 @@ const userSchema = new Schema({
     type: String,
     trim: true, index: true, unique: true, sparse: true
   },
-  image: imageSchema,
+  image: imageSchema(false),
   verified: {
     type: Boolean,
     default: false
