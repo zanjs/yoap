@@ -229,7 +229,7 @@ class DashboardStore {
         data: store.items.users
       }
     },
-    ({data}) => this.onUserChange(store.user, data)
+    ({data}) => this.onUserChange(store.user, data || [])
   )
 }
 
