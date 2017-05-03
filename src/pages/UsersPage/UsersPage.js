@@ -45,7 +45,7 @@ export default class UsersPage extends Component {
     this.setUser(id);
     this.props.fetchUsers(() => {
       const user = this.setUser(id);
-      console.log(user);
+
       this.props.updateCurrent(user);
       this.props.fetchUserItems(user.objects);
       this.props.fetchUserFeatured(user.featured);

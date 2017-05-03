@@ -189,6 +189,7 @@ export default class UserDataEdit extends Component {
       state: { edit, Dropzone, dragOver, preview },
       props: { image, phone, email, noEdit, isFetching, name, verified }
     } = this;
+
     return (
       <div className={classNames(s.wrapper, isFetching && s.fetch)}>
         <ItemPageInfoTitle title="Мой профиль">
@@ -204,7 +205,7 @@ export default class UserDataEdit extends Component {
                       onDragOver={onDragOver}
                       onDragLeave={onDragLeave}
                       className={classNames(s.dropzone, dragOver && s.dropzone_over)}>
-              {(image || preview) ? <Image src={image || preview}/> : <div className={s.noImage}/>}
+              {(!isEmpty(image) || preview) ? <Image src={image || preview}/> : <div className={s.noImage}/>}
               <Svg src={addIcon} className={s.image__hover} />
             </Dropzone>
           </div>

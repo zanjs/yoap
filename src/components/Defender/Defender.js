@@ -41,6 +41,7 @@ export default class Defender extends Component {
           </div>
           <FormGroup onChange={onChange} isError={isError} msg={isError}
                      onFocus={this.onFocus} wrapperClassName={s.input}
+                     name="yoap-password"
                      theme="transparent" placeholder="Password*"
                      type="password" required>
             {!isError && <Svg src={lockIcon} className={s.lock_icon}/>}

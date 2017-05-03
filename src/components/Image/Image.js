@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import {
   classNames, getDeviceBreakpoint,
-  getPrevDeviceBreakpoint, shallowEqual
+  getPrevDeviceBreakpoint, shallowEqual,
+  isEmpty
 } from 'helpers'
 import { image as config } from 'config'
 import { apiOrigin as hostname } from 'constants/urls'
@@ -143,6 +144,9 @@ export default class Image extends Component {
 
   imageStyles = {display: 'none'}
   getHostNameSrc = src => {
+    if (isEmpty(src))
+      return null;
+
     if (src.indexOf('blob') === -1) {
       return `${hostname}${src}`
     }

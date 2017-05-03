@@ -41,7 +41,6 @@ export default class UserDataEditContainer extends Component {
   getData = () => this.props.data || this.props.user;
   onUpload = files => {
     imagesUpload(files).then(data => {
-      console.log('uploaded', data);
       this.saveUserData({image: data[0]})
     })
   }
