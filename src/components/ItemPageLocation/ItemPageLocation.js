@@ -136,7 +136,7 @@ export default class ItemPageLocation extends Component {
             )
           })}
         </div>}
-        <div className={s.item}>
+        {!edit && <div className={s.item}>
           <ItemPageInfoTitle title="Доступность транспорта"/>
           <FlexGrid justify="start" align="center" className={s.icons}>
             <Svg onClick={createChangeMethod(walkMethod)} src={walkIcon}
@@ -148,7 +148,7 @@ export default class ItemPageLocation extends Component {
             {/*<Svg onClick={createChangeMethod('BICYCLING')}*/}
                  {/*src={bikeIcon} className={classNames(s.icon,)} />*/}
           </FlexGrid>
-        </div>
+        </div>}
       </div>
     )
   }

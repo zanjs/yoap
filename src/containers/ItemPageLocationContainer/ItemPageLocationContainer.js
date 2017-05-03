@@ -96,11 +96,7 @@ export default class ItemPageLocationContainer extends Component {
   };
   updateTiming = (props = this.props) => {
     const point = this.getPointData(props.data);
-    const { personalPoints } = props;
-
-    if (!personalPoints || !personalPoints.length) {
-      return null;
-    }
+    const { personalPoints = [] } = props;
 
     let __points = [
       getDefaultPersonalPoint(),

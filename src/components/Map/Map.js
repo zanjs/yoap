@@ -221,16 +221,10 @@ export default class Map extends Component {
   setDirection = props => {
     const { point, direction } = props || this.props;
 
-    console.log({point, direction});
-
     getDirection(point, direction).then(props => {
-      console.log(
-        'direction was set',
-        window.dir = props
-      );
       this.directionsDisplay.setDirections(props.result);
     }).catch(err => {
-      console.log('ERROR!', err);
+      console.log('set direction error:', err);
     })
   };
   comparePoints = (first, last) => {
