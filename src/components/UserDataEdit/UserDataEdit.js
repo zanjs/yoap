@@ -8,6 +8,7 @@ import { createHandleChange, createHandleBlur } from 'validation/userValidation'
 import { isEmpty, classNames } from 'helpers'
 import s from './UserDataEdit.sass'
 import verifiedIcon from 'icons/ui/verifed.svg'
+import addIcon from 'icons/ui/add-box.svg'
 
 @observer
 export default class UserDataEdit extends Component {
@@ -26,6 +27,7 @@ export default class UserDataEdit extends Component {
     password: '',
     password_new: '',
     edit: false,
+    Dropzone: ({children}) => (<div>{children}</div>),
 
     errors: {},
     success: {},
@@ -105,8 +107,8 @@ export default class UserDataEdit extends Component {
     return false;
   };
   saveValues = (state = this.state) => {
-    const {normal, errors, success, edit, ...rest} = state;
-    this.props.onSubmit(rest);
+    const { name, email, phone, password, password_new } = state;
+    this.props.onSubmit({ name, email, phone, password, password_new });
   };
 
   switchEdit = () => this.setState(state => ({
@@ -133,6 +135,22 @@ export default class UserDataEdit extends Component {
     [target.name]: target.value
   })
 
+  onDrop = props => {
+    this.setState({
+      dragOver: false, preview: props[0].preview
+    });
+    console.log(props);
+    if (this.props.onUpload) {
+      this.props.onUpload(props);
+    }
+  };
+  onDragOver = () => {
+    this.setState({dragOver: true});
+  };
+  onDragLeave = () => {
+    this.setState({dragOver: false});
+  };
+
   componentWillReceiveProps(nextProps) {
     const { isError, isFetching} = nextProps;
 
@@ -154,14 +172,21 @@ export default class UserDataEdit extends Component {
       }))
     }
   }
+  componentWillMount() {
+    System.import('react-dropzone')
+      .then(module => this.setState({
+        Dropzone: module
+      }));
+  }
 
   render() {
     const {
       submitHandler,
       extendInputProps,
       extendPasswordInput,
-      Input,
-      state: { edit },
+      Input, onDrop, onDragOver,
+      onDragLeave,
+      state: { edit, Dropzone, dragOver, preview },
       props: { image, phone, email, noEdit, isFetching, name, verified }
     } = this;
     return (
@@ -175,7 +200,13 @@ export default class UserDataEdit extends Component {
 
         <FlexGrid justify="start" align="start" className={s.user}>
           <div className={s.image}>
-            {image ? <Image src={image}/> : <div className={s.noImage}/>}
+            <Dropzone onDrop={onDrop}
+                      onDragOver={onDragOver}
+                      onDragLeave={onDragLeave}
+                      className={classNames(s.dropzone, dragOver && s.dropzone_over)}>
+              {(image || preview) ? <Image src={image || preview}/> : <div className={s.noImage}/>}
+              <Svg src={addIcon} className={s.image__hover} />
+            </Dropzone>
           </div>
           <div className={s.content}>
             <FlexGrid justify="start" align="center" className={s.title}>

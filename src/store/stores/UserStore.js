@@ -63,8 +63,8 @@ class UserStore {
   @observable password;
   @observable isAdmin;
 
-  @observable image;
-  @observable visits;
+  @observable image = {};
+  @observable visits = [];
   @observable lastVisit;
   @observable isDeleted;
   @observable createdAt;
@@ -347,6 +347,7 @@ class UserStore {
     id: this.id || '',
     name: this.name,
     email: this.email,
+    image: this.image,
     phone: this.phone,
     password: this.password,
     token: this.token,

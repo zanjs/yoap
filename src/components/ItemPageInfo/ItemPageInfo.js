@@ -57,6 +57,7 @@ export default class ItemPageInfo extends Component {
         {user && <ItemPageUser
                       id={objectId}
                       email={user.email}
+                      image={user.image}
                       isVerified={user.verified}>
           {user.name}
         </ItemPageUser>}

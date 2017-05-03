@@ -65,8 +65,8 @@ export default class ItemPageInfoEdit extends Component {
         </ItemPageContent>
         <ItemPageUser phone={user.phone}
                       id={this.props.data._id || this.props.data.id}
-                      email={user.email}
-                      link="/you" image={user.image}
+                      email={user.email} link="/you"
+                      image={user.image}
                       isVerified={user.verified}>
           {user.name}
         </ItemPageUser>

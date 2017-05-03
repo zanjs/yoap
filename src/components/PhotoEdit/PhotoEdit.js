@@ -12,9 +12,6 @@ export default class PhotoEdit extends Component {
     data: this.props.data
   };
 
-  initLibrary = () => {
-  };
-
   changeHandler = (props) => {
     console.log(props)
   };

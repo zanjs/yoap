@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { UserDataEdit } from 'components'
+import { imagesUpload } from 'api'
 import { isEmpty } from 'helpers'
 
 const mapStateToProps = ({user: {name, image, phone, email, isError, isFetching, verified, updateUserData, password}}) => ({
@@ -38,10 +39,18 @@ export default class UserDataEditContainer extends Component {
     }
   };
   getData = () => this.props.data || this.props.user;
+  onUpload = files => {
+    imagesUpload(files).then(data => {
+      console.log('uploaded', data);
+      this.saveUserData({image: data[0]})
+    })
+  }
   render() {
     const data = this.getData();
 
-    return <UserDataEdit noEdit={this.props.noEdit} onSubmit={this.saveUserData} {...data}/>
+    return <UserDataEdit noEdit={this.props.noEdit}
+                         onUpload={this.onUpload}
+                         onSubmit={this.saveUserData} {...data}/>
   }
 }
 

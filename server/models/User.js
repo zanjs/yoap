@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { imageSchema } from './Item'
 const { Schema } = mongoose;
 
 mongoose.Promise = global.Promise;
@@ -30,10 +31,7 @@ const userSchema = new Schema({
     type: String,
     trim: true, index: true, unique: true, sparse: true
   },
-  image: {
-    type: String,
-    default: ''
-  },
+  image: imageSchema,
   verified: {
     type: Boolean,
     default: false
