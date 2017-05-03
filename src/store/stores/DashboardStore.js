@@ -161,18 +161,11 @@ class DashboardStore {
     }
 
     // if user verified and did not create an objects
-    console.log('is user verified', user.verified && !hasObjects, {
-      verified: user.verified,
-      hasObjects
-    })
     if (user.verified && !hasObjects) {
       addNotification(this.verifiedSlide(user))
     }
 
     // if user not verified
-    console.log('is user not verified', !user.verified, {
-      verified: user.verified
-    })
     if (!user.verified) {
       addNotification(this.notVerifiedSlide(user))
     }
@@ -216,11 +209,26 @@ class DashboardStore {
   }
 
   subscribeToUserStore = () => reaction(
-    () => store && store.user,
-    user => this.onUserChange(user)
+    () => {
+      if (!store) {
+        return {}
+      }
+
+      const { verified, banned } = store.user;
+      return { verified, banned }
+    },
+    user => this.onUserChange(store.user)
   )
   subscribeToUserObjects = () => reaction(
-    () => store && store.items.users,
+    () => {
+      if (!store) {
+        return {}
+      }
+
+      return {
+        data: store.items.users
+      }
+    },
     data => this.onUserChange(store.user, data)
   )
 }
