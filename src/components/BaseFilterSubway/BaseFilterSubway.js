@@ -9,11 +9,17 @@ export default class BaseFilterSubway extends Component {
     mapImage: null, isOpen: false
   };
 
+  isMount = false;
+
   componentWillMount() {
+    this.isMount = true;
     System.import('icons/subway/spb.svg')
-      .then(mapImage => this.setState({
+      .then(mapImage => this.isMount && this.setState({
         mapImage
       }));
+  }
+  componentWillUnmount() {
+    this.isMount = false;
   }
 
   closeHandler = e => {

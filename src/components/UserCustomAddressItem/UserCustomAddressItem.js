@@ -24,7 +24,8 @@ const UserCustomAddressItem = (props) => {
   const {
     title, edit, address,
     position, onTitleChange, className,
-    onAddressChange, onRemove, noIcon
+    onAddressChange, onRemove, noIcon,
+    noLimit
   } = props;
 
 
@@ -41,7 +42,7 @@ const UserCustomAddressItem = (props) => {
           {!edit && <span className={s.text_limit}>{title}</span>}
         </FlexGrid>
       </Title>
-      <Content size="3" className={s.text_limit}>
+      <Content size="3" className={!noLimit && s.text_limit}>
         {edit && <AddressInput onChange={onAddressChange} inherit
                                noMessage setPoint={onAddressChange}
                                placeholder="Точный адрес"

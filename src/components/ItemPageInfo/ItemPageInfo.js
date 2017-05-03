@@ -50,7 +50,6 @@ export default class ItemPageInfo extends Component {
     const user = this.props.data.user || this.props.data._creator;
     const isAdmin = this.props.user.isAdmin;
     const status = this.getStatus(objectId);
-    console.log({isAdmin})
 
     return (
       <div className={classNames(s.wrapper, this.props.className)}>

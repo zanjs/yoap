@@ -171,6 +171,7 @@ class UserStore {
 
   errorHandler = response => {
     const data = response.response || response;
+    console.log('error', window.res = response);
 
     if (data.json) {
       return data.json().then(__data => {
@@ -279,8 +280,10 @@ class UserStore {
       .then(this.parseJSON)
       .then(res => {
         if (!res.success) {
+          console.log('will logout');
           this.logout();
         }
+
         if (res.data.token) {
           this.token = res.data.token;
         }
@@ -353,6 +356,7 @@ class UserStore {
     token: this.token,
     personalPoints: this.personalPoints,
     isAllowed: this.isAllowed,
+    // isAuthorized: this.isAuthorized,
     isAdmin: this.isAdmin
     // _featured: this._featured,
     // _objects: this._objects

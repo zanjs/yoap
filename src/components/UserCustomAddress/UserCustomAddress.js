@@ -38,7 +38,7 @@ const UserCustomAddress = props => {
         </div>}
         {isNew && isEdit &&
         <UserCustomAddressItem onTitleChange={onTitleChange} edit noIcon
-                               onAddressChange={onAddressChange}
+                               onAddressChange={onAddressChange} noLimit
                                className={s.item} {...editData}/>}
       </FlexGrid>
     </div>

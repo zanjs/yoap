@@ -7,7 +7,11 @@ export default class BaseFilterSlider extends Component {
   scrollNeeded = false;
   wrapperWidth = 181; scrollerWidth = 181;
   offset = 54; position = 0; step = 5;
+  isMount = false;
 
+  componentWillMount() {
+    this.isMount = true;
+  }
   componentDidMount() {
     const { defaultValue, snap, defaultSnapElement } = this.props;
     setTimeout(() => {
@@ -27,10 +31,14 @@ export default class BaseFilterSlider extends Component {
     window.addEventListener('resize', this.resizeHandler);
   }
   componentWillUnmount() {
+    this.isMount = false;
     window.removeEventListener('resize', this.resizeHandler);
   }
 
   resize = () => {
+    if (!this.isMount)
+      return;
+
     const wrapperWidth = this.wrapperWidth = parseInt(this.wrapper.clientWidth, 10);
     const scrollerWidth = this.scrollerWidth = parseInt(this.scroller.clientWidth, 10);
     this.offset = parseInt(this.wrapper.offsetLeft, 10);

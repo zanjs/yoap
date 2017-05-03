@@ -93,7 +93,7 @@ class FilterStore {
 
     return data.map((item, key) => {
       const types = item.types.map((type, index) => {
-        const paramIndex = params.findIndex(param => param.id === type.id);
+        const paramIndex = params.findIndex(param => param && type && param.id === type.id);
 
         return {
           ...type,
