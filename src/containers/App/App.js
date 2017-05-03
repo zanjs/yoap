@@ -27,7 +27,6 @@ const mapStateToProps = ({user: {isAllowed}, device: {isMobile}}) => ({
 export default class App extends Component {
   state = {DevTools: null};
   componentWillMount() {
-    console.log('isMobile', this.props.isMobile);
     if (module.hot && !this.props.isMobile) {
       System.import('mobx-react-devtools').then(data => {
         this.setState({DevTools: data.default})

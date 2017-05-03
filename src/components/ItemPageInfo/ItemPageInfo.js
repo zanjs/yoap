@@ -23,7 +23,9 @@ export default class ItemPageInfo extends Component {
     if (this.props.user.isAdmin || this.props.user.has(id)) {
       return this.props.data.statusName;
     }
-    if (this.props.data.status === statusTypes.types[1].id) {
+
+    const status = this.props.data.status.id || this.props.data.status;
+    if (status === statusTypes.types[1].id) {
       return {
         name: 'Проверено',
         color: GREEN_COLOR

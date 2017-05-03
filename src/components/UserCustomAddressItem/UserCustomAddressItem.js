@@ -36,7 +36,7 @@ const UserCustomAddressItem = (props) => {
                            src={edit ? closeIcon : pinIcon}
                            className={classNames(s.icon, edit && s.icon_click)} />}
           {edit && <InputClean onChange={onTitleChange}
-                               placeholder="Как будет называться ваш адрес?"
+                               placeholder="Название пункта"
                                defaultValue={title}/>}
           {!edit && <span>{title}</span>}
         </FlexGrid>
@@ -44,7 +44,7 @@ const UserCustomAddressItem = (props) => {
       <Content size="3">
         {edit && <AddressInput onChange={onAddressChange} inherit
                                noMessage setPoint={onAddressChange}
-                               placeholder="Где будет находиться ваш адрес?"
+                               placeholder="Точный адрес"
                                defaultValue={address}/>}
         {!edit && address}
       </Content>

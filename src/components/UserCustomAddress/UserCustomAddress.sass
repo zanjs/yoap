@@ -4,6 +4,7 @@
 .item
   width: 50%
   position: relative
+  min-height: 300px
   @include respond(mobile)
     width: 100%
 
@@ -15,7 +16,6 @@
 .icon
   @include absolute_init(full, 10)
   @include opacityAnim(.7)
-  min-height: 300px
   cursor: pointer
   user-select: none
   fill: $gray9b
