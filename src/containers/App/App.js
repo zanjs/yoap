@@ -18,15 +18,17 @@ import {
 import { NavContainer, DefenderContainer } from 'containers'
 import s from './App.sass'
 
-const mapStateToProps = ({user: {isAllowed}}) => ({
-  isAllowed
+const mapStateToProps = ({user: {isAllowed}, device: {isMobile}}) => ({
+  isAllowed,
+  isMobile
 })
 
 @inject(mapStateToProps) @observer
 export default class App extends Component {
   state = {DevTools: null};
   componentWillMount() {
-    if (module.hot) {
+    console.log('isMobile', this.props.isMobile);
+    if (module.hot && !this.props.isMobile) {
       System.import('mobx-react-devtools').then(data => {
         this.setState({DevTools: data.default})
       })

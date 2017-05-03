@@ -11,16 +11,17 @@ import s from './LoginPage.sass'
 import image from 'images/loginImage'
 
 const mapStateToProps = ({
-  device: { height }
+  device: { height, isMobile }
 }) => ({
-  height: `${height}px`
+  height: `${height}px`,
+  isMobile
 });
 
 @inject(mapStateToProps) @observer
 export default class LoginPage extends Component {
   render() {
     const {
-      height
+      height, isMobile
     } = this.props;
 
     const title = pagesTitles.LoginPage;
@@ -33,9 +34,9 @@ export default class LoginPage extends Component {
         <Container type="article" className={s.container}>
           <LoginFormContainer className={s.form} />
         </Container>
-        <div className={s.image_container}>
+        {!isMobile && <div className={s.image_container}>
           <Image withLoading src={image} className={s.image}/>
-        </div>
+        </div>}
       </FlexGrid>
     )
   }

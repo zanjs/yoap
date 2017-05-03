@@ -4,7 +4,8 @@
   background-color: #448aff
   padding: 205px 0 118.3px
   transition: background .3s ease-out
-
+  @include respond(mobile)
+    padding: 125px 0 80px
 
 .subtitle
   letter-spacing: 5px
@@ -15,3 +16,7 @@
   font-weight: 300
   font-size: 18px
   line-height: 21px
+  @include respond(mobile)
+    font-size: 16px
+    line-height: 19px
+    letter-spacing: 4px

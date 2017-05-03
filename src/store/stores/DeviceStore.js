@@ -47,12 +47,10 @@ class DeviceStore {
   };
 
   checkSupport = () => {
-    let device = {};
+    let device = {support: {}};
 
-    device.support = {
-      touch: !!(("ontouchstart" in window) || window.navigator && window.navigator.msPointerEnabled && window.MSGesture || window.DocumentTouch && document instanceof DocumentTouch),
-      svg: !!document.createElementNS && !!document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect
-    };
+    device.support.touch = !!(("ontouchstart" in window) || window.navigator && window.navigator.msPointerEnabled && window.MSGesture || window.DocumentTouch && document instanceof DocumentTouch),
+    device.support.svg = !!document.createElementNS && !!document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect
 
     device.support.localStorage = (function(){
       try {
@@ -232,7 +230,7 @@ class DeviceStore {
     const data = localStore.get(config.device);
 
     if (data) {
-      return extend(this, data);
+      extend(this, data);
     }
 
     return cb()

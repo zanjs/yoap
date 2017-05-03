@@ -2,10 +2,22 @@
 
 $offset: 5%
 
+.grid
+  flex-wrap: wrap
+
+.item
+  @include respond(mobile)
+    width: 100% !important
+
 .info
   width: 50% - $offset
+  @extend .item
+
 .data
   width: 50% - $offset
+  @extend .item
 
 .content
   padding: 100px 0
+  @include respond(mobile)
+    padding: 50px 0

@@ -94,7 +94,7 @@ export default class InputNumber extends Component {
       decreaseMouseUpHandler
     } = this;
     return (
-      <FlexGrid tag="span" justify="stretch" align="center"
+      <FlexGrid tag="span" justify="space-between" align="center"
                 className={classNames(s.wrapper, className)} {...rest}>
         {children}
         <FlexGrid tag="span" justify="stretch" align="center"

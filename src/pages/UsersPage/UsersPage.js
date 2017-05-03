@@ -71,7 +71,7 @@ export default class UsersPage extends Component {
         {isFetching && <LoadingAnimation />}
 
         <Container className={s.content}>
-          <FlexGrid justify="space-between" align="start">
+          <FlexGrid className={s.grid} justify="space-between" align="start">
 
             <div className={s.info}>
               <UserDataEditContainer noEdit data={user} />

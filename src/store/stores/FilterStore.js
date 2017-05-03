@@ -33,9 +33,14 @@ class FilterStore {
   @observable hasSearched = false;
 
   @action setSquares = data => {
-    const { squaresLimit } = this.size;
+    const { squaresLimit, squares } = this.size;
     if (squaresLimit[0] > data[0] || squaresLimit[1] > data[1]) {
       return false;
+    }
+
+    if (squares[0] === squaresLimit[0] && squares[1] === squaresLimit[1]) {
+      this.size.squares.replace(data);
+      return this.size.squaresLimit.replace(data);
     }
 
     this.size.squaresLimit.replace(data);

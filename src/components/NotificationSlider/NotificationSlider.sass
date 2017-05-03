@@ -5,17 +5,31 @@
 
 .content
   padding: 51.2px 0 48.6px
+  @include respond(mobile)
+    padding: 20px 0
+    flex-direction: column-reverse
+    justify-content: flex-start
+    align: flex-start
 
 .footer
   padding-top: 41px
 
 .title
   width: 75%
+  @include respond(mobile)
+    width: 100%
+    font-size: 32px
+    line-height: 40px
 
 .icon
   width: 25%
   padding: 0 75px
   display: block
+  @include respond(mobile)
+    width: 50%
+    max-width: 40px
+    padding: 0
+    margin: 10px auto 10px 0
 
 .btn
   color: #ffffff !important

@@ -2,14 +2,21 @@
 
 $offset: 5%
 
-.dashboard
-  height: 350px
-  background-color: #ddd
+.grid
+  @include respond(mobile)
+    flex-wrap: wrap
+
+.item
+  width: 50% - $offset
+  @include respond(mobile)
+    width: 100% !important
 
 .info
-  width: 50% - $offset
+  @extend .item
 .data
-  width: 50% - $offset
+  @extend .item
 
 .content
   padding: 100px 0
+  @include respond(mobile)
+    padding: 50px 0
