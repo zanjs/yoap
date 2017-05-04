@@ -1,4 +1,20 @@
 import { termTypes } from 'constants/itemConstants/termTypes'
+
+const sort = data => {
+  return data
+    .sort((a, b) => b.rating - a.rating)
+    .sort((a, b) => {
+      let aDate = new Date(a.createdAt);
+      let bDate = new Date(b.createdAt);
+
+      if (a.rating === b.rating) {
+        return bDate - aDate
+      }
+
+      return b.rating - a.rating
+    })
+}
+
 export default (data, termType = termTypes.types[2].id) => {
   let priceMin = 0;
   let priceMax = 0;
@@ -32,7 +48,7 @@ export default (data, termType = termTypes.types[2].id) => {
 
   return {
     success: true,
-    objects: data,
+    objects: sort(data),
     price: [priceMin, priceMax],
     squares: [squaresMin, squaresMax]
   }

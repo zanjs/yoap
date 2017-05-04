@@ -65,18 +65,9 @@ export const DesktopHeaderRatio = .2;
 
 // ========================================================### TITLES OF PAGES ###
 export const pagesTitles = {
-  TodosPage: 'Todos',
-  InfoPage: 'Application Info',
-  BoardPage: 'The Board',
-  LoginPage: 'Login',
   SignupPage: 'Sign Up',
+  LoginPage: 'Log In',
   UserPage: 'You',
-
-  ProtectPage: 'Гарантии',
-  DeliveryPage: 'Доставка и оплата',
-  ContactPage: 'Контакты',
-  CatalogPage: 'Каталог гаджетов',
-  AdminPage: 'Панель администратора'
 };
 
 // ========================================================### USER CONFIG ###

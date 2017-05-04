@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Helmet from 'react-helmet'
 import { inject, observer } from 'mobx-react'
 import {
   Intro, BannerThreeCols, BannerTwoCols,
@@ -6,6 +7,11 @@ import {
   ItemTilesBanner, MapItems, LoadingAnimation
 } from 'components'
 import s from './HomePage.sass'
+
+const des =
+  'Мы тщательно отбираем и проверяем все объекты, представленные на нашем сайте. ' +
+  'Вы можете быть уверены, что данные квартиры соответствуют своему описанию, ' +
+  'и документы, представленные реальными владельцами прошли верификацию.';
 
 const bannerThreeColsContent = [
   {
@@ -32,6 +38,11 @@ export default class HomePage extends Component {
 
     return (
       <div className={s.homepage}>
+        <Helmet>
+          <title>YOAP</title>
+          <meta name="description" content={des} />
+        </Helmet>
+
         <Intro />
         <MapItems />
         <ItemTilesBanner />

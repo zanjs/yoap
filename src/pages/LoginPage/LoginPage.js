@@ -24,12 +24,10 @@ export default class LoginPage extends Component {
       height, isMobile
     } = this.props;
 
-    const title = pagesTitles.LoginPage;
-
     return (
       <FlexGrid direction="column" justify="center"
                 className={s.wrapper} style={{minHeight: height}}>
-        <Helmet title={title}/>
+        <Helmet title={pagesTitles.LoginPage} />
 
         <Container type="article" className={s.container}>
           <LoginFormContainer className={s.form} />

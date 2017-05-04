@@ -1,7 +1,5 @@
 /* Pages entry point */
 export HomePage from './HomePage/HomePage'
-// export InfoPage from './InfoPage/InfoPage'
-// export TodosPage from './TodosPage/TodosPage'
 export LoginPage from './LoginPage/LoginPage'
 export SignupPage from './SignupPage/SignupPage'
 export ItemsListPage from './ItemsListPage/ItemsListPage'
@@ -14,4 +12,3 @@ export UserFeaturedPage from './UserFeaturedPage/UserFeaturedPage'
 export LogoutPage from './LogoutPage/LogoutPage'
 export ManageUsersPage from './ManageUsersPage/ManageUsersPage'
 export UsersPage from './UsersPage/UsersPage'
-// export BoardPage from './BoardPage/BoardPage'
