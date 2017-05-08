@@ -62,6 +62,13 @@ export default class Slider extends Component {
     this.to(0);
   }
 
+  componentWillMount() {
+    document.addEventListener('keydown', this.keyPressHandler)
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.keyPressHandler)
+  }
+
   getWrapperRef = b => {
     this.wrapper = b;
 
@@ -77,6 +84,22 @@ export default class Slider extends Component {
     this.to(this.state.current - 1)
   };
 
+  keyPressHandler = e => {
+    if (!this.isFocus)
+      return;
+
+    const isNext = e.key.toLowerCase().indexOf('right') !== -1;
+
+    if (isNext) {
+      return this.nextControlHandler();
+    }
+
+    return this.prevControlHandler();
+  };
+
+  mouseEnterHandler = () => this.isFocus = true;
+  mouseLeaveHandler = () => this.isFocus = false;
+
   render() {
     const {
       props: {
@@ -86,13 +109,16 @@ export default class Slider extends Component {
       state: { current },
       getSlideRef, getWrapperRef,
       to, nextControlHandler,
-      prevControlHandler
+      prevControlHandler,
+      mouseEnterHandler,
+      mouseLeaveHandler
     } = this;
 
     const needNav = !!(data && data.length > 1);
 
     return (
       <div ref={getWrapperRef} onMouseMove={onMouseMove}
+           onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}
            className={classNames(s.wrapper, className)}>
         <div className={s.frame}>
           {data.map((item, index) => (
