@@ -9,7 +9,7 @@ export const hostname = (() => {
 export const apiOrigin = `http://${hostname}:5000`;
 export const imageHostname = (() => {
   if (hostname.indexOf('yoap') !== -1) {
-    return hostname;
+    return '';
   }
 
   return apiOrigin;
