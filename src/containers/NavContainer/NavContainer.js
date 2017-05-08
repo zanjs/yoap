@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Nav } from 'components'
+import { shallowEqual } from 'helpers'
 
 const mapStateToProps = ({
   device: {saveValues, scrollY, width},
   user: {isAuthorized, isAdmin, name, isUserPage},
-  theme: {current}
+  theme: {current, nav}
 }) => ({
   navResize: h => saveValues({navHeight: h}),
-  scrollY, width, theme: current,
+  scrollY, width, theme: current, nav,
 
   isAuthorized, isAdmin, name, isUserPage
 });
@@ -47,7 +48,7 @@ export default class NavContainer extends Component {
   };
 
   updateLinks = props => {
-    const { isAuthorized, isAdmin } = props || this.props;
+    const { isAuthorized, isAdmin, nav } = props || this.props;
     let links = [];
 
     if (!isAuthorized) {
@@ -74,6 +75,13 @@ export default class NavContainer extends Component {
       })
     }
 
+    if (nav.links) {
+      links = [
+        ...links,
+        ...nav.links
+      ]
+    }
+
     if (isAdmin) {
       links = [
         {
@@ -96,7 +104,7 @@ export default class NavContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { width, scrollY, isAuthorized, isAdmin } = this.props;
+    const { width, scrollY, isAuthorized, nav, isAdmin } = this.props;
 
     if (width !== nextProps.width) {
       this.resize();
@@ -112,6 +120,10 @@ export default class NavContainer extends Component {
     ) {
       this.updateLinks(nextProps);
     }
+
+    if (!shallowEqual(nextProps.nav, nav)) {
+      this.updateLinks(nextProps);
+    }
   }
 
   componentDidMount() {
@@ -120,11 +132,11 @@ export default class NavContainer extends Component {
 
   render() {
     const { navHidden, navFull, links } = this.state;
-    const { width, children, className, name, theme, isUserPage } = this.props;
+    const { width, children, className, name, theme, nav, isUserPage } = this.props;
 
     return (
       <Nav hidden={navHidden} name={name} theme={theme} isLogout={isUserPage}
-           full={navFull} width={width} className={className}
+           full={navFull} width={width} className={className} config={nav}
            getRef={this.getNavRef} links={links}>
         {children}
       </Nav>

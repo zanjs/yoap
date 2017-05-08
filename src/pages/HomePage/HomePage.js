@@ -39,7 +39,7 @@ export default class HomePage extends Component {
     return (
       <div className={s.homepage}>
         <Helmet>
-          <title>YOAP</title>
+          <title>Лучшие объявления по аренде жилья без комиссии</title>
           <meta name="description" content={des} />
         </Helmet>
 

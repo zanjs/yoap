@@ -3,7 +3,7 @@ import { classNames } from 'helpers'
 import s from './Select.sass'
 
 
-const Select = ({className, getRef, inherit, itemClassName, values, data, ...rest}) => {
+const Select = ({className, getRef, inherit, firstDisabled, itemClassName, values, data, ...rest}) => {
   const _data = values || data;
   const _className = classNames(
     s.select, inherit && s.inherit,

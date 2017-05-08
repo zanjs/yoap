@@ -16,10 +16,11 @@ import {
 import { randomNumber } from 'helpers'
 import s from './ItemPageEdit.sass'
 
-@inject(({filter, items, user, users, manage}) => ({
+@inject(({filter, items, user, users, theme, manage}) => ({
   filter, manage,
   isFetching: user.isFetching || items.isFetching,
-  user, items, users
+  user, items, users,
+  theme
 })) @observer
 export default class ItemPageEdit extends Component {
   static contextTypes = {
@@ -104,6 +105,21 @@ export default class ItemPageEdit extends Component {
       this.props.manage.CreateNew(userId);
       this.setState({isEmpty: false})
     }
+
+    this.props.theme.changeNav({
+      isCustomMainButton: true,
+      mainButton: {
+        content: 'Сохранить',
+        to: '/you',
+        onClick: this.saveButtonClickHandler
+      },
+      links: [
+        {
+          to: '/you',
+          content: 'Профиль'
+        }
+      ]
+    })
   }
   componentDidMount() {
     this.isMount = true;
@@ -111,6 +127,14 @@ export default class ItemPageEdit extends Component {
   }
   componentWillUnmount() {
     this.isMount = false;
+    this.props.theme.changeNav({
+      isCustomMainButton: false,
+      mainButton: {
+        content: '',
+        to: ''
+      },
+      links: null
+    })
   }
 
   onChange = () => {
@@ -128,6 +152,14 @@ export default class ItemPageEdit extends Component {
       })
     });
   };
+
+  saveButtonClickHandler = e => {
+    e.preventDefault();
+
+    this.submitHandler();
+
+    return false;
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { state, props } = this;

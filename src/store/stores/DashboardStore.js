@@ -191,11 +191,19 @@ class DashboardStore {
     }
 
     if (hasObjects) {
-      const onModeration = objects.find(
-        item => !item.justCreated && item.status.id
-          ? item.status.id === statuses[0].id
-          : item.status === statuses[0].id
-      );
+      const onModeration = objects.find(item => {
+        if (item.justCreated) {
+          return false;
+        }
+
+        const itemStatus = item.status;
+        const statusType = statuses[0];
+
+        return itemStatus.id
+          ? itemStatus.id === statusType.id
+          : itemStatus === statusType.id
+      });
+
       if (onModeration) {
         addNotification(this.onModerationSlide(onModeration))
       }
@@ -224,8 +232,8 @@ class DashboardStore {
         return {}
       }
 
-      const { verified, banned, link, _link } = store.user;
-      return { verified, banned, link: link || _link }
+      const { verified, banned } = store.user;
+      return { verified, banned };
     },
     user => this.onUserChange(store.user)
   )
@@ -236,9 +244,8 @@ class DashboardStore {
       }
 
       return {
-        data: store.items.users.map(item => ({
-          justCreated: item.justCreated,
-          status: item.status
+        data: store.items.users.map(({justCreated, status}) => ({
+          justCreated, status,
         }))
       }
     },

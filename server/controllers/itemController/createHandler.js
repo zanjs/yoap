@@ -105,7 +105,7 @@ export default (req, res) => {
   const objectId = (id || _id);
   req.body.objectId = objectId;
 
-  const isValid = validate({objectId, req, res, _creator});
+  const isValid = validate({objectId, req, res, _creator, noRes: true});
   if (!isValid) {
     return notAuthorized(req, res);
   }

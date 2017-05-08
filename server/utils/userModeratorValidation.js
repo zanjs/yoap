@@ -1,4 +1,4 @@
-export default function userModeratorValidation({req, res, _creator, objectId}) {
+export default function userModeratorValidation({req, res, _creator, objectId, noRes}) {
   const userId = (req.user.id || req.user._id);
   const isAdmin = req.user.isAdmin;
 
@@ -8,7 +8,7 @@ export default function userModeratorValidation({req, res, _creator, objectId}) 
     );
 
     if (!isExist) {
-      res.status(401).json({
+      !noRes && res.status(401).json({
         message: 'У вас нет прав редактировать это объявление.'
       })
       return false;
@@ -16,7 +16,7 @@ export default function userModeratorValidation({req, res, _creator, objectId}) 
 
     return true;
   } else if (!isAdmin && _creator !== userId) {
-    res.status(401).json({
+    !noRes && res.status(401).json({
       message: 'У вас нет прав редактировать чужие объявления.'
     })
     return false;
@@ -24,5 +24,5 @@ export default function userModeratorValidation({req, res, _creator, objectId}) 
     return true;
   }
 
-  return false;
+  return true;
 }

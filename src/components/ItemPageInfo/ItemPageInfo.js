@@ -53,7 +53,8 @@ export default class ItemPageInfo extends Component {
 
     return (
       <div className={classNames(s.wrapper, this.props.className)}>
-        <Helmet title={title}>
+        <Helmet>
+          <title>{title}</title>
           <meta name="description" content={description} />
         </Helmet>
         <ItemNumbersDataContainer data={this.props.data}>

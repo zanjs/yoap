@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import { Container, FlexGrid, Link, Button, Logo } from 'components'
 import { classNames } from 'helpers'
 import s from './Nav.sass'
 
+@observer
 export default class Nav extends Component {
   dur = .3; ease = Cubic.easeOut;
 
@@ -87,8 +89,9 @@ export default class Nav extends Component {
   };
 
   render() {
-    const { links, full, name, children, className, theme, isLogout } = this.props;
+    const { links, full, name, children, className, theme, config, isLogout } = this.props;
     const isCustom = !!children;
+    const { isCustomMainButton, mainButton } = config;
 
     const styles = this.getTheme(full, theme);
 
@@ -107,12 +110,16 @@ export default class Nav extends Component {
                 </Link>
               ))}
             </div>}
-            {!isLogout && !isCustom && <Button to={name ? '/you' : '/login'} type="light"
+            {!isCustomMainButton && !isLogout && !isCustom && <Button to={name ? '/you' : '/login'} type="light"
                     className={s.button} rounded
                     smallPadding>
               {name || 'Войти'}
             </Button>}
-            {isLogout && <Button to="/logout" type="light"
+            {isCustomMainButton && mainButton && <Button to={mainButton.to} type="light"
+                                           className={s.button} rounded
+                                           onClick={mainButton.onClick}
+                                           smallPadding>{mainButton.content}</Button>}
+            {!isCustomMainButton && isLogout && <Button to="/logout" type="light"
                                    className={s.button} rounded
                                    smallPadding>Выйти</Button>}
             {children}

@@ -43,7 +43,11 @@ export default __data => {
 
     if (objectDay === currentDay) {
       const hourDifference = currentHour - objectHour;
-      if ((hourDifference) <= 12) {
+      if (hourDifference <= 12) {
+        if (hourDifference < 1) {
+          return 'Только что'
+        }
+
         return `${hourDifference} ${declHours(hourDifference)} назад`
       }
 

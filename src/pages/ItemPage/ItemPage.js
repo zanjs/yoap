@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { LoadingAnimation } from 'components'
 import {
@@ -9,12 +9,16 @@ import {
 import { randomNumber, normalizeScroll, isEmpty } from 'helpers'
 import s from './ItemPage.sass'
 
-const mapStateToProps = ({items, user}) => ({
-  items, user
+const mapStateToProps = ({items, theme, user}) => ({
+  items, user, theme
 });
 
 @inject(mapStateToProps) @observer
 export default class ItemPage extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
   state = {
     shouldUpdate: 0
   };
@@ -47,13 +51,43 @@ export default class ItemPage extends Component {
     });
   };
 
+  backButtonClickHandler = e => {
+    e.preventDefault();
+
+    this.context.router.history.goBack()
+
+    return false;
+  }
+
   componentWillMount() {
     normalizeScroll(true);
     this.setData();
+
+    const routerAction = this.context.router && this.context.router
+        .history.action.toLowerCase();
+
+    if (routerAction === 'push') {
+      this.props.theme.changeNav({
+        isCustomMainButton: true,
+        mainButton: {
+          to: '/y',
+          content: 'Назад',
+          onClick: this.backButtonClickHandler
+        }
+      })
+    }
   }
   componentWillUnmount() {
     normalizeScroll(false);
     this.props.items.setCurrent({});
+
+    this.props.theme.changeNav({
+      isCustomMainButton: false,
+      mainButton: {
+        to: '',
+        content: ''
+      }
+    })
   }
 
   updateViews = () => {

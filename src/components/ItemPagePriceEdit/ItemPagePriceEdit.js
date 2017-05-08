@@ -12,6 +12,7 @@ const types = termTypes.types;
 
 export default class ItemPagePriceEdit extends Component {
   types = types;
+  notChosen = 'Срок сдачи';
 
   state = {
     edit: false, deposit: false,
@@ -72,6 +73,10 @@ export default class ItemPagePriceEdit extends Component {
   togglePrices = value => {
     let data;
 
+    if (value === this.notChosen) {
+      return this.toggleEditMode(true);
+    }
+
     if (typeof value === 'string' || !value.id || !value.name) {
       if (typeof value !== 'string') {
         value = value.target.value;
@@ -104,13 +109,26 @@ export default class ItemPagePriceEdit extends Component {
   };
 
   switchDeposit = () => {
-    this.setState({deposit: true})
+    this.setState(state => {
+      const chosen = state.chosen.map(item => ({
+        ...item,
+        deposit: item.value ? item.value / 2 : 0
+      }))
+
+      return {
+        deposit: true,
+        chosen
+      }
+    }, this.onChange)
   };
   changePrice = (id, value) => {
     this.setState(({chosen}) => ({
       chosen: chosen.map(item => {
         if (item.id === id) {
-          item.value = parseInt(value, 10);
+          return {
+            ...item,
+            value: parseInt(value, 10)
+          }
         }
 
         return item;
@@ -121,7 +139,10 @@ export default class ItemPagePriceEdit extends Component {
     this.setState(({chosen}) => ({
       chosen: chosen.map(item => {
         if (item.id === id) {
-          item.deposit = parseInt(value, 10);
+          return {
+            ...item,
+            deposit: parseInt(value, 10)
+          }
         }
 
         return item;
@@ -153,7 +174,7 @@ export default class ItemPagePriceEdit extends Component {
     this.setState(data)
   };
   renderEditSelect = () => {
-    const types = this.types.filter(item => {
+    let types = this.types.filter(item => {
       const hasAdded = !!this.state.chosen.find(
         value => item.id === value.id
       );
@@ -169,6 +190,8 @@ export default class ItemPagePriceEdit extends Component {
 
       return null;
     }
+
+    types = [this.notChosen, ...types];
 
     return (
       <Content lightColor light size="2" nooffsets>
