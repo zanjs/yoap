@@ -6,7 +6,7 @@ import {
   isEmpty
 } from 'helpers'
 import { image as config } from 'config'
-import { apiOrigin as hostname } from 'constants/urls'
+import { imageHostname as hostname } from 'constants/urls'
 import s from './Image.sass'
 
 const mapStateToProps = ({device: {width}}) => ({
