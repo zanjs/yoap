@@ -82,6 +82,7 @@
     "webpack-hot-middleware": "^2.16.1"
   },
   "dependencies": {
+    "afterlag-js": "^2.0.2",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",

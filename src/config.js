@@ -70,6 +70,11 @@ export const pagesTitles = {
   UserPage: 'You',
 };
 
+export const editPageConfig = {
+  maxTitleLength: 100,
+  maxContentLength: 600
+};
+
 // ========================================================### USER CONFIG ###
 export const user = {
   nameMaxLength: 20

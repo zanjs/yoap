@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import {
   Title, Content, InputClean,
-  ItemPageInfoTitle, ItemPageInfoEditIcon,
-  Select
+  ItemPageInfoTitle, ItemPageInfoEditIcon
 } from 'components'
-import { statusTypes } from 'constants'
 import { classNames } from 'helpers'
+import { editPageConfig as config } from 'config'
 import s from './ItemPageTitle.sass'
 
 const ItemPageTitle = ({edit, children, id, status, statusContent, onChange}) => {
@@ -27,7 +26,9 @@ const ItemPageTitle = ({edit, children, id, status, statusContent, onChange}) =>
              className={classNames(s.title, edit && ItemPageInfoEditIcon.wrapperClassName)}>
         {edit && <ItemPageInfoEditIcon />}
         {edit ?
-          <InputClean placeholder="Введите заголовок" onChange={onChange}>
+          <InputClean placeholder="Введите заголовок"
+                      maxLength={config.maxTitleLength}
+                      onChange={onChange}>
             {children}
           </InputClean> :
 

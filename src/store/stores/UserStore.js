@@ -193,13 +193,23 @@ class UserStore {
     this.isFetching = false;
   };
 
+  checkPhone = phone => {
+    if (isEmpty(phone)) {
+      return false;
+    }
+    if (phone.indexOf('_') !== -1) {
+      return false;
+    }
+    return true;
+  }
+
   login = (cb = noop) => {
     this.isFetching = true;
     this.errorMessage = false;
     this.isError = false;
     const { email, phone, password } = this.toJSON();
     const data = {
-      ...(this.loginByPhone && !isEmpty(phone) ? {phone} : {email}),
+      ...(this.loginByPhone && this.checkPhone(phone) ? {phone} : {email}),
       password
     };
 

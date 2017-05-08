@@ -9,6 +9,7 @@ import {
   StatusChangeContainer,
   ItemPageRatingContainer
 } from 'containers'
+import { editPageConfig as config } from 'config'
 import { classNames, normalizeScroll } from 'helpers'
 import s from './ItemPageInfoEdit.sass'
 
@@ -26,10 +27,18 @@ export default class ItemPageInfoEdit extends Component {
     normalizeScroll(false);
   }
 
-  onChangeTitle = ({target: {value}}) =>
+  onChangeTitle = ({target: {value}}) => {
+    if (value.length >= config.maxTitleLength)
+      return false;
+
     this.onChange({title: value});
-  onChangeContent = ({target: {value}}) =>
+  }
+  onChangeContent = ({target: {value}}) => {
+    if (value.length >= config.maxContentLength)
+      return false;
+
     this.onChange({description: value});
+  };
   onTypeChange = type =>
     this.onChange({type});
   onPriceChange = props => {

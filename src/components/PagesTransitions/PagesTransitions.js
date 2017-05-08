@@ -5,9 +5,15 @@ import s from './PagesTransitions.sass'
 
 @withRouter
 export default class PagesTransitions extends Component {
-  dur = .7;
-  ease = Cubic.easeOut;
+  dur = .4;
+  ease = Power1.easeInOut;
+  Afterlag;
 
+  componentWillMount() {
+    System.import('afterlag-js').then(data => {
+      this.Afterlag = window.Afterlag;
+    })
+  }
   componentDidMount() {
     this.update();
   }
@@ -48,11 +54,33 @@ export default class PagesTransitions extends Component {
     if (!this.wrapper) return;
     const { dur, ease } = this;
 
+    if (this.Afterlag) {
+      TweenMax.set(this.wrapper, {
+        opacity: 1,
+        display: 'block'
+      });
+
+      const afterlag = new Afterlag({
+        delay: 60,
+        timeout: 300
+      });
+
+      return afterlag.run(() => {
+        TweenMax.to(this.wrapper, dur, {
+          opacity: 0,
+          display: 'none',
+          ease
+        })
+      })
+    }
+
     TweenMax.fromTo(this.wrapper, dur, {
-      opacity: 0,
+      opacity: 1,
+      display: 'block'
       //y: 200
     }, {
-      opacity: 1,
+      opacity: 0,
+      display: 'none',
       //y: 0,
       ease
     })
@@ -64,8 +92,9 @@ export default class PagesTransitions extends Component {
 
   render() {
     return (
-      <div className={s.wrapper} ref={this.getRef}>
+      <div className={s.wrapper}>
         <Switch>{this.props.children}</Switch>
+        <div className={s.overlay} ref={this.getRef}/>
       </div>
     )
   }

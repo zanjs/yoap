@@ -3,6 +3,7 @@ import {
   InputClean, Content, ItemPageInfoTitle,
   ItemPageInfoEditIcon
 } from 'components'
+import { editPageConfig as config } from 'config'
 import s from './ItemPageContent.sass'
 
 const placeholder =
@@ -18,6 +19,7 @@ const ItemPageContent = ({children, edit, onChange}) => {
       </ItemPageInfoTitle>
       <Content className={!edit && s.noselect} nooffsets lightColor>
         {edit ? <InputClean placeholder={placeholder} tag="textarea"
+                            maxLength={config.maxContentLength}
                             onChange={onChange}>
           {children}
         </InputClean> : children}
