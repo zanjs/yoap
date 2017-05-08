@@ -126,12 +126,12 @@ export default class Slider extends Component {
               {item}
             </div>
           ))}
-          <div className={s.controls}>
+          {needNav && <div className={s.controls}>
             <Svg src={arrowIcon} onClick={prevControlHandler}
                  className={s.control_prev} />
             <Svg src={arrowIcon} onClick={nextControlHandler}
                  className={s.control_next} />
-          </div>
+          </div>}
         </div>
         {needNav && <FlexGrid justify="center" align="center"
                               className={s.nav}>

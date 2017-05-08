@@ -194,7 +194,7 @@ export default class UserDataEdit extends Component {
       <div className={classNames(s.wrapper, isFetching && s.fetch)}>
         <ItemPageInfoTitle title="Мой профиль">
           {!noEdit && <Content nooffsets gray onClick={!isFetching && submitHandler}
-                   className={s.edit_btn}>
+                   className={classNames(s.edit_btn, isFetching && s.edit_btn_fetch)}>
             {isFetching ? 'Синхронизируем' : edit ? 'Сохранить' : 'Изменить'}
           </Content>}
         </ItemPageInfoTitle>
@@ -207,6 +207,7 @@ export default class UserDataEdit extends Component {
                       className={classNames(s.dropzone, dragOver && s.dropzone_over)}>
               {(!isEmpty(image) || preview) ? <Image src={image || preview}/> : <div className={s.noImage}/>}
               <Svg src={addIcon} className={s.image__hover} />
+              <div className={s.image__overlay} />
             </Dropzone>
           </div>
           <div className={s.content}>

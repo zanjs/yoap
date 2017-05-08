@@ -11,6 +11,8 @@ const mapStateToProps = ({user: {name, image, phone, email, isError, isFetching,
 
 @inject(mapStateToProps) @observer
 export default class UserDataEditContainer extends Component {
+  state = {isFetching: false}
+
   filterValues = (prevValues, values) => {
     let newValues = {};
     Object.keys(values).forEach(prop => {
@@ -40,8 +42,10 @@ export default class UserDataEditContainer extends Component {
   };
   getData = () => this.props.data || this.props.user;
   onUpload = files => {
+    this.setState({isFetching: true})
     imagesUpload(files).then(data => {
       this.saveUserData({image: data[0]})
+      this.setState({isFetching: false});
     })
   }
   render() {
@@ -49,7 +53,9 @@ export default class UserDataEditContainer extends Component {
 
     return <UserDataEdit noEdit={this.props.noEdit}
                          onUpload={this.onUpload}
-                         onSubmit={this.saveUserData} {...data}/>
+                         onSubmit={this.saveUserData}
+                         {...data}
+                         isFetching={data.isFetching || this.state.isFetching} />
   }
 }
 

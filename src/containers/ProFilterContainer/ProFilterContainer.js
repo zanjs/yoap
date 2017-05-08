@@ -4,9 +4,10 @@ import { ProFilter, ButtonsAction, Button } from 'components'
 
 
 const mapStateToProps = ({
-  filter: { data, size, floor, sizeChange, squaresChange, floorChange }
+  filter: { data, size, floor, sizeChange, squaresChange, find, floorChange }
 }) => ({
-  derived: {data, size, floor}, sizeChange, squaresChange, floorChange
+  derived: {data, size, floor}, sizeChange, squaresChange, floorChange,
+  onSearchClick: find
 });
 @inject(mapStateToProps) @observer
 export default class ProFilterContainer extends Component {
@@ -76,6 +77,17 @@ export default class ProFilterContainer extends Component {
     })
   };
 
+  onSearchClick = () => {
+    if (this.props.onSearchClick) {
+      this.props.onSearchClick();
+    }
+  }
+  onCloseClick = () => {
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
+  }
+
   render() {
     const { edit, onChange } = this.props;
 
@@ -103,8 +115,8 @@ export default class ProFilterContainer extends Component {
         <ProFilter onChange={onChange} edit={edit}
                    readOnly={false} data={data} size={_size}/>
         {!edit && <ButtonsAction>
-          <Button type="text">Отменить</Button>
-          <Button type="pink">Поиск</Button>
+          <Button onClick={this.onCloseClick} type="text">Отменить</Button>
+          <Button onClick={this.onSearchClick} type="pink">Поиск</Button>
         </ButtonsAction>}
       </div>
     )

@@ -13,7 +13,12 @@
 .edit_btn
   cursor: pointer
   user-select: none
-  @include opacityAnim(.7)
+  transition: opacity $animParams, color $animParams
+  &:hover
+    opacity: .7
+  &_fetch
+    color: $blue
+
 
 .image
   border-radius: 50%
@@ -22,11 +27,17 @@
   @include size(70px)
   min-height: 70px
   min-width: 70px
+  position: relative
   img
     object-fit: cover
     object-position: center center
     width: 100%
     height: 100%
+  &__overlay
+    @include absolute_init(full, 5)
+    background-color: #fff
+    transition: opacity $animParams
+    opacity: 0
 
 .noImage
   @extend .image
@@ -82,7 +93,7 @@
     margin-top: 10px
 
 .image__hover
-  @include absolute_center(normal, 0)
+  @include absolute_center(normal, 10)
   @include size(30%)
   fill: $blue
   opacity: 0
@@ -101,3 +112,5 @@
   &:hover
     .image__hover
       opacity: 1
+    .image__overlay
+      opacity: .5

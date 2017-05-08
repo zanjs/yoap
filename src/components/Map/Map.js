@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
 import PropTypes from 'prop-types'
 import {
   render as mount,
@@ -16,7 +17,7 @@ import locationIcon from 'icons/ui/location.svg'
 import bulletIconPng from 'images/ui/bullet.png'
 //import locationIconPng from 'icons/ui/location.png'
 
-
+@observer
 export default class Map extends Component {
   static defaultProps = {
     point: {position: []},

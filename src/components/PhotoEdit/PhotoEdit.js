@@ -39,13 +39,13 @@ export default class PhotoEdit extends Component {
         <section className={s.content}>
           <div className={s.content__wrapper}>
 
-            <div className={s.item}>
-              <Title size="6" white light>Контрастность</Title>
-              <ReactSlider className={s.slider}
-                           handleClassName={s.slider__handler}
-                           onAfterChange={this.changeHandler}
-                           min={0} max={100} />
-            </div>
+            {/*<div className={s.item}>*/}
+              {/*<Title size="6" white light>Контрастность</Title>*/}
+              {/*<ReactSlider className={s.slider}*/}
+                           {/*handleClassName={s.slider__handler}*/}
+                           {/*onAfterChange={this.changeHandler}*/}
+                           {/*min={0} max={100} />*/}
+            {/*</div>*/}
 
           </div>
         </section>

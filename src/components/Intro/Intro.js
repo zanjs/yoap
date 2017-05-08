@@ -47,7 +47,9 @@ export default class Intro extends Component {
                                  onMoreButtonClick={this.toggleFull} />
           </Container>
         </FlexGrid>
-        {isFilterFull && <Container><ProFilterContainer /></Container>}
+        {isFilterFull && <Container>
+          <ProFilterContainer onClose={this.toggleFull}/>
+        </Container>}
       </div>
     )
   }

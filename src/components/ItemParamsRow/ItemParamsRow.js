@@ -27,9 +27,8 @@ export default class ItemParamsRow extends Component {
         const content = _name[0]
         const tip = _name[1] ? `(${_name[1]}` : null;
         const onClick = () => {
-          console.log('clicked ');
           onItemClick(item);
-          return this.forceUpdate();
+          //return this.forceUpdate();
         };
 
         if (!isFull && key > limit)

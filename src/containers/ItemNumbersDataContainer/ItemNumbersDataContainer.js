@@ -93,7 +93,6 @@ export default class ItemNumbersDataContainer extends Component {
     const { featured } = this.state;
     const { featuredClickHandler } = this;
     const isActive = this.isFeatured();
-    console.log({children})
 
     return (
       <ItemNumbersData isFeaturedActive={isActive} views={views}

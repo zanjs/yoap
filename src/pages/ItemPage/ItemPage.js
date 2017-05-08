@@ -67,13 +67,18 @@ export default class ItemPage extends Component {
         .history.action.toLowerCase();
 
     if (routerAction === 'push') {
+      const { isAuthorized } = this.props.user;
       this.props.theme.changeNav({
         isCustomMainButton: true,
         mainButton: {
           to: '/y',
           content: 'Назад',
           onClick: this.backButtonClickHandler
-        }
+        },
+        links: [{
+          to: isAuthorized ? '/you' : '/login',
+          content: isAuthorized ? 'Профиль' : 'Войти'
+        }]
       })
     }
   }
@@ -86,7 +91,8 @@ export default class ItemPage extends Component {
       mainButton: {
         to: '',
         content: ''
-      }
+      },
+      links: null
     })
   }
 
