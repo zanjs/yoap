@@ -30,6 +30,7 @@ export declination from './app/declination'
 export getDateDifference from './app/getDateDifference'
 export getDirection from './app/getDirection'
 export getDefaultPersonalPoint from './app/getDefaultPersonalPoint'
+export parseItemsToPoints from './app/parseItemsToPoints'
 export noop from './app/noop'
 
 // animation helpers

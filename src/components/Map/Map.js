@@ -270,7 +270,7 @@ export default class Map extends Component {
 
   render() {
     const { isLoaded } = this.state;
-    const { className, wrapperClassName, style } = this.props;
+    const { className, children, wrapperClassName, style } = this.props;
     return (
       <div className={classNames(s.wrapper, wrapperClassName)} style={style}>
         <div className={classNames(s.map, className)} ref={b => this.mapBlock = b}
@@ -278,6 +278,7 @@ export default class Map extends Component {
         {!isLoaded && <div className={classNames(s.map, className)}>
           <Svg src={locationIcon} className={s.location}/>
         </div>}
+        {children}
       </div>
     )
   }

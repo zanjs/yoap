@@ -31,7 +31,7 @@ export default class ItemsListPage extends Component {
         <Container>
           <FlexGrid className={s.title} justify="space-between" align="center">
             <Title nooffsets size="1">{title}</Title>
-            <LinkIcon className={s.link} to="/y" gray>Посмотреть на карте</LinkIcon>
+            <LinkIcon className={s.link} to="/m" gray>Посмотреть на карте</LinkIcon>
           </FlexGrid>
           <FilterContainer/>
           <ItemTilesGrid data={data} />

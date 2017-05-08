@@ -6,7 +6,8 @@ import {
   ItemsListPage, ItemPage, UserPage,
   ItemPageEdit, ManageItemsPage, UserItemsPage,
   UserFeaturedPage, LogoutPage,
-  ManageUsersPage, UsersPage
+  ManageUsersPage, UsersPage,
+  MapItemsPage
 } from 'pages'
 import {
   BrowserRouter as Router,
@@ -71,6 +72,7 @@ export default class App extends Component {
             <Route path="/signup" component={SignupPage} />
             <Route path="/logout" exact component={LogoutPage}/>
             <Route path="/y" exact component={ItemsListPage}/>
+            <Route path="/m" exact component={MapItemsPage}/>
             <Route path="/y/:link" exact component={ItemPage}/>
             <Route path="/you" exact component={UserPage}/>
             <Route path="/you/yours" exact component={UserItemsPage} />

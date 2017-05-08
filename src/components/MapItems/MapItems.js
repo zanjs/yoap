@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Title, Content, Container } from 'components'
 import { MapContainer } from 'containers'
-import { declination } from 'helpers'
+import { declination, parseItemsToPoints } from 'helpers'
 import s from './MapItems.sass'
 
 
@@ -27,24 +27,10 @@ export default class MapItems extends Component {
     'вариантов'
   ])
 
-  parseData = data => {
-    return data.map(item => {
-      const { location } = item.location;
-      const position = [location[0], location[1]];
-
-      return {
-        position,
-        props: {
-          data: item
-        }
-      }
-    })
-  };
-
   render() {
     const { height, items } = this.props;
     const { foundWord, varWord } = this;
-    const data = items && this.parseData(items) || [];
+    const data = items && parseItemsToPoints(items) || [];
     const length = data.length;
 
     return (
