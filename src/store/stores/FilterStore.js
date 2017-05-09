@@ -250,7 +250,7 @@ class FilterStore {
       filters.price = price;
     }
     if (!isEmpty(stations)) {
-      filters.stations = stations;
+      filters.stations = stations.map(item => item.id);
     }
     if (!isEmpty(activeParams)) {
       filters.params = activeParams.filter(
