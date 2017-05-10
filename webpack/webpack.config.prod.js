@@ -41,7 +41,8 @@ module.exports = {
               options: {
                 importLoaders: 3,
                 modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]'
+                localIdentName: '[hash:base64:5]',
+                minimize: true
               }
             },
             'postcss-loader',
@@ -104,7 +105,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    //new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       //names: ['vendor', 'manifest']
       names: ['manifest']
