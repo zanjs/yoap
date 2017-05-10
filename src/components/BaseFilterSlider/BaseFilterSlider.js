@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { classNames } from 'helpers'
 import s from './BaseFilterSlider.sass'
 
+const mapStateToProps = ({device: {width}}) => ({
+  isMobile: width <= 992
+})
 
+@inject(mapStateToProps) @observer
 export default class BaseFilterSlider extends Component {
   scrollNeeded = false;
   wrapperWidth = 181; scrollerWidth = 181;
@@ -16,6 +21,11 @@ export default class BaseFilterSlider extends Component {
     const { defaultValue, snap, defaultSnapElement } = this.props;
     setTimeout(() => {
       this.resize();
+
+      if (this.props.isMobile) {
+        this.scrollNeeded = false;
+        return this.scroll(0, true);
+      }
 
       if (defaultValue != null) {
         this.scroll(defaultValue, true);

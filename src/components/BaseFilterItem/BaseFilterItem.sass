@@ -11,19 +11,38 @@ $offset: 13px
   padding: 10px 15px
   margin: $offset 0
   border-right: 1px solid #979797
+  &:nth-child(4)
+    .item__content
+      @include respond(mobile)
+        border-bottom: none
+  &:first-child
+    @include respond(mobile)
+      padding-top: 12px
   &:last-child
     border-right: none
     width: 15%
   @include respond(mobile)
     width: 100% !important
     border-right: none
-    margin: 3px 0 10px
+    margin: 0
+    padding: 0 20px 10px
     min-height: 65px
   &__icon
     @include size(30px)
     margin: 22px 0
+    @include respond(mobile)
+      @include size(20px)
+      margin: 10px 0 14px
   &__title
     padding: 0
+    @include respond(mobile)
+      font-size: 14px
+      line-height: 24px
   &__content
     margin: 0
     padding: 0
+    font-size: 20px
+    line-height: 24px
+    @include respond(mobile)
+      padding-bottom: 15px
+      border-bottom: 1px solid #979797

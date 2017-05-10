@@ -145,23 +145,29 @@ export default class BaseFilterPrice extends Component {
     } = this;
     return (
       <BaseFilterItem noborder title="Стоимость в месяц">
-        <br/>
-        <FlexGrid justify="start" align="center">
-          <span className={s.title}>от</span>
-          <InputClean type="number" step="1000"
-                      onChange={minHandler}
-                      min={minValue} max={maxValue}
-                      getRef={getMinRef}
-                      defaultValue={min} focus/>
-        </FlexGrid>
-        <FlexGrid justify="start" align="center">
-          <span className={s.title}>до</span>
-          <InputClean type="number" step="1000"
-                      onChange={maxHandler}
-                      min={minValue} max={maxValue}
-                      getRef={getMaxRef}
-                      defaultValue={max} focus/>
-        </FlexGrid>
+        <div className={s.offset}/>
+        <div className={s.wrapper}>
+          <FlexGrid justify="start" align="center"
+                    className={s.item}>
+            <span className={s.title}>от</span>
+            <InputClean type="number" step="1000"
+                        className={s.input}
+                        onChange={minHandler}
+                        min={minValue} max={maxValue}
+                        getRef={getMinRef}
+                        defaultValue={min} focus/>
+          </FlexGrid>
+          <FlexGrid justify="start" align="center"
+                    className={s.item}>
+            <span className={s.title}>до</span>
+            <InputClean type="number" step="1000"
+                        className={s.input}
+                        onChange={maxHandler}
+                        min={minValue} max={maxValue}
+                        getRef={getMaxRef}
+                        defaultValue={max} focus/>
+          </FlexGrid>
+        </div>
       </BaseFilterItem>
     )
   }

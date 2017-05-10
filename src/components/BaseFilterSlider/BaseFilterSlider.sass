@@ -20,13 +20,16 @@ $gradient: rgba(255,255,255,0), rgba(255,255,255,1)
   display: block
   width: 100% + ($offset * 2)
   transform: translateX(-$offset)
-  min-height: 40px
+  min-height: 28px
   overflow-x: hidden
   overflow-y: visible
   &:after
     @extend .offset
     right: -$gradientOffset
     background: linear-gradient(to right, $gradient)
+  @include respond(mobile)
+    min-height: 30px
+    overflow-x: scroll
 
 .scroller
   position: absolute

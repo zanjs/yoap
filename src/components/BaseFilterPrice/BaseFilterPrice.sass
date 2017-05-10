@@ -5,3 +5,22 @@
 
 .inactive
   opacity: .3
+
+.wrapper
+  @include respond(mobile)
+    @include flexbox(row, start, stretch, no)
+
+.item
+  @include respond(mobile)
+    margin-right: 5px
+    align-items: baseline
+
+.input
+  min-width: 70px
+
+.offset
+  width: 30px
+  height: 10px
+  margin: 22px 0
+  @include respond(mobile)
+    margin: 0
