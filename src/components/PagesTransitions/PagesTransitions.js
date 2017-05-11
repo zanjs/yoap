@@ -14,9 +14,6 @@ export default class PagesTransitions extends Component {
       this.Afterlag = window.Afterlag;
     })
   }
-  componentDidMount() {
-    this.update();
-  }
 
   componentDidUpdate({location}) {
     // compare old and new location

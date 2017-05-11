@@ -13,7 +13,11 @@ export default (id, user) => {
     return update(user)
   }
 
+
   User.findById(id).then(user => {
-    User.findByIdAndUpdate(id, update(user));
+    User.findByIdAndUpdate(id, update(user))
+      .catch(err => {
+        console.log(err);
+      })
   })
 }
