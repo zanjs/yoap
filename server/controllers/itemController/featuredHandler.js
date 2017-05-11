@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { User, Item } from 'models'
+import { FAVORITE_SET, FAVORITE_UNSET } from 'constants/itemConstants/views'
 
 export default (req, res) => {
   const { id, user } = req.body;
@@ -46,7 +47,18 @@ export default (req, res) => {
           }
         }
 
-        Item.findOneAndUpdate(_query, {featured})
+        const toUpdateData = {
+          featured,
+          statistics: [
+            ...item.statistics,
+            {
+              type: increase ? FAVORITE_SET : FAVORITE_UNSET,
+              date: new Date
+            }
+          ]
+        }
+
+        Item.findOneAndUpdate(_query, toUpdateData)
           .then(cb)
           .catch(err => {
             res.status(500).json({

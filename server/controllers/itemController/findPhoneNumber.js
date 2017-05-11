@@ -1,6 +1,7 @@
 import { Item, User } from 'models'
 import jwt from 'jsonwebtoken'
 import { jwtSecret } from 'serverConfig'
+import { PHONE_VIEW } from 'constants/itemConstants/views'
 
 export default (req, res) => {
   if (!req.user || !req.user._id) {
@@ -35,9 +36,21 @@ export default (req, res) => {
           })
         }
 
-        return res.status(200).json({
-          data: jwt.sign({phone: user.phone}, jwtSecret)
-        });
+        // update item phone view statistics
+        Item.findByIdAndUpdate(objectId, {
+          phoneViews: (item.phoneViews || 0) + 1,
+          statistics: [
+            ...item.statistics,
+            {
+              type: PHONE_VIEW,
+              date: new Date
+            }
+          ]
+        }).then(() => {
+          return res.status(200).json({
+            data: jwt.sign({phone: user.phone}, jwtSecret)
+          });
+        })
       }).catch(err => {
         return res.status(500).json({
           message: err

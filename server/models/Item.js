@@ -114,9 +114,19 @@ const itemSchema = new Schema({
     type: Number,
     default: 0
   },
+  phoneViews: {
+    type: Number,
+    default: 0
+  },
 
   statistics: [
-    Date
+    {
+      type: {
+        type: String,
+        default: 'OBJECT_VIEW'
+      },
+      date: Date
+    }
   ],
 
   isDeleted: {

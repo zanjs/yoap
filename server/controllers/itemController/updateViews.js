@@ -1,6 +1,7 @@
 import { Item } from 'models'
 import { isEmpty } from 'utils'
 import { statusTypes } from 'constants/itemConstants/statusTypes'
+import { OBJECT_VIEW } from 'constants/itemConstants/views'
 
 export default (req, res) => {
   const validStatus = statusTypes.types[1].id;
@@ -22,7 +23,11 @@ export default (req, res) => {
 
     let views = item.views + 1;
     let statistics = item.statistics || [];
-    statistics.push(new Date);
+
+    statistics.push({
+      date: new Date,
+      type: OBJECT_VIEW
+    });
 
     Item.findByIdAndUpdate(id, { $set: {views, statistics} }, { new: true })
       .then(updatedItem => {
