@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
+import Helmet from 'react-helmet'
 import { Redirect } from 'react-router-dom'
 import {
   ItemPageInfoEdit,
@@ -178,7 +179,7 @@ export default class ItemPageEdit extends Component {
   render() {
     const {
       state: {shouldUpdate, saved, isEmpty},
-      props: {isFetching, user, match: {params}},
+      props: {isFetching, user, manage, match: {params}},
       submitHandler,
       onChange
     } = this;
@@ -203,6 +204,13 @@ export default class ItemPageEdit extends Component {
 
     return (
       <div style={{opacity: isFetching ? .8 : 1}}>
+        <Helmet>
+          <title>
+            {(manage.data.id || manage.data._id)
+              ? 'Редактирование объявления'
+              : 'Создание объявления'}
+            </title>
+        </Helmet>
         <ItemPageInfoScroller shouldUpdate={shouldUpdate} fixed={(
           <ItemPhotoEditContainer />
         )}>

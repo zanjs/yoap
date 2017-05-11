@@ -68,7 +68,7 @@ export default class UserItemsPage extends Component {
             <Title nooffsets size="1">
               {id ? `Объявления ${userName}` : `Ваши объявления, ${userName}`}
             </Title>
-            <LinkIcon className={s.link} to="/y" gray>Посмотреть на карте</LinkIcon>
+            <LinkIcon className={s.link} to="/m" gray>Посмотреть на карте</LinkIcon>
           </FlexGrid>
           <FlexGrid wrap="true" justify="start"
                     align="start">

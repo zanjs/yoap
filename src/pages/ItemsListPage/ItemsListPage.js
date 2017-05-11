@@ -23,7 +23,7 @@ export default class ItemsListPage extends Component {
 
   render() {
     const { isFetching, hasSearched, data } = this.props;
-    const title = hasSearched ? 'Отфильтрованные для вас' : 'Все объявления';
+    const title = hasSearched ? 'Подобранные для вас' : 'Все объявления';
     return (
       <div className={s.wrapper}>
         <Helmet title={title}/>

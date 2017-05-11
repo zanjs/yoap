@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import Helmet from 'react-helmet'
 import { Redirect } from 'react-router-dom'
 import {
   Container, FlexGrid,
@@ -66,15 +67,20 @@ export default class UsersPage extends Component {
       return <Redirect to="/y" />
     }
 
+    const title = user.isDummy ? 'Фиктивный пользователь' : 'Настоящий пользователь';
+
     return (
       <div>
         {isFetching && <LoadingAnimation />}
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
 
         <Container className={s.content}>
           <FlexGrid className={s.grid} justify="space-between" align="start">
 
             <div className={s.info}>
-              <UserDataEditContainer noEdit data={user} />
+              <UserDataEditContainer title={title} noEdit data={user} />
               <UserCustomAddressContainer noEdit __data={user.personalPoints}/>
               <UserSubscription />
             </div>

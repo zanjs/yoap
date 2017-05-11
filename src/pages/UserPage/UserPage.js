@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import Helmet from 'react-helmet'
 import { inject, observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom'
 import {
@@ -125,6 +126,9 @@ export default class UserPage extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>Мой профиль</title>
+        </Helmet>
         <DashboardContainer />
         {isFetching && <LoadingAnimation />}
 

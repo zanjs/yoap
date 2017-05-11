@@ -187,12 +187,16 @@ export default class UserDataEdit extends Component {
       Input, onDrop, onDragOver,
       onDragLeave,
       state: { edit, Dropzone, dragOver, preview },
-      props: { image, phone, email, noEdit, isFetching, name, isDummy, verified }
+      props: {
+        image, phone, email, noEdit,
+        isFetching, name, isDummy, verified,
+        title = 'Мой профиль'
+      }
     } = this;
 
     return (
       <div className={classNames(s.wrapper, isFetching && s.fetch)}>
-        <ItemPageInfoTitle title={isDummy ? 'Фиктивный профиль' : 'Настоящий профиль'}>
+        <ItemPageInfoTitle title={title}>
           {!noEdit && <Content nooffsets gray onClick={!isFetching && submitHandler}
                    className={classNames(s.edit_btn, isFetching && s.edit_btn_fetch)}>
             {isFetching ? 'Синхронизируем' : edit ? 'Сохранить' : 'Изменить'}

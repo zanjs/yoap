@@ -54,6 +54,7 @@ export default class UserDataEditContainer extends Component {
     return <UserDataEdit noEdit={this.props.noEdit}
                          onUpload={this.onUpload}
                          onSubmit={this.saveUserData}
+                         title={this.props.title}
                          {...data}
                          isFetching={data.isFetching || this.state.isFetching} />
   }
