@@ -7,10 +7,11 @@ var CACHE_NAME = 'yoap-cache-v1';
 // Delete old caches that are not our current one!
 self.addEventListener("activate", function(event) {
   const cacheWhitelist = [CACHE_NAME];
+  const prms = (window ? window : global)['Promise'];
   event.waitUntil(
     caches.keys()
       .then(function(keyList) {
-        return global.Promise.all(keyList.map(key => {
+        return prms.all(keyList.map(key => {
           if (!cacheWhitelist.includes(key)) {
             console.log('Deleting cache: ' + key)
             return caches.delete(key);
