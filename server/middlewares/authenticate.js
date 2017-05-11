@@ -2,6 +2,7 @@ import { User } from 'models'
 import jwt from 'jsonwebtoken'
 import { jwtSecret } from 'serverConfig'
 import { authHeader } from 'constants/urls'
+import { updateUserVisits } from 'utils'
 
 export default function authenticate(req, res, next) {
   const token = req.headers[authHeader] || req.headers[authHeader.toLowerCase()];
@@ -14,8 +15,8 @@ export default function authenticate(req, res, next) {
           'Зайдите в систему снова или обратитесь к администратору.'
         });
       }
-
-      User.findById((decoded.id || decoded._id))
+      const userId = (decoded.id || decoded._id);
+      User.findById(userId)
         .then(user => {
           if (!user) {
             return res.status(404).json({
@@ -24,6 +25,7 @@ export default function authenticate(req, res, next) {
           }
 
           req.user = user;
+          updateUserVisits(userId);
 
           next();
         })

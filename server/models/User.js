@@ -66,22 +66,12 @@ const userSchema = new Schema({
   },
   lastVisit: {
     type: Date,
-    default: Date.now,
-    duration: {
-      type: Number,
-      default: 1
-    }
+    default: Date.now
   },
   visits: [
     {
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-      duration: {
-        type: Number,
-        default: 1
-      }
+      type: Date,
+      default: Date.now,
     }
   ],
   isDeleted: {
