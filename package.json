@@ -16,7 +16,7 @@
     "rcf": "bash ./rcf.sh",
     "start": "better-npm-run start",
     "dev:webpack": "better-npm-run dev:webpack",
-    "clean-up": "rm -rf dist/app && mkdir dist/app && cp -R webpack/manifest.json dist/app"
+    "clean-up": "rm -rf dist/app && mkdir dist/app && rsync -r webpack/head/ dist/app"
   },
   "betterScripts": {
     "dev": "npm run clean-up && webpack-dev-server --config webpack/webpack.config.dev.js",
