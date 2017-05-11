@@ -2,7 +2,7 @@ import express from 'express'
 import {
   userController, itemController, imageController,
 } from 'controllers'
-import { authenticate } from 'middlewares'
+import { authenticate, findUserByToken } from 'middlewares'
 import {
   signup, login, items,
   item, image, itemFind,
@@ -103,6 +103,7 @@ routes.post(
 );
 routes.put(
   itemView,
+  findUserByToken,
 
   itemController.updateViews
 );

@@ -7,6 +7,7 @@ export default (req, res) => {
   const validStatus = statusTypes.types[1].id;
   const { id, _id } = req.body;
   const objectId = (id || _id);
+  const userId = req.user && (req.user._id || req.user.id);
 
   if (isEmpty(objectId)) {
     return res.status(404).json({
@@ -26,7 +27,8 @@ export default (req, res) => {
 
     statistics.push({
       date: new Date,
-      type: OBJECT_VIEW
+      type: OBJECT_VIEW,
+      _creator: userId
     });
 
     Item.findByIdAndUpdate(id, { $set: {views, statistics} }, { new: true })

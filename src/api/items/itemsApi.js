@@ -51,7 +51,7 @@ export const fetchFilteredItems = data => fetch(filterItemsUrl, {
 })
 
 export const updateItemViews = id => fetch(updateItemViewUrl, {
-  ...headers,
+  ...getHeaders(),
   method: 'put',
   body: JSON.stringify({id})
 })

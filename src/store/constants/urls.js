@@ -21,6 +21,7 @@ export const JSONHeaders = {
     "Content-type": 'application/json',
   }
 };
+export const authHeader = 'X-AUTH';
 
 // user api
 export const checkPassword = `/password`;

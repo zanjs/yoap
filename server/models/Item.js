@@ -123,7 +123,12 @@ const itemSchema = new Schema({
     {
       type: {
         type: String,
-        default: 'OBJECT_VIEW'
+        default: 'OBJECT_VIEW',
+        _creator: {
+          type: Schema.ObjectId,
+          ref: 'User',
+          required: false
+        }
       },
       date: Date
     }

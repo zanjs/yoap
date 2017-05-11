@@ -19,6 +19,7 @@ export default (req, res) => {
 
   const { id, _id } = req.body;
   const objectId = id || _id;
+  const authorId = req.user._id || req.user.id;
 
   Item.findById(objectId)
     .then(item => {
@@ -43,7 +44,8 @@ export default (req, res) => {
             ...item.statistics,
             {
               type: PHONE_VIEW,
-              date: new Date
+              date: new Date,
+              _creator: authorId
             }
           ]
         }).then(() => {

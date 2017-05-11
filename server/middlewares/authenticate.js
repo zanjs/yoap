@@ -1,9 +1,10 @@
 import { User } from 'models'
 import jwt from 'jsonwebtoken'
 import { jwtSecret } from 'serverConfig'
+import { authHeader } from 'constants/urls'
 
 export default function authenticate(req, res, next) {
-  const token = req.headers['X-AUTH'] || req.headers['x-auth'];
+  const token = req.headers[authHeader] || req.headers[authHeader.toLowerCase()];
 
   if (token) {
     return jwt.verify(token, jwtSecret, (err, decoded) => {

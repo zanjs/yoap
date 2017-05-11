@@ -53,7 +53,8 @@ export default (req, res) => {
             ...item.statistics,
             {
               type: increase ? FAVORITE_SET : FAVORITE_UNSET,
-              date: new Date
+              date: new Date,
+              _creator: userId
             }
           ]
         }
