@@ -12,14 +12,14 @@ const mapStateToProps = store => {
   const {
     items: {filtered, isFetching, data},
     filter: {hasSearched, find},
-    device: {height}
+    device: {height, width}
   } = store
 
   return {
     height, find,
     data: (hasSearched ? filtered : data) || [],
-    isFetching,
-    hasSearched
+    isFetching, hasSearched,
+    isMobile: width <= 992
   }
 };
 
@@ -66,13 +66,28 @@ export default class MapItemsPage extends Component {
   }))
 
   render() {
-    const { height, hasSearched, isFetching } = this.props;
+    const { height, hasSearched, isFetching, isMobile } = this.props;
     const { data, isFull } = this.state;
     const {
       searchHandler, toggleFull,
       foundWord, varWord
     } = this;
     const length = data.length;
+
+    const BaseFilterMarkup = (
+      <section className={s.base__wrapper}>
+        <Container className={s.base__container}>
+          <BaseFilter refresh={hasSearched}
+                      onSearchClick={searchHandler}
+                      noButtons className={s.base} />
+        </Container>
+      </section>
+    );
+    const MoreParamsButton = (
+      <Content onClick={toggleFull} className={s.more} nooffsets size="2" gray>
+        {isFull ? 'Меньше параметров' : 'Больше параметров'}
+      </Content>
+    );
 
     return (
       <div className={s.wrapper}>
@@ -85,22 +100,16 @@ export default class MapItemsPage extends Component {
                   `${foundWord(length)} ${length} ${varWord(length)}`
                   : 'Начните поиск по карте:'}
               </Content>
-              <Content onClick={toggleFull} className={s.more} nooffsets size="2" gray>
-                {isFull ? 'Меньше параметров' : 'Больше параметров'}
-              </Content>
+              {!isMobile && MoreParamsButton}
             </FlexGrid>
+            {isMobile && BaseFilterMarkup}
+            {isMobile && MoreParamsButton}
             {isFull && <ProFilterContainer onClose={toggleFull}/>}
           </Container>
         </header>
         <MapContainer wrapperClassName={s.map} points={data}
                       style={{height: `${height}px`}}>
-          <section className={s.base__wrapper}>
-            <Container>
-              <BaseFilter refresh={hasSearched}
-                          onSearchClick={searchHandler}
-                          noButtons className={s.base} />
-            </Container>
-          </section>
+          {!isMobile && BaseFilterMarkup}
         </MapContainer>
       </div>
     )
