@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Content, Image, Svg, Select,
@@ -16,6 +16,10 @@ const { types } = statusTypes;
 const selectContent = statusTypes.types.map(item => item.name || item.content);
 
 export default class ItemTileManage extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
   types  = types;
   selectContent = selectContent;
 
@@ -83,6 +87,29 @@ export default class ItemTileManage extends Component {
     }
 
   };
+  contextHandler = e => {
+    e.preventDefault();
+
+    this.context.router.history.push(
+      `/manage/${this.props.data._link}`
+    )
+
+    return false;
+  }
+  userClickHandler = e => {
+    const { data } = this.props;
+    const userId = data._creator && (data._creator._id || data._creator.id);
+
+    if (userId) {
+      e.preventDefault();
+
+      this.context.router.history.push(
+        `/they/${userId}`
+      )
+
+      return false;
+    }
+  }
   selectHandler = e => {
     const { value } = e.target;
 
@@ -139,7 +166,9 @@ export default class ItemTileManage extends Component {
       declineHandler,
       selectContent,
       selectHandler,
-      getSelectRef
+      getSelectRef,
+      contextHandler,
+      userClickHandler
     } = this;
     const {
       title, location, _link,
@@ -154,9 +183,10 @@ export default class ItemTileManage extends Component {
     const user = data.user || data._creator || {};
 
     return (
-      <RouterLink to={`/manage/${_link}`} ref={getRef}
+      <RouterLink to={`/y/${_link}`} ref={getRef}
                   onClick={this.clickHandler}
-           className={classNames(s.wrapper, className)}>
+                  onContextMenu={contextHandler}
+                  className={classNames(s.wrapper, className)}>
         {/* Image */}
         <div className={classNames(s.image, imageClassName)}>
           {images.thumbnail &&
@@ -231,7 +261,7 @@ export default class ItemTileManage extends Component {
 
           {/* User */}
           <ItemPageUser className={s.user} titleClassName={s.user__title}
-                        tag="div"
+                        tag="div" onClick={userClickHandler}
                         linkClassName={s.user__link} imageClassName={s.user__image}
                         linksClassName={s.user__links}
                         phone={user.phone} email={user.email}

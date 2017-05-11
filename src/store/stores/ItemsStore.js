@@ -60,7 +60,7 @@ class ItemsStore {
   // responses handlers
   responseHandler = response => {
     const { objects, price, squares } = response;
-    this.fromJSON(objects);
+    this.fromJSON(objects, 'data', true);
     price && store.filter.setPrice(price);
     squares && store.filter.setSquares(squares);
     this.isFetching = false;
@@ -323,7 +323,7 @@ class ItemsStore {
     col, data
   );
 
-  add = (data, collection = 'data', noCheck) => {
+  add = (data, collection = 'data', noCheck, toReturn) => {
     const col = this[collection];
 
     if (!noCheck && col.length) {
@@ -343,6 +343,9 @@ class ItemsStore {
       }
     }
 
+    if (toReturn) {
+      return this.newModel(col, data)
+    }
     col.push(
       this.newModel(col, data)
     );
@@ -359,8 +362,9 @@ class ItemsStore {
     if (data && data.forEach) {
       let shouldReplace = !!toReplace;
       if (toReplace || collection !== 'data') {
-        this[collection].replace([]);
-        shouldReplace = true;
+        return this[collection].replace(
+          data.map(item => this.add(item, collection, true, true))
+        );
       }
 
       data.forEach(item => {

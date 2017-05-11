@@ -36,11 +36,6 @@ export default __data => {
     const objectHour = date.getHours();
     const dayDifference = currentDay - objectDay;
 
-    console.log({
-      objectHour, objectDay, currentDay, currentHour,
-      dayDifference
-    });
-
     if (objectDay === currentDay) {
       const hourDifference = currentHour - objectHour;
       if (hourDifference <= 12) {

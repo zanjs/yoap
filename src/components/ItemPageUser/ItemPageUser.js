@@ -16,11 +16,11 @@ const ItemPageUser = props => {
     isVerified, className,
     titleClassName, linkClassName,
     imageClassName, linksClassName,
-    tag, id
+    tag, id, onClick
   } = props;
 
   return (
-    <div className={classNames(s.wrapper, className)}>
+    <div className={classNames(s.wrapper, className)} onClick={onClick}>
       {!notitle && <ItemPageInfoTitle title={title}>
         {link && <LinkIcon tag={tag} gray to={link}>
           Профиль
