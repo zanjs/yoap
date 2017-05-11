@@ -15,7 +15,7 @@ export default class UserCustomAddressContainer extends Component {
   updateData = (props = this.props) => {
     let data = [
       getDefaultPersonalPoint(),
-      ...props.data
+      ...((props.noEdit ? props.__data : props.data) || [])
     ];
 
     this.setState({data});
@@ -50,6 +50,9 @@ export default class UserCustomAddressContainer extends Component {
     }
   }
   clickHandler = () => {
+    if (this.props.noEdit)
+      return null;
+
     if (this.state.isEdit) {
       const data = this.validate();
       const defaultPoint = getDefaultPersonalPoint();
@@ -72,12 +75,17 @@ export default class UserCustomAddressContainer extends Component {
     return this.setState({isEdit: true})
   };
   createHandler = () => {
+    if (this.props.noEdit)
+      return null;
     this.setState({
       isEdit: true,
       isNew: true
     })
   }
   removeHandler = (key) => {
+    if (this.props.noEdit)
+      return null;
+
     this.setState(state => ({
       data: state.data.filter((item, index) => (
         index !== key
@@ -85,6 +93,9 @@ export default class UserCustomAddressContainer extends Component {
     }))
   }
   titleChangeHandler = ({target}, key) => {
+    if (this.props.noEdit)
+      return null;
+
     if (key != null && typeof key === 'number') {
       return this.setState(state => ({
         data: state.data.map((item, index) => {
@@ -107,6 +118,9 @@ export default class UserCustomAddressContainer extends Component {
     }))
   }
   addressChangeHandler = ({name, position}, key) => {
+    if (this.props.noEdit)
+      return null;
+
     if (key != null && typeof key === 'number') {
       return this.setState(state => ({
         data: state.data.map((item, index) => {

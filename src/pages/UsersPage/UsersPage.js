@@ -3,11 +3,11 @@ import { inject, observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom'
 import {
   Container, FlexGrid,
-  UserCustomAddress, UserObjects,
+  UserObjects,
   UserFeatured, UserSubscription,
   LoadingAnimation
 } from 'components'
-import { UserDataEditContainer } from 'containers'
+import { UserDataEditContainer, UserCustomAddressContainer } from 'containers'
 import { isEmpty } from 'helpers'
 import s from './UsersPage.sass'
 
@@ -75,7 +75,7 @@ export default class UsersPage extends Component {
 
             <div className={s.info}>
               <UserDataEditContainer noEdit data={user} />
-              <UserCustomAddress />
+              <UserCustomAddressContainer noEdit __data={user.personalPoints}/>
               <UserSubscription />
             </div>
 
