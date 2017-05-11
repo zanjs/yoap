@@ -1,0 +1,8 @@
+{
+  "short_name": "YOAP",
+  "name": "YOAP / Find the Best Flat easy as well / Your Apartments",
+  "start_url": "/?utm_source=homescreen",
+  "background_color": "#ffffff",
+  "theme_color": "#ff5388",
+  "version": "0.1.13"
+}

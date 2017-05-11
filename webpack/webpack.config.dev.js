@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const __APP = resolve(__dirname, '../src');
 const __DIST = resolve(__dirname, '../dist/app');
@@ -63,6 +64,7 @@ module.exports = {
         test: /\.json$/,
         use: 'json-loader'
       },
+
       {
 
         test: /\.(sass|scss)$/,
@@ -121,5 +123,10 @@ module.exports = {
       template: '../webpack/template.html',
       favicon: '../src/data/images/favicon/favicon.ico'
     }),
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+      basePath: '/',
+      writeToFileEmit: true
+    })
   ]
 };

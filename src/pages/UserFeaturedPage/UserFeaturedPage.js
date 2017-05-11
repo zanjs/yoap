@@ -14,13 +14,19 @@ const mapStateToProps =
     items: {fetchUserFeatured, featured}
   }) => ({
     data: featured, name,
-    update: () => fetchUserFeatured(_featured),
-    isFetching: isFetching || items.isFetching
+    update: data => fetchUserFeatured(_featured || data),
+    isFetching: isFetching
 });
 
 @inject(mapStateToProps) @observer
 export default class UserFeaturedPage extends Component {
-  componentDidMount() {
+  componentWillMount() {
+    let id;
+
+    // if (this) {
+    //
+    // }
+
     this.props.update();
   }
 

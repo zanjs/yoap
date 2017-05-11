@@ -2,10 +2,12 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const __APP = resolve(__dirname, '../src');
 const __DIST = resolve(__dirname, '../dist/app');
 const getAbsolutePath = (path) => __APP + '/' + path;
+const publicPath = '/app/';
 
 module.exports = {
   entry: {
@@ -18,7 +20,7 @@ module.exports = {
   output: {
     path: __DIST,
     filename: '[name].[chunkhash].js',
-    publicPath: '/app/',
+    publicPath,
   },
   module: {
     rules: [
@@ -118,6 +120,11 @@ module.exports = {
     new ExtractTextPlugin({
       filename: '[name].bundle.css',
       allChunks: true
+    }),
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+      basePath: publicPath,
+      writeToFileEmit: true
     })
   ]
 };

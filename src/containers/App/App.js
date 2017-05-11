@@ -17,6 +17,7 @@ import {
   PagesTransitions, Overlay, Footer
 } from 'components'
 import { NavContainer, DefenderContainer } from 'containers'
+import { initServiceWorker } from 'helpers'
 import s from './App.sass'
 
 const mapStateToProps = ({user: {isAllowed}, device: {isMobile}}) => ({
@@ -33,6 +34,8 @@ export default class App extends Component {
         this.setState({DevTools: data.default})
       })
     }
+
+    initServiceWorker();
   }
   render() {
     const { DevTools } = this.state;
@@ -79,6 +82,8 @@ export default class App extends Component {
             <Route path="/you/featured" exact component={UserFeaturedPage} />
             <Route path="/they" exact component={ManageUsersPage} />
             <Route path="/they/:id" exact component={UsersPage}/>
+            <Route path="/they/:id/objects" exact component={UserItemsPage} />
+            <Route path="/they/:id/featured" exact component={UserFeaturedPage} />
             <Route path="/manage" exact component={ManageItemsPage}/>
             <Route path="/manage/:link" component={ItemPageEdit}/>
             <Route path="/they/manage/:userId/:link" component={ItemPageEdit}/>

@@ -10,13 +10,13 @@ import s from './UserFeatured.sass'
 
 import favoriteIcon from 'icons/ui/favlorite-bg.svg'
 
-const UserFeatured = ({data}) => {
+const UserFeatured = ({data, allFeatured = '/you/featured'}) => {
   const isEmpty = !data || !data.length;
 
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title="Избранное">
-        {!isEmpty && <LinkIcon gray to="/you/featured">
+        {!isEmpty && <LinkIcon gray to={allFeatured}>
           {`Все избранные (${data.length})`}
         </LinkIcon>}
       </ItemPageInfoTitle>

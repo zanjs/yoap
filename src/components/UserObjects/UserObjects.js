@@ -9,14 +9,14 @@ import s from './UserObjects.sass'
 import addIcon from 'icons/ui/add.svg'
 import notAvailableIcon from 'icons/ui/not_available.svg'
 
-const UserFeatured = ({data, notAllowed, newObject}) => {
+const UserFeatured = ({data, notAllowed, allObjects = "/you/yours", newObject = "/manage/create"}) => {
   const isEmpty = !data || !data.length || !data[0];
   const object =  !isEmpty && data[0];
 
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title="Мои объявления">
-        {!!data.length && <LinkIcon gray to="/you/yours">
+        {!!data.length && <LinkIcon gray to={allObjects}>
           {`Все объявления (${data.length})`}
         </LinkIcon>}
       </ItemPageInfoTitle>
@@ -33,7 +33,7 @@ const UserFeatured = ({data, notAllowed, newObject}) => {
         </div>}
 
         {!notAllowed && isEmpty &&
-        <RouterLink to={newObject || "/manage/create"}
+        <RouterLink to={newObject}
                     className={classNames(s.icon__wrapper, s.icon__wrapper_full)}>
           <Svg className={classNames(s.add, s.icon_null)}
                src={addIcon} />
@@ -42,7 +42,7 @@ const UserFeatured = ({data, notAllowed, newObject}) => {
           </Content>
         </RouterLink>}
 
-        {!notAllowed && !isEmpty && <RouterLink to={newObject || "/manage/create"}>
+        {!notAllowed && !isEmpty && <RouterLink to={newObject}>
           <Svg className={classNames(s.add, s.add_last)}
                src={addIcon} />
         </RouterLink>}

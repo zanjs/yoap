@@ -62,7 +62,7 @@ export default class UsersPage extends Component {
       match: {params: {id}}
     } = this.props;
 
-    if (!isAuthorized || id && !isAdmin) {
+    if (!isAuthorized || !id || !isAdmin) {
       return <Redirect to="/y" />
     }
 
@@ -80,8 +80,11 @@ export default class UsersPage extends Component {
             </div>
 
             <div className={s.data}>
-              <UserObjects newObject={`/they/manage/${id}/create`} data={data}/>
-              <UserFeatured data={featured}/>
+              <UserObjects allObjects={`/they/${id}/objects`}
+                           newObject={`/they/manage/${id}/create`}
+                           data={data}/>
+              <UserFeatured allFeatured={`/they/${id}/featured`}
+                            data={featured}/>
             </div>
           </FlexGrid>
         </Container>

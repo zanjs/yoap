@@ -31,6 +31,7 @@ export getDateDifference from './app/getDateDifference'
 export getDirection from './app/getDirection'
 export getDefaultPersonalPoint from './app/getDefaultPersonalPoint'
 export parseItemsToPoints from './app/parseItemsToPoints'
+export initServiceWorker from './app/initServiceWorker'
 export noop from './app/noop'
 
 // animation helpers

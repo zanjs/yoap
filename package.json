@@ -15,11 +15,12 @@
     "rcc": "bash ./rcc.sh",
     "rcf": "bash ./rcf.sh",
     "start": "better-npm-run start",
-    "dev:webpack": "better-npm-run dev:webpack"
+    "dev:webpack": "better-npm-run dev:webpack",
+    "clean-up": "rm -rf dist/app && mkdir dist/app && cp -R webpack/manifest.json dist/app"
   },
   "betterScripts": {
-    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js",
-    "build": "rm -rf dist/app && webpack --config webpack/webpack.config.prod.js",
+    "dev": "npm run clean-up && webpack-dev-server --config webpack/webpack.config.dev.js",
+    "build": "npm run clean-up && webpack --config webpack/webpack.config.prod.js",
     "prod": "cd dist && python -m SimpleHTTPServer 8080",
     "server": "nodemon ./bin/index.js",
     "watch": "webpack --config webpack/webpack.config.prod.js --watch",
@@ -100,6 +101,7 @@
     "nodemailer": "^4.0.1",
     "pinch-zoom": "^0.3.8",
     "prop-types": "^15.5.8",
+    "raw-loader": "^0.5.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dropzone": "^3.12.2",
@@ -111,6 +113,7 @@
     "react-router-dom": "^4.0.0",
     "react-sortable-hoc": "^0.6.1",
     "stackblur-canvas": "^1.4.0",
-    "store2": "^2.5.0"
+    "store2": "^2.5.0",
+    "webpack-manifest-plugin": "^1.1.0"
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import {
   Container, FlexGrid, Title, LinkIcon,
@@ -8,11 +9,12 @@ import {
 import { ItemTileContainer } from 'containers'
 import s from './UserItemsPage.sass'
 
-const mapStateToProps = ({user: {name, update, isFetching, _objects}, items}) => ({
+const mapStateToProps = ({user: {name, isAuthorized, isAdmin, update, isFetching, _objects}, items}) => ({
   data: items.users, name,
   isFetching: isFetching || items.isFetching,
   fetchUserItems: items.fetchUserItems,
-  update, objects: _objects
+  update, objects: _objects,
+  isAuthorized, isAdmin
 });
 
 @inject(mapStateToProps) @observer
@@ -28,7 +30,12 @@ export default class UserItemsPage extends Component {
     })
   }
   render() {
-    const { data, name, isFetching } = this.props;
+    const { data, name, isAuthorized, isFetching } = this.props;
+
+    if (!isAuthorized) {
+      return <Redirect to="/login"/>
+    }
+
     return (
       <div className={s.wrapper}>
         <Helmet title="Ваши объявления"/>
