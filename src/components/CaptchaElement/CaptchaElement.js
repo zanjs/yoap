@@ -5,7 +5,7 @@ const id = 'captcha-element';
 const captchaCallbackName = 'captchaInitCallback';
 const callbackStorage = 'callbackStorage';
 const styles = {
-  display: 'block'
+  display: 'none'
 };
 
 const CaptchaElement = () => (
