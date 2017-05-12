@@ -11,24 +11,27 @@ const addAttrs = cb => {
 };
 
 const removeAttrs = () => {
-  window[CaptchaElement.callbackName] = null;
+  let block = document.querySelector(`#${CaptchaElement.id}`);
+
+  block.style.display = 'none';
 }
 
 export default function captcha() {
   return new Promise((resolve, reject) => {
     if (window.location.href.indexOf('localhost') !== -1) {
+      removeAttrs();
       return resolve();
     }
 
     subscribe(
       () => {
         const cb = () => {
-          resolve();
           removeAttrs();
+          return resolve();
         };
 
         if (grecaptcha.getResponse().length !== 0) {
-          return resolve();
+          return cb();
         }
 
         addAttrs(cb).then(() => {
