@@ -155,6 +155,7 @@ export default class UserCustomAddressContainer extends Component {
                               editData={this.state.newAddress}
                               isEdit={this.state.isEdit}
                               isNew={this.state.isNew}
+                              noEdit={this.props.noEdit}
                               data={this.state.data} />
   }
 }

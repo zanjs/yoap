@@ -14,16 +14,16 @@ const UserCustomAddress = props => {
   const {
     data, editData, isEdit, onControlClick,
     isNew, onTitleChange, onAddressChange,
-    onAddNew, onRemove
+    onAddNew, onRemove, noEdit
   } = props;
   return (
     <div className={s.wrapper}>
       <ItemPageInfoTitle title="Мои адреса">
-        <Content className={s.title}
+        {!noEdit && <Content className={s.title}
                  onClick={onControlClick}
                  nooffsets gray>
           {isEdit ? 'Сохранить' : 'Изменить'}
-        </Content>
+        </Content>}
       </ItemPageInfoTitle>
       <FlexGrid justify="start" align="start" wrap="true">
         {data && data.map((item, key) => (
