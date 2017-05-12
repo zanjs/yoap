@@ -1,7 +1,7 @@
 import subscribe from './subscribe'
 import randomNumber from './randomNumber'
 import CaptchaElement from '../../components/CaptchaElement/CaptchaElement'
-export const captchaApiKey = '6Le8IiEUAAAAAIeYkboQm250WHmO4EKhdXxXV4jz';
+import { captchaApiKey } from 'config'
 const checkCaptchaLoaded = () => !!window.grecaptcha && window.grecaptcha.render;
 
 const getBlock = () => {
@@ -14,13 +14,6 @@ const addAttrs = callbackName => {
 
     block.setAttribute('data-sitekey', captchaApiKey);
     block.setAttribute('data-callback', callbackName);
-
-    console.log('added attrs', {
-      'data-sitekey': captchaApiKey,
-      'data-callback': callbackName
-    });
-
-    resolve();
   })
 };
 

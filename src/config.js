@@ -112,5 +112,4 @@ export const map = {
 };
 
 
-
-
+export const captchaApiKey = '6Le8IiEUAAAAAIeYkboQm250WHmO4EKhdXxXV4jz';
