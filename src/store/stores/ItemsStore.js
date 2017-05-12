@@ -2,7 +2,7 @@ import {
   observable, computed, reaction,
   action, observer, autorun
 } from 'mobx'
-import { localStore, noop, isEmpty, extend } from 'helpers'
+import { localStore, noop, isEmpty, extend, captcha } from 'helpers'
 import { store as config, statusTypes } from 'constants'
 import {
   getItems, saveItem, getItem,
@@ -219,25 +219,26 @@ class ItemsStore {
     const item = this
       .newModel(null, data)
       .toJSON();
-
-    console.log('CREATE ITEM');
-    saveItem(item)
-      .then(this.checkStatus)
-      .then(this.parseJSON)
-      .then(this.createItemResponse)
-      .then(cb)
-      .catch(this.errorHandler);
+    return captcha().then(() => {
+      return saveItem(item)
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(this.createItemResponse)
+        .then(cb)
+        .catch(this.errorHandler);
+    })
   };
   updateItem = (id, update, cb = noop) => {
     this.isFetching = true;
-    console.log('UPDATE ITEM');
 
-    updateItemApi({id, update})
-      .then(this.checkStatus)
-      .then(this.parseJSON)
-      .then(this.updateItemResponse)
-      .then(cb)
-      .catch(this.errorHandler);
+    return captcha().then(() => {
+      return updateItemApi({id, update})
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(this.updateItemResponse)
+        .then(cb)
+        .catch(this.errorHandler);
+    })
   };
   updateItemViews = (id, cb = noop) => {
     if (isEmpty(id))

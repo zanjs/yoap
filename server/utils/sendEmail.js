@@ -1,12 +1,7 @@
 import nodemailer from 'nodemailer'
 
 let transporter = nodemailer.createTransport({
-  host: 'smtp.yandex.ru',
-  maildomain: 'yoap.co',
-  port: 25,
-  direct: true,
-  secure: true,
-  secure: true,
+  service: 'Yandex',
   auth: {
     user: 'notify@yoap.co',
     pass: 'UCSuckDick4407Yoap'

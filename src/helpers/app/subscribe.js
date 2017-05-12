@@ -1,12 +1,18 @@
 const INTERVAL_TIMING = 100;
 
 export default function subscribe(cb, check, interval, time) {
+  let isLaunched = false;
   clearInterval(interval);
+  const fn = () => {
+    if (isLaunched)
+      return;
 
-  interval = setInterval(() => {
-    if (check()) {
+    if (isLaunched = check()) {
       clearInterval(interval);
-      cb()
+      return cb()
     }
-  }, time || INTERVAL_TIMING);
+  };
+
+  interval = setInterval(fn, time || INTERVAL_TIMING);
+  return fn();
 }

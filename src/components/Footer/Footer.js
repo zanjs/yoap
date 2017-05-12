@@ -23,24 +23,25 @@ const Footer = () => {
 
           <FlexGrid align="start" justify="start" className={s.col_big}>
             <div className={s.col_half}>
-              <Link className={s.link} white to="/">Стать хозяином</Link>
-              <Link className={s.link} white to="/">Помощь</Link>
-              <Link className={s.link} white to="/">Регистрация</Link>
-              <Link className={s.link} white to="/">Вход</Link>
+              <Link className={s.link} white to="/signup">Стать хозяином</Link>
+              {/*<Link className={s.link} white to="/">Помощь</Link>*/}
+              <Link className={s.link} white to="/signup">Регистрация</Link>
+              <Link className={s.link} white to="/login">Вход</Link>
             </div>
             <div className={s.col_half}>
-              <Link className={s.link} white to="/">Условия подписки</Link>
-              <Link className={s.link} white to="/">Гарантия</Link>
-              <Link className={s.link} white to="/">Безопасность</Link>
-              <Link className={s.link} white to="/">Конфиденциальность</Link>
+              <Link className={s.link} white to="/">ALPHA version 0.1.13</Link>
+              {/*<Link className={s.link} white to="/">Гарантия</Link>*/}
+              {/*<Link className={s.link} white to="/">Безопасность</Link>*/}
+              {/*<Link className={s.link} white to="/">Конфиденциальность</Link>*/}
             </div>
           </FlexGrid>
 
           <div className={s.col}>
             <Title className={s.title} white size="3" light>Контакты</Title>
             <Content white transparent size="5" regular className={classNames(s.address, s.text)}>
-              190000, Санкт-Петербург,
-              ул. Инженерная, д.2
+              Soon
+              {/*190000, Санкт-Петербург,*/}
+              {/*ул. Инженерная, д.2*/}
             </Content>
 
             <Content size="5" regular white transparent className={s.text}>

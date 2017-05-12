@@ -12,11 +12,10 @@ import {
   checkAuth as serverCheckAuth,
   logout as serverLogout,
 } from 'api'
-import { extend, localStore, noop, isEmpty, getToken } from 'helpers'
+import { extend, localStore, noop, isEmpty, captcha, getToken } from 'helpers'
 import { store as config } from 'constants'
 import { jwtStorageName } from 'config'
 import { store } from 'store'
-window.jwtDecode = jwtDecode;
 
 /**
  * UserStore class.
@@ -213,12 +212,14 @@ class UserStore {
       password
     };
 
-    return serverLogin(data)
-      .then(this.checkStatus)
-      .then(this.parseJSON)
-      .then(this.responseHandler)
-      .then(cb)
-      .catch(this.errorHandler);
+    return captcha().then(() => {
+      return serverLogin(data)
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(this.responseHandler)
+        .then(cb)
+        .catch(this.errorHandler);
+    })
   };
   logout = (cb = noop) => {
     this.isLogout = true;
@@ -258,11 +259,13 @@ class UserStore {
     this.errorMessage = false;
     this.isError = false;
 
-    return serverSignup(this.toJSON())
-      .then(this.checkStatus)
-      .then(this.parseJSON)
-      .then(this.responseHandler)
-      .catch(this.errorHandler);
+    return captcha().then(() => {
+      return serverSignup(this.toJSON())
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(this.responseHandler)
+        .catch(this.errorHandler);
+    })
   };
   updateUserData = (data, cb = noop, id) => {
     if (!this.id || isEmpty(data))
@@ -274,38 +277,42 @@ class UserStore {
       id: id || this.id
     };
 
-    return serverUpdateUserData(newData)
-      .then(this.checkStatus)
-      .then(this.parseJSON)
-      .then(this.responseHandler)
-      .then(cb)
-      .catch(this.errorHandler);
+    return captcha().then(() => {
+      return serverUpdateUserData(newData)
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(this.responseHandler)
+        .then(cb)
+        .catch(this.errorHandler);
+    })
   }
   update = cb => {
     if (!this.isAuthorized)
       return;
 
-    return serverCheckAuth()
-      .then(this.checkStatus)
-      .then(this.parseJSON)
-      .then(res => {
-        if (!res.success) {
-          console.log('will logout');
+    return captcha().then(() => {
+      return serverCheckAuth()
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(res => {
+          if (!res.success) {
+            console.log('will logout');
+            this.logout();
+          }
+
+          if (res.data.token) {
+            this.token = res.data.token;
+          }
+
+          return res;
+        })
+        .then(cb)
+        .catch(err => {
           this.logout();
-        }
 
-        if (res.data.token) {
-          this.token = res.data.token;
-        }
-
-        return res;
-      })
-      .then(cb)
-      .catch(err => {
-        this.logout();
-
-        return err;
-      })
+          return err;
+        })
+    })
   };
 
   subscribeToLocalStore = () => reaction(
