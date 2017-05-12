@@ -44,17 +44,17 @@ export default class UserPhoneContainer extends Component {
       .then(res => res.json())
       .then(({data}) => {
         const res = jwtDecode(data);
-        console.log({
-          phone: res.phone,
-          res
-        });
+
         this.setState({
           phone: res.phone,
           isFetching: false,
           isError: false
         })
       })
-      .catch(({res}) => {
+      .catch(res => {
+        if (res.res.status >= 400 || res.res.status < 404) {
+          return this.setNotVerifiedError()
+        }
         this.setState({
           isFetching: false,
           isError: res.message,
@@ -70,6 +70,19 @@ export default class UserPhoneContainer extends Component {
     this.setState({isFetching: true, isError: false})
     this.fetchPhoneNumber(this.props.id);
   }
+  setNotVerifiedError = () => {
+    this.setState({
+      isFetching: false,
+      isError: (
+        <span>
+          Похоже, что вы вошли в свой аккаунт, но не подтвердили почтовый ящик. <br/>
+          Вы можете выслать письмо верификации заново в личном кабинете. <br/>
+          <Link type="underline" to="/you">Мой профиль</Link>
+        </span>
+      ),
+      phone: null
+    })
+  };
   setAuthError = () => {
     this.redirectWhenLogin();
 
@@ -77,7 +90,7 @@ export default class UserPhoneContainer extends Component {
       isError: (
         <span>
           Для просмотра номеров собственников
-          Вам необходимо войти или зарегистрироваться.
+          Вам необходимо войти или зарегистрироваться и подтвердить аккаунт по почте.
           Сейчас мы перенаправим вас на страницу входа.
           После входа вы будете перенаправлены обратно. <br/>
           <Link type="underline" to="/login">Перейти прямо сейчас</Link>
@@ -88,7 +101,7 @@ export default class UserPhoneContainer extends Component {
         return null;
 
       return this.context.router.history.push('/login');
-    }, 10000));
+    }, 5500));
   }
   redirectWhenLogin = () => {
     this.props.redirectWhenLogin(
