@@ -25,4 +25,9 @@ moduleAlias.addAliases({
   'validation': path.join(__dirname, '../src/store/validation'),
 });
 
-require('../server/index');
+
+require(
+  NODE_ENV === 'development'
+    ? '../server/index'
+    : '../server/server'
+);
