@@ -19,7 +19,7 @@ export default (req, res) => {
       if (compareSync(password, user.password_digest)) {
         const token = createToken(user);
 
-        return User.findOneAndUpdate(query, {token})
+        return User.findOneAndUpdate(query, {token, restore: false, restoreHash: ''})
           .then(() => {
             return res.status(200).json({
               success: true,

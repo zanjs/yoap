@@ -9,13 +9,19 @@ export default (req, res) => {
     .then(user => {
       if (!user) {
         return res.send(
-          `<script>alert('Ваша ссылка устарела и аккаунт не был подтвержден!')</script>`
+          `<script>
+            alert('Ваша ссылка устарела и аккаунт не был подтвержден!');
+            location.href = '${appDomainName}/login';
+          </script>`
         )
       }
       if (!user._id || user.verified || user.banned) {
         if (user.banned) {
           return res.send(
-            `<script>alert('Нас не проведешь - мы знаем что вы агент!')</script>`
+            `<script>
+              alert('Нас не проведешь - мы знаем что вы агент!');
+              location.href = 'http://www.idinahui.net/';
+            </script>`
           )
         }
         if (user.verified) {
@@ -31,14 +37,14 @@ export default (req, res) => {
       }).catch(err => {
         res.status(500).send(
           `<h1>Произошла ошибка 500</h1>
-           <p>${err.toString()}</p>`
+           <p>${JSON.stringify(err)}</p>`
         )
       })
     })
     .catch(err => {
       res.status(500).send(
         `<h1>Произошла ошибка 500</h1>
-         <p>${err.toString()}</p>`
+         <p>${JSON.stringify(err)}</p>`
       )
     })
 };

@@ -5,6 +5,8 @@ import {
   updateUserDataApi as updateUserDataUrl,
   checkUserApi as checkUserUrl,
   checkPasswordApi as checkPasswordUrl,
+  updatePasswordApi as updatePasswordUrl,
+  restorePasswordApi as restorePasswordUrl,
   JSONHeaders as headers,
 } from 'constants'
 import { getHeaders, fetch } from 'helpers'
@@ -21,6 +23,18 @@ export const logout = () => {
     method: 'post'
   })
 }
+
+export const updatePassword = data => fetch(updatePasswordUrl, {
+  ...getHeaders(),
+  method: 'PATCH',
+  body: JSON.stringify(data)
+})
+
+export const restorePassword = data => fetch(restorePasswordUrl, {
+  ...getHeaders(),
+  method: 'PATCH',
+  body: JSON.stringify(data)
+})
 
 export const signup = data => {
   const {name, email, phone, password} = data;

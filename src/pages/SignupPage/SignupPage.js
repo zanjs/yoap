@@ -3,11 +3,8 @@ import Helmet from 'react-helmet'
 import { Redirect } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
 import { SignupFormContainer } from 'containers'
-import { FlexGrid } from 'components'
+import { Container, FlexGrid } from 'components'
 import { pagesTitles } from 'config'
-import {
-  Header, Title, Container,
-} from 'components'
 import s from './SignupPage.sass'
 
 

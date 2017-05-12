@@ -8,6 +8,8 @@ import createDummyUser from './createDummyUser'
 import updateDummyUser from './updateDummyUser'
 import getUsersHandler from './getUsersHandler'
 import checkPassword from './checkPassword'
+import restorePasswordHandler from './restorePasswordHandler'
+import updatePasswordHandler from './updatePasswordHandler'
 //import deleteHandler from './deleteHandler'
 
 export default {
@@ -20,6 +22,8 @@ export default {
   createDummyUser,
   updateDummyUser,
   getUsersHandler,
-  checkPassword
+  checkPassword,
+  restorePasswordHandler,
+  updatePasswordHandler
   //deleteHandler
 }

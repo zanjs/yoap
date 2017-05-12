@@ -119,9 +119,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      title: 'yoap',
       template: '../webpack/template.html',
-      favicon: '../src/data/images/favicon/favicon.ico'
+      headFolder: ''
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',

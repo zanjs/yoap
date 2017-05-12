@@ -17,6 +17,7 @@ moduleAlias.addAliases({
   'models'  : path.join(__dirname, '../server/models'),
   'controllers': path.join(__dirname, '../server/controllers'),
   'utils': path.join(__dirname, '../server/utils'),
+  'mail': path.join(__dirname, '../server/mail'),
   'middlewares': path.join(__dirname, '../server/middlewares'),
   'serverConfig': path.join(__dirname, '../server/serverConfig.js'),
   'config': path.join(__dirname, '../src/config'),

@@ -1,9 +1,9 @@
 import { User } from 'models'
 import {
   userValidation, createToken,
-  sendSignUpEmail, createId,
-  isEmpty, filterPossibleToEditUser
+  createId, isEmpty, filterPossibleToEditUser
 } from 'utils'
+import mail from 'mail'
 
 export default (req, res) => {
   let { data, id } = req.body;
@@ -60,7 +60,7 @@ export default (req, res) => {
               data: {token}
             })
             if (data.verifyToken) {
-              sendSignUpEmail({
+              mail.verify({
                 id: data.verifyToken,
                 email: __data.email,
                 name: __data.name

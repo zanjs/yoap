@@ -10,7 +10,7 @@ export default (req, res) => {
   }
 
   const token = createToken(user);
-  User.findOneAndUpdate({token: user.token}, {token})
+  User.findOneAndUpdate({token: user.token, restore: false, restoreHash: ''}, {token})
     .then(() => {
       res.status(200).json({
         success: true,

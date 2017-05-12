@@ -11,6 +11,8 @@ import {
   updateUserData as serverUpdateUserData,
   checkAuth as serverCheckAuth,
   logout as serverLogout,
+  updatePassword as serverUpdatePassword,
+  restorePassword as serverRestorePassword,
 } from 'api'
 import { extend, localStore, noop, isEmpty, captcha, getToken } from 'helpers'
 import { store as config } from 'constants'
@@ -121,6 +123,7 @@ class UserStore {
   @observable isFetching = false;
   @observable isError = false;
   @observable errorMessage = '';
+  @observable message = '';
   get isAuthorized() {
     return !!this.id && !!this.token;
   }
@@ -312,6 +315,49 @@ class UserStore {
         return err;
       })
   };
+
+  restorePassword = email => {
+    if (isEmpty(email))
+      return null;
+
+    this.isFetching = true;
+    this.isError = false;
+    this.errorMessage = '';
+    this.message = '';
+    return serverRestorePassword({email})
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(data => {
+        this.isFetching = false;
+        if (data.success && data.message) {
+          this.message = data.message;
+        }
+      })
+      .catch(this.errorHandler)
+  };
+  updatePassword = data => {
+    if (isEmpty(data))
+      return null;
+
+    this.isFetching = true;
+    this.isError = false;
+    this.errorMessage = '';
+    this.message = '';
+    return serverUpdatePassword(data)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(data => {
+        this.isFetching = false;
+        if (data.success && data.message) {
+          this.message = data.message;
+        }
+        if (data.token || data.data.token) {
+          this.token = data.token || data.data.token;
+        }
+      })
+      .catch(this.errorHandler)
+  };
+  verify = () => {};
 
   subscribeToLocalStore = () => reaction(
     // parse data to json

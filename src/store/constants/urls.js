@@ -41,6 +41,12 @@ export const checkUserApi = apiOrigin + api + checkUser;
 // update user data
 export const updateUserData = `/update-user`;
 export const updateUserDataApi = apiOrigin + api + updateUserData;
+// update password
+export const updatePassword = '/update-password';
+export const updatePasswordApi = apiOrigin + api + updatePassword;
+//
+export const restorePassword = '/restore-password';
+export const restorePasswordApi = apiOrigin + api + restorePassword;
 // create dummy user
 export const createDummyUser = `/create-dummy-user`;
 export const createDummyUserApi = apiOrigin + api + createDummyUser;

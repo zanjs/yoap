@@ -7,7 +7,8 @@ import {
   ItemPageEdit, ManageItemsPage, UserItemsPage,
   UserFeaturedPage, LogoutPage,
   ManageUsersPage, UsersPage,
-  MapItemsPage
+  MapItemsPage, ForgotPasswordPage,
+  UpdatePasswordPage
 } from 'pages'
 import {
   BrowserRouter as Router,
@@ -76,8 +77,8 @@ export default class App extends Component {
           {/* Routes */}
           <PagesTransitions>
             <Route path="/" exact component={HomePage}/>
-            <Route path="/login" component={LoginPage}/>
-            <Route path="/signup" component={SignupPage} />
+            <Route path="/login" exact component={LoginPage}/>
+            <Route path="/signup" exact component={SignupPage} />
             <Route path="/logout" exact component={LogoutPage}/>
             <Route path="/y" exact component={ItemsListPage}/>
             <Route path="/m" exact component={MapItemsPage}/>
@@ -90,8 +91,10 @@ export default class App extends Component {
             <Route path="/they/:id/objects" exact component={UserItemsPage} />
             <Route path="/they/:id/featured" exact component={UserFeaturedPage} />
             <Route path="/manage" exact component={ManageItemsPage}/>
-            <Route path="/manage/:link" component={ItemPageEdit}/>
-            <Route path="/they/manage/:userId/:link" component={ItemPageEdit}/>
+            <Route path="/manage/:link" exact component={ItemPageEdit}/>
+            <Route path="/they/manage/:userId/:link" exact component={ItemPageEdit}/>
+            <Route path="/you/restore" exact component={ForgotPasswordPage}/>
+            <Route path="/you/restore/:id" exact component={UpdatePasswordPage}/>
             <Route render={() => {
               return <Redirect to="/y"/>
             }}/>

@@ -120,7 +120,7 @@ export default class LoginForm extends Component {
         </Content>}
         <FlexGrid align="center" className={s.buttons}>
           <Button disabled={isFetching} buttonType='submit' type="pink" className={s.button}>Готово</Button>
-          <Content tag={RouterLink} to="/reset-password"
+          <Content tag={RouterLink} to="/you/restore"
                    gray size="5" className={s.reset}>
             Забыли пароль?
           </Content>

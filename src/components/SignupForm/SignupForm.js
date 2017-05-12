@@ -42,7 +42,6 @@ export default class SignupForm extends Component {
       name,
       ph: this.placeholders[name],
 
-      // TODO: Fix default value update
       defaultValue: this.props.initialValues[name],
 
       isSuccess: success[name],

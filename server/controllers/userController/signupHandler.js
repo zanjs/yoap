@@ -1,9 +1,9 @@
 import { User } from 'models'
 import { hashSync } from 'bcrypt'
 import {
-  userValidation, createToken,
-  sendSignUpEmail, createId
+  userValidation, createToken, createId
 } from 'utils'
+import mail from 'mail'
 
 export default (req, res) => {
   const {
@@ -38,7 +38,7 @@ export default (req, res) => {
               success: true,
               data: {token}
             })
-            sendSignUpEmail({
+            mail.verify({
               id: verifyToken,
               email,
               name

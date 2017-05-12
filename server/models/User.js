@@ -90,7 +90,15 @@ const userSchema = new Schema({
     type: String,
     required: false
   },
-  verifyToken: String
+  verifyToken: String,
+  restore: {
+    type: Boolean,
+    default: false
+  },
+  restoreHash: {
+    type: String,
+    default: ''
+  }
 });
 
 const User = mongoose.model('User', userSchema);
