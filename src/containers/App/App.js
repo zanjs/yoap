@@ -45,7 +45,10 @@ export default class App extends Component {
       return (
         <Router>
           <div className={s.root}>
-            <Helmet title="Вход в YOAP"/>
+            <Helmet>
+              <title>Вход в YOAP</title>
+              <meta name="description" content={DefenderContainer.description}/>
+            </Helmet>
             <DefenderContainer/>
           </div>
         </Router>

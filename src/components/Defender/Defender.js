@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { FormGroup, Svg, FlexGrid } from 'components'
+import { FormGroup, Content, Svg, FlexGrid } from 'components'
 import { classNames } from 'helpers'
 import s from './Defender.sass'
 
 import logoIcon from 'icons/logo.svg'
 import lockIcon from 'icons/ui/lock.svg'
+
+const description = (
+  <span>
+    Каждый 10 из первой 1000 пользователей получат 100₽ на телефон 💯💯💯 <br/> <br/>
+    Где искать пароль? 🕵 <br/>
+    Ищите в сети, спрашивайте у друзей, знакомых, в комментариях групп и пабликов — помните он где-то рядом!👣
+  </span>
+);
+const descriptionContent = `
+Каждый 10 из первой 1000 пользователей получат 100₽ на телефон💯💯💯
+Где искать пароль? 🕵🏿 
+Ищите в сети, спрашивайте у друзей, знакомых, в пабликах вроде 'подслушано' и помните он где-то рядом!👣
+`;
 
 const mapStateToProps = ({device: {width, height}}) => ({
   width: `${width}px`, height: `${height}px`,
@@ -13,6 +26,7 @@ const mapStateToProps = ({device: {width, height}}) => ({
 
 @inject(mapStateToProps) @observer
 export default class Defender extends Component {
+  static description = descriptionContent;
   submitHandler = e => {
     e.preventDefault();
 
@@ -46,6 +60,7 @@ export default class Defender extends Component {
                      type="password" required>
             {!isError && <Svg src={lockIcon} className={s.lock_icon}/>}
           </FormGroup>
+          <Content white>{description}</Content>
         </form>
       </FlexGrid>
     )

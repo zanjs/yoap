@@ -12,6 +12,7 @@ const mapStateToProps = ({user: {isAllowed, updateAllowed}}) => ({
 @inject(mapStateToProps) @observer
 export default class DefenderContainer extends Component {
   state = { value: null, isError: false, isFetching: false };
+  static description = Defender.description;
 
   cleanUp = () => {
     this.setState({
