@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import {
-  Container, Dashboard
+  Container, Dashboard,
+  DashboardSync
 } from 'components'
 import s from './DashboardContainer.sass'
 
-@inject('dash') @observer
+const mapStateToProps = ({dash, user, items}) => ({
+  dash, isFetching: dash.isFetching || user.isFetching || items.isFetching,
+})
+
+@inject(mapStateToProps) @observer
 export default class DashboardContainer extends Component {
   state = {color: '#448aff', isEmpty: true};
 
@@ -17,6 +22,11 @@ export default class DashboardContainer extends Component {
     this.setState({
       isEmpty: cond
     })
+
+    if (!this.props.onEmpty)
+      return;
+
+    this.props.onEmpty(cond)
   }
   componentWillMount() {
     this.props.dash.update();
@@ -25,6 +35,7 @@ export default class DashboardContainer extends Component {
   render() {
     const {
       state: {color, isEmpty},
+      props: {isFetching},
       changeBackground
     } = this;
 
@@ -34,10 +45,10 @@ export default class DashboardContainer extends Component {
       <div style={{backgroundColor: color, display}} className={s.wrapper}>
         <Container>
           <span className={s.subtitle}>
-            Уведомления
+            {isFetching ? 'Синхронизация' : 'Уведомления'}
           </span>
-          <Dashboard isEmpty={this.isEmpty}
-                     changeBackground={changeBackground} />
+          {isFetching && <DashboardSync isEmpty={this.isEmpty} changeBackground={changeBackground}/>}
+          {!isFetching && <Dashboard isEmpty={this.isEmpty} changeBackground={changeBackground} />}
         </Container>
       </div>
     )

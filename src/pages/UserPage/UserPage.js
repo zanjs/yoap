@@ -45,7 +45,6 @@ export default class UserPage extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
-  isLoading = true;
 
   componentWillMount() {
     if (!this.props.isAuthorized)
@@ -114,6 +113,20 @@ export default class UserPage extends Component {
       this.updateUserFeatured(nextProps._featured)
     }
   }
+  emptyDashboardHandler = dashEmpty => {
+    if (dashEmpty) {
+      if (this.props.currentThemeName === 'white')
+        return;
+
+      return this.props.setTheme('white')
+    }
+
+    if (this.props.currentThemeName === 'black')
+      return;
+
+    return this.props.setTheme('black')
+  }
+
   render() {
     const {
       data, featured, isFetching,
@@ -128,8 +141,9 @@ export default class UserPage extends Component {
       <div>
         <Helmet>
           <title>Мой профиль</title>
+          <meta name="description" content="Просматривайте свои объявления, избранные, добавляйте адреса - меняйте информацию профиля или же просмотрите уведомления или статистику своего объявления!"/>
         </Helmet>
-        <DashboardContainer />
+        <DashboardContainer onEmpty={this.emptyDashboardHandler} />
         {isFetching && <LoadingAnimation />}
 
         <Container className={s.content}>

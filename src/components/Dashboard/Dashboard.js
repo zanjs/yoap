@@ -28,7 +28,7 @@ export default class DashboardNotification extends Component {
   }
   render() {
     const slides = !!this.props.data.length && this.props.data || [];
-    console.log(slides.length, {slides});
+
     return <DashboardSlider slides={slides} changeBackground={this.props.changeBackground} />
   }
 }

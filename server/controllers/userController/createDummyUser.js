@@ -44,8 +44,9 @@ export default (req, res) => {
       ...credentials,
       isDummy: true, verifyToken,
       password_digest: hashSync(createId(), 10),
+      _creator: req.user._id || req.user.id
     };
-    console.log('userData', userData);
+
     const user = new User(userData);
 
     user.save().then(() => {

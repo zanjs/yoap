@@ -25,6 +25,7 @@ const Slide = observer(({children, onClick, getRef, title, icon, buttons}) => (
         </Button>
       ))}
     </FlexGrid>}
+    {!buttons && <div className={s.footer__ph}/> }
   </div>
 ))
 
@@ -75,7 +76,16 @@ export default class DashboardSlider extends Component {
       // set slide
       const slide = slideData || props.slides[slideNum];
       this.current = slideNum;
-      maxSlide && this.startProgress();
+
+      if (maxSlide) {
+        this.startProgress();
+      }
+      if (slide.loading) {
+         this.cycleProgress();
+      } else {
+        clearInterval(this.cycleProgressInterval);
+      }
+
       this.setState({slide}, this.fadeIn);
 
       // change bg color
@@ -129,6 +139,42 @@ export default class DashboardSlider extends Component {
     })
   };
 
+  cycleProgress = () => {
+    const { delay, easeIn } = this;
+    const dur = delay / 8;
+    console.log('cycle started')
+    const animation = () => {
+      if (!this.bar)
+        return clearInterval(this.cycleProgressInterval)
+
+      TweenMax.fromTo(this.bar, dur, {
+        x: '0%'
+      }, {
+        x: '200%',
+        ease: easeIn,
+        onComplete: () => {
+          if (!this.bar)
+            return clearInterval(this.cycleProgressInterval)
+
+          TweenMax.fromTo(this.bar, dur, {
+            x: '200%'
+          }, {
+            x: '0%',
+            ease: easeIn
+          })
+        }
+      })
+    };
+
+    clearInterval(this.cycleProgressInterval);
+
+    animation();
+    this.cycleProgressInterval = setInterval(
+      animation,
+      (dur * 2) * 1000
+    )
+  }
+
   startCycle = (toEmpty, props) => {
     if (this.isEmpty())
       return;
@@ -169,7 +215,11 @@ export default class DashboardSlider extends Component {
     }
 
     if (nextProps.slides && nextProps.slides.length < 2 && nextProps.slides[0]) {
-      this.to(0, nextProps, nextProps.slides[0]);
+      const slide = nextProps.slides[0];
+      this.to(0, nextProps, slide);
+      if (slide.loading) {
+        this.cycleProgress();
+      }
     }
   }
   componentDidUpdate() {
