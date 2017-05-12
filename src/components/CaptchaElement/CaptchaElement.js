@@ -3,7 +3,6 @@ import { captchaApiKey } from 'config'
 
 const id = 'captcha-element';
 const captchaCallbackName = 'captchaInitCallback';
-const callbackName = 'captchaCallback';
 const callbackStorage = 'callbackStorage';
 const styles = {
   display: 'block'
@@ -18,27 +17,25 @@ const CaptchaElement = () => (
 
 CaptchaElement.id = id;
 CaptchaElement.addCallback = (cb) => {
-  if (window[callbackStorage]) {
+  if (window[callbackStorage] && window[callbackStorage].length != null) {
     return window[callbackStorage].push(cb)
   }
 
   return window[callbackStorage] = [cb];
 };
-window[callbackName] = function captchaCallback() {
-  const fns = window[callbackStorage] || [];
+function captchaCallback() {
+  const fns = window[callbackStorage] || [null];
 
-  fns.forEach(item => {
-    if (typeof item === 'function') {
+  return window[callbackStorage] = fns.filter(item => {
+    if (!!item && typeof item === 'function') {
       item();
     }
-  })
 
-  return window[callbackStorage] = [];
+    return false;
+  })
 };
 const callInitiator = window[captchaCallbackName] = function captchaInitCallback() {
-  if (typeof window[callbackName] === 'function') {
-    window[callbackName]();
-  }
+  captchaCallback();
   console.log('captcha callback was called!');
 };
 
