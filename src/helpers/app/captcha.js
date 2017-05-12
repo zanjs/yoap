@@ -9,10 +9,19 @@ const getBlock = () => {
 };
 
 const addAttrs = callbackName => {
-  let block = getBlock();
+  return new Promise((resolve) => {
+    let block = getBlock();
 
-  block.setAttribute('data-sitekey', captchaApiKey);
-  block.setAttribute('data-callback', callbackName);
+    block.setAttribute('data-sitekey', captchaApiKey);
+    block.setAttribute('data-callback', callbackName);
+
+    console.log('added attrs', {
+      'data-sitekey': captchaApiKey,
+      'data-callback': callbackName
+    });
+
+    resolve();
+  })
 };
 
 const removeAttrs = () => {
@@ -33,14 +42,15 @@ export default function captcha() {
     subscribe(
       () => {
         const cbName = getCallBackName();
+
         window[cbName] = () => {
-          removeAttrs();
-          window[cbName] = null;
-          resolve();
+          window[cbName] = undefined;
+          delete window[cbName];
+
+          removeAttrs(); resolve();
         };
 
-        addAttrs(cbName);
-        grecaptcha.execute();
+        addAttrs(cbName).then(grecaptcha.execute);
       },
 
       checkCaptchaLoaded

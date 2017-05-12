@@ -6,7 +6,7 @@ const styles = {
 }
 
 const CaptchaElement = () => (
-  <div id={id} data-size="invisible" style={styles} />
+  <div id={id} className="g-recaptcha" data-size="invisible" style={styles} />
 )
 
 CaptchaElement.id = id;
