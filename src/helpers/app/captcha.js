@@ -1,30 +1,18 @@
 import subscribe from './subscribe'
-import randomNumber from './randomNumber'
 import CaptchaElement from '../../components/CaptchaElement/CaptchaElement'
-import { captchaApiKey } from 'config'
 const checkCaptchaLoaded = () => !!window.grecaptcha && window.grecaptcha.render;
 
-const getBlock = () => {
-  return document.querySelector(`#${CaptchaElement.id}`);
-};
-
-const addAttrs = callbackName => {
+const addAttrs = cb => {
   return new Promise((resolve) => {
-    let block = getBlock();
+    CaptchaElement.addCallback(cb);
 
-    block.setAttribute('data-sitekey', captchaApiKey);
-    block.setAttribute('data-callback', callbackName);
+    resolve();
   })
 };
 
 const removeAttrs = () => {
-  let block = getBlock();
-
-  block.setAttribute('data-sitekey', '');
-  block.setAttribute('data-callback', '');
+  window[CaptchaElement.callbackName] = null;
 }
-
-const getCallBackName = () => `captcha-cb-${parseInt(randomNumber(1000, 9999), 10)}`
 
 export default function captcha() {
   return new Promise((resolve, reject) => {
@@ -34,16 +22,18 @@ export default function captcha() {
 
     subscribe(
       () => {
-        const cbName = getCallBackName();
-
-        window[cbName] = () => {
-          window[cbName] = undefined;
-          delete window[cbName];
-
-          removeAttrs(); resolve();
+        const cb = () => {
+          resolve();
+          removeAttrs();
         };
 
-        addAttrs(cbName).then(grecaptcha.execute);
+        if (grecaptcha.getResponse().length !== 0) {
+          return resolve();
+        }
+
+        addAttrs().then(() => {
+          grecaptcha.execute();
+        });
       },
 
       checkCaptchaLoaded
