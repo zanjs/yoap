@@ -36,7 +36,6 @@ function captchaCallback() {
 };
 const callInitiator = window[captchaCallbackName] = function captchaInitCallback() {
   captchaCallback();
-  console.log('captcha callback was called!');
 };
 
 export default CaptchaElement;

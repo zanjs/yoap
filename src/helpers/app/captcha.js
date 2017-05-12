@@ -6,27 +6,29 @@ const addAttrs = cb => {
   return new Promise((resolve) => {
     CaptchaElement.addCallback(cb);
 
+    setAttrs('block');
+
     resolve();
   })
 };
 
-const removeAttrs = () => {
+const setAttrs = (display = 'none') => {
   let block = document.querySelector(`#${CaptchaElement.id}`);
 
-  block.style.display = 'none';
+  block.style.display = display;
 }
 
 export default function captcha() {
   return new Promise((resolve, reject) => {
     if (window.location.href.indexOf('localhost') !== -1) {
-      removeAttrs();
+      setAttrs();
       return resolve();
     }
 
     subscribe(
       () => {
         const cb = () => {
-          removeAttrs();
+          setAttrs();
           return resolve();
         };
 
