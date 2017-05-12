@@ -31,7 +31,7 @@ export default function captcha() {
           return resolve();
         }
 
-        addAttrs().then(() => {
+        addAttrs(cb).then(() => {
           grecaptcha.execute();
         });
       },
