@@ -12,7 +12,8 @@ import {
   itemView, itemPhone,
   createDummyUser, updateDummyUser,
   users, checkPassword,
-  restorePassword, updatePassword
+  restorePassword, updatePassword,
+  verifyUser
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
@@ -84,6 +85,13 @@ routes.patch(
   updatePassword,
   userController.updatePasswordHandler
 )
+// re verify user
+routes.patch(
+  verifyUser,
+  authenticate,
+  userController.reverifyHandler
+)
+
 
 // hidden user routes
 routes.get(

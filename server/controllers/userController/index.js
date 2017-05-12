@@ -10,6 +10,7 @@ import getUsersHandler from './getUsersHandler'
 import checkPassword from './checkPassword'
 import restorePasswordHandler from './restorePasswordHandler'
 import updatePasswordHandler from './updatePasswordHandler'
+import reverifyHandler from './reverifyHandler'
 //import deleteHandler from './deleteHandler'
 
 export default {
@@ -24,6 +25,7 @@ export default {
   getUsersHandler,
   checkPassword,
   restorePasswordHandler,
-  updatePasswordHandler
+  updatePasswordHandler,
+  reverifyHandler
   //deleteHandler
 }

@@ -13,6 +13,7 @@ import {
   logout as serverLogout,
   updatePassword as serverUpdatePassword,
   restorePassword as serverRestorePassword,
+  verifyUser as serverVerifyUser
 } from 'api'
 import { extend, localStore, noop, isEmpty, captcha, getToken } from 'helpers'
 import { store as config } from 'constants'
@@ -327,10 +328,10 @@ class UserStore {
     return serverRestorePassword({email})
       .then(this.checkStatus)
       .then(this.parseJSON)
-      .then(data => {
+      .then(res => {
         this.isFetching = false;
-        if (data.success && data.message) {
-          this.message = data.message;
+        if (res.success && res.message) {
+          this.message = res.message;
         }
       })
       .catch(this.errorHandler)
@@ -346,18 +347,29 @@ class UserStore {
     return serverUpdatePassword(data)
       .then(this.checkStatus)
       .then(this.parseJSON)
-      .then(data => {
+      .then(res => {
         this.isFetching = false;
-        if (data.success && data.message) {
-          this.message = data.message;
+        if (res.success && res.message) {
+          this.message = res.message;
         }
-        if (data.token || data.data.token) {
-          this.token = data.token || data.data.token;
+        if (res.token || res.data.token) {
+          this.token = res.token || res.data.token;
         }
       })
       .catch(this.errorHandler)
   };
-  verify = () => {};
+  verify = () => {
+    return serverVerifyUser()
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(res => {
+        this.message = res.message;
+        setTimeout(() => {
+          this.message = ''
+        }, 3000);
+      })
+      .catch(this.errorHandler)
+  };
 
   subscribeToLocalStore = () => reaction(
     // parse data to json

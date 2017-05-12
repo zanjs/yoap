@@ -7,6 +7,7 @@ import {
   checkPasswordApi as checkPasswordUrl,
   updatePasswordApi as updatePasswordUrl,
   restorePasswordApi as restorePasswordUrl,
+  verifyUserApi as verifyUserUrl,
   JSONHeaders as headers,
 } from 'constants'
 import { getHeaders, fetch } from 'helpers'
@@ -62,6 +63,11 @@ export const checkAuth = () => {
     method: 'post'
   })
 }
+
+export const verifyUser = () => fetch(verifyUserUrl, {
+  ...getHeaders(),
+  method: 'PATCH'
+})
 
 export const checkPassword = password => {
   return fetch(checkPasswordUrl, {

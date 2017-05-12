@@ -22,7 +22,7 @@ export default class UserDataEditContainer extends Component {
       if (isEmpty(newValue) || prop === 'id' || prop === '_id')
         return;
 
-      if (newValue !== prevValue) {
+      if (newValue !== prevValue || prop.indexOf('password') !== -1) {
         newValues[prop] = newValue;
       }
     })

@@ -106,19 +106,22 @@ class DashboardStore {
       }
     ]
   });
-  notVerifiedSlide = () => ({
+  notVerifiedSlide = user => ({
     color: '#ff8a80',
     title: (
       <span>
-          Здравствуйте!<br/>
-          Мы отправили Вам на почту письмо для активации аккаунта.
-        </span>
+        Здравствуйте!<br/>
+        Мы отправили Вам на почту письмо для активации аккаунта.
+      </span>
     ),
     icon: fiveIcon,
     buttons: [
       {
         children: 'Повторить',
-        type: 'blue'
+        type: 'blue',
+        onClick: () => {
+          store.user.verify();
+        }
       },
       {
         children: 'Подробнее',

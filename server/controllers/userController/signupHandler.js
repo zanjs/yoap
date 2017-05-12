@@ -22,7 +22,6 @@ export default (req, res) => {
         })
       }
 
-      // Validation
       const verifyToken = createId();
       const user = new User({
         name, phone, email,
