@@ -290,29 +290,27 @@ class UserStore {
     if (!this.isAuthorized)
       return;
 
-    return captcha().then(() => {
-      return serverCheckAuth()
-        .then(this.checkStatus)
-        .then(this.parseJSON)
-        .then(res => {
-          if (!res.success) {
-            console.log('will logout');
-            this.logout();
-          }
-
-          if (res.data.token) {
-            this.token = res.data.token;
-          }
-
-          return res;
-        })
-        .then(cb)
-        .catch(err => {
+    return serverCheckAuth()
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(res => {
+        if (!res.success) {
+          console.log('will logout');
           this.logout();
+        }
 
-          return err;
-        })
-    })
+        if (res.data.token) {
+          this.token = res.data.token;
+        }
+
+        return res;
+      })
+      .then(cb)
+      .catch(err => {
+        this.logout();
+
+        return err;
+      })
   };
 
   subscribeToLocalStore = () => reaction(
