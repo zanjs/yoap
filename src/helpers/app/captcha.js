@@ -1,19 +1,28 @@
 import subscribe from './subscribe'
 import randomNumber from './randomNumber'
+import CaptchaElement from '../../components/CaptchaElement/CaptchaElement'
 export const captchaApiKey = '6Le8IiEUAAAAAIeYkboQm250WHmO4EKhdXxXV4jz';
 const checkCaptchaLoaded = () => !!window.grecaptcha && window.grecaptcha.render;
 
 const getBlock = () => {
-  let block = document.querySelector('button[type="submit"]')
-
-  if (block) {
-    return block;
-  }
-
-  block = document.querySelector('div');
-
-  return block;
+  return document.querySelector(`#${CaptchaElement.id}`);
 };
+
+const addAttrs = callbackName => {
+  let block = getBlock();
+
+  block.setAttribute('data-sitekey', captchaApiKey);
+  block.setAttribute('data-callback', callbackName);
+};
+
+const removeAttrs = () => {
+  let block = getBlock();
+
+  block.setAttribute('data-sitekey', '');
+  block.setAttribute('data-callback', '');
+}
+
+const getCallBackName = () => `captcha-cb-${parseInt(randomNumber(1000, 9999), 10)}`
 
 export default function captcha() {
   return new Promise((resolve, reject) => {
@@ -23,10 +32,15 @@ export default function captcha() {
 
     subscribe(
       () => {
-        grecaptcha.render(getBlock(), {
-          'sitekey' : captchaApiKey,
-          'callback' : resolve,
-        });
+        const cbName = getCallBackName();
+        window[cbName] = () => {
+          removeAttrs();
+          window[cbName] = null;
+          resolve();
+        };
+
+        addAttrs(cbName);
+        grecaptcha.execute();
       },
 
       checkCaptchaLoaded

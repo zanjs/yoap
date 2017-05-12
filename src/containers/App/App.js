@@ -14,7 +14,8 @@ import {
   Route, Redirect
 } from 'react-router-dom'
 import {
-  PagesTransitions, Overlay, Footer
+  PagesTransitions, Overlay, Footer,
+  CaptchaElement
 } from 'components'
 import { NavContainer, DefenderContainer } from 'containers'
 import { initServiceWorker } from 'helpers'
@@ -50,6 +51,7 @@ export default class App extends Component {
               <meta name="description" content={DefenderContainer.description}/>
             </Helmet>
             <DefenderContainer/>
+            <CaptchaElement/>
           </div>
         </Router>
       )
@@ -110,6 +112,7 @@ export default class App extends Component {
 
           {/* MobX Devtools */}
           {DevTools && <DevTools />}
+          <CaptchaElement/>
         </div>
       </Router>
     )
