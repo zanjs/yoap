@@ -12,7 +12,8 @@ const mapStateToProps = ({dash, user, items}) => ({
 
 @inject(mapStateToProps) @observer
 export default class DashboardContainer extends Component {
-  state = {color: '#448aff', isEmpty: true};
+  state = {color: '#448aff', isEmpty: true, isFetching: true};
+  isMount = false;
 
   changeBackground = color => this.setState({
     color
@@ -30,25 +31,35 @@ export default class DashboardContainer extends Component {
   }
   componentWillMount() {
     this.props.dash.update();
+    this.isMount = true;
+  }
+  componentWillUnmount() {
+    this.isMount = false;
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.isMount && this.setState({isFetching: false})
+    }, 2000)
   }
 
   render() {
     const {
-      state: {color, isEmpty},
-      props: {isFetching},
+      state: {color, isEmpty, isFetching},
+      props,
       changeBackground
     } = this;
 
     const display = isEmpty ? 'none' : 'block';
+    const isLoading = isFetching || props.isFetching;
 
     return (
       <div style={{backgroundColor: color, display}} className={s.wrapper}>
         <Container>
           <span className={s.subtitle}>
-            {isFetching ? 'Синхронизация' : 'Уведомления'}
+            {isLoading ? 'Синхронизация' : 'Уведомления'}
           </span>
-          {isFetching && <DashboardSync isEmpty={this.isEmpty} changeBackground={changeBackground}/>}
-          {!isFetching && <Dashboard isEmpty={this.isEmpty} changeBackground={changeBackground} />}
+          {isLoading && <DashboardSync isEmpty={this.isEmpty} changeBackground={changeBackground}/>}
+          {!isLoading && <Dashboard isEmpty={this.isEmpty} changeBackground={changeBackground} />}
         </Container>
       </div>
     )

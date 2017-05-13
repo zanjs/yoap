@@ -142,6 +142,12 @@ class UserStore {
   @action getUserPosition = () => {
     return findUserPosition().then(data => {
       this.location = data;
+
+      if (this.isAuthorized) {
+        this.updateUserData({
+          location: data
+        })
+      }
     })
   }
 
@@ -291,7 +297,7 @@ class UserStore {
     let newData = {
       data: {
         ...data,
-        location: this.location
+        location: data.location || this.location
       },
       id: id || this.id
     };
