@@ -55,6 +55,7 @@ export default class DashboardContainer extends Component {
 
     const isLoading = isFetching || props.isFetching;
     const subtitle = isEmpty ? 'Статистика' : 'Уведомления'
+    const { onlyStats } = props;
 
     return (
       <div style={{backgroundColor: color}} className={s.wrapper}>
@@ -64,7 +65,7 @@ export default class DashboardContainer extends Component {
           </span>
           {isEmpty && !isLoading && <ItemStatisticsContainer changeBackground={changeBackground} />}
           {isLoading && <DashboardSync changeBackground={changeBackground}/>}
-          {!isEmpty && !isLoading && <Dashboard isEmpty={this.isEmpty} changeBackground={changeBackground} />}
+          {!onlyStats && !isEmpty && !isLoading && <Dashboard isEmpty={this.isEmpty} changeBackground={changeBackground} />}
         </Container>
       </div>
     )

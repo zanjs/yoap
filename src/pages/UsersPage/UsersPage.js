@@ -8,15 +8,18 @@ import {
   UserFeatured, UserSubscription,
   LoadingAnimation
 } from 'components'
-import { UserDataEditContainer, UserCustomAddressContainer } from 'containers'
+import {
+  UserDataEditContainer,
+  UserCustomAddressContainer,
+  DashboardContainer
+} from 'containers'
 import { isEmpty } from 'helpers'
 import s from './UsersPage.sass'
 
-const mapStateToProps = ({users, user, items}) => {
+const mapStateToProps = ({users, user, items, theme}) => {
   const { updateCurrent, find, fetchUsers, current } = users;
-  const {
-    fetchUserItems, fetchUserFeatured,
-  } = items;
+  const { fetchUserItems, fetchUserFeatured, } = items;
+  const { setTheme, currentThemeName } = theme;
 
   return {
     updateCurrent, fetchUsers,
@@ -27,7 +30,8 @@ const mapStateToProps = ({users, user, items}) => {
     isAuthorized: user.isAuthorized,
     isAdmin: user.isAdmin,
     user: current,
-    isFetching: items.isFetching || user.isFetching || users.isFetching
+    isFetching: items.isFetching || user.isFetching || users.isFetching,
+    setTheme, currentThemeName
   }
 }
 
@@ -43,6 +47,9 @@ export default class UsersPage extends Component {
     if (isEmpty(id))
       return;
 
+    this.prevTheme = this.props.currentThemeName + '';
+    this.props.setTheme('black');
+
     this.setUser(id);
     this.props.fetchUsers(() => {
       const user = this.setUser(id);
@@ -54,6 +61,9 @@ export default class UsersPage extends Component {
   }
   componentWillMount() {
     this.update();
+  }
+  componentWillUnmount() {
+    this.props.setTheme(this.prevTheme);
   }
 
   render() {
@@ -75,6 +85,8 @@ export default class UsersPage extends Component {
         <Helmet>
           <title>{title}</title>
         </Helmet>
+
+        <DashboardContainer onlyStats/>
 
         <Container className={s.content}>
           <FlexGrid className={s.grid} justify="space-between" align="start">
