@@ -87,6 +87,7 @@ export default class ItemStatistics extends Component {
       data, viewsSum, phoneViewsSum,
       favoritesSum, favoritesUnsetSum,
       onPrevClick, onNextClick, id,
+      needNav
     } = this.props;
     const { graphHidden, field } = this.state;
     const { getItemHeight, getGraphRef, DesItem } = this;
@@ -121,9 +122,9 @@ export default class ItemStatistics extends Component {
           <div className={s.des}>
             <FlexGrid justify="space-between" align="center"
                       className={s.des__title}>
-              <Svg onClick={onPrevClick} src={arrowIcon} className={s.des__arrow_left} />
+              {needNav && <Svg onClick={onPrevClick} src={arrowIcon} className={s.des__arrow_left} />}
               <span className={s.des__title__content}>{`Объявление №${id}`}</span>
-              <Svg onClick={onNextClick} src={arrowIcon} className={s.des__arrow_right} />
+              {needNav && <Svg onClick={onNextClick} src={arrowIcon} className={s.des__arrow_right} />}
             </FlexGrid>
             <div className={s.des__content}>
               <DesItem activeField={field} field="views"

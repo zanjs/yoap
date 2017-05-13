@@ -269,8 +269,10 @@ export default class ItemStatisticsContainer extends Component {
 
   render() {
     const data = this.update();
+    const needNav = this.props.data.length > 1;
     return <ItemStatistics onPrevClick={this.prevObject}
                            onNextClick={this.nextObject}
+                           needNav={needNav}
                            {...data}/>
   }
 }
