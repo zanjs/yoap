@@ -224,6 +224,9 @@ class UserStore {
   }
 
   login = (cb = noop) => {
+    if (this.isAuthorized)
+      return cb();
+
     this.isFetching = true;
     this.errorMessage = false;
     this.isError = false;

@@ -3,6 +3,8 @@
 .row
   width: 100%
   margin-top: 31px
+  @include respond(mobile)
+    margin-top: 10px
   &_head
     .item
       color: $gray9b
@@ -25,6 +27,8 @@
   color: #000
   font-weight: normal
   transition: color $animParams
+  @include respond(mobile)
+    font-size: 13px
   &:first-child
     text-align: left
   &:last-child
