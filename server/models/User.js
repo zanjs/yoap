@@ -74,6 +74,12 @@ const userSchema = new Schema({
       default: Date.now,
     }
   ],
+  location: {
+    position: [Number],
+    city: String,
+    full: String,
+    data: []
+  },
   isDeleted: {
     type: Boolean,
     default: false

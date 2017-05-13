@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { Container, FlexGrid, Link, Button, Logo } from 'components'
+import { Container, Content, FlexGrid, Link, Button, Logo } from 'components'
 import { classNames } from 'helpers'
 import s from './Nav.sass'
 
@@ -101,7 +101,10 @@ export default class Nav extends Component {
            ref={this.getNavRef}>
         <FlexGrid justify="space-between" align="center"
                   tag={Container} type="full" className={s.wrapper}>
-          <Link className={s.nopadding} to="/"><Logo className={s.logo} /></Link>
+          <Link className={s.logo__wrapper} to="/">
+            <Logo className={s.logo} />
+            {!isCustom && <Content nooffsets className={s.city} regular>Санкт-Петербург</Content>}
+          </Link>
           <div className={s.links}>
             {!isCustom && <div ref={this.getLinksRef} className={s.links__wrapper}>
               {links.map(({to, content}, key) => (
@@ -110,18 +113,21 @@ export default class Nav extends Component {
                 </Link>
               ))}
             </div>}
-            {!isCustomMainButton && !isLogout && !isCustom && <Button to={name ? '/you' : '/login'} type="light"
+            {!isCustomMainButton && !isLogout && !isCustom &&
+            <Button to={name ? '/you' : '/login'} type="light"
                     className={s.button} rounded
                     smallPadding>
               {name || 'Войти'}
             </Button>}
-            {isCustomMainButton && mainButton && <Button to={mainButton.to} type="light"
-                                           className={s.button} rounded
-                                           onClick={mainButton.onClick}
-                                           smallPadding>{mainButton.content}</Button>}
-            {!isCustomMainButton && isLogout && <Button to="/logout" type="light"
-                                   className={s.button} rounded
-                                   smallPadding>Выйти</Button>}
+            {isCustomMainButton && mainButton &&
+            <Button to={mainButton.to} type="light"
+                    className={s.button} rounded
+                    onClick={mainButton.onClick}
+                    smallPadding>{mainButton.content}</Button>}
+            {!isCustomMainButton && isLogout &&
+            <Button to="/logout" type="light"
+                    className={s.button} rounded
+                    smallPadding>Выйти</Button>}
             {children}
           </div>
         </FlexGrid>

@@ -15,7 +15,10 @@ import {
   restorePassword as serverRestorePassword,
   verifyUser as serverVerifyUser
 } from 'api'
-import { extend, localStore, noop, isEmpty, captcha, getToken } from 'helpers'
+import {
+  extend, localStore, noop, isEmpty,
+  captcha, getToken, findUserPosition
+} from 'helpers'
 import { store as config } from 'constants'
 import { jwtStorageName } from 'config'
 import { store } from 'store'
@@ -70,6 +73,7 @@ class UserStore {
   @observable lastVisit;
   @observable isDeleted;
   @observable createdAt;
+  @observable location = {};
 
   @observable verified;
   @observable banned;
@@ -130,8 +134,15 @@ class UserStore {
   }
 
   constructor() {
+    this.getUserPosition();
     this.restoreValues();
     this.subscribeToLocalStore();
+  }
+
+  @action getUserPosition = () => {
+    return findUserPosition().then(data => {
+      this.location = data;
+    })
   }
 
   @action redirectWhenLogin = path => {
@@ -210,10 +221,11 @@ class UserStore {
     this.isFetching = true;
     this.errorMessage = false;
     this.isError = false;
-    const { email, phone, password } = this.toJSON();
+    const { email, phone, password, location } = this.toJSON();
     const data = {
       ...(this.loginByPhone && this.checkPhone(phone) ? {phone} : {email}),
-      password
+      password,
+      location
     };
 
     return captcha().then(() => {
@@ -277,7 +289,10 @@ class UserStore {
 
     //extend(this, data);
     let newData = {
-      data,
+      data: {
+        ...data,
+        location: this.location
+      },
       id: id || this.id
     };
 
@@ -429,6 +444,7 @@ class UserStore {
     token: this.token,
     personalPoints: this.personalPoints,
     isAllowed: this.isAllowed,
+    location: this.location,
     // isAuthorized: this.isAuthorized,
     isAdmin: this.isAdmin
     // _featured: this._featured,

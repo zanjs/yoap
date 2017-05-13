@@ -3,7 +3,7 @@ import { createToken } from 'utils'
 import { compareSync } from 'bcrypt'
 
 export default (req, res) => {
-  const { email, phone, password } = req.body;
+  const { email, phone, password, location } = req.body;
   const query = {
     ...(email ? {email} : {phone})
   };
@@ -19,7 +19,7 @@ export default (req, res) => {
       if (compareSync(password, user.password_digest)) {
         const token = createToken(user);
 
-        return User.findOneAndUpdate(query, {token, restore: false, restoreHash: ''})
+        return User.findOneAndUpdate(query, {token, location, restore: false, restoreHash: ''})
           .then(() => {
             return res.status(200).json({
               success: true,

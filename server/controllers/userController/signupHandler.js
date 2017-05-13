@@ -8,7 +8,7 @@ import mail from 'mail'
 export default (req, res) => {
   const {
     name, phone, email,
-    password
+    password, location
   } = req.body;
 
   userValidation({name, phone, email, password})
@@ -26,7 +26,7 @@ export default (req, res) => {
       const user = new User({
         name, phone, email,
         password_digest: hashSync(password, 10),
-        verifyToken
+        verifyToken, location
       });
 
       user.save().then(data => {

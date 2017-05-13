@@ -28,6 +28,15 @@ $linksOffset: 35px
   fill: inherit
   @include respond(mobile)
     width: 100px
+  &__wrapper
+    @include flexbox(row, flex-start, center, no)
+    margin: 0
+    padding: 0
+
+.city
+  margin-left: 30px
+  @include respond(mobile)
+    display: none
 
 .item
   padding: 0

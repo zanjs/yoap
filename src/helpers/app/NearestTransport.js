@@ -1,12 +1,8 @@
-import loadScript from './loadScript'
-import subscribe from './subscribe'
-import { map as config } from 'config'
+import loadYMaps from './loadYMaps'
 
 
 export default class NearestTransport {
   isLoaded = false;
-  link = config.yandexMap;
-  scriptId = 'yandex-maps';
   callbacks = [];
 
   set callback(fn) {
@@ -18,27 +14,15 @@ export default class NearestTransport {
   }
 
   constructor() {
-    const { link, scriptId } = this;
-
-    loadScript(link, this.onLoad, scriptId);
+    loadYMaps().then(this.onLoad);
   }
 
   onLoad = () => {
-    subscribe(
-      () => {
-        this.isLoaded = true;
+    this.isLoaded = true;
 
-        if (this.callbacks.length) {
-          this.callbacks.forEach(item => item());
-        }
-      },
-
-      () => !!(window.ymaps && window.ymaps.geocode),
-
-      this.timeOut,
-
-      100
-    )
+    if (this.callbacks.length) {
+      this.callbacks.forEach(item => item());
+    }
   };
 
   replaceSpaces = string => (
