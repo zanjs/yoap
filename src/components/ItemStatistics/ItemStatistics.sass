@@ -3,6 +3,7 @@
 $barSize: 200px
 $animation: .2s ease-in
 $offset: 40px
+$breakpoint: 1215px
 
 .wrapper
   width: 100%
@@ -10,10 +11,22 @@ $offset: 40px
 
 .graph
   width: 80%
+  @include respond($breakpoint)
+    overflow-x: scroll
+    overflow-y: visible
+    width: 100%
+
+.statistics
+  @include respond($breakpoint)
+    flex-wrap: wrap
 
 .des
   width: 18%
   margin-left: 2%
+  @include respond($breakpoint)
+    margin-left: 0
+    margin-top: 50px
+    width: 100%
   &__arrow
     @include size(20px)
     fill: #fff
@@ -35,7 +48,7 @@ $offset: 40px
       font-size: 12px
       text-transform: uppercase
   &__content
-    margin-top: 60px
+    margin-top: 20px
   &__item
     text-align: left
     &__title
@@ -81,6 +94,8 @@ $offset: 40px
     display: block
     opacity: .5
     margin-top: 10px
+    &_hidden
+      opacity: 0
   &__bar
     position: absolute
     left: 50%
@@ -90,6 +105,11 @@ $offset: 40px
     background-color: #fafafa
     border-radius: 100px
     transition: background $animation, height $animation
+    height: 0%
+    will-change: height, background
+    &_hidden
+      transition: none
+      opacity: 0
     &__wrapper
       height: $barSize
       position: relative

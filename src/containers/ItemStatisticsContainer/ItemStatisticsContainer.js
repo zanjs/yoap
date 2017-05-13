@@ -262,6 +262,11 @@ export default class ItemStatisticsContainer extends Component {
     this.hasSetByUser = true;
     this.forceUpdate();
   }
+
+  componentDidMount() {
+    this.props.changeBackground('#2b2c3c');
+  }
+
   render() {
     const data = this.update();
     return <ItemStatistics onPrevClick={this.prevObject}

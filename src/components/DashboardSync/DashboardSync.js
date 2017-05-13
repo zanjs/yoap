@@ -14,9 +14,6 @@ export default class DashboardSync extends Component {
     ),
     loading: true
   }]
-  componentDidMount() {
-    this.props.isEmpty(false);
-  }
   render() {
     return <DashboardSlider slides={this.slide}
                             changeBackground={this.props.changeBackground}/>

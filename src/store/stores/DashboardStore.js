@@ -238,7 +238,7 @@ class DashboardStore {
       const { verified, banned } = store.user;
       return { verified, banned };
     },
-    user => this.onUserChange(store.user)
+    user => this.onUserChange(store.user, store.items.users)
   )
   subscribeToUserObjects = () => reaction(
     () => {
