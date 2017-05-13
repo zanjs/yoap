@@ -192,7 +192,7 @@ export default class ItemStatisticsContainer extends Component {
         max = item.statistics.length
       }
     })
-    console.log('biggestIndex', index);
+
     return index;
   };
 

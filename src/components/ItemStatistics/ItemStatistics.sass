@@ -51,17 +51,28 @@ $breakpoint: 1215px
     margin-top: 20px
   &__item
     text-align: left
+    cursor: pointer
+    user-select: none
+    transition: opacity $animation, color $animation
+    color: #ffffff
+    &:hover
+      opacity: .7
+    &_active
+      color: $pink
+      opacity: 1 !important
     &__title
       font-size: 10px
       letter-spacing: 2.4px
-      color: #9fa3a7
+      opacity: .5
       width: 48%
       text-transform: uppercase
+      color: inherit
     &__content
       width: 50%
       font-size: 36px
       color: #ffffff
       font-weight: normal
+      color: inherit
 
 
 .item

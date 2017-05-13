@@ -168,11 +168,6 @@ class DashboardStore {
       )
     }
 
-    console.log({
-      hasObjects,
-      user
-    })
-
     // if user verified and did not create an objects
     if (user.verified && !hasObjects) {
       addNotification(this.verifiedSlide(user))

@@ -7,17 +7,27 @@ import arrowIcon from 'icons/ui/arrow-small.svg'
 
 @observer
 export default class ItemStatistics extends Component {
-  state = {graphHidden: true};
-  getItemPercent = (views, isPhone) => {
-    const { props } = this;
-    //const min = isPhone ? props.minPhoneViews : props.minViews;
-    const max = (isPhone ? props.maxPhoneViews : props.maxViews) || 100;
-    const percent = max / 100;
-
-    return views / percent;
+  state = {graphHidden: true, field: 'views'};
+  toUpper = word => {
+    const first = word[0];
+    return `${first.toUpperCase()}${word.replace(first, '')}`
   }
-  getItemHeight = (views, isPhone) =>
-    `${this.getItemPercent(views, isPhone)}%`;
+  getItemPercent = (value = 0, field = 'views') => {
+    const { props } = this;
+    const fieldMax = `max${this.toUpper(field)}`;
+    //const min = isPhone ? props.minPhoneViews : props.minViews;
+    const max = props[fieldMax] || 100;
+    const percent = max / 100;
+    const res = value / percent;
+
+    if (isNaN(res)) {
+      return 0;
+    }
+
+    return res
+  }
+  getItemHeight = (value, field) =>
+    `${this.getItemPercent(value, field)}%`;
 
   componentDidMount() {
     setTimeout(this.fadeIn, 60)
@@ -60,9 +70,14 @@ export default class ItemStatistics extends Component {
 
   getGraphRef = b => this.graph = b;
 
-  DesItem = ({name, value}) => (
+  changeFiled = field => {
+    this.setState({field});
+  }
+
+  DesItem = ({name, field, value, activeField}) => (
     <FlexGrid justify="space-between" align="center"
-              className={s.des__item}>
+              onClick={() => this.changeFiled(field)}
+              className={classNames(s.des__item, activeField === field && s.des__item_active)}>
       <span className={s.des__item__title}>{name}</span>
       <span className={s.des__item__content}>{value}</span>
     </FlexGrid>
@@ -73,7 +88,7 @@ export default class ItemStatistics extends Component {
       favoritesSum, favoritesUnsetSum,
       onPrevClick, onNextClick, id,
     } = this.props;
-    const { graphHidden } = this.state;
+    const { graphHidden, field } = this.state;
     const { getItemHeight, getGraphRef, DesItem } = this;
 
     if (!data || !data.length) {
@@ -87,13 +102,15 @@ export default class ItemStatistics extends Component {
                     getRef={getGraphRef}
                     className={s.graph}>
             {data.map((item, key) => {
-              const height = getItemHeight(item.views);
+              const value = item[field];
+              const height = getItemHeight(value, field);
+              console.log(window.block = {value, item, height})
               return (
                 <div className={s.item} key={key}>
                   <div className={s.item__bar__wrapper}>
                     <div style={{height: height}} data-progress={height}
                          className={classNames(s.item__bar, graphHidden && s.item__bar_hidden)}>
-                      <span className={s.item__num}>{item.views}</span>
+                      <span className={s.item__num}>{value}</span>
                     </div>
                   </div>
                   <span className={classNames(s.item__day, graphHidden && s.item__day_hidden)}>{item.day}</span>
@@ -109,10 +126,14 @@ export default class ItemStatistics extends Component {
               <Svg onClick={onNextClick} src={arrowIcon} className={s.des__arrow_right} />
             </FlexGrid>
             <div className={s.des__content}>
-              <DesItem name="Просмотры объявления" value={viewsSum}/>
-              <DesItem name="Просмотры телефона" value={phoneViewsSum}/>
-              <DesItem name="Добавили в избранное" value={favoritesSum}/>
-              <DesItem name="Убрали из избранного" value={favoritesUnsetSum}/>
+              <DesItem activeField={field} field="views"
+                       name="Просмотры объявления" value={viewsSum}/>
+              <DesItem activeField={field} field="phoneViews"
+                       name="Просмотры телефона" value={phoneViewsSum}/>
+              <DesItem activeField={field} field="favorites"
+                       name="Добавили в избранное" value={favoritesSum}/>
+              <DesItem activeField={field} field="favoritesUnset"
+                       name="Убрали из избранного" value={favoritesUnsetSum}/>
             </div>
           </div>
         </FlexGrid>
