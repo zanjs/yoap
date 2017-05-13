@@ -122,6 +122,7 @@ class Predictions {
     // remove letters from input value
     // to detect house number
     const houseNumber = +inputValue.replace(/\D+/g,"");
+    const hasSemi = inputValue.indexOf(',') !== -1;
     let lastSymbol = +inputValue[inputValue.length - 1];
 
     if (isNaN(lastSymbol)) {
@@ -131,7 +132,7 @@ class Predictions {
     console.log({lastSymbol, houseNumber});
 
     // house number empty
-    if (typeof houseNumber !== 'number' || typeof lastSymbol !== 'number' || houseNumber <= 0) {
+    if (typeof houseNumber !== 'number' || !hasSemi && typeof lastSymbol !== 'number' || houseNumber <= 0) {
       return this.validate(validationStatuses.EMPTY_HOUSE_NUMBER)
     }
 
