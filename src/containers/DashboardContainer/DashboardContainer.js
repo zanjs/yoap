@@ -38,8 +38,10 @@ export default class DashboardContainer extends Component {
   }
   componentDidMount() {
     setTimeout(() => {
-      this.isMount && this.setState({isFetching: false})
-    }, 2000)
+      this.isMount && this.setState({isFetching: false}, () => {
+        window.DashboardHasMounted = true;
+      })
+    }, window.DashboardHasMounted ? 1000 : 2000)
   }
 
   render() {
