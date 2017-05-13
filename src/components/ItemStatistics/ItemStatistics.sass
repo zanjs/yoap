@@ -1,0 +1,97 @@
+@import ../../theme/index
+
+$barSize: 200px
+$animation: .2s ease-in
+$offset: 40px
+
+.wrapper
+  width: 100%
+  padding: (40px + $offset) 0 40px
+
+.graph
+  width: 80%
+
+.des
+  width: 18%
+  margin-left: 2%
+  &__arrow
+    @include size(20px)
+    fill: #fff
+    cursor: pointer
+    @include opacityAnim(.7)
+    user-select: none
+    &_left
+      @extend .des__arrow
+      transform: rotateZ(90deg)
+    &_right
+      @extend .des__arrow
+      transform: rotateZ(-90deg)
+  &__title
+    text-align: center
+    &__content
+      color: #9fa3a7
+      letter-spacing: 2.4px
+      font-weight: 500
+      font-size: 12px
+      text-transform: uppercase
+  &__content
+    margin-top: 60px
+  &__item
+    text-align: left
+    &__title
+      font-size: 10px
+      letter-spacing: 2.4px
+      color: #9fa3a7
+      width: 48%
+      text-transform: uppercase
+    &__content
+      width: 50%
+      font-size: 36px
+      color: #ffffff
+      font-weight: normal
+
+
+.item
+  min-height: $barSize
+  text-align: center
+  position: relative
+  width: 3.3%
+  min-width: 30px
+  cursor: pointer
+  &:hover
+    .item__num
+      opacity: 1
+      top: 0px
+    .item__bar
+      background-color: $pink
+  &__num
+    position: absolute
+    left: 50%
+    top: 10px
+    transform: translateX(-50%) translateY(-$offset)
+    font-size: 12px
+    letter-spacing: 2px
+    color: $pink
+    font-weight: 500
+    opacity: 0
+    transition: opacity $animation, top $animation
+  &__day
+    font-size: 10px
+    color: #ffffff
+    display: block
+    opacity: .5
+    margin-top: 10px
+  &__bar
+    position: absolute
+    left: 50%
+    transform: translateX(-50%)
+    bottom: 0
+    width: 8px
+    background-color: #fafafa
+    border-radius: 100px
+    transition: background $animation, height $animation
+    &__wrapper
+      height: $barSize
+      position: relative
+
+

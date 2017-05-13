@@ -32,3 +32,4 @@ export ItemPageRatingContainer from './ItemPageRatingContainer/ItemPageRatingCon
 export UserCustomAddressContainer from './UserCustomAddressContainer/UserCustomAddressContainer'
 export DefenderContainer from './DefenderContainer/DefenderContainer'
 export DashboardContainer from './DashboardContainer/DashboardContainer'
+export ItemStatisticsContainer from './ItemStatisticsContainer/ItemStatisticsContainer'
