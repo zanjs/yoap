@@ -9,11 +9,12 @@ import s from './DashboardContainer.sass'
 
 const mapStateToProps = ({dash, user, items}) => ({
   dash, isFetching: dash.isFetching || user.isFetching || items.isFetching,
+  isEmpty: !dash.data.length
 })
 
 @inject(mapStateToProps) @observer
 export default class DashboardContainer extends Component {
-  state = {color: '#448aff', isEmpty: true, isFetching: true};
+  state = {color: '#448aff', isFetching: true};
   //state = {color: '#2b2c3c', isEmpty: false, isFetching: false};
   isMount = false;
 
@@ -21,16 +22,6 @@ export default class DashboardContainer extends Component {
     color
   });
 
-  isEmpty = (cond) => {
-    this.setState({
-      isEmpty: cond
-    })
-
-    if (!this.props.onEmpty)
-      return;
-
-    //this.props.onEmpty(cond)
-  }
   componentWillMount() {
     this.props.dash.update();
     this.isMount = true;
@@ -48,14 +39,16 @@ export default class DashboardContainer extends Component {
 
   render() {
     const {
-      state: {color, isEmpty, isFetching},
+      state: {color, isFetching},
       props,
       changeBackground
     } = this;
 
+    const { onlyStats, isEmpty } = props;
     const isLoading = isFetching || props.isFetching;
-    const subtitle = isEmpty ? 'Статистика' : 'Уведомления'
-    const { onlyStats } = props;
+    const subtitle = isEmpty || onlyStats ? 'Статистика' : 'Уведомления'
+
+    console.log({isEmpty, isLoading, onlyStats})
 
     return (
       <div style={{backgroundColor: color}} className={s.wrapper}>
@@ -63,9 +56,12 @@ export default class DashboardContainer extends Component {
           <span className={s.subtitle}>
             {isLoading ? 'Синхронизация' : subtitle}
           </span>
-          {isEmpty && !isLoading && <ItemStatisticsContainer changeBackground={changeBackground} />}
-          {isLoading && <DashboardSync changeBackground={changeBackground}/>}
-          {!onlyStats && !isEmpty && !isLoading && <Dashboard isEmpty={this.isEmpty} changeBackground={changeBackground} />}
+          {isEmpty && !isLoading &&
+          <ItemStatisticsContainer changeBackground={changeBackground} />}
+          {isLoading &&
+          <DashboardSync changeBackground={changeBackground}/>}
+          {!onlyStats && !isEmpty && !isLoading &&
+          <Dashboard changeBackground={changeBackground} />}
         </Container>
       </div>
     )

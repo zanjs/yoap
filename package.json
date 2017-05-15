@@ -22,10 +22,10 @@
   "betterScripts": {
     "dev": "npm run clean-up && webpack-dev-server --config webpack/webpack.config.dev.js",
     "build": "npm run clean-up && webpack --config webpack/webpack.config.prod.js",
-    "prod": "cd dist && python -m SimpleHTTPServer 8080",
+    "prod": "pm2 stop all && NODE_ENV=production pm2 start ./bin/index.js",
     "server": "NODE_ENV=development nodemon ./bin/index.js",
     "watch": "webpack --config webpack/webpack.config.prod.js --watch",
-    "start": "better-npm-run build && better-npm-run server",
+    "start": "npm run update-and-build && better-npm-run prod",
     "dev:webpack": "babel-node ./server/devServer.js"
   },
   "repository": {
@@ -101,6 +101,7 @@
     "mongoose": "^4.9.1",
     "nodemailer": "^4.0.1",
     "pinch-zoom": "^0.3.8",
+    "pm2": "^2.4.6",
     "prop-types": "^15.5.8",
     "raw-loader": "^0.5.1",
     "react": "^15.5.4",

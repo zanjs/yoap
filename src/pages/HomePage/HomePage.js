@@ -7,6 +7,7 @@ import {
   // PricingBanner, PricingBannerFull,
   ItemTilesBanner, MapItems, LoadingAnimation
 } from 'components'
+//import PricingBannerFull from 'components/PricingBannerFull/PricingBannerFull'
 import s from './HomePage.sass'
 
 const des =

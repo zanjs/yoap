@@ -105,7 +105,7 @@ export default class ItemStatistics extends Component {
             {data.map((item, key) => {
               const value = item[field];
               const height = getItemHeight(value, field);
-              console.log(window.block = {value, item, height})
+
               return (
                 <div className={s.item} key={key}>
                   <div className={s.item__bar__wrapper}>

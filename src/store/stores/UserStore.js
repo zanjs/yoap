@@ -305,14 +305,12 @@ class UserStore {
       id: id || this.id
     };
 
-    return captcha().then(() => {
-      return serverUpdateUserData(newData)
-        .then(this.checkStatus)
-        .then(this.parseJSON)
-        .then(this.responseHandler)
-        .then(cb)
-        .catch(this.errorHandler);
-    })
+    return serverUpdateUserData(newData)
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(this.responseHandler)
+      .then(cb)
+      .catch(this.errorHandler);
   }
   update = cb => {
     if (!this.isAuthorized)
