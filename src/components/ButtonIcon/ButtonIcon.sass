@@ -1,0 +1,27 @@
+@import ../../theme/index
+
+$activeColor: $pink
+$inactiveColor: #dddddd
+
+.icon
+  @include size(20px)
+  fill: $inactiveColor
+  transition: fill $animParams
+
+.content
+  transition: color $animParams
+
+.wrapper
+  padding: 10px 25px
+  border: 1px solid $inactiveColor
+  border-radius: 50px
+  transition: border $animParams, background $animParams
+  cursor: pointer
+  user-select: none
+  &:hover, .active
+    background-color: $activeColor
+    border-color: $activeColor
+    .icon
+      fill: #ffffff
+    .content
+      color: #ffffff

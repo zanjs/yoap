@@ -3,7 +3,8 @@ export const ___PW = 'us--exp';
 
 export const divider = '-';
 export const splitter = '@';
-export const jwtSecret = 'you-probably-think-it-will-be-simple?'
+export const jwtSecret = 'you-probably-think-it-will-be-simple?';
+export const paymentReceiver = 410015370953075;
 export const jwtStorageName = 'JWT_TOKEN';
 
 

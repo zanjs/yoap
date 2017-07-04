@@ -67,7 +67,7 @@ export const getUsers = apiOrigin + api + users;
 export const items = '/items';
 export const itemsApi = apiOrigin + api + items;
 // filtered items api
-export const filterItems = '/items/filtered'
+export const filterItems = '/items/filtered';
 export const filterItemsApi = apiOrigin + api + filterItems;
 
 // item api
@@ -98,4 +98,8 @@ export const itemToggleFeaturedApi = apiOrigin + api + itemToggleFeatured;
 export const image = '/images';
 export const imageApi = apiOrigin + api + image;
 
+// payment api
+export const paymentSync = '/pay';
+export const paymentSyncApi = apiOrigin + api + paymentSync;
 
+export const paymentSystem = 'https://money.yandex.ru/quickpay/confirm.xml';

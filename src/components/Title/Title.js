@@ -9,7 +9,6 @@ const Title = ({
   lightColor, className,
   children, getRef, nooffsets,
   gray,
-
   ...rest
 }) => {
   const Element = tag ? tag : `h${size}`;

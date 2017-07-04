@@ -29,7 +29,7 @@ const BannerThreeCols = ({title, more = 'Подробнее', link = '/', conten
       ))}
     </FlexGrid>}
   </Container>
-)
+);
 
 export default BannerThreeCols;
 

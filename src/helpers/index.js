@@ -36,6 +36,9 @@ export parseItemsToPoints from './app/parseItemsToPoints'
 export initServiceWorker from './app/initServiceWorker'
 export captcha from './app/captcha'
 export noop from './app/noop'
+export createId from './app/createId'
+export checkStatus from './app/checkStatus'
+export parsePromiseJSON from './app/parsePromiseJSON'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'

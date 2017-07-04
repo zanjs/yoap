@@ -1,0 +1,67 @@
+@import ../../theme/index
+
+.wrapper
+  margin-top: 77px
+  position: relative
+
+.close
+  $offset: 18px
+  @include size(24px)
+  padding: 3px
+  cursor: pointer
+  user-select: none
+  fill: #000
+  opacity: .2
+  @include opacityAnim(.7)
+  position: absolute
+  left: $offset
+  top: $offset
+  z-index: 10
+
+.col
+  width: 33.3%
+  $border: solid 1px #dddddd
+  border: $border
+  border-right: none
+  text-align: center
+  padding: 48px 2.5% 40px
+  &:last-child
+    border-right: $border
+
+.title
+  margin: 0
+  padding: 0 0 26px 0
+
+.btn
+  width: 90%
+  margin: 0 auto
+  $padding: 16px
+  padding-top: $padding
+  padding-bottom: $padding
+  &_icon
+    padding-top: $padding !important
+    padding-bottom: $padding !important
+    margin-top: 30px
+    &:first-child
+      margin-top: 0
+
+.content
+  margin: 0
+  padding: 0 0 70px 0
+
+.price
+  display: inline-block
+  font-size: 40px
+  line-height: 52px
+  font-weight: 300
+  &__wrapper
+    text-align: center
+    width: 90%
+    margin: 33px auto 57px
+
+.term
+  display: inline-block
+  font-size: 16px
+  color: #666666
+  font-weight: 300
+  margin-left: 10px

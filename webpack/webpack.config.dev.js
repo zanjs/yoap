@@ -30,7 +30,6 @@ module.exports = {
 
     './index.js',
     // the entry point of our app
-
   ],
 
   output: {

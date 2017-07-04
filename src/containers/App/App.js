@@ -8,7 +8,7 @@ import {
   UserFeaturedPage, LogoutPage,
   ManageUsersPage, UsersPage,
   MapItemsPage, ForgotPasswordPage,
-  UpdatePasswordPage
+  UpdatePasswordPage, OrderPage
 } from 'pages'
 import {
   BrowserRouter as Router,
@@ -25,7 +25,7 @@ import s from './App.sass'
 const mapStateToProps = ({user: {isAllowed}, device: {isMobile}}) => ({
   isAllowed,
   isMobile
-})
+});
 
 @inject(mapStateToProps) @observer
 export default class App extends Component {
@@ -95,6 +95,7 @@ export default class App extends Component {
             <Route path="/they/manage/:userId/:link" exact component={ItemPageEdit}/>
             <Route path="/you/restore" exact component={ForgotPasswordPage}/>
             <Route path="/you/restore/:id" exact component={UpdatePasswordPage}/>
+            <Route path="/order/:stage" exact component={OrderPage}/>
             <Route render={() => {
               return <Redirect to="/y"/>
             }}/>
