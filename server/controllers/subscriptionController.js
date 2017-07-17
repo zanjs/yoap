@@ -7,7 +7,7 @@ const createSubscription = (req, res) => {
   const {
     date, term, title, name, about,
     status, createdAt, sum, openedBalance,
-    openAmountSum, paymentId, support
+    openAmountSum, paymentId, support, id
   } = req.body.data;
 
   const userId = (req.user.id || req.user._id);
@@ -16,7 +16,7 @@ const createSubscription = (req, res) => {
     date, term, title, name, about,
     status, createdAt, sum, openedBalance,
     openAmountSum, paymentId, support,
-    _creator: userId
+    _creator: userId, id
   });
 
   sub.save().then(newItem => {

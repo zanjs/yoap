@@ -5,7 +5,7 @@ const createPayment = (req, res) => {
   const {
     id, date, title,
     status, paymentType, target,
-    targets, sum
+    targets, sum, user
   } = req.body.data;
 
   const userId = (req.user.id || req.user._id);
@@ -13,7 +13,8 @@ const createPayment = (req, res) => {
   const payment = new Payment({
     id, date, title, sum,
     status, paymentType, target,
-    targets, _creator: userId
+    targets, _creator: userId,
+    user
   });
 
   payment.save().then(newItem => {

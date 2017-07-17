@@ -16,8 +16,11 @@ import { store } from 'store'
 export default class PaymentModel {
   store;
   @observable id;
+  @observable _id;
   @observable error;
   @observable date;
+  @observable createdAt;
+  @observable _creator;
   @observable title;
   @observable sum;
   @observable target;
@@ -54,7 +57,9 @@ export default class PaymentModel {
     extend(this, {
       ...data,
       date: data.date || new Date(),
+      createdAt: data.date || new Date(),
       id: data.id || createId(),
+      target: data.target || 'YOAP',
       user: data.user || {
         _id: store.user._id,
         name: store.user.name,

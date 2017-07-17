@@ -55,6 +55,21 @@ const paymentSchema = new Schema({
     ref: 'User',
     required: true
   },
+  user: {
+    email: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    _id: {
+      type: Schema.ObjectId,
+      ref: 'User',
+      required: true
+    }
+  },
   paymentType: {
     type: String,
     required: true

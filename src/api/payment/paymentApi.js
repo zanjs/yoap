@@ -5,14 +5,9 @@ import {
 import { getHeaders, fetch } from 'helpers'
 
 export const syncPaymentApi = data => {
-  return new Promise(resolve => resolve({
-    status: 200,
-    json: () => {}
-  }));
-
-  fetch(paymentSyncUrl, {
+  return fetch(paymentSyncUrl, {
     ...getHeaders(),
-    method: 'get',
+    method: 'POST',
     body: JSON.stringify({data})
   });
 };
@@ -26,11 +21,14 @@ export const sendPayment = __data => {
     sum: __data.sum,
     targets: __data.targets,
     label: __data.id,
-    formcomment: __data.title
+    formcomment: __data.title,
+    target: __data.target || __data.title
   };
 
+  const formId = 'payment-fake-form';
   const form = document.createElement('form');
-  form.setAttribute('id', __data.targets);
+  form.style.display = 'none';
+  form.setAttribute('id', formId);
   form.setAttribute('method', 'POST');
   form.setAttribute('action', paymentSystem);
   form.innerHTML = Object.keys(data).map(prop => (
@@ -38,16 +36,7 @@ export const sendPayment = __data => {
   ));
 
   document.body.appendChild(form);
+  const formDom = document.querySelector(`#${formId}`);
 
-
-  console.log(window.form = document.querySelector(`#${__data.targets}`));
-
-
-  // return fetch(paymentSystem, {
-  //   method: 'POST', body,
-  //   mode: 'no-cors',
-  //   headers: {
-  //     'Content-Type': 'application/x-www-form-urlencoded'
-  //   }
-  // })
+  formDom.submit();
 };

@@ -5,10 +5,11 @@ import {
   SUBSCRIPTION_OPENED_STATUS
 } from 'constants/subscribtionConstants'
 import { store } from 'store'
-import { extend } from 'helpers'
+import { extend, createId } from 'helpers'
 
 export default class SubscriptionModel {
   @observable _id;
+  @observable id;
   @observable term;
   @observable date;
   @observable _creator;
@@ -41,6 +42,7 @@ export default class SubscriptionModel {
     this.store = __store;
     extend(this, {
       ...data,
+      id: data.id || createId(),
       createdAt: data.createdAt || new Date(),
       _creator: data._creator || store.user._id,
       support: {
@@ -54,13 +56,13 @@ export default class SubscriptionModel {
     const {
       support, name, title, status, term,
       _id, date, createdAt, sum, openedBalance,
-      openAmountSum, termBalance, about
+      openAmountSum, termBalance, about, id, paymentId
     } = this;
 
     return {
       support, name, title, status, term,
       _id, date, createdAt, sum, openedBalance,
-      openAmountSum, termBalance, about
+      openAmountSum, termBalance, about, id, paymentId
     }
   };
 

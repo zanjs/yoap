@@ -1,5 +1,7 @@
 import { observable, computed, action } from 'mobx'
 import { SubscriptionModel } from 'models'
+import { syncSubscriptionApi } from 'api'
+import { checkStatus, parsePromiseJSON } from 'helpers'
 
 class SubscriptionStore {
   @observable current = {};
@@ -43,6 +45,22 @@ class SubscriptionStore {
     }
   ];
   @observable history = [];
+
+  @action Sync = __data => {
+    const model = __data.store ? __data : SubscriptionModel.fromJSON(this, __data);
+    const data = model.toJSON();
+
+    return syncSubscriptionApi(data)
+      .then(checkStatus)
+      .then(parsePromiseJSON)
+      .then(sub => {
+        const cur = this.current = SubscriptionModel.fromJSON(this, sub);
+
+        return new Promise(resolve => (
+          resolve(cur)
+        ))
+      })
+  };
 
   @action setTemp = item => {
     this.temp = SubscriptionModel.fromJSON(this, item);
