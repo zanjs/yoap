@@ -88,4 +88,32 @@ const updateSubscription = (req, res) => {
   })
 };
 
-export default { createSubscription, updateSubscription }
+const getAllHandler = (req, res) => {
+  const userId = (req.user.id || req.user._id);
+
+  if (!userId) {
+    return res.send(403).json({
+      message: "Вы не авторизовались!"
+    })
+  }
+
+  User.findById(userId).then(user => {
+    const subs = user.subscription;
+
+    if (!subs || !subs.length) {
+      return [];
+    }
+
+    return Subscription.find({_id: {$in: subs}})
+  }).then(data => {
+    res.status(200).json({
+      success: true, data
+    })
+  }).catch(err => {
+    res.status(500).json({
+      message: err.toString()
+    })
+  })
+};
+
+export default { createSubscription, getAllHandler, updateSubscription }

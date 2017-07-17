@@ -15,8 +15,8 @@ import {
   users, checkPassword,
   restorePassword, updatePassword,
   verifyUser, paymentSync,
-  paymentHandle, subscriptionSync,
-  subscriptionUpdate
+  paymentHandler, subscriptionSync,
+  subscriptionUpdate,
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
@@ -164,9 +164,16 @@ routes.post(
 );
 
 routes.post(
-  paymentHandle,
+  paymentHandler,
 
   paymentController.handlePayment
+);
+
+routes.get(
+  paymentSync,
+  authenticate,
+
+  paymentController.getAllHandler
 );
 
 // Subscription
@@ -177,12 +184,18 @@ routes.post(
   subscriptionController.createSubscription
 );
 
-// Subscription
 routes.post(
   subscriptionUpdate,
   authenticate,
 
   subscriptionController.updateSubscription
+);
+
+routes.get(
+  subscriptionSync,
+  authenticate,
+
+  subscriptionController.getAllHandler
 );
 
 export default routes;

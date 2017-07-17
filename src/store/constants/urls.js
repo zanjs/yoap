@@ -102,8 +102,8 @@ export const imageApi = apiOrigin + api + image;
 export const paymentSync = '/pay';
 export const paymentSyncApi = apiOrigin + api + paymentSync;
 
-export const paymentHandle = '/payment/handle';
-export const paymentHandleApi = apiOrigin + api + paymentHandle;
+export const paymentHandler = '/payment/handle';
+export const paymentHandleApi = apiOrigin + api + paymentHandler;
 
 // subscription api
 export const subscriptionSync = '/subscription';

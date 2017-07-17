@@ -64,4 +64,32 @@ const handlePayment = (req, res) => {
   })
 };
 
-export default { createPayment, handlePayment }
+const getAllHandler = (req, res) => {
+  const userId = (req.user.id || req.user._id);
+
+  if (!userId) {
+    return res.send(403).json({
+      message: "Вы не авторизовались!"
+    })
+  }
+
+  User.findById(userId).then(user => {
+    const payments = user.payments;
+
+    if (!payments || !payments.length) {
+      return []
+    }
+
+    return Payment.find({_id: {$in: payments}})
+  }).then(data => {
+    res.status(200).json({
+      success: true, data
+    })
+  }).catch(err => {
+    res.status(500).json({
+      message: err.toString()
+    })
+  })
+};
+
+export default { createPayment, getAllHandler, handlePayment }
