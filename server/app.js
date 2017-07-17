@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/yoap', () => {
 const app = express();
 
 // middlewares
-app.use(compression({level: 3}))
+app.use(compression({level: 3}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {

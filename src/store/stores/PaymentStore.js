@@ -31,8 +31,12 @@ class PaymentStore {
 
   @action Pay = id => {
     const payment = this.getPayment(id);
+    const isValid = payment.isValid();
 
-    if (!payment || !payment.isValid()) {
+    if (!payment || !isValid) {
+      if (!isValid)
+        return this.errors.message = payment.error;
+
       return this.errors.message = 'Такого платежа нет';
     }
 
@@ -43,15 +47,6 @@ class PaymentStore {
       .then(parsePromiseJSON)
       .then(() => {
         return sendPayment(data)
-      })
-      .then(res => {
-        console.log(window.res = res);
-        console.log(res.status);
-        console.log(res.redirect);
-
-        res.json().then(data => {
-          console.log((window.data = data))
-        })
       })
       .catch(err => console.log(window.err = err))
   };

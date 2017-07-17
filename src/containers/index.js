@@ -33,3 +33,4 @@ export UserCustomAddressContainer from './UserCustomAddressContainer/UserCustomA
 export DefenderContainer from './DefenderContainer/DefenderContainer'
 export DashboardContainer from './DashboardContainer/DashboardContainer'
 export ItemStatisticsContainer from './ItemStatisticsContainer/ItemStatisticsContainer'
+export CheckoutContainer from './CheckoutContainer/CheckoutContainer'

@@ -4,7 +4,7 @@ import { BaseFilter } from 'components'
 
 const mapStateToProps = ({filter: {find}}) => ({
   onSearchClick: find
-})
+});
 
 @inject(mapStateToProps) @observer
 export default class BaseFilterContainer extends Component {

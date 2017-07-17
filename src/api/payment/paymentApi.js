@@ -18,26 +18,36 @@ export const syncPaymentApi = data => {
 };
 
 export const sendPayment = __data => {
-  const body = new FormData();
   const data = {
     paymentType: __data.paymentType,
     receiver: __data.receiver,
     'short-dest': __data.title,
     'quickpay-form': __data.quickpay_form,
     sum: __data.sum,
-    targets: __data.targets
+    targets: __data.targets,
+    label: __data.id,
+    formcomment: __data.title
   };
 
-  Object.keys(data).forEach(prop => {
-    const val = data[prop];
-    body.append(prop, val);
-  });
+  const form = document.createElement('form');
+  form.setAttribute('id', __data.targets);
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', paymentSystem);
+  form.innerHTML = Object.keys(data).map(prop => (
+    `<input type="hidden" name="${prop}" value="${data[prop]}"/>`
+  ));
 
-  return fetch(paymentSystem, {
-    method: 'POST', body,
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
+  document.body.appendChild(form);
+
+
+  console.log(window.form = document.querySelector(`#${__data.targets}`));
+
+
+  // return fetch(paymentSystem, {
+  //   method: 'POST', body,
+  //   mode: 'no-cors',
+  //   headers: {
+  //     'Content-Type': 'application/x-www-form-urlencoded'
+  //   }
+  // })
 };

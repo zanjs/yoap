@@ -8,3 +8,5 @@
 
 export User from './User'
 export Item from './Item'
+export Payment from './Payment'
+export Subscription from './Subscription'

@@ -8,6 +8,7 @@ import ManageItemStore from 'stores/ManageItemStore'
 import UsersStore from 'stores/UsersStore'
 import DashboardStore from 'stores/DashboardStore'
 import PaymentStore from 'stores/PaymentStore'
+import SubscriptionStore from 'stores/SubscriptionStore'
 
 
 export const store = window.store = {
@@ -20,5 +21,6 @@ export const store = window.store = {
   manage: ManageItemStore,
   users: UsersStore,
   dash: DashboardStore,
-  payment: PaymentStore
+  payment: PaymentStore,
+  subscription: SubscriptionStore
 };

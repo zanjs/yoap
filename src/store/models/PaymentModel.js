@@ -20,14 +20,18 @@ export default class PaymentModel {
   @observable date;
   @observable title;
   @observable sum;
+  @observable target;
   @observable status = PAYMENT_PENDING_STATUS;
   @observable receiver = paymentReceiver;
   @observable paymentType = PAYMENT_TYPE_CARD;
-  @observable isClosed = false;
   quickpay_form = 'shop';
   @observable user = {
     _id: null, name: null, email: null
   };
+
+  @computed get isSuccess() {
+    return this.status === PAYMENT_SUCCESS_STATUS;
+  }
 
   isValid = () => {
     const { user, sum, paymentType } = this.toJSON();
@@ -67,14 +71,14 @@ export default class PaymentModel {
       id, date, title, sum,
       status, isClosed, user,
       receiver, quickpay_form,
-      paymentType
+      paymentType, target
     } = this;
     return {
       id, date, title,
       sum, status, isClosed, user,
-      targets: `Транзакция ${id}`,
+      targets: `Транзакция #${id}`,
       receiver, quickpay_form,
-      paymentType
+      paymentType, target
     };
   };
   static fromJSON = (store, data) => {

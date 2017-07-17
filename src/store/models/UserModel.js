@@ -26,6 +26,7 @@ export default class UserModel {
 
   @observable featured = [];
   @observable objects = [];
+  @observable payments = [];
 
   constructor(store, data) {
     this.store = store;
@@ -42,11 +43,12 @@ export default class UserModel {
 
       this[prop] = value;
     };
-  }
+  };
 
   static fromJSON = (store, data) => {
     return new UserModel(store, data);
-  }
+  };
+
   toJSON = () => {
     const {
       _id, id, phone, name, email,

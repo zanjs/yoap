@@ -86,6 +86,7 @@ const PricingBannerFull = () => {
         <Description title="СМС-уведомления" data={[false, true, true]}/>
         <Description title="Подписка на фильтр по почте" data={[false, true, true]}/>
         <Description title="Рассылка лучших вариантов" data={[false, false, true]}/>
+        <Description title="Создание объявлений" data={[false, false, true]}/>
       </Container>
     </div>
   )

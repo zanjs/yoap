@@ -3,10 +3,10 @@ import Helmet from 'react-helmet'
 import { inject, observer } from 'mobx-react'
 import {
   Intro,
-  BannerThreeCols, Checkout,
-  PricingBanner, PricingBannerFull,
+  BannerThreeCols, PricingBanner, PricingBannerFull,
   ItemTilesBanner, MapItems, LoadingAnimation
 } from 'components'
+import { CheckoutContainer } from 'containers'
 import s from './HomePage.sass'
 
 const des =
@@ -45,12 +45,12 @@ export default class HomePage extends Component {
         </Helmet>
 
         <Intro />
-        <Checkout/>
+        <CheckoutContainer/>
         {/*<Payment/>*/}
-        <MapItems />
-        <ItemTilesBanner />
         <PricingBanner />
         <PricingBannerFull />
+        <MapItems />
+        <ItemTilesBanner />
         <BannerThreeCols content={bannerThreeColsContent}
                          title="Услуги"/>
         {/*<BannerTwoCols />*/}

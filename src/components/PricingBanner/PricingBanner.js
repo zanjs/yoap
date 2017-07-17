@@ -3,8 +3,14 @@ import {
   Title, Content, Button,
   FlexGrid
 } from 'components'
+import { declination } from 'helpers'
 import s from './PricingBanner.sass'
 
+const termDecl = declination([
+  "день",
+  "дня",
+  "дней"
+]);
 
 const Column = ({title, onClick, price, term, type = 'light', children}) => (
   <div className={s.item} onClick={onClick}>
@@ -23,18 +29,17 @@ const Column = ({title, onClick, price, term, type = 'light', children}) => (
   </div>
 );
 
-const PricingBanner = ({getRef, onClick}) => {
+const PricingBanner = ({getRef, data, onClick}) => {
   return (
     <FlexGrid getRef={getRef} className={s.row} justify="space-between" wrap="true">
-      <Column onClick={onClick} title="Минимальный" price="290" term="3 дня">
-        Все это выглядело бы чистым абсурдом, если бы не те ранние утра, когда, запив свой завтрак жидким чаем, я догонял трамвай.
-      </Column>
-      <Column onClick={onClick} title="Оптимальный" price="690" term="7 дней" type="blue">
-        Все это выглядело бы чистым абсурдом, если бы не те ранние утра, когда, запив свой завтрак жидким чаем, я догонял трамвай.
-      </Column>
-      <Column onClick={onClick} title="Расширенный" price="1190" term="14 дней">
-        Все это выглядело бы чистым абсурдом, если бы не те ранние утра, когда, запив свой завтрак жидким чаем, я догонял трамвай.
-      </Column>
+      {data && data.map((item, key) => (
+        <Column onClick={onClick && (() => onClick(item))} key={key}
+                type={key === 1 ? 'blue' : undefined}
+                title={item.title} price={item.sum}
+                term={`${item.term} ${termDecl(item.term)}`}>
+          {item.about}
+        </Column>
+      ))}
     </FlexGrid>
   )
 };

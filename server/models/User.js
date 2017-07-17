@@ -56,6 +56,18 @@ const userSchema = new Schema({
       ref: 'Item'
     }
   ],
+  payments: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Payment'
+    }
+  ],
+  subscriptions: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Subscription'
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now
@@ -106,6 +118,15 @@ const userSchema = new Schema({
     default: ''
   }
 });
+
+// const populate = function(next) {
+//   this.populate('payments featured objects');
+//
+//   next();
+// };
+//
+// userSchema.pre('find', populate);
+// userSchema.pre('findOne', populate);
 
 const User = mongoose.model('User', userSchema);
 

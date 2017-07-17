@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import {
   Container, Title, Content,
   Payment, PricingBanner
 } from 'components'
 import s from './Checkout.sass'
 
+const mapStateToProps = ({subscription, payment}) => ({
+  subscription, payment
+});
 
+@inject(mapStateToProps) @observer
 export default class Checkout extends Component {
   dur = .3;
   ease = Cubic.easeOut;
@@ -55,7 +60,9 @@ export default class Checkout extends Component {
     })
   };
 
-  openPayment = () => {
+  openPayment = data => {
+    this.props.onPriceClick(data);
+
     this.fadeIn();
   };
   closePayment = () => {
@@ -63,6 +70,7 @@ export default class Checkout extends Component {
   };
 
   render() {
+    const { subscription: {data}} = this.props;
     return (
       <div className={s.wrapper}>
         <Container>
@@ -76,7 +84,7 @@ export default class Checkout extends Component {
           <div className={s.content}>
             <Payment onClose={this.closePayment} className={s.payment} getRef={this.getPaymentRef}/>
             <PricingBanner className={s.pricing} getRef={this.getPricingRef}
-                           onClick={this.openPayment}/>
+                           onClick={this.openPayment} data={data}/>
           </div>
         </Container>
       </div>

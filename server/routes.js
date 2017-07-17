@@ -1,6 +1,7 @@
 import express from 'express'
 import {
   userController, itemController, imageController,
+  paymentController, subscriptionController
 } from 'controllers'
 import { authenticate, findUserByToken } from 'middlewares'
 import {
@@ -13,7 +14,9 @@ import {
   createDummyUser, updateDummyUser,
   users, checkPassword,
   restorePassword, updatePassword,
-  verifyUser
+  verifyUser, paymentSync,
+  paymentHandle, subscriptionSync,
+  subscriptionUpdate
 } from 'constants/urls'
 import { routes as hiddenRoutes } from 'serverConfig'
 
@@ -24,7 +27,7 @@ routes.post(
   checkPassword,
 
   userController.checkPassword
-)
+);
 routes.post(
   signup,
 
@@ -58,39 +61,39 @@ routes.post(
   authenticate,
 
   userController.createDummyUser
-)
+);
 routes.post(
   updateDummyUser,
   authenticate,
 
   userController.updateDummyUser
-)
+);
 routes.get(
   users,
   authenticate,
 
   userController.getUsersHandler
-)
+);
 // restore password
 routes.patch(
   restorePassword,
   userController.restorePasswordHandler.restore
-)
+);
 routes.get(
   hiddenRoutes.restorePassword,
   userController.restorePasswordHandler.validate
-)
+);
 // updatePassword
 routes.patch(
   updatePassword,
   userController.updatePasswordHandler
-)
+);
 // re verify user
 routes.patch(
   verifyUser,
   authenticate,
   userController.reverifyHandler
-)
+);
 
 
 // hidden user routes
@@ -98,7 +101,7 @@ routes.get(
   hiddenRoutes.verifyUser,
 
   userController.verifyHandler
-)
+);
 
 // Item routes
 routes.post(
@@ -135,7 +138,7 @@ routes.post(
   authenticate,
 
   itemController.findPhoneNumber
-)
+);
 
 // Items routes
 routes.post(
@@ -147,9 +150,39 @@ routes.post(
   filterItems,
 
   itemController.filterHandler
-)
+);
 
 // Image routes
 routes.post(image, imageController.upload);
+
+// Payment routes
+routes.post(
+  paymentSync,
+  authenticate,
+
+  paymentController.createPayment
+);
+
+routes.post(
+  paymentHandle,
+
+  paymentController.handlePayment
+);
+
+// Subscription
+routes.post(
+  subscriptionSync,
+  authenticate,
+
+  subscriptionController.createSubscription
+);
+
+// Subscription
+routes.post(
+  subscriptionUpdate,
+  authenticate,
+
+  subscriptionController.updateSubscription
+);
 
 export default routes;

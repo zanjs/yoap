@@ -102,4 +102,14 @@ export const imageApi = apiOrigin + api + image;
 export const paymentSync = '/pay';
 export const paymentSyncApi = apiOrigin + api + paymentSync;
 
+export const paymentHandle = '/payment/handle';
+export const paymentHandleApi = apiOrigin + api + paymentHandle;
+
+// subscription api
+export const subscriptionSync = '/subscription';
+export const subscriptionSyncApi = apiOrigin + api + subscriptionSync;
+
+export const subscriptionUpdate = '/subscription/update';
+export const subscriptionUpdateApi = apiOrigin + api + subscriptionUpdate;
+
 export const paymentSystem = 'https://money.yandex.ru/quickpay/confirm.xml';

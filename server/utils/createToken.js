@@ -20,6 +20,8 @@ export default function createToken(user) {
 
     objects: user.objects,
     featured: user.featured,
+    payments: user.payments,
+    subscriptions: user.subscriptions,
     personalPoints: user.personalPoints || []
   }, jwtSecret);
 }
