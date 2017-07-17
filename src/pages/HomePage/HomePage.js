@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import { inject, observer } from 'mobx-react'
 import {
   Intro,
-  BannerThreeCols, PricingBanner, PricingBannerFull,
+  BannerThreeCols, CheckoutPrices, PricingBannerFull,
   ItemTilesBanner, MapItems, LoadingAnimation
 } from 'components'
 import { CheckoutContainer } from 'containers'
@@ -45,10 +45,7 @@ export default class HomePage extends Component {
         </Helmet>
 
         <Intro />
-        <CheckoutContainer/>
-        {/*<Payment/>*/}
-        <PricingBanner />
-        <PricingBannerFull />
+        <CheckoutPrices/>
         <MapItems />
         <ItemTilesBanner />
         <BannerThreeCols content={bannerThreeColsContent}

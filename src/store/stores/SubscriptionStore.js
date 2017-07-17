@@ -1,7 +1,7 @@
 import { observable, computed, action } from 'mobx'
 import { SubscriptionModel } from 'models'
 import { syncSubscriptionApi } from 'api'
-import { checkStatus, parsePromiseJSON } from 'helpers'
+import { checkStatus, parsePromiseJSON, isEmpty } from 'helpers'
 
 class SubscriptionStore {
   @observable current = {};
@@ -63,6 +63,9 @@ class SubscriptionStore {
   };
 
   @action setTemp = item => {
+    if (isEmpty(item))
+      return this.temp = {};
+
     this.temp = SubscriptionModel.fromJSON(this, item);
   }
 

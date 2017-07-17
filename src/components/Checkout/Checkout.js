@@ -14,6 +14,7 @@ const mapStateToProps = ({subscription, payment}) => ({
 export default class Checkout extends Component {
   dur = .3;
   ease = Cubic.easeOut;
+  isOpened = false;
 
   blocks = {};
 
@@ -61,16 +62,40 @@ export default class Checkout extends Component {
   };
 
   openPayment = data => {
-    this.props.onPriceClick(data);
+    if (this.isOpened)
+      return;
 
+    this.props.onPriceClick(data);
     this.fadeIn();
+    this.isOpened = true;
   };
   closePayment = () => {
+    if (!this.isOpened)
+      return;
+
+    this.props.onPriceClick(this.props.paymentData);
     this.fadeOut();
+    this.isOpened = false;
   };
 
+  update = (props = this.props) => {
+    if (props.isPayment) {
+      return this.openPayment(this.props.paymentData)
+    }
+    if (props.isBanner) {
+      this.closePayment()
+    }
+  };
+  componentDidMount() {
+    setTimeout(this.update, 300);
+  }
+  componentWillReceiveProps(props) {
+    clearTimeout(this.timeOut);
+    this.timeOut = setTimeout(() => this.update(props), 300);
+  }
+
   render() {
-    const { subscription: {data}} = this.props;
+    const { subscription: {data}, onAboutClick} = this.props;
     return (
       <div className={s.wrapper}>
         <Container>
@@ -82,7 +107,8 @@ export default class Checkout extends Component {
             и публикации объявлений
           </Content>
           <div className={s.content}>
-            <Payment onClose={this.closePayment} className={s.payment} getRef={this.getPaymentRef}/>
+            <Payment onClose={this.closePayment} className={s.payment}
+                     onAboutClick={onAboutClick} getRef={this.getPaymentRef}/>
             <PricingBanner className={s.pricing} getRef={this.getPricingRef}
                            onClick={this.openPayment} data={data}/>
           </div>

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Checkout } from 'components'
 import { inject, observer } from 'mobx-react'
 
-const mapStateToProps = ({payment, subscription}) => ({
-  payment, subscription
+const mapStateToProps = ({subscription}) => ({
+  subscription
 });
 
 @inject(mapStateToProps) @observer
@@ -13,7 +13,9 @@ export default class CheckoutContainer extends Component {
   };
 
   render() {
-    return <Checkout onPriceClick={this.priceClickHandler}/>
+    const { subscription, ...rest } = this.props;
+    return <Checkout onAboutClick={this.props.onAboutClick}
+                     onPriceClick={this.priceClickHandler} {...rest}/>
   }
 }
 

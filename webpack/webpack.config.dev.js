@@ -26,6 +26,7 @@ module.exports = {
 
     'gsap/TweenMax.js',
     'gsap/Draggable.js',
+    'gsap/ScrollToPlugin.js',
     // vendors
 
     './index.js',

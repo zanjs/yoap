@@ -8,11 +8,11 @@ import {
   UserFeaturedPage, LogoutPage,
   ManageUsersPage, UsersPage,
   MapItemsPage, ForgotPasswordPage,
-  UpdatePasswordPage, OrderPage
+  UpdatePasswordPage, CheckoutPage,
 } from 'pages'
 import {
   BrowserRouter as Router,
-  Route, Redirect
+  Route, Redirect, Switch
 } from 'react-router-dom'
 import {
   PagesTransitions, Overlay, Footer,
@@ -95,10 +95,16 @@ export default class App extends Component {
             <Route path="/they/manage/:userId/:link" exact component={ItemPageEdit}/>
             <Route path="/you/restore" exact component={ForgotPasswordPage}/>
             <Route path="/you/restore/:id" exact component={UpdatePasswordPage}/>
-            <Route path="/order/:stage" exact component={OrderPage}/>
-            <Route render={() => {
-              return <Redirect to="/y"/>
-            }}/>
+            <Route path="/checkout" render={({match: {url}}) => (
+              <Switch>
+                <Route path={`${url}/:stage/:type`} component={CheckoutPage}/>
+                <Route path={`${url}/:stage`} component={CheckoutPage}/>
+                <Route component={CheckoutPage}/>
+              </Switch>
+            )}/>
+            <Route render={() => (
+              <Redirect to="/y"/>
+            )}/>
           </PagesTransitions>
           {/*<PagesTransitions className={s.content}>*/}
           {/*<PathNotify index={0} path="/" exact component={HomePage}/>*/}

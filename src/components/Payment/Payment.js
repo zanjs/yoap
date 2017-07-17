@@ -44,7 +44,7 @@ export default class Payment extends Component {
   };
 
   render() {
-    const { getRef, onClose, className, data } = this.props;
+    const { getRef, onClose, className, data, onAboutClick } = this.props;
     const { type } = this.state;
     const { termDecl, changeTypeHandler, onSubmit } = this;
 
@@ -60,7 +60,8 @@ export default class Payment extends Component {
             Сразу после оплаты Вы
             получите {data.about}
           </Content>
-          <Button className={s.btn} rounded type="light">
+          <Button onClick={onAboutClick} className={s.btn}
+                  rounded type="light">
             Подробнее
           </Button>
         </div>

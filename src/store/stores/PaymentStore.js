@@ -60,7 +60,7 @@ class PaymentStore {
       sum, ...payData
     });
 
-
+    this.isFetching = true;
     return this.SyncPayment(payment.id)
       .then(paymentData => {
         const id = paymentData._id;
@@ -73,6 +73,7 @@ class PaymentStore {
         return store.subscription.Sync(data)
       })
       .then(() => {
+        this.isFetching = false;
         return this.Pay(payment.id)
       })
       .catch(err => {
