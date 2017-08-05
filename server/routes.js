@@ -163,7 +163,7 @@ routes.post(
   paymentController.createPayment
 );
 
-routes.post(
+routes.get(
   paymentHandler,
 
   paymentController.handlePayment
