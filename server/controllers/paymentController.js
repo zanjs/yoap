@@ -49,7 +49,7 @@ const handlePayment = (req, res) => {
     amount, withdraw_amount,
     datetime, sender,
     label
-  } = req.body;
+  } = req.query;
 
   const query = {id: label};
   const update = {
@@ -64,7 +64,7 @@ const handlePayment = (req, res) => {
       to: 'nikitatrifan@gmail.com',
       subject: 'test',
       text: JSON.stringify(mail),
-      html: `<div><span>${JSON.stringify(mail)}</span><span>${JSON.stringify(req.body)}</span></div>`
+      html: `<div><span>${JSON.stringify(mail)}</span><span>${JSON.stringify(req.query)}</span></div>`
     });
 
     if (!payment || !payment._id) {

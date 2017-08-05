@@ -23,8 +23,8 @@
     "dev": "npm run clean-up && webpack-dev-server --config webpack/webpack.config.dev.js",
     "build": "npm run clean-up && webpack --config webpack/webpack.config.prod.js",
     "prod": "pm2 stop all && NODE_ENV=production pm2 start ./bin/index.js",
-    "server --watch": "NODE_ENV=development nodemon ./bin/index.js",
-    "server": "NODE_ENV=development bane-node ./bin/index.js",
+    "server-watch": "NODE_ENV=development nodemon ./bin/index.js",
+    "server": "NODE_ENV=development babel-node ./bin/index.js",
     "watch": "webpack --config webpack/webpack.config.prod.js --watch",
     "start": "npm run update-and-build && better-npm-run prod",
     "dev:webpack": "babel-node ./server/devServer.js"
