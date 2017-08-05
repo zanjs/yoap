@@ -1,5 +1,6 @@
-import { Payment, User } from 'models'
+import { Payment, User, Subscription } from 'models'
 import { createToken, sendEmail } from 'utils'
+import { SUBSCRIPTION_OPENED_STATUS } from 'constants/subscribtionConstants'
 
 const createPayment = (req, res) => {
   const {
@@ -47,35 +48,51 @@ const handlePayment = (req, res) => {
   const {
     operation_id,
     amount, withdraw_amount,
-    datetime, sender,
-    label
-  } = req.query;
+    datetime, sender, test_notification,
+    label, unaccepted, codepro
+  } = req.body;
+
+  if (unaccepted || codepro || test_notification) {
+    return res.status(200).send('Ok!')
+  }
+
 
   const query = {id: label};
   const update = {
-    date: datetime,
+    date: new Date(datetime),
     operation_id, withdraw_amount,
     amount, sender
   };
 
   Payment.findOneAndUpdate(query, update).then(payment => {
-    const mail = {
+    const debug = JSON.stringify({
       ...update, ...query,
       noPaymentFound: !payment || !payment._id,
       url: req.url, body: req.body
-    };
+    });
+
     sendEmail({
       to: 'nikitatrifan@gmail.com',
       subject: 'test',
-      text: JSON.stringify(mail),
-      html: `<div><span>${JSON.stringify(mail)}</span><span>${JSON.stringify(req.query)}</span></div>`
+      text: debug,
+      html: `<span>${debug}</span>`
     });
 
     if (!payment || !payment._id) {
-      return res.status(500).send(`Error: ${JSON.stringify(mail)}`)
+      sendEmail({
+        to: 'nikitatrifan@gmail.com',
+        subject: 'PAYMENT ERROR!',
+        text: debug,
+        html: `<span>${debug}</span>`
+      });
+
+      return res.status(500).send(`Error: ${JSON.stringify(debug)}`)
     }
 
-    res.redirect(200, '/');
+    Subscription.findOneAndUpdate({paymentId: payment._id}, {
+      status: SUBSCRIPTION_OPENED_STATUS,
+      date: update.date
+    }).then(() => res.redirect(200, '/'));
   }).catch(err => {
     res.status(500).send(`Произошла ошибка: ${err}`);
   })
