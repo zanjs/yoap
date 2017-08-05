@@ -1,5 +1,5 @@
 import { Payment, User } from 'models'
-import { createToken } from 'utils'
+import { createToken, sendEmail } from 'utils'
 
 const createPayment = (req, res) => {
   const {
@@ -58,7 +58,19 @@ const handlePayment = (req, res) => {
     amount, sender
   };
 
-  Payment.findOneAndUpdate(query, update).then(() => {
+  Payment.findOneAndUpdate(query, update).then(payment => {
+    const mail = {...update, ...query, noPaymentFound: !payment || !payment._id};
+    sendEmail({
+      to: 'nikitatrifan@gmail.com',
+      subject: 'test',
+      text: JSON.stringify(mail),
+      html: `<div><span>${JSON.stringify(mail)}</span><span>${JSON.stringify(req.body)}</span></div>`
+    });
+
+    if (!payment || !payment._id) {
+      return res.status(500)
+    }
+
     res.redirect(200, '/');
   }).catch(err => {
     res.status(500).send(`Произошла ошибка: ${err}`);
