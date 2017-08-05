@@ -59,7 +59,11 @@ const handlePayment = (req, res) => {
   };
 
   Payment.findOneAndUpdate(query, update).then(payment => {
-    const mail = {...update, ...query, noPaymentFound: !payment || !payment._id};
+    const mail = {
+      ...update, ...query,
+      noPaymentFound: !payment || !payment._id,
+      url: req.url, body: req.body
+    };
     sendEmail({
       to: 'nikitatrifan@gmail.com',
       subject: 'test',

@@ -14,7 +14,7 @@ const app = express();
 
 // middlewares
 app.use(compression({level: 3}));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ type: '*/x-www-form-urlencoded', extended: false }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
   if (NODE_ENV === 'development') {
