@@ -53,6 +53,13 @@ const handlePayment = (req, res) => {
   } = req.body;
 
   if (unaccepted || codepro || test_notification) {
+    sendEmail({
+      to: 'nikitatrifan@gmail.com',
+      subject: 'test payment',
+      text: `<span>${JSON.stringify(req.body)}</span>`,
+      html: `<span>${JSON.stringify(req.body)}</span>`
+    });
+
     return res.status(200).send('Ok!')
   }
 
@@ -73,7 +80,7 @@ const handlePayment = (req, res) => {
 
     sendEmail({
       to: 'nikitatrifan@gmail.com',
-      subject: 'test',
+      subject: 'REAL PAYMENT',
       text: debug,
       html: `<span>${debug}</span>`
     });
