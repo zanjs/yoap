@@ -9,7 +9,7 @@ import s from './ItemPageInfoContainer.sass'
 
 const mapStateToProps = ({items: {current}}) => ({
   data: current
-})
+});
 
 @inject(mapStateToProps) @observer
 export default class ItemPageInfoContainer extends Component {

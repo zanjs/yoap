@@ -39,6 +39,8 @@ export noop from './app/noop'
 export createId from './app/createId'
 export checkStatus from './app/checkStatus'
 export parsePromiseJSON from './app/parsePromiseJSON'
+export getScrollY from './app/getScrollY'
+export getNodePosition from './app/getNodePosition'
 
 // animation helpers
 export mouseParallax from './animation/mouseParallax'

@@ -3,9 +3,9 @@ import { inject, observer } from 'mobx-react'
 import Helmet from 'react-helmet'
 import {
   Container, FlexGrid, Title, LinkIcon,
-  ItemTilesGrid, LoadingAnimation,
+  LoadingAnimation,
 } from 'components'
-import { FilterContainer } from 'containers'
+import { FilterContainer, TilesGridContainer } from 'containers'
 import s from './ItemsListPage.sass'
 
 const mapStateToProps = ({items: {isFetching, fetchItems, filtered, data}, filter: {hasSearched}}) => ({
@@ -34,7 +34,7 @@ export default class ItemsListPage extends Component {
             <LinkIcon className={s.link} to="/m" gray>Посмотреть на карте</LinkIcon>
           </FlexGrid>
           <FilterContainer/>
-          <ItemTilesGrid data={data} />
+          <TilesGridContainer data={data} />
         </Container>
       </div>
     )

@@ -24,6 +24,8 @@ class PaymentStore {
     this.subscribeToLocalStore();
   }
 
+  @action cleanError = () => this.isError = false;
+
   @action createPayment = data => {
     this.data.push(
       PaymentModel.fromJSON(this, data)

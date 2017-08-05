@@ -61,7 +61,7 @@ const handlePayment = (req, res) => {
   Payment.findOneAndUpdate(query, update).then(() => {
     res.redirect(200, '/');
   }).catch(err => {
-    res.send(`Произошла ошибка: ${err}`);
+    res.status(500).send(`Произошла ошибка: ${err}`);
   })
 };
 

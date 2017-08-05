@@ -27,7 +27,7 @@ export default class UserPhoneContainer extends Component {
   state = {
     isError: false, phone: null,
     isFetching: false
-  }
+  };
 
   checkStatus = (res) => {
     if (res.status >= 200 && res.status < 300) {
@@ -61,15 +61,15 @@ export default class UserPhoneContainer extends Component {
           phone: null
         })
       })
-  }
+  };
   clickHandler = () => {
     if (!this.props.isAuthorized) {
       return this.setAuthError();
     }
 
-    this.setState({isFetching: true, isError: false})
+    this.setState({isFetching: true, isError: false});
     this.fetchPhoneNumber(this.props.id);
-  }
+  };
   setNotVerifiedError = () => {
     this.setState({
       isFetching: false,
@@ -101,8 +101,8 @@ export default class UserPhoneContainer extends Component {
         return null;
 
       return this.context.router.history.push('/login');
-    }, 5500));
-  }
+    }, 3000));
+  };
   redirectWhenLogin = () => {
     this.props.redirectWhenLogin(
       this.context.router.route.match.url

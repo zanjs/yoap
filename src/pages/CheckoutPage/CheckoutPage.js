@@ -14,9 +14,19 @@ const mapStateToProps = ({payment: {isFetching}, subscription}) => ({
 
 @inject(mapStateToProps) @observer
 export default class CheckoutPage extends Component {
+  isInitial = true;
   getType = type => {
     return this.props.sub.data.find(it => it.name === type)
   };
+
+  close = () => {
+    this.props.sub.setTemp(null);
+    this.props.history.push('/checkout/info');
+  };
+
+  componentDidMount() {
+    this.isInitial = false;
+  }
 
   render() {
     const {
@@ -29,7 +39,7 @@ export default class CheckoutPage extends Component {
     const subType = this.getType(type);
     let redirect, props = {};
 
-    if (temp.name || type) {
+    if (temp.name || this.isInitial && type) {
       redirect = `/checkout/payment/${temp.name || type}`;
       props = {isPayment: true, isBanner: false, paymentData: subType};
     } else {
@@ -45,7 +55,7 @@ export default class CheckoutPage extends Component {
         <Helmet>
           <title>Оплата подписки</title>
         </Helmet>
-        <CheckoutPrices {...props}/>
+        <CheckoutPrices onCloseClick={this.close} {...props}/>
         {isFetching && <LoadingAnimation />}
         {redirect && <Redirect to={redirect}/>}
       </section>

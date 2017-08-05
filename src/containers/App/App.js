@@ -23,7 +23,7 @@ import { initServiceWorker } from 'helpers'
 import s from './App.sass'
 
 const mapStateToProps = ({user: {isAllowed}, device: {isMobile}}) => ({
-  isAllowed,
+  isAllowed: true,
   isMobile
 });
 
@@ -69,7 +69,7 @@ export default class App extends Component {
           />
 
           {/* Defend your project. Works only in production mode. */}
-          <Route path="/defender" component={DefenderContainer} />
+          {/*<Route path="/defender" component={DefenderContainer} />*/}
 
           {/* Place for Navigation, Sidebar, Modal, etc.  */}
           <NavContainer />

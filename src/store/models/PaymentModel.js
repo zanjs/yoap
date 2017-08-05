@@ -40,13 +40,13 @@ export default class PaymentModel {
     const { user, sum, paymentType } = this.toJSON();
 
     if (isEmpty(user._id)) {
-      return !(this.error = 'Вы не вошли.');
+      return !(this.error = {message: 'Вы не вошли.', status: 403});
     }
     if (isEmpty(sum)) {
-      return !(this.error = 'Вы не ввели сумму платежа');
+      return !(this.error = {message: 'Вы не ввели сумму платежа', status: 400});
     }
     if (isEmpty(paymentType)) {
-      return !(this.error = 'Вы не выбрали платежную систему');
+      return !(this.error = {message: 'Вы не выбрали платежную систему', status: 400});
     }
 
     return true;

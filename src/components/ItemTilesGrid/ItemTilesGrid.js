@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { FlexGrid, Title, LazyRender } from 'components'
+import { FlexGrid, Title } from 'components'
 import { ItemTileContainer } from 'containers'
 import { classNames } from 'helpers'
 import s from './ItemTilesGrid.sass'
@@ -18,16 +18,8 @@ export default class ItemTilesGrid extends Component {
       getRef, limit = false,
       className, itemClassName
     } = this.props;
-    const dataIsEmpty = !data || !data.length;
 
-    // if (!limit && !dataIsEmpty) {
-    //   return (
-    //     <LazyRender className={s.item} wrapperClassName={s.list} data={data.map(item => (
-    //       <ItemTileContainer className={classNames(s.item, itemClassName)}
-    //                          data={item}/>
-    //     ))}/>
-    //   )
-    // }
+    const dataIsEmpty = !data || !data.length;
 
     return (
       <FlexGrid wrap="true" justify="start"

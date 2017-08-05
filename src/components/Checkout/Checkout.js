@@ -74,6 +74,7 @@ export default class Checkout extends Component {
       return;
 
     this.props.onPriceClick(this.props.paymentData);
+    this.props.onCloseClick && this.props.onCloseClick();
     this.fadeOut();
     this.isOpened = false;
   };

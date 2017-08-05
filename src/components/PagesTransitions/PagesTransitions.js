@@ -9,6 +9,12 @@ export default class PagesTransitions extends Component {
   ease = Power1.easeInOut;
   Afterlag;
 
+  exceptions = [
+    {path: '/checkout', noCheck: true},
+  ];
+
+  whiteList = [];
+
   componentWillMount() {
     System.import('afterlag-js').then(data => {
       this.Afterlag = window.Afterlag;
@@ -25,9 +31,32 @@ export default class PagesTransitions extends Component {
     );
 
     if (!isEqual) {
-      this.update()
+      this.update(this.props.location.pathname, location.pathname)
     }
   }
+
+  isException = (prev, next) => {
+    const { exceptions, whiteList } = this;
+    const noCheck = exceptions.filter(it => it.noCheck);
+
+    const isException = !!exceptions.find(it => (
+      prev.indexOf(it.path) !== -1 && next.indexOf(it.path) !== -1
+    ));
+
+    if (!isException)
+      return isException;
+
+    const isWhite = !!whiteList.find(it => (
+      prev.indexOf(it.path) !== -1 || next.indexOf(it.path) !== -1
+    ));
+
+    if (isWhite)
+      return false;
+
+    return !!noCheck.find(it => (
+      prev.indexOf(it.path) !== -1 || next.indexOf(it.path) !== -1
+    ));
+  };
 
   shallowEqual(prev, next) {
     if (prev.hash !== next.hash) {
@@ -40,11 +69,24 @@ export default class PagesTransitions extends Component {
     return prev.pathname === next.pathname
   }
 
-  update() {
+  update(prev, next) {
+    if (!prev || !next) {
+      return this.animation();
+    }
+
+    const isException = this.isException(prev, next);
+
+    if (isException) {
+      return this.animation(isException);
+    }
+
     this.animation();
   }
 
-  animation() {
+  animation(isException) {
+    if (isException)
+      return null;
+
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
 

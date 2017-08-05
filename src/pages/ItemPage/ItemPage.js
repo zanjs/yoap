@@ -17,7 +17,7 @@ const mapStateToProps = ({items, theme, user}) => ({
 export default class ItemPage extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
-  }
+  };
 
   state = {
     shouldUpdate: 0
@@ -54,10 +54,10 @@ export default class ItemPage extends Component {
   backButtonClickHandler = e => {
     e.preventDefault();
 
-    this.context.router.history.goBack()
+    this.context.router.history.goBack();
 
     return false;
-  }
+  };
 
   componentWillMount() {
     normalizeScroll(true);
@@ -107,7 +107,7 @@ export default class ItemPage extends Component {
         views: views + 1
       });
     });
-  }
+  };
 
   render() {
     const {
