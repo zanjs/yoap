@@ -68,7 +68,7 @@ const handlePayment = (req, res) => {
     });
 
     if (!payment || !payment._id) {
-      return res.status(500)
+      return res.status(500).send(`Error: ${JSON.stringify(mail)}`)
     }
 
     res.redirect(200, '/');
