@@ -16,12 +16,12 @@
     "rcf": "bash ./rcf.sh",
     "start": "better-npm-run start",
     "dev:webpack": "better-npm-run dev:webpack",
-    "clean-up": "rm -rf dist/app && mkdir dist/app && rsync -r webpack/head/ dist/app",
-    "update-and-build": "git reset --hard HEAD && git clean -f && git pull && npm run build"
+    "clean": "rm -rf dist/app && mkdir dist/app && rsync -r webpack/head/ dist/app",
+    "update": "git reset --hard HEAD && git clean -f && git pull && npm run build"
   },
   "betterScripts": {
-    "dev": "npm run clean-up && webpack-dev-server --config webpack/webpack.config.dev.js",
-    "build": "npm run clean-up && webpack --config webpack/webpack.config.prod.js",
+    "dev": "npm run clean && webpack-dev-server --config webpack/webpack.config.dev.js",
+    "build": "npm run clean && webpack --config webpack/webpack.config.prod.js",
     "prod": "pm2 stop all && NODE_ENV=production pm2 start ./bin/index.js",
     "server-watch": "NODE_ENV=development nodemon ./bin/index.js",
     "server": "NODE_ENV=development babel-node ./bin/index.js",

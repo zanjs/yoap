@@ -168,6 +168,11 @@ routes.get(
 
   paymentController.handlePayment
 );
+routes.post(
+  paymentHandler,
+
+  paymentController.handlePayment
+);
 
 routes.get(
   paymentSync,
