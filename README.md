@@ -1,4 +1,7 @@
 # yoap
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/zanjs/yoap.svg)](https://greenkeeper.io/)
+
 ### :sunglasses: React@next, React-Router@next, Mobx and Webpack 2, Sass and Postcss + Mongo
 
 #### Quick start
